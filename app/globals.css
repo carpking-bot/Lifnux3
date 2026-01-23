@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --bg-0: #0b0d10;
+  --bg-1: #141a22;
+  --bg-2: #1a2633;
+  --ink-0: #f4f0e8;
+  --ink-1: #c9c2b5;
+  --accent-0: #ffb347;
+  --accent-1: #5ad6d0;
+  --accent-2: #ff6b6b;
+  --accent-3: #9ae66e;
+  --panel: rgba(16, 20, 28, 0.7);
+  --glass: rgba(255, 255, 255, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  background: radial-gradient(1200px 800px at 50% 20%, #1b2430 0%, #0b0d10 60%, #07090c 100%);
+  color: var(--ink-0);
+  font-family: "Gill Sans", "Trebuchet MS", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Bodoni MT", "Didot", "Times New Roman", serif;
+  letter-spacing: 0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+.lifnux-glass {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.lifnux-ring {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 40px rgba(90, 214, 208, 0.18);
+}
+
+.lifnux-ring-soft {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 20px rgba(90, 214, 208, 0.12);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), rgba(8, 12, 20, 0.4));
+}
+
+.lifnux-glass-strong {
+  background: rgba(18, 26, 38, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+}
+
+.lifnux-select {
+  background-color: #0f1620;
+  color: var(--ink-0);
+}
+
+.lifnux-select option {
+  background-color: #0b121c;
+  color: var(--ink-0);
+}
+
+.lifnux-select option:checked,
+.lifnux-select option:hover {
+  background-color: #1a3946;
+  color: var(--ink-0);
+}
+
+@keyframes slow-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 179, 71, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(255, 179, 71, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 179, 71, 0.2);
+  }
+}
