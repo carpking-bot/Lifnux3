@@ -3,6 +3,7 @@ export type QueueItem = {
   videoId: string;
   title: string;
   url: string;
+  customTitle?: string;
 };
 
 export type PresetTrack = {
@@ -10,6 +11,7 @@ export type PresetTrack = {
   videoId: string;
   title: string;
   url: string;
+  customTitle?: string;
 };
 
 export type Preset = {
@@ -17,6 +19,7 @@ export type Preset = {
   name: string;
   urls: string[];
   tracks?: PresetTrack[];
+  isRatingPreset?: boolean;
 };
 
-export type RepeatMode = "OFF" | "ALL" | "ONE";
+export type RepeatMode = "off" | "all" | "one";

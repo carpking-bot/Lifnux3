@@ -8,7 +8,7 @@ export function TopNav({ title }: { title: string }) {
       <Link href="/" className="uppercase tracking-[0.3em]">
         Lifnux OS
       </Link>
-      <div className="text-base text-[var(--ink-0)]">{title}</div>
+      {title ? <div className="text-base text-[var(--ink-0)]">{title}</div> : null}
     </div>
   );
 }

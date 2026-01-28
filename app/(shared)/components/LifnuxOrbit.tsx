@@ -14,6 +14,7 @@ export type OrbitApp = {
 type LifnuxOrbitProps = {
   orbitApps: OrbitApp[];
   coreApp?: OrbitApp;
+  centerButton?: React.ReactNode;
   outerRingRadius?: number;
   outerRingThickness?: number;
   coreRadius?: number;
@@ -27,6 +28,7 @@ type LifnuxOrbitProps = {
 export function LifnuxOrbit({
   orbitApps,
   coreApp,
+  centerButton,
   outerRingRadius = 230,
   outerRingThickness = 56,
   coreRadius = 120,
@@ -116,11 +118,15 @@ export function LifnuxOrbit({
           }}
           onClick={() => handleSelect(coreApp)}
         >
-          <coreApp.icon className="h-6 w-6 text-white" />
+          <coreApp.icon className="h-6 w-6 text-white opacity-100" />
           <span className="pointer-events-none absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/40 px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-white opacity-0 backdrop-blur transition group-hover:opacity-100">
             {coreApp.label}
           </span>
         </motion.button>
+      ) : null}
+
+      {centerButton ? (
+        <div className="absolute left-1/2 top-1/2 z-40 -translate-x-1/2 -translate-y-1/2">{centerButton}</div>
       ) : null}
 
       <motion.div
@@ -148,14 +154,22 @@ export function LifnuxOrbit({
                 x: isSelected ? 0 : pos.x,
                 y: isSelected ? 0 : pos.y,
                 scale: isSelected ? 1.5 : 1,
-                zIndex: isSelected ? 40 : 20,
-                filter: isSelected ? "drop-shadow(0 0 24px rgba(90,214,208,0.6))" : "none"
+                zIndex: isSelected ? 40 : 20
               }}
               whileHover={{ scale: isSelected ? 1.5 : 1.08, zIndex: 50 }}
               transition={{ type: "spring", stiffness: 120, damping: 18 }}
               onClick={() => handleSelect(app)}
             >
-              <Icon className="h-6 w-6" />
+              <motion.span
+                className="pointer-events-none absolute inset-0 rounded-full"
+                initial={false}
+                animate={{
+                  opacity: isSelected ? 1 : 0,
+                  boxShadow: isSelected ? "0 0 26px rgba(90,214,208,0.7)" : "0 0 0 rgba(0,0,0,0)"
+                }}
+                transition={{ duration: 0.2 }}
+              />
+              <Icon className="relative z-10 h-6 w-6 opacity-100" />
               <span className="pointer-events-none absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/40 px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-white opacity-0 backdrop-blur transition group-hover:opacity-100">
                 {app.label}
               </span>

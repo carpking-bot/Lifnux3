@@ -1,10 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ChevronDown,
   ChevronUp,
+  Music2,
   SkipBack,
   SkipForward,
   Play,
@@ -15,6 +19,8 @@ import {
   VolumeX
 } from "lucide-react";
 import { useMusic } from "./MusicPlayerProvider";
+import { parseVideoId } from "../lib/music";
+import { loadState, saveState } from "../lib/storage";
 
 declare global {
   interface Window {
@@ -46,8 +52,20 @@ function formatTime(value: number) {
 }
 
 export function GlobalMusicPlayerOverlay() {
+  const pathname = usePathname();
+  const isMusicRoute = pathname?.startsWith("/music");
   const playerRef = useRef<any>(null);
   const playerHostRef = useRef<HTMLDivElement | null>(null);
+  const resumeRef = useRef<{
+    videoId: string;
+    queueIndex: number;
+    currentTime: number;
+    isPlaying: boolean;
+    repeatMode: "off" | "all" | "one";
+    shuffle: boolean;
+  } | null>(null);
+  const resumeAppliedRef = useRef(false);
+  const resumePendingRef = useRef(false);
   const [apiReady, setApiReady] = useState(false);
   const [expanded, setExpanded] = useState(true);
   const [playerReady, setPlayerReady] = useState(false);
@@ -57,6 +75,9 @@ export function GlobalMusicPlayerOverlay() {
   const [isSeeking, setIsSeeking] = useState(false);
   const [volume, setVolume] = useState(80);
   const [muted, setMuted] = useState(false);
+  const [resumePrompt, setResumePrompt] = useState(false);
+  const [uiHidden, setUiHidden] = useState(false);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
   const {
     queue,
@@ -65,10 +86,20 @@ export function GlobalMusicPlayerOverlay() {
     isPlaying,
     setIsPlaying,
     shuffle,
-    repeat,
+    repeatMode,
     setShuffle,
-    setRepeat
+    setRepeatMode,
+    ratings,
+    setRating
   } = useMusic();
+  const repeatModeRef = useRef(repeatMode);
+  const activeVideoIdRef = useRef<string | null>(null);
+  const queueRef = useRef(queue);
+  const currentIndexRef = useRef(currentIndex);
+  const shuffleRef = useRef(shuffle);
+  const lastErrorRef = useRef<{ index: number; videoId: string; retries: number } | null>(null);
+  const isDev = process.env.NODE_ENV === "development";
+  const RESUME_KEY = "lifnux.music.resume.v110";
 
   useEffect(() => {
     loadYouTubeApi(() => setApiReady(true));
@@ -81,10 +112,46 @@ export function GlobalMusicPlayerOverlay() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (!isMusicRoute) {
+      setPortalTarget(null);
+      return;
+    }
+    setPortalTarget(document.getElementById("music-player-portal"));
+  }, [isMusicRoute]);
+
+  useEffect(() => {
+    if (isMusicRoute) setExpanded(true);
+  }, [isMusicRoute]);
+
+  useEffect(() => {
+    if (isMusicRoute) setUiHidden(false);
+  }, [isMusicRoute]);
+
+  useEffect(() => {
+    resumeRef.current = loadState(RESUME_KEY, null);
+  }, []);
+
   const activeItem = queue[currentIndex];
-  const coverUrl = activeItem?.videoId
-    ? `https://i.ytimg.com/vi/${activeItem.videoId}/hqdefault.jpg`
-    : null;
+  useEffect(() => {
+    repeatModeRef.current = repeatMode;
+  }, [repeatMode]);
+
+  useEffect(() => {
+    activeVideoIdRef.current = activeItem?.videoId ?? null;
+  }, [activeItem?.videoId]);
+  useEffect(() => {
+    queueRef.current = queue;
+  }, [queue]);
+  useEffect(() => {
+    currentIndexRef.current = currentIndex;
+  }, [currentIndex]);
+  useEffect(() => {
+    shuffleRef.current = shuffle;
+  }, [shuffle]);
+  const coverUrl = activeItem?.videoId ? `https://i.ytimg.com/vi/${activeItem.videoId}/hqdefault.jpg` : null;
+  const displayTitle = activeItem?.customTitle || activeItem?.title || "No track";
+  const currentRating = activeItem ? ratings[activeItem.videoId] ?? 0 : 0;
 
   useEffect(() => {
     if (!apiReady || !playerHostRef.current) return;
@@ -105,7 +172,44 @@ export function GlobalMusicPlayerOverlay() {
           else if (event.data === window.YT.PlayerState.PAUSED) setPlayerState("PAUSED");
           else setPlayerState("OTHER");
           if (event.data === window.YT.PlayerState.ENDED) {
-            handleNext();
+            if (isDev) {
+              console.log("[ENDED]", {
+                currentIndex: currentIndexRef.current,
+                repeatMode: repeatModeRef.current,
+                shuffleMode: shuffleRef.current,
+                queueLen: queueRef.current.length
+              });
+            }
+            handleTrackEnded();
+          }
+          if (event.data === window.YT.PlayerState.PLAYING) {
+            lastErrorRef.current = null;
+          }
+        },
+        onError: (event: any) => {
+          const videoId = activeVideoIdRef.current;
+          const index = currentIndexRef.current;
+          if (!videoId) return;
+          if (isDev) {
+            console.warn("[YT_ERROR]", { code: event?.data, index, videoId });
+          }
+          const last = lastErrorRef.current;
+          if (!last || last.videoId !== videoId || last.index !== index) {
+            lastErrorRef.current = { index, videoId, retries: 1 };
+            playIndex(index, { retry: true });
+            return;
+          }
+          if (last.retries < 1) {
+            lastErrorRef.current = { ...last, retries: last.retries + 1 };
+            playIndex(index, { retry: true });
+            return;
+          }
+          lastErrorRef.current = null;
+          const nextIndex = computeNextIndex(index);
+          if (nextIndex !== null) {
+            playIndex(nextIndex);
+          } else {
+            setIsPlaying(false);
           }
         }
       }
@@ -124,6 +228,10 @@ export function GlobalMusicPlayerOverlay() {
     } else {
       playerRef.current.pauseVideo();
     }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (isPlaying) setResumePrompt(false);
   }, [isPlaying]);
 
   useEffect(() => {
@@ -154,6 +262,74 @@ export function GlobalMusicPlayerOverlay() {
   }, [playerReady, playerState, activeItem?.videoId, isSeeking]);
 
   useEffect(() => {
+    if (!playerReady || !queue.length || resumeAppliedRef.current || !resumeRef.current) return;
+    const saved = resumeRef.current;
+    let targetIndex = saved.queueIndex;
+    if (targetIndex < 0 || targetIndex >= queue.length || queue[targetIndex]?.videoId !== saved.videoId) {
+      targetIndex = queue.findIndex((item) => item.videoId === saved.videoId);
+    }
+    if (targetIndex < 0) return;
+    if (saved.shuffle !== shuffle) setShuffle(saved.shuffle);
+    if (saved.repeatMode && saved.repeatMode !== repeatMode) setRepeatMode(saved.repeatMode);
+    if (currentIndex !== targetIndex) {
+      setCurrentIndex(targetIndex);
+    }
+    resumePendingRef.current = true;
+  }, [playerReady, queue, queue.length, shuffle, repeatMode, currentIndex, setShuffle, setRepeatMode, setCurrentIndex]);
+
+  useEffect(() => {
+    if (!playerReady || !playerRef.current || !resumePendingRef.current) return;
+    const saved = resumeRef.current;
+    if (!saved || !activeItem?.videoId || activeItem.videoId !== saved.videoId) return;
+    playerRef.current.seekTo?.(saved.currentTime || 0, true);
+    if (saved.isPlaying) {
+      playerRef.current.playVideo?.();
+      setTimeout(() => {
+        const state = playerRef.current?.getPlayerState?.();
+        if (state === window.YT?.PlayerState?.PLAYING) {
+          setIsPlaying(true);
+          setResumePrompt(false);
+        } else {
+          setIsPlaying(false);
+          setResumePrompt(true);
+        }
+      }, 400);
+    } else {
+      setIsPlaying(false);
+    }
+    resumePendingRef.current = false;
+    resumeAppliedRef.current = true;
+  }, [playerReady, activeItem?.videoId, setIsPlaying]);
+
+  const persistResume = () => {
+    if (!playerRef.current || !activeItem?.videoId || queue.length === 0) return;
+    const time = playerRef.current.getCurrentTime?.() ?? 0;
+    saveState(RESUME_KEY, {
+      videoId: activeItem.videoId,
+      queueIndex: currentIndex,
+      currentTime: time,
+      isPlaying,
+      repeatMode,
+      shuffle
+    });
+  };
+
+  useEffect(() => {
+    if (!playerReady || !activeItem?.videoId) return;
+    const interval = setInterval(() => {
+      if (isSeeking) return;
+      persistResume();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [playerReady, activeItem?.videoId, isSeeking, isPlaying, repeatMode, shuffle, currentIndex]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => persistResume();
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [activeItem?.videoId, isPlaying, repeatMode, shuffle, currentIndex]);
+
+  useEffect(() => {
     if (queue.length === 0) {
       playerRef.current?.stopVideo?.();
       if (isPlaying) setIsPlaying(false);
@@ -163,59 +339,133 @@ export function GlobalMusicPlayerOverlay() {
     }
   }, [queue.length, currentIndex, isPlaying, setCurrentIndex, setIsPlaying]);
 
-  const handleNext = () => {
-    if (!queue.length) return;
-    if (repeat === "ONE") {
-      playerRef.current?.seekTo(0);
-      playerRef.current?.playVideo();
+  const handleTrackEnded = () => {
+    if (!queueRef.current.length) return;
+    if (repeatModeRef.current === "one") {
+      const videoId = activeVideoIdRef.current;
+      if (videoId) restartCurrent(videoId);
       return;
     }
-    if (shuffle) {
-      const nextIndex = Math.floor(Math.random() * queue.length);
-      setCurrentIndex(nextIndex);
-      return;
-    }
-    const next = currentIndex + 1;
-    if (next < queue.length) {
-      setCurrentIndex(next);
-    } else if (repeat === "ALL") {
-      setCurrentIndex(0);
-    } else {
+    const nextIndex = computeNextIndex(currentIndexRef.current);
+    if (nextIndex === null) {
       setIsPlaying(false);
+      return;
     }
+    playIndex(nextIndex);
   };
 
   const handlePrev = () => {
     if (!queue.length) return;
+    const time = playerRef.current?.getCurrentTime?.() ?? 0;
+    if (time > 2) {
+      playerRef.current?.seekTo?.(0, true);
+      if (isPlaying) {
+        playerRef.current?.playVideo?.();
+      }
+      return;
+    }
     const prev = currentIndex - 1;
     if (prev >= 0) {
       setCurrentIndex(prev);
-    } else if (repeat === "ALL") {
+    } else if (repeatMode === "all") {
       setCurrentIndex(queue.length - 1);
     }
   };
 
+  useEffect(() => {
+    const onPrev = () => handlePrev();
+    window.addEventListener("lifnux:music-prev", onPrev);
+    return () => window.removeEventListener("lifnux:music-prev", onPrev);
+  }, [handlePrev]);
+
+  const handleNext = () => {
+    const nextIndex = computeNextIndex(currentIndexRef.current);
+    if (nextIndex === null) {
+      setIsPlaying(false);
+      return;
+    }
+    playIndex(nextIndex);
+  };
+
+  const normalizeVideoId = (value: string) => parseVideoId(value) || value;
+
+  const computeNextIndex = (index: number) => {
+    const items = queueRef.current;
+    if (items.length === 0) return null;
+    if (shuffleRef.current) {
+      if (items.length === 1) return index;
+      let nextIndex = index;
+      let tries = 0;
+      while (nextIndex === index && tries < 5) {
+        nextIndex = Math.floor(Math.random() * items.length);
+        tries += 1;
+      }
+      return nextIndex;
+    }
+    const next = index + 1;
+    if (next < items.length) return next;
+    return repeatModeRef.current === "all" ? 0 : null;
+  };
+
+  const playIndex = (index: number, options?: { retry?: boolean }) => {
+    const items = queueRef.current;
+    if (index < 0 || index >= items.length) return;
+    const target = items[index];
+    const videoId = normalizeVideoId(target.videoId || target.url);
+    if (isDev) {
+      console.log("[PLAY]", { index, videoId, title: target.title });
+    }
+    playerRef.current?.loadVideoById(videoId, 0);
+    setCurrentIndex(index);
+    setIsPlaying(true);
+    if (options?.retry) {
+      setTimeout(() => {
+        const state = playerRef.current?.getPlayerState?.();
+        if (state === window.YT?.PlayerState?.ENDED || state === window.YT?.PlayerState?.PAUSED) {
+          playerRef.current?.loadVideoById(videoId, 0);
+          playerRef.current?.playVideo();
+        }
+      }, 120);
+    }
+  };
+
+  const restartCurrent = (videoId: string) => {
+    if (!playerRef.current) return;
+    playerRef.current.seekTo(0, true);
+    playerRef.current.playVideo();
+    setTimeout(() => {
+      if (!playerRef.current) return;
+      const state = playerRef.current.getPlayerState?.();
+      if (state === window.YT?.PlayerState?.ENDED || state === window.YT?.PlayerState?.PAUSED) {
+        playerRef.current.loadVideoById(videoId, 0);
+        playerRef.current.playVideo();
+      }
+    }, 120);
+  };
+
   const repeatLabel = useMemo(() => {
-    if (repeat === "ONE") return "ONE";
-    if (repeat === "ALL") return "ALL";
+    if (repeatMode === "one") return "ONE";
+    if (repeatMode === "all") return "ALL";
     return "OFF";
-  }, [repeat]);
+  }, [repeatMode]);
 
-  return (
-    <div className="pointer-events-none fixed inset-0 z-40">
-      <div className="absolute left-1/2 top-1/2 h-px w-px -translate-x-1/2 -translate-y-1/2 opacity-0">
-        <div ref={playerHostRef} className="h-full w-full" />
-      </div>
+  const showExpanded = isMusicRoute || expanded;
+  const cardClass = isMusicRoute
+    ? `pointer-events-auto w-full rounded-3xl lifnux-glass shadow-[0_30px_80px_rgba(0,0,0,0.5)] ${
+        expanded ? "px-5 py-4" : "px-4 py-2"
+      }`
+    : `pointer-events-auto fixed bottom-6 left-1/2 w-[92vw] max-w-[720px] -translate-x-1/2 rounded-3xl lifnux-glass shadow-[0_30px_80px_rgba(0,0,0,0.5)] ${
+        expanded ? "px-5 py-4" : "px-4 py-2"
+      }`;
 
-      <motion.div
-        layout
-        className={`pointer-events-auto fixed bottom-6 left-1/2 w-[92vw] max-w-[720px] -translate-x-1/2 rounded-3xl lifnux-glass shadow-[0_30px_80px_rgba(0,0,0,0.5)] ${
-          expanded ? "px-5 py-4" : "px-4 py-2"
-        }`}
-        animate={expanded ? { y: 0 } : { y: 16 }}
-        transition={{ type: "spring", stiffness: 120, damping: 16 }}
-      >
-        {expanded ? (
+  const card = (
+    <motion.div
+      layout
+      className={cardClass}
+      animate={!isMusicRoute ? (expanded ? { y: 0 } : { y: 16 }) : undefined}
+      transition={{ type: "spring", stiffness: 120, damping: 16 }}
+    >
+        {showExpanded ? (
           <motion.div layout className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="h-16 w-16 overflow-hidden rounded-2xl bg-white/5">
@@ -227,19 +477,62 @@ export function GlobalMusicPlayerOverlay() {
               </div>
               <div className="min-w-0">
                 <div className="text-sm text-[var(--ink-1)]">Now Playing</div>
-                <div className="max-w-[260px] truncate text-base text-[var(--ink-0)]">
-                  {activeItem?.title || "No track"}
+                <div className="max-w-[260px] truncate text-base text-[var(--ink-0)]">{displayTitle}</div>
+                <div className="flex items-center gap-1 text-[10px] text-[var(--ink-1)]">
+                  {Array.from({ length: 5 }, (_, index) => {
+                    const value = index + 1;
+                    return (
+                      <button
+                        key={value}
+                        className={currentRating >= value ? "text-[var(--accent-1)]" : "text-[var(--ink-1)]"}
+                        onClick={() => activeItem && setRating(activeItem, value)}
+                      >
+                        ★
+                      </button>
+                    );
+                  })}
                 </div>
                 <div className="text-xs text-[var(--ink-1)]">Lifnux Audio</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10"
-                onClick={() => setExpanded(false)}
-              >
-                <ChevronDown className="h-4 w-4" />
-              </button>
+              {!isMusicRoute ? (
+                <Link
+                  href="/music"
+                  title="Open Music"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10"
+                >
+                  <Music2 className="h-4 w-4" />
+                </Link>
+              ) : null}
+              {!isMusicRoute ? (
+                <button
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10"
+                  onClick={() => setExpanded(false)}
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              ) : null}
+              {!isMusicRoute ? (
+                <button
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-[var(--ink-1)] hover:text-[var(--accent-2)]"
+                  onClick={() => {
+                    setIsPlaying(false);
+                    setExpanded(false);
+                    setCurrentIndex(0);
+                    setShuffle(false);
+                    setRepeatMode("off");
+                    setUiHidden(true);
+                    setTimeout(() => {
+                      playerRef.current?.stopVideo?.();
+                    }, 0);
+                  }}
+                  aria-label="Close player"
+                  title="Close player"
+                >
+                  X
+                </button>
+              ) : null}
             </div>
           </motion.div>
         ) : (
@@ -252,7 +545,7 @@ export function GlobalMusicPlayerOverlay() {
                   <div className="h-full w-full bg-gradient-to-br from-white/10 to-white/5" />
                 )}
               </div>
-              <div className="truncate text-sm text-[var(--ink-0)]">{activeItem?.title || "No track"}</div>
+              <div className="truncate text-sm text-[var(--ink-0)]">{displayTitle}</div>
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -261,14 +554,32 @@ export function GlobalMusicPlayerOverlay() {
               >
                 {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               </button>
-              <button
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10"
-                onClick={handleNext}
-              >
+              {resumePrompt ? (
+                <button
+                  className="rounded-full border border-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em]"
+                  onClick={() => {
+                    playerRef.current?.playVideo?.();
+                    setIsPlaying(true);
+                    setResumePrompt(false);
+                  }}
+                >
+                  Resume
+                </button>
+              ) : null}
+              <button className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10" onClick={handleNext}>
                 <SkipForward className="h-4 w-4" />
               </button>
               <div className="flex items-center gap-2 pl-2">
                 <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">Now Playing</span>
+                {!isMusicRoute ? (
+                  <Link
+                    href="/music"
+                    title="Open Music"
+                    className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10"
+                  >
+                    <Music2 className="h-3 w-3" />
+                  </Link>
+                ) : null}
                 <button
                   className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10"
                   onClick={() => setExpanded(true)}
@@ -280,7 +591,7 @@ export function GlobalMusicPlayerOverlay() {
           </motion.div>
         )}
 
-        {expanded ? (
+        {showExpanded ? (
           <motion.div
             className="mt-4 space-y-4"
             initial={{ opacity: 0, height: 0 }}
@@ -336,14 +647,28 @@ export function GlobalMusicPlayerOverlay() {
                 >
                   {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
                 </button>
+                {resumePrompt ? (
+                  <button
+                    className="rounded-full border border-white/10 px-3 py-2 text-[10px] uppercase tracking-[0.2em]"
+                    onClick={() => {
+                      playerRef.current?.playVideo?.();
+                      setIsPlaying(true);
+                      setResumePrompt(false);
+                    }}
+                  >
+                    Resume
+                  </button>
+                ) : null}
                 <button className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10" onClick={handleNext}>
                   <SkipForward className="h-4 w-4" />
                 </button>
                 <button
                   className={`flex h-9 w-9 items-center justify-center rounded-full border border-white/10 ${
-                    repeat !== "OFF" ? "text-[var(--accent-1)]" : ""
+                    repeatMode !== "off" ? "text-[var(--accent-1)]" : ""
                   }`}
-                  onClick={() => setRepeat(repeat === "OFF" ? "ALL" : repeat === "ALL" ? "ONE" : "OFF")}
+                  onClick={() =>
+                    setRepeatMode(repeatMode === "off" ? "all" : repeatMode === "all" ? "one" : "off")
+                  }
                 >
                   <Repeat className="h-4 w-4" />
                 </button>
@@ -367,7 +692,21 @@ export function GlobalMusicPlayerOverlay() {
             </div>
           </motion.div>
         ) : null}
-      </motion.div>
-    </div>
+    </motion.div>
+  );
+
+  return (
+    <>
+      <div className="pointer-events-none fixed inset-0 z-40">
+        <div className="absolute left-1/2 top-1/2 h-px w-px -translate-x-1/2 -translate-y-1/2 opacity-0">
+          <div ref={playerHostRef} className="h-full w-full" />
+        </div>
+      </div>
+      {uiHidden && !isMusicRoute
+        ? null
+        : portalTarget
+        ? createPortal(card, portalTarget)
+        : <div className="pointer-events-none fixed inset-0 z-40">{card}</div>}
+    </>
   );
 }

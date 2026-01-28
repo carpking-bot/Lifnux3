@@ -7,6 +7,7 @@ type LifnuxLauncherProps = {
   mode: "home" | "overlay";
   orbitApps: OrbitApp[];
   coreApp?: OrbitApp;
+  centerButton?: ReactNode;
   outerRingRadius?: number;
   outerRingThickness?: number;
   coreRadius?: number;
@@ -26,6 +27,7 @@ export function LifnuxLauncher({
   mode,
   orbitApps,
   coreApp,
+  centerButton,
   outerRingRadius = 230,
   outerRingThickness = 56,
   coreRadius = 120,
@@ -69,6 +71,7 @@ export function LifnuxLauncher({
       <LifnuxOrbit
         orbitApps={orbitApps}
         coreApp={coreApp}
+        centerButton={centerButton}
         outerRingRadius={outerRingRadius}
         outerRingThickness={outerRingThickness}
         coreRadius={coreRadius}

@@ -4,28 +4,8 @@ import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { LifnuxLauncher } from "./LifnuxLauncher";
-import {
-  CalendarDays,
-  Music2,
-  Gamepad2,
-  Landmark,
-  Dumbbell,
-  Activity,
-  BriefcaseBusiness,
-  Sparkles,
-  X
-} from "lucide-react";
-
-const apps = [
-  { key: "calendar", label: "CALENDAR", href: "/calendar", icon: CalendarDays },
-  { key: "music", label: "MUSIC", href: "/music", icon: Music2 },
-  { key: "gaming", label: "GAMING", href: "/gaming", icon: Gamepad2 },
-  { key: "finance", label: "FINANCE", href: "/finance", icon: Landmark },
-  { key: "sport", label: "SPORT", href: "/sport", icon: Dumbbell },
-  { key: "running", label: "RUNNING", href: "/running", icon: Activity },
-  { key: "career", label: "CAREER", href: "/career", icon: BriefcaseBusiness },
-  { key: "growth", label: "PERSONAL GROWTH", href: "/personal-growth", icon: Sparkles }
-];
+import { X } from "lucide-react";
+import { coreApps } from "../lib/appRegistry";
 
 const OUTER_RING_RADIUS = 190;
 const OUTER_RING_THICKNESS = 42;
@@ -70,9 +50,9 @@ export function AppSwitcherOverlay({ open, onClose }: { open: boolean; onClose: 
             transition={{ duration: 0.2 }}
             onClick={(event) => event.stopPropagation()}
           >
-            <LifnuxLauncher
-              mode="overlay"
-              orbitApps={apps}
+              <LifnuxLauncher
+                mode="overlay"
+                orbitApps={coreApps}
               outerRingRadius={OUTER_RING_RADIUS}
               outerRingThickness={OUTER_RING_THICKNESS}
               coreRadius={CORE_RADIUS}

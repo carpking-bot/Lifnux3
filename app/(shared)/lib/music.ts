@@ -15,3 +15,14 @@ export function parseVideoId(input: string) {
   }
   return input.trim();
 }
+
+export const RATING_PRESET_NAMES = ["★", "★★", "★★★", "★★★★", "★★★★★"] as const;
+
+export function isRatingPresetName(name: string) {
+  return RATING_PRESET_NAMES.includes(name as (typeof RATING_PRESET_NAMES)[number]);
+}
+
+export function ratingToPresetName(rating: number) {
+  if (rating < 1 || rating > 5) return null;
+  return RATING_PRESET_NAMES[rating - 1];
+}

@@ -1,4 +1,5 @@
-import { CalendarEvent } from "../../(shared)/types/calendar";
+import { formatDateKey } from "../../../(shared)/lib/date";
+import { CalendarEvent, Label } from "../../../(shared)/types/calendar";
 import { DayCell } from "./DayCell";
 
 export function CalendarGrid({
@@ -7,16 +8,22 @@ export function CalendarGrid({
   year,
   events,
   holidaySet,
+  holidayTitles,
+  labels,
   onSelect,
-  resolveEvents
+  resolveEvents,
+  onEventClick
 }: {
   days: Date[];
   monthIndex: number;
   year: number;
   events: CalendarEvent[];
   holidaySet: Set<string>;
+  holidayTitles: Record<string, string[]>;
+  labels: Label[];
   onSelect: (dateKey: string) => void;
   resolveEvents?: (dateKey: string) => CalendarEvent[];
+  onEventClick?: (event: CalendarEvent) => void;
 }) {
   return (
     <div className="grid grid-cols-7 gap-3">
@@ -26,7 +33,7 @@ export function CalendarGrid({
         </div>
       ))}
       {days.map((date) => {
-        const key = date.toISOString().slice(0, 10);
+        const key = formatDateKey(date);
         const isCurrent = date.getFullYear() === year && date.getMonth() === monthIndex;
         const dayEvents = resolveEvents ? resolveEvents(key) : events.filter((event) => event.date === key);
         return (
@@ -36,6 +43,9 @@ export function CalendarGrid({
             inMonth={isCurrent}
             events={dayEvents}
             isHoliday={holidaySet.has(key)}
+            holidayTitles={holidayTitles[key]}
+            labels={labels}
+            onEventClick={onEventClick}
             onSelect={() => onSelect(key)}
           />
         );

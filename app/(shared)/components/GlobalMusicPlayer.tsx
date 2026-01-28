@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useMusic } from "./MusicPlayerProvider";
+import { parseVideoId } from "../lib/music";
 
 declare global {
   interface Window {
@@ -39,10 +40,17 @@ export function GlobalMusicPlayer() {
     isPlaying,
     setIsPlaying,
     shuffle,
-    repeat,
+    repeatMode,
     setShuffle,
-    setRepeat
+    setRepeatMode
   } = useMusic();
+  const repeatModeRef = useRef(repeatMode);
+  const activeVideoIdRef = useRef<string | null>(null);
+  const queueRef = useRef(queue);
+  const currentIndexRef = useRef(currentIndex);
+  const shuffleRef = useRef(shuffle);
+  const lastErrorRef = useRef<{ index: number; videoId: string; retries: number } | null>(null);
+  const isDev = process.env.NODE_ENV === "development";
 
   useEffect(() => {
     loadYouTubeApi(() => setApiReady(true));
@@ -56,6 +64,22 @@ export function GlobalMusicPlayer() {
   }, []);
 
   const activeItem = queue[currentIndex];
+  useEffect(() => {
+    repeatModeRef.current = repeatMode;
+  }, [repeatMode]);
+
+  useEffect(() => {
+    activeVideoIdRef.current = activeItem?.videoId ?? null;
+  }, [activeItem?.videoId]);
+  useEffect(() => {
+    queueRef.current = queue;
+  }, [queue]);
+  useEffect(() => {
+    currentIndexRef.current = currentIndex;
+  }, [currentIndex]);
+  useEffect(() => {
+    shuffleRef.current = shuffle;
+  }, [shuffle]);
 
   useEffect(() => {
     if (!apiReady || !playerHostRef.current) return;
@@ -72,7 +96,44 @@ export function GlobalMusicPlayer() {
         },
         onStateChange: (event: any) => {
           if (event.data === window.YT.PlayerState.ENDED) {
-            handleNext();
+            if (isDev) {
+              console.log("[ENDED]", {
+                currentIndex: currentIndexRef.current,
+                repeatMode: repeatModeRef.current,
+                shuffleMode: shuffleRef.current,
+                queueLen: queueRef.current.length
+              });
+            }
+            handleTrackEnded();
+          }
+          if (event.data === window.YT.PlayerState.PLAYING) {
+            lastErrorRef.current = null;
+          }
+        },
+        onError: (event: any) => {
+          const videoId = activeVideoIdRef.current;
+          const index = currentIndexRef.current;
+          if (!videoId) return;
+          if (isDev) {
+            console.warn("[YT_ERROR]", { code: event?.data, index, videoId });
+          }
+          const last = lastErrorRef.current;
+          if (!last || last.videoId !== videoId || last.index !== index) {
+            lastErrorRef.current = { index, videoId, retries: 1 };
+            playIndex(index, { retry: true });
+            return;
+          }
+          if (last.retries < 1) {
+            lastErrorRef.current = { ...last, retries: last.retries + 1 };
+            playIndex(index, { retry: true });
+            return;
+          }
+          lastErrorRef.current = null;
+          const nextIndex = computeNextIndex(index);
+          if (nextIndex !== null) {
+            playIndex(nextIndex);
+          } else {
+            setIsPlaying(false);
           }
         }
       }
@@ -103,43 +164,100 @@ export function GlobalMusicPlayer() {
     }
   }, [isPlaying]);
 
-  const handleNext = () => {
-    if (!queue.length) return;
-    if (repeat === "ONE") {
-      playerRef.current?.seekTo(0);
-      playerRef.current?.playVideo();
+  const handleTrackEnded = () => {
+    if (!queueRef.current.length) return;
+    if (repeatModeRef.current === "one") {
+      const videoId = activeVideoIdRef.current;
+      if (videoId) restartCurrent(videoId);
       return;
     }
-    if (shuffle) {
-      const nextIndex = Math.floor(Math.random() * queue.length);
-      setCurrentIndex(nextIndex);
-      return;
-    }
-    const next = currentIndex + 1;
-    if (next < queue.length) {
-      setCurrentIndex(next);
-    } else if (repeat === "ALL") {
-      setCurrentIndex(0);
-    } else {
+    const nextIndex = computeNextIndex(currentIndexRef.current);
+    if (nextIndex === null) {
       setIsPlaying(false);
+      return;
     }
+    playIndex(nextIndex);
   };
 
   const handlePrev = () => {
     if (!queue.length) return;
+    const time = playerRef.current?.getCurrentTime?.() ?? 0;
+    if (time > 2) {
+      playerRef.current?.seekTo?.(0, true);
+      if (isPlaying) {
+        playerRef.current?.playVideo?.();
+      }
+      return;
+    }
     const prev = currentIndex - 1;
     if (prev >= 0) {
       setCurrentIndex(prev);
-    } else if (repeat === "ALL") {
+    } else if (repeatMode === "all") {
       setCurrentIndex(queue.length - 1);
     }
   };
 
+  const normalizeVideoId = (value: string) => parseVideoId(value) || value;
+
+  const computeNextIndex = (index: number) => {
+    const items = queueRef.current;
+    if (items.length === 0) return null;
+    if (shuffleRef.current) {
+      if (items.length === 1) return index;
+      let nextIndex = index;
+      let tries = 0;
+      while (nextIndex === index && tries < 5) {
+        nextIndex = Math.floor(Math.random() * items.length);
+        tries += 1;
+      }
+      return nextIndex;
+    }
+    const next = index + 1;
+    if (next < items.length) return next;
+    return repeatModeRef.current === "all" ? 0 : null;
+  };
+
+  const playIndex = (index: number, options?: { retry?: boolean }) => {
+    const items = queueRef.current;
+    if (index < 0 || index >= items.length) return;
+    const target = items[index];
+    const videoId = normalizeVideoId(target.videoId || target.url);
+    if (isDev) {
+      console.log("[PLAY]", { index, videoId, title: target.title });
+    }
+    playerRef.current?.loadVideoById(videoId, 0);
+    setCurrentIndex(index);
+    setIsPlaying(true);
+    if (options?.retry) {
+      setTimeout(() => {
+        const state = playerRef.current?.getPlayerState?.();
+        if (state === window.YT?.PlayerState?.ENDED || state === window.YT?.PlayerState?.PAUSED) {
+          playerRef.current?.loadVideoById(videoId, 0);
+          playerRef.current?.playVideo();
+        }
+      }, 120);
+    }
+  };
+
+  const restartCurrent = (videoId: string) => {
+    if (!playerRef.current) return;
+    playerRef.current.seekTo(0, true);
+    playerRef.current.playVideo();
+    setTimeout(() => {
+      if (!playerRef.current) return;
+      const state = playerRef.current.getPlayerState?.();
+      if (state === window.YT?.PlayerState?.ENDED || state === window.YT?.PlayerState?.PAUSED) {
+        playerRef.current.loadVideoById(videoId, 0);
+        playerRef.current.playVideo();
+      }
+    }, 120);
+  };
+
   const repeatLabel = useMemo(() => {
-    if (repeat === "ONE") return "One";
-    if (repeat === "ALL") return "All";
+    if (repeatMode === "one") return "One";
+    if (repeatMode === "all") return "All";
     return "Off";
-  }, [repeat]);
+  }, [repeatMode]);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-40">
@@ -173,8 +291,8 @@ export function GlobalMusicPlayer() {
           Shuffle
         </button>
         <button
-          onClick={() => setRepeat(repeat === "OFF" ? "ALL" : repeat === "ALL" ? "ONE" : "OFF")}
-          className={repeat !== "OFF" ? "text-[var(--accent-1)]" : ""}
+          onClick={() => setRepeatMode(repeatMode === "off" ? "all" : repeatMode === "all" ? "one" : "off")}
+          className={repeatMode !== "off" ? "text-[var(--accent-1)]" : ""}
         >
           Repeat {repeatLabel}
         </button>

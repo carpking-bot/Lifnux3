@@ -3,27 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LifnuxLauncher } from "./(shared)/components/LifnuxLauncher";
-import {
-  CalendarDays,
-  Music2,
-  Gamepad2,
-  Landmark,
-  Dumbbell,
-  Activity,
-  BriefcaseBusiness,
-  Sparkles
-} from "lucide-react";
-
-const modules = [
-  { key: "calendar", label: "CALENDAR", href: "/calendar", icon: CalendarDays },
-  { key: "music", label: "MUSIC", href: "/music", icon: Music2 },
-  { key: "gaming", label: "GAMING", href: "/gaming", icon: Gamepad2 },
-  { key: "finance", label: "FINANCE", href: "/finance", icon: Landmark },
-  { key: "sport", label: "SPORT", href: "/sport", icon: Dumbbell },
-  { key: "running", label: "RUNNING", href: "/running", icon: Activity },
-  { key: "career", label: "CAREER", href: "/career", icon: BriefcaseBusiness },
-  { key: "growth", label: "PERSONAL GROWTH", href: "/personal-growth", icon: Sparkles }
-];
+import { AppLauncherOverlay } from "./(shared)/components/AppLauncherOverlay";
+import { Wrench } from "lucide-react";
+import { coreApps } from "./(shared)/lib/appRegistry";
 
 const OUTER_RING_RADIUS = 230;
 const OUTER_RING_THICKNESS = 56;
@@ -51,6 +33,7 @@ export default function HomePage() {
   const router = useRouter();
   const [now, setNow] = useState(() => formatDateTime(new Date()));
   const [mounted, setMounted] = useState(false);
+  const [launcherOpen, setLauncherOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -76,7 +59,7 @@ export default function HomePage() {
       <section className="relative z-10 flex h-screen items-center justify-center">
         <LifnuxLauncher
           mode="home"
-          orbitApps={modules}
+          orbitApps={coreApps}
           outerRingRadius={OUTER_RING_RADIUS}
           outerRingThickness={OUTER_RING_THICKNESS}
           coreRadius={INNER_CORE_RADIUS}
@@ -85,10 +68,25 @@ export default function HomePage() {
           disableAnimation={DEBUG_DISABLE_ANIM}
           homeDate={mounted ? now.date : undefined}
           homeTime={mounted ? now.time : undefined}
+          centerButton={
+            <button
+              className="group relative flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white shadow-[0_0_24px_rgba(90,214,208,0.4)]"
+              onClick={() => setLauncherOpen(true)}
+              aria-label="Open app launcher"
+            >
+              <span className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25)_0%,_transparent_60%)] opacity-80" />
+              <span className="absolute inset-[3px] rounded-[16px] border border-white/10 bg-black/40" />
+              <span className="relative z-10 flex h-7 w-7 items-center justify-center rounded-xl bg-white/10 group-hover:bg-white/20">
+                <Wrench className="h-5 w-5" />
+              </span>
+            </button>
+          }
           onSelectStart={handleSelectStart}
           onNavigate={handleNavigate}
         />
       </section>
+
+      <AppLauncherOverlay open={launcherOpen} onClose={() => setLauncherOpen(false)} />
     </main>
   );
 }
