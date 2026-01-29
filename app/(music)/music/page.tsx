@@ -9,6 +9,7 @@ import { TrackEditor } from "./components/TrackEditor";
 import { useMusic } from "../../(shared)/components/MusicPlayerProvider";
 import { isRatingPresetName, parseVideoId } from "../../(shared)/lib/music";
 import type { Preset, PresetTrack, QueueItem } from "../../(shared)/types/music";
+import { Pencil } from "lucide-react";
 
 declare global {
   interface Window {
@@ -31,6 +32,8 @@ export default function MusicPage() {
   const [presetModalOpen, setPresetModalOpen] = useState(false);
   const [overwriteModalOpen, setOverwriteModalOpen] = useState(false);
   const [pendingPresetName, setPendingPresetName] = useState("");
+  const [renameModalOpen, setRenameModalOpen] = useState(false);
+  const [renamingPreset, setRenamingPreset] = useState<Preset | null>(null);
   const [expandedPresetId, setExpandedPresetId] = useState<string | null>(null);
   const [loadingPresetId, setLoadingPresetId] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -150,6 +153,44 @@ export default function MusicPage() {
     setPresets([...presets, payload]);
   };
 
+  const openRename = (preset: Preset) => {
+    setRenamingPreset(preset);
+    setRenameModalOpen(true);
+  };
+
+  const applyRename = (nameInput: string) => {
+    if (!renamingPreset) return;
+    const trimmed = nameInput.trim();
+    if (!trimmed) return;
+    if (isRatingPresetName(trimmed)) {
+      openConfirmModal({
+        title: "Preset Name",
+        message: "별점 프리셋 이름은 사용할 수 없습니다.",
+        showCancel: false,
+        confirmLabel: "OK",
+        onConfirm: () => undefined
+      });
+      return;
+    }
+    const normalizedName = normalizeName(trimmed);
+    const match = presets.find(
+      (preset) => preset.id !== renamingPreset.id && normalizeName(preset.name) === normalizedName
+    );
+    if (match) {
+      openConfirmModal({
+        title: "Preset Name",
+        message: "같은 이름의 프리셋이 이미 있습니다.",
+        showCancel: false,
+        confirmLabel: "OK",
+        onConfirm: () => undefined
+      });
+      return;
+    }
+    updatePreset(renamingPreset.id, (current) => ({ ...current, name: trimmed }));
+    setRenameModalOpen(false);
+    setRenamingPreset(null);
+  };
+
   const isRatingPreset = (preset: Preset) => preset.isRatingPreset || isRatingPresetName(preset.name);
 
   const openConfirmModal = ({
@@ -226,9 +267,23 @@ export default function MusicPage() {
                         >
                           <div className="flex items-center gap-2">
                             <span>{preset.name}</span>
-                            {selected ? <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--accent-1)]">Selected</span> : null}
+                            {selected ? (
+                              <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--accent-1)]">Selected</span>
+                            ) : null}
                           </div>
                         </button>
+                        {!ratingPreset ? (
+                          <button
+                            className="text-xs text-[var(--ink-1)] hover:text-[var(--accent-2)]"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              openRename(preset);
+                            }}
+                            aria-label="Rename preset"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </button>
+                        ) : null}
                         {!ratingPreset ? (
                           <button
                             className="text-xs text-[var(--ink-1)]"
@@ -520,6 +575,46 @@ export default function MusicPage() {
         }
       >
         <div className="text-sm">같은 이름의 프리셋이 이미 있습니다. 덮어쓸까요?</div>
+      </Modal>
+
+      <Modal
+        open={renameModalOpen}
+        title="Rename Preset"
+        onClose={() => {
+          setRenameModalOpen(false);
+          setRenamingPreset(null);
+        }}
+        actions={
+          <>
+            <button
+              className="rounded-full border border-white/10 px-4 py-2 text-xs"
+              onClick={() => {
+                setRenameModalOpen(false);
+                setRenamingPreset(null);
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black"
+              onClick={() => {
+                const nameInput = (document.getElementById("preset-rename") as HTMLInputElement).value;
+                applyRename(nameInput);
+              }}
+            >
+              Save
+            </button>
+          </>
+        }
+      >
+        <label className="block text-xs uppercase tracking-wide">
+          Preset Name
+          <input
+            id="preset-rename"
+            defaultValue={renamingPreset?.name ?? ""}
+            className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+          />
+        </label>
       </Modal>
 
       <ConfirmModal

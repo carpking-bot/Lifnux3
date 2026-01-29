@@ -9,6 +9,8 @@ out
 .env
 .env.local
 .env.*.local
+quote-service/.env
+quote-service/.venv
 
 # logs
 npm-debug.log*

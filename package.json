@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev",
+    "quote:venv": "cd quote-service && if not exist .venv (py -m venv .venv) && .\\.venv\\Scripts\\python -m pip install -r requirements.txt",
+    "quote:dev": "cd quote-service && .\\.venv\\Scripts\\python -m uvicorn main:app --reload --host 127.0.0.1 --port 8000",
+    "dev:all": "concurrently -k \"npm run dev\" \"npm run quote:dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,6 +22,7 @@
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "25.0.10",
     "@types/react": "19.2.9",
+    "concurrently": "^8.2.2",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.4.0"
   }

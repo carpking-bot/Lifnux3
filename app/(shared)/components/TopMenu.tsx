@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Wrench } from "lucide-react";
+import { Home, Settings, Wrench } from "lucide-react";
 import { AppSwitcherOverlay } from "./AppSwitcherOverlay";
 import { AppLauncherOverlay } from "./AppLauncherOverlay";
 
@@ -17,6 +17,13 @@ export function TopMenu() {
   return (
     <>
       <div className="fixed right-4 top-4 z-40 flex items-center gap-2">
+        <button
+          className="flex h-10 w-10 items-center justify-center rounded-full lifnux-glass text-white"
+          onClick={() => router.push("/settings")}
+          aria-label="Open settings"
+        >
+          <Settings className="h-4 w-4" />
+        </button>
         <button
           className="flex h-10 w-10 items-center justify-center rounded-full lifnux-glass text-white"
           onClick={() => setLauncherOpen(true)}

@@ -1,5 +1,7 @@
 "use client";
 
+import { updateAutoBackup } from "./persistence";
+
 export function loadState<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
   try {
@@ -14,4 +16,5 @@ export function loadState<T>(key: string, fallback: T): T {
 export function saveState<T>(key: string, value: T) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(key, JSON.stringify(value));
+  updateAutoBackup();
 }
