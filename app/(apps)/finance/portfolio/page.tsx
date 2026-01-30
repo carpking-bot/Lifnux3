@@ -4,8 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "../../../(shared)/components/AppShell";
 import { Modal } from "../../../(shared)/components/Modal";
 import { ConfirmModal } from "../../../(shared)/components/ConfirmModal";
-import type { BrokerAccount, Holding, Trade, WatchlistStock } from "../../../(shared)/types/finance";
+import type { BrokerAccount, Holding, StockItem, Trade } from "../../../(shared)/types/finance";
 import { loadFinanceState, saveAccounts, saveFinanceSettings, saveHoldings, saveTrades } from "../../../(shared)/lib/finance";
+import { useQuotes } from "../../../../src/lib/quotes/useQuotes";
 import { Check, Pencil, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -13,7 +14,7 @@ export default function PortfolioPage() {
   const router = useRouter();
   const [accounts, setAccounts] = useState<BrokerAccount[]>([]);
   const [holdings, setHoldings] = useState<Holding[]>([]);
-  const [watchlist, setWatchlist] = useState<WatchlistStock[]>([]);
+  const [stocks, setStocks] = useState<StockItem[]>([]);
   const [settings, setSettings] = useState({ blurSensitiveNumbers: true });
   const [accountsOpen, setAccountsOpen] = useState(false);
   const [trades, setTrades] = useState<Trade[]>([]);
@@ -34,7 +35,7 @@ export default function PortfolioPage() {
     const data = loadFinanceState();
     setAccounts(data.accounts);
     setHoldings(data.holdings);
-    setWatchlist(data.watchlist);
+    setStocks(data.stocks);
     setSettings(data.settings);
     setTrades(data.trades);
   }, []);
@@ -53,16 +54,24 @@ export default function PortfolioPage() {
   }, [trades]);
 
   const heldStocks = useMemo(
-    () => watchlist.filter((stock) => stock.watchlisted !== false && stock.isHeld),
-    [watchlist]
+    () => stocks.filter((stock) => stock.watchlisted !== false && stock.isHeld),
+    [stocks]
   );
+  const getQuoteSymbol = (stock: StockItem) => {
+    if (stock.market === "KR" && !stock.symbol.includes(".")) return `${stock.symbol}.KS`;
+    return stock.symbol;
+  };
+  const heldSymbols = useMemo(() => heldStocks.map((stock) => getQuoteSymbol(stock)), [heldStocks]);
+  const { bySymbol: heldQuotes } = useQuotes(heldSymbols);
   const totalMarketValue = useMemo(() => {
     return holdings.reduce((sum, holding) => {
       const stock = heldStocks.find((item) => item.id === holding.stockId);
+      const quote = stock ? heldQuotes.get(getQuoteSymbol(stock).toUpperCase()) : undefined;
+      const price = quote?.price ?? stock?.last ?? 0;
       if (!stock) return sum;
-      return sum + stock.last * holding.qty;
+      return sum + price * holding.qty;
     }, 0);
-  }, [holdings, heldStocks]);
+  }, [holdings, heldStocks, heldQuotes]);
 
   const blurClass = settings.blurSensitiveNumbers ? "blur-sm select-none" : "";
 
@@ -71,7 +80,7 @@ export default function PortfolioPage() {
   };
 
   const formatCurrency = (value: number, market?: "KR" | "US") => {
-    const symbol = market === "KR" ? "₩" : "$";
+    const symbol = market === "KR" ? "KRW " : "$";
     const decimals = market === "KR" ? 0 : 2;
     return `${symbol}${formatNumber(value, decimals)}`;
   };
@@ -212,7 +221,9 @@ export default function PortfolioPage() {
               {holdings.map((holding) => {
                 const account = accounts.find((acc) => acc.id === holding.accountId);
                 const stock = heldStocks.find((item) => item.id === holding.stockId);
-                const currentPrice = stock?.last ?? 0;
+                const quote = stock ? heldQuotes.get(getQuoteSymbol(stock).toUpperCase()) : undefined;
+                const currentPrice = quote?.price ?? stock?.last ?? 0;
+                const changePct = quote?.changePercent ?? stock?.changePct ?? null;
                 const marketValue = currentPrice * holding.qty;
                 const costBasis = holding.avgPrice * holding.qty;
                 const pnlValue = marketValue - costBasis;
@@ -279,14 +290,14 @@ export default function PortfolioPage() {
                         >
                           {heldStocks.map((item) => (
                             <option key={item.id} value={item.id}>
-                              {item.name} ({item.ticker})
+                              {item.name} ({item.symbol})
                             </option>
                           ))}
                         </select>
                       ) : (
                         <div className="text-sm">
                           {stock?.name ?? "-"}{" "}
-                          <span className="text-[var(--ink-1)]">({stock?.ticker ?? "-"})</span>
+                          <span className="text-[var(--ink-1)]">({stock?.symbol ?? "-"})</span>
                         </div>
                       )}
                     </div>
@@ -389,8 +400,16 @@ export default function PortfolioPage() {
                       {formatNumber(weightPct, 2)}%
                     </div>
                     <div className="flex items-center justify-between gap-2">
-                      <span className={stock?.changePct && stock.changePct >= 0 ? "text-emerald-300" : "text-rose-300"}>
-                        {stock ? `${stock.changePct >= 0 ? "+" : ""}${stock.changePct.toFixed(2)}%` : "-"}
+                      <span
+                        className={
+                          changePct !== null && changePct !== undefined && changePct >= 0
+                            ? "text-emerald-300"
+                            : "text-rose-300"
+                        }
+                      >
+                        {changePct === null || changePct === undefined
+                          ? "-"
+                          : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(2)}%`}
                       </span>
                       <button
                         className="text-[10px] text-[var(--ink-1)] hover:text-[var(--accent-1)]"
@@ -581,7 +600,7 @@ export default function PortfolioPage() {
             >
               {heldStocks.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name} ({item.ticker})
+                  {item.name} ({item.symbol})
                 </option>
               ))}
             </select>
@@ -627,7 +646,7 @@ export default function PortfolioPage() {
       <ConfirmModal
         open={deleteConfirmOpen}
         title="Delete Holding"
-        description="이 보유 종목을 삭제할까요?"
+        description="??보유 종목????��?�까??"
         confirmLabel="Delete"
         cancelLabel="Cancel"
         variant="danger"
@@ -646,3 +665,4 @@ export default function PortfolioPage() {
     </AppShell>
   );
 }
+

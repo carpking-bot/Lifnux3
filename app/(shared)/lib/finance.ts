@@ -1,9 +1,11 @@
 "use client";
 
 import { loadState, saveState } from "./storage";
-import type { BrokerAccount, FinanceSettings, Holding, IndexItem, Trade, WatchlistStock } from "../types/finance";
+import type { BrokerAccount, FinanceSettings, Holding, IndexItem, StockItem, StockList, Trade } from "../types/finance";
 
 const INDICES_KEY = "lifnux.finance.indices.v100";
+const STOCKS_KEY = "lifnux.finance.stocks.v200";
+const STOCK_LISTS_KEY = "lifnux.finance.stockLists.v100";
 const WATCHLIST_KEY = "lifnux.finance.watchlist.v100";
 const ACCOUNTS_KEY = "lifnux.finance.accounts.v100";
 const HOLDINGS_KEY = "lifnux.finance.holdings.v100";
@@ -37,24 +39,28 @@ export function seedIndices(): IndexItem[] {
   }));
 }
 
-export function seedWatchlist(): WatchlistStock[] {
-  const data: WatchlistStock[] = [
-    { id: "aapl", name: "Apple", ticker: "AAPL", market: "US", isHeld: true, last: 189.2, changePct: 1.4, mktCapRank: 1 },
-    { id: "msft", name: "Microsoft", ticker: "MSFT", market: "US", isHeld: true, last: 412.6, changePct: 0.6, mktCapRank: 2 },
-    { id: "nvda", name: "NVIDIA", ticker: "NVDA", market: "US", isHeld: false, last: 845.3, changePct: 2.1, mktCapRank: 3 },
-    { id: "amzn", name: "Amazon", ticker: "AMZN", market: "US", isHeld: false, last: 176.7, changePct: -0.3, mktCapRank: 4 },
-    { id: "googl", name: "Alphabet", ticker: "GOOGL", market: "US", isHeld: true, last: 154.9, changePct: -1.2, mktCapRank: 5 },
-    { id: "tsla", name: "Tesla", ticker: "TSLA", market: "US", isHeld: false, last: 214.5, changePct: 3.6, mktCapRank: 6 },
-    { id: "meta", name: "Meta", ticker: "META", market: "US", isHeld: true, last: 479.3, changePct: 0.9, mktCapRank: 7 },
-    { id: "brka", name: "Berkshire", ticker: "BRK.A", market: "US", isHeld: false, last: 610500, changePct: -0.2, mktCapRank: 8 },
-    { id: "samsung", name: "Samsung Elec", ticker: "005930", market: "KR", isHeld: true, last: 74500, changePct: 1.1, mktCapRank: 1 },
-    { id: "skhynix", name: "SK Hynix", ticker: "000660", market: "KR", isHeld: false, last: 163500, changePct: 2.6, mktCapRank: 2 },
-    { id: "naver", name: "NAVER", ticker: "035420", market: "KR", isHeld: true, last: 214000, changePct: -0.8, mktCapRank: 3 },
-    { id: "kakao", name: "Kakao", ticker: "035720", market: "KR", isHeld: false, last: 47600, changePct: -1.9, mktCapRank: 4 },
-    { id: "lgchem", name: "LG Chem", ticker: "051910", market: "KR", isHeld: false, last: 412000, changePct: 0.2, mktCapRank: 5 },
-    { id: "samsungbio", name: "Samsung Bio", ticker: "207940", market: "KR", isHeld: true, last: 822000, changePct: 1.7, mktCapRank: 6 }
+export function seedStocks(): StockItem[] {
+  const data: StockItem[] = [
+    { id: "aapl", name: "Apple", symbol: "AAPL", market: "US", isHeld: true, last: 189.2, changePct: 1.4, mktCapRank: 1 },
+    { id: "msft", name: "Microsoft", symbol: "MSFT", market: "US", isHeld: true, last: 412.6, changePct: 0.6, mktCapRank: 2 },
+    { id: "nvda", name: "NVIDIA", symbol: "NVDA", market: "US", isHeld: false, last: 845.3, changePct: 2.1, mktCapRank: 3 },
+    { id: "amzn", name: "Amazon", symbol: "AMZN", market: "US", isHeld: false, last: 176.7, changePct: -0.3, mktCapRank: 4 },
+    { id: "googl", name: "Alphabet", symbol: "GOOGL", market: "US", isHeld: true, last: 154.9, changePct: -1.2, mktCapRank: 5 },
+    { id: "tsla", name: "Tesla", symbol: "TSLA", market: "US", isHeld: false, last: 214.5, changePct: 3.6, mktCapRank: 6 },
+    { id: "meta", name: "Meta", symbol: "META", market: "US", isHeld: true, last: 479.3, changePct: 0.9, mktCapRank: 7 },
+    { id: "brka", name: "Berkshire", symbol: "BRK.A", market: "US", isHeld: false, last: 610500, changePct: -0.2, mktCapRank: 8 },
+    { id: "samsung", name: "Samsung Elec", symbol: "005930", market: "KR", isHeld: true, last: 74500, changePct: 1.1, mktCapRank: 1 },
+    { id: "skhynix", name: "SK Hynix", symbol: "000660", market: "KR", isHeld: false, last: 163500, changePct: 2.6, mktCapRank: 2 },
+    { id: "naver", name: "NAVER", symbol: "035420", market: "KR", isHeld: true, last: 214000, changePct: -0.8, mktCapRank: 3 },
+    { id: "kakao", name: "Kakao", symbol: "035720", market: "KR", isHeld: false, last: 47600, changePct: -1.9, mktCapRank: 4 },
+    { id: "lgchem", name: "LG Chem", symbol: "051910", market: "KR", isHeld: false, last: 412000, changePct: 0.2, mktCapRank: 5 },
+    { id: "samsungbio", name: "Samsung Bio", symbol: "207940", market: "KR", isHeld: true, last: 822000, changePct: 1.7, mktCapRank: 6 }
   ];
   return data.map((item) => ({ ...item, watchlisted: true }));
+}
+
+export function seedStockLists(): StockList[] {
+  return [{ id: "list-default", name: "My Playlist", itemIds: [] }];
 }
 
 function hashSymbol(value: string) {
@@ -75,16 +81,24 @@ export function mockQuote(symbol: string, market: "KR" | "US") {
   return { last: Number(last.toFixed(market === "KR" ? 0 : 2)), changePct, changeAbs };
 }
 
-export function createWatchlistStock(symbol: string, market: "KR" | "US"): WatchlistStock {
-  const quote = mockQuote(symbol, market);
+export function detectMarketFromSymbol(symbol: string): "KR" | "US" {
+  const normalized = symbol.trim().toUpperCase();
+  return normalized.endsWith(".KS") || normalized.endsWith(".KQ") ? "KR" : "US";
+}
+
+export function createStockItem(symbol: string, market?: "KR" | "US", name?: string): StockItem {
+  const normalized = symbol.trim().toUpperCase();
+  const resolvedMarket = market ?? detectMarketFromSymbol(normalized);
+  const quote = mockQuote(normalized, resolvedMarket);
   return {
-    id: `${market}-${symbol}`.toLowerCase(),
-    name: symbol,
-    ticker: symbol.toUpperCase(),
-    market,
+    id: `${resolvedMarket}-${normalized}`.toLowerCase(),
+    name: name ?? normalized,
+    symbol: normalized,
+    market: resolvedMarket,
     isHeld: false,
     last: quote.last,
     changePct: quote.changePct,
+    changeAbs: quote.changeAbs,
     mktCapRank: 9999,
     notes: "",
     watchlisted: true
@@ -132,20 +146,59 @@ export function seedTrades(): Trade[] {
 
 export function loadFinanceState() {
   const indices = loadState<IndexItem[]>(INDICES_KEY, seedIndices());
-  const watchlist = loadState<WatchlistStock[]>(WATCHLIST_KEY, seedWatchlist());
+  let stocks = loadState<StockItem[]>(STOCKS_KEY, []);
+  if (!stocks.length) {
+    const legacy = loadState<
+      {
+        id: string;
+        name?: string;
+        ticker?: string;
+        market: "KR" | "US";
+        isHeld?: boolean;
+        last?: number;
+        changePct?: number;
+        changeAbs?: number;
+        mktCapRank?: number;
+        notes?: string;
+        watchlisted?: boolean;
+      }[]
+    >(WATCHLIST_KEY, []);
+    const migrated =
+      legacy.length > 0
+        ? legacy.map((item) => ({
+            id: item.id,
+            symbol: item.ticker ? item.ticker.toUpperCase() : item.name ?? "",
+            market: item.market,
+            name: item.name ?? item.ticker,
+            isHeld: item.isHeld ?? false,
+            watchlisted: item.watchlisted ?? true,
+            notes: item.notes ?? "",
+            mktCapRank: item.mktCapRank ?? 9999,
+            last: item.last,
+            changePct: item.changePct,
+            changeAbs: item.changeAbs
+          }))
+        : seedStocks();
+    stocks = migrated;
+  }
+  const stockLists = loadState<StockList[]>(STOCK_LISTS_KEY, seedStockLists());
   const accounts = loadState<BrokerAccount[]>(ACCOUNTS_KEY, seedAccounts());
   const holdings = loadState<Holding[]>(HOLDINGS_KEY, seedHoldings());
   const settings = loadState<FinanceSettings>(SETTINGS_KEY, seedSettings());
   const trades = loadState<Trade[]>(TRADES_KEY, seedTrades());
-  return { indices, watchlist, accounts, holdings, settings, trades };
+  return { indices, stocks, stockLists, accounts, holdings, settings, trades };
 }
 
 export function saveIndices(items: IndexItem[]) {
   saveState(INDICES_KEY, items);
 }
 
-export function saveWatchlist(items: WatchlistStock[]) {
-  saveState(WATCHLIST_KEY, items);
+export function saveStocks(items: StockItem[]) {
+  saveState(STOCKS_KEY, items);
+}
+
+export function saveStockLists(items: StockList[]) {
+  saveState(STOCK_LISTS_KEY, items);
 }
 
 export function saveAccounts(items: BrokerAccount[]) {

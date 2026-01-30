@@ -10,17 +10,24 @@ export type IndexItem = {
   visible?: boolean;
 };
 
-export type WatchlistStock = {
+export type StockItem = {
+  id: string;
+  symbol: string;
+  market: "KR" | "US";
+  name?: string;
+  isHeld?: boolean;
+  watchlisted?: boolean;
+  notes?: string;
+  mktCapRank?: number;
+  last?: number;
+  changePct?: number;
+  changeAbs?: number;
+};
+
+export type StockList = {
   id: string;
   name: string;
-  ticker: string;
-  market: "KR" | "US";
-  isHeld: boolean;
-  last: number;
-  changePct: number;
-  mktCapRank: number;
-  notes?: string;
-  watchlisted?: boolean;
+  itemIds: string[];
 };
 
 export type BrokerAccount = {

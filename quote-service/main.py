@@ -79,47 +79,67 @@ def _iso_time(epoch_seconds: float) -> str:
     return datetime.fromtimestamp(epoch_seconds, tz=timezone.utc).isoformat().replace("+00:00", "Z")
 
 
+def _is_valid_quote(data: Dict[str, Any]) -> bool:
+    price = data.get("c")
+    market_time = data.get("t")
+    return isinstance(price, (int, float)) and isinstance(market_time, (int, float)) and market_time > 0
+
+
+def _candidate_symbols(symbol: str) -> List[str]:
+    s = symbol.strip().upper()
+    if not s:
+        return []
+    if s.endswith(".KS") or s.endswith(".KQ"):
+        base = s[:-3]
+        alt = f"{base}.KQ" if s.endswith(".KS") else f"{base}.KS"
+        return [s, alt, base]
+    if s.isdigit() and len(s) == 6:
+        return [s, f"{s}.KS", f"{s}.KQ"]
+    return [s]
+
+
 async def _fetch_quote(
     client: httpx.AsyncClient, symbol: str, token: str, sem: asyncio.Semaphore
 ) -> Dict[str, Any]:
     async with sem:
-        params = {"symbol": symbol, "token": token}
-        try:
-            resp = await client.get(f"{FINNHUB_BASE}/quote", params=params, timeout=10.0)
-        except Exception as exc:
-            print("[FINNHUB FETCH ERROR]", symbol, repr(exc))
-            return _empty_quote(symbol)
+        candidates = _candidate_symbols(symbol)
+        for candidate in candidates:
+            params = {"symbol": candidate, "token": token}
+            try:
+                resp = await client.get(f"{FINNHUB_BASE}/quote", params=params, timeout=10.0)
+            except Exception as exc:
+                print("[FINNHUB FETCH ERROR]", candidate, repr(exc))
+                continue
 
-        if resp.status_code != 200:
-            body = resp.text[:500]
-            print("[FINNHUB HTTP ERROR]", resp.status_code, symbol, body)
-            return _empty_quote(symbol)
+            if resp.status_code != 200:
+                body = resp.text[:500]
+                print("[FINNHUB HTTP ERROR]", resp.status_code, candidate, body)
+                continue
 
-        try:
-            data = resp.json()
-        except Exception as exc:
-            print("[FINNHUB JSON ERROR]", symbol, repr(exc))
-            return _empty_quote(symbol)
+            try:
+                data = resp.json()
+            except Exception as exc:
+                print("[FINNHUB JSON ERROR]", candidate, repr(exc))
+                continue
 
-        price = data.get("c")
-        market_time = data.get("t")
-        if not isinstance(price, (int, float)):
-            print("[FINNHUB BAD QUOTE]", symbol, data)
-            return _empty_quote(symbol)
+            if candidate.endswith(".KS") or candidate.endswith(".KQ"):
+                print("[FINNHUB RAW]", candidate, data)
 
-        if not isinstance(market_time, (int, float)):
-            print("[FINNHUB BAD QUOTE]", symbol, data)
-            return _empty_quote(symbol)
+            if not _is_valid_quote(data):
+                print("[FINNHUB BAD QUOTE]", candidate, data)
+                continue
 
-        return {
-            "symbol": symbol,
-            "price": float(price),
-            "change": float(data["d"]) if isinstance(data.get("d"), (int, float)) else None,
-            "changePercent": float(data["dp"]) if isinstance(data.get("dp"), (int, float)) else None,
-            "currency": None,
-            "marketTime": _iso_time(float(market_time)),
-            "source": "finnhub",
-        }
+            return {
+                "symbol": symbol,
+                "price": float(data["c"]),
+                "change": float(data["d"]) if isinstance(data.get("d"), (int, float)) else None,
+                "changePercent": float(data["dp"]) if isinstance(data.get("dp"), (int, float)) else None,
+                "currency": None,
+                "marketTime": _iso_time(float(data["t"])),
+                "source": "finnhub",
+            }
+
+        return _empty_quote(symbol)
 
 
 @app.get("/health")
