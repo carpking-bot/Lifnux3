@@ -35,6 +35,7 @@ type GuitarState = {
 
 export default function GuitarPage() {
   const playerRef = useRef<any>(null);
+  const [playerReady, setPlayerReady] = useState(false);
   const [songs, setSongs] = useState<Song[]>([]);
   const [videos, setVideos] = useState<Video[]>([]);
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -157,9 +158,16 @@ export default function GuitarPage() {
   );
 
   useEffect(() => {
-    if (!playerRef.current) return;
-    playerRef.current.setPlaybackRate(speed);
-  }, [speed]);
+    if (!playerReady || !playerRef.current) return;
+    if (typeof playerRef.current.setPlaybackRate !== "function") return;
+    const iframe = playerRef.current.getIframe?.();
+    if (!iframe) return;
+    try {
+      playerRef.current.setPlaybackRate(speed);
+    } catch {
+      // Ignore transient API errors when the iframe isn't fully ready.
+    }
+  }, [speed, playerReady]);
 
   useEffect(() => {
     if (!loopEnabled || aSec === undefined || bSec === undefined) return;
@@ -262,6 +270,7 @@ export default function GuitarPage() {
                   videoId={currentVideo?.youtubeId}
                   onReady={(player) => {
                     playerRef.current = player;
+                    setPlayerReady(true);
                   }}
                 />
                 <div className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">

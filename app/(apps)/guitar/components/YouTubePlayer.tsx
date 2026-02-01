@@ -40,6 +40,17 @@ export function YouTubePlayer({
 }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<any>(null);
+  const readyRef = useRef(false);
+  const onReadyRef = useRef(onReady);
+  const videoIdRef = useRef(videoId);
+
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
+
+  useEffect(() => {
+    videoIdRef.current = videoId;
+  }, [videoId]);
 
   useEffect(() => {
     let mounted = true;
@@ -56,19 +67,31 @@ export function YouTubePlayer({
         },
         events: {
           onReady: () => {
-            if (playerRef.current) onReady(playerRef.current);
+            readyRef.current = true;
+            const latestVideoId = videoIdRef.current;
+            if (playerRef.current && latestVideoId) {
+              playerRef.current.cueVideoById?.(latestVideoId);
+            }
+            if (playerRef.current) onReadyRef.current(playerRef.current);
           }
         }
       });
     });
     return () => {
       mounted = false;
+      readyRef.current = false;
+      playerRef.current?.destroy?.();
+      playerRef.current = null;
     };
-  }, [onReady, videoId]);
+  }, []);
 
   useEffect(() => {
-    if (!playerRef.current || !videoId) return;
-    playerRef.current.cueVideoById(videoId);
+    if (!playerRef.current || !videoId || !readyRef.current) return;
+    if (typeof playerRef.current.cueVideoById === "function") {
+      playerRef.current.cueVideoById(videoId);
+      return;
+    }
+    playerRef.current.loadVideoById?.(videoId);
   }, [videoId]);
 
   return <div ref={hostRef} className="absolute inset-0" />;
