@@ -56,6 +56,7 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
     setState({
       ...defaultState,
       ...loaded,
+      isPlaying: false,
       repeatMode,
       presets,
       selectedPresetId: (loaded as MusicState)?.selectedPresetId ?? null,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -67,7 +67,7 @@ export function GlobalMusicPlayerOverlay() {
   const resumeAppliedRef = useRef(false);
   const resumePendingRef = useRef(false);
   const [apiReady, setApiReady] = useState(false);
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
   const [playerState, setPlayerState] = useState<"PLAYING" | "PAUSED" | "OTHER">("OTHER");
   const [duration, setDuration] = useState(0);
@@ -76,6 +76,8 @@ export function GlobalMusicPlayerOverlay() {
   const [volume, setVolume] = useState(80);
   const [muted, setMuted] = useState(false);
   const [resumePrompt, setResumePrompt] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
+  const [onboardingDismissed, setOnboardingDismissed] = useState(false);
   const [uiHidden, setUiHidden] = useState(false);
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
@@ -100,6 +102,16 @@ export function GlobalMusicPlayerOverlay() {
   const lastErrorRef = useRef<{ index: number; videoId: string; retries: number } | null>(null);
   const isDev = process.env.NODE_ENV === "development";
   const RESUME_KEY = "lifnux.music.resume.v110";
+  const LAST_STATE_KEY = "music.lastState";
+  const USER_INTERACTED_KEY = "music.userInteracted";
+  const ONBOARDING_KEY = "music.onboardingDismissed";
+  const UI_OPEN_KEY = "music.playerUIOpen";
+
+  const markUserInteracted = useCallback(() => {
+    if (userInteracted) return;
+    setUserInteracted(true);
+    saveState(USER_INTERACTED_KEY, true);
+  }, [userInteracted]);
 
   useEffect(() => {
     loadYouTubeApi(() => setApiReady(true));
@@ -121,15 +133,45 @@ export function GlobalMusicPlayerOverlay() {
   }, [isMusicRoute]);
 
   useEffect(() => {
-    if (isMusicRoute) setExpanded(true);
-  }, [isMusicRoute]);
+    const savedOpen = Boolean(loadState(UI_OPEN_KEY, false));
+    if (!isMusicRoute && pathname === "/") {
+      saveState(UI_OPEN_KEY, false);
+      setExpanded(false);
+      return;
+    }
+    setExpanded(isMusicRoute ? true : savedOpen);
+  }, [isMusicRoute, pathname]);
 
   useEffect(() => {
     if (isMusicRoute) setUiHidden(false);
   }, [isMusicRoute]);
 
   useEffect(() => {
-    resumeRef.current = loadState(RESUME_KEY, null);
+    const savedResume = loadState(RESUME_KEY, null);
+    const lastState = loadState<{
+      trackId?: string;
+      volume?: number;
+      position?: number;
+    } | null>(LAST_STATE_KEY, null);
+    if (lastState && Number.isFinite(lastState.volume)) {
+      setVolume(Number(lastState.volume));
+    }
+    if (lastState) {
+      resumeRef.current =
+        savedResume ??
+        ({
+          videoId: lastState.trackId ?? "",
+          queueIndex: 0,
+          currentTime: lastState.position ?? 0,
+          isPlaying: false,
+          repeatMode: "off",
+          shuffle: false
+        } as typeof resumeRef.current);
+    } else {
+      resumeRef.current = savedResume;
+    }
+    setUserInteracted(Boolean(loadState(USER_INTERACTED_KEY, false)));
+    setOnboardingDismissed(Boolean(loadState(ONBOARDING_KEY, false)));
   }, []);
 
   const activeItem = queue[currentIndex];
@@ -218,8 +260,12 @@ export function GlobalMusicPlayerOverlay() {
 
   useEffect(() => {
     if (!playerRef.current || !activeItem) return;
-    playerRef.current.loadVideoById(activeItem.videoId);
-  }, [activeItem?.videoId]);
+    if (isPlaying) {
+      playerRef.current.loadVideoById(activeItem.videoId);
+    } else {
+      playerRef.current.cueVideoById?.(activeItem.videoId);
+    }
+  }, [activeItem?.videoId, isPlaying]);
 
   useEffect(() => {
     if (!playerRef.current) return;
@@ -228,10 +274,14 @@ export function GlobalMusicPlayerOverlay() {
     } else {
       playerRef.current.pauseVideo();
     }
-  }, [isPlaying]);
+  }, [isPlaying, markUserInteracted]);
 
   useEffect(() => {
     if (isPlaying) setResumePrompt(false);
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (isPlaying) markUserInteracted();
   }, [isPlaying]);
 
   useEffect(() => {
@@ -282,20 +332,9 @@ export function GlobalMusicPlayerOverlay() {
     const saved = resumeRef.current;
     if (!saved || !activeItem?.videoId || activeItem.videoId !== saved.videoId) return;
     playerRef.current.seekTo?.(saved.currentTime || 0, true);
-    if (saved.isPlaying) {
-      playerRef.current.playVideo?.();
-      setTimeout(() => {
-        const state = playerRef.current?.getPlayerState?.();
-        if (state === window.YT?.PlayerState?.PLAYING) {
-          setIsPlaying(true);
-          setResumePrompt(false);
-        } else {
-          setIsPlaying(false);
-          setResumePrompt(true);
-        }
-      }, 400);
-    } else {
-      setIsPlaying(false);
+    setIsPlaying(false);
+    if ((saved.currentTime ?? 0) > 0) {
+      setResumePrompt(true);
     }
     resumePendingRef.current = false;
     resumeAppliedRef.current = true;
@@ -304,11 +343,15 @@ export function GlobalMusicPlayerOverlay() {
   const persistResume = () => {
     if (!playerRef.current || !activeItem?.videoId || queue.length === 0) return;
     const time = playerRef.current.getCurrentTime?.() ?? 0;
+    saveState(LAST_STATE_KEY, {
+      trackId: activeItem.videoId,
+      volume,
+      position: time
+    });
     saveState(RESUME_KEY, {
       videoId: activeItem.videoId,
       queueIndex: currentIndex,
       currentTime: time,
-      isPlaying,
       repeatMode,
       shuffle
     });
@@ -418,6 +461,7 @@ export function GlobalMusicPlayerOverlay() {
     playerRef.current?.loadVideoById(videoId, 0);
     setCurrentIndex(index);
     setIsPlaying(true);
+    markUserInteracted();
     if (options?.retry) {
       setTimeout(() => {
         const state = playerRef.current?.getPlayerState?.();
@@ -433,6 +477,7 @@ export function GlobalMusicPlayerOverlay() {
     if (!playerRef.current) return;
     playerRef.current.seekTo(0, true);
     playerRef.current.playVideo();
+    markUserInteracted();
     setTimeout(() => {
       if (!playerRef.current) return;
       const state = playerRef.current.getPlayerState?.();
@@ -508,7 +553,10 @@ export function GlobalMusicPlayerOverlay() {
               {!isMusicRoute ? (
                 <button
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10"
-                  onClick={() => setExpanded(false)}
+                  onClick={() => {
+                    setExpanded(false);
+                    saveState(UI_OPEN_KEY, false);
+                  }}
                 >
                   <ChevronDown className="h-4 w-4" />
                 </button>
@@ -519,6 +567,7 @@ export function GlobalMusicPlayerOverlay() {
                   onClick={() => {
                     setIsPlaying(false);
                     setExpanded(false);
+                    saveState(UI_OPEN_KEY, false);
                     setCurrentIndex(0);
                     setShuffle(false);
                     setRepeatMode("off");
@@ -550,7 +599,10 @@ export function GlobalMusicPlayerOverlay() {
             <div className="flex items-center gap-2">
               <button
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10"
-                onClick={() => setIsPlaying(!isPlaying)}
+                onClick={() => {
+                  if (!isPlaying) markUserInteracted();
+                  setIsPlaying(!isPlaying);
+                }}
               >
                 {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               </button>
@@ -558,6 +610,7 @@ export function GlobalMusicPlayerOverlay() {
                 <button
                   className="rounded-full border border-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em]"
                   onClick={() => {
+                    markUserInteracted();
                     playerRef.current?.playVideo?.();
                     setIsPlaying(true);
                     setResumePrompt(false);
@@ -582,7 +635,10 @@ export function GlobalMusicPlayerOverlay() {
                 ) : null}
                 <button
                   className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10"
-                  onClick={() => setExpanded(true)}
+                  onClick={() => {
+                    setExpanded(true);
+                    saveState(UI_OPEN_KEY, true);
+                  }}
                 >
                   <ChevronUp className="h-3 w-3" />
                 </button>
@@ -643,7 +699,10 @@ export function GlobalMusicPlayerOverlay() {
                 </button>
                 <button
                   className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-1)] text-black"
-                  onClick={() => setIsPlaying(!isPlaying)}
+                  onClick={() => {
+                    if (!isPlaying) markUserInteracted();
+                    setIsPlaying(!isPlaying);
+                  }}
                 >
                   {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
                 </button>
@@ -651,6 +710,7 @@ export function GlobalMusicPlayerOverlay() {
                   <button
                     className="rounded-full border border-white/10 px-3 py-2 text-[10px] uppercase tracking-[0.2em]"
                     onClick={() => {
+                      markUserInteracted();
                       playerRef.current?.playVideo?.();
                       setIsPlaying(true);
                       setResumePrompt(false);
@@ -690,6 +750,20 @@ export function GlobalMusicPlayerOverlay() {
                 />
               </div>
             </div>
+            {!userInteracted && !onboardingDismissed ? (
+              <div className="flex items-center justify-between rounded-2xl border border-white/10 px-3 py-2 text-xs text-[var(--ink-1)]">
+                <span>Press Play to start background music.</span>
+                <button
+                  className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-0)]"
+                  onClick={() => {
+                    setOnboardingDismissed(true);
+                    saveState(ONBOARDING_KEY, true);
+                  }}
+                >
+                  Got it
+                </button>
+              </div>
+            ) : null}
           </motion.div>
         ) : null}
     </motion.div>

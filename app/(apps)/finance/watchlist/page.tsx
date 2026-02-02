@@ -84,12 +84,17 @@ export default function FinanceWatchlistPage() {
   };
 
   const fetchQuote = async (symbol: string) => {
-    const response = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbol)}`);
-    if (!response.ok) return null;
-    const data = (await response.json()) as {
-      quotes?: { symbol: string; price: number | null; changePercent: number | null }[];
-    };
-    return data.quotes?.find((item) => item.symbol.toUpperCase() === symbol.toUpperCase()) ?? null;
+    try {
+      const response = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbol)}`);
+      if (!response.ok) return null;
+      const data = (await response.json()) as {
+        quotes?: { symbol: string; price: number | null; changePercent: number | null }[];
+      };
+      return data.quotes?.find((item) => item.symbol.toUpperCase() === symbol.toUpperCase()) ?? null;
+    } catch (error) {
+      console.error("[QUOTE FETCH FAILED]", error);
+      return null;
+    }
   };
 
   const isValidQuote = (quote: { price: number | null; changePercent: number | null } | null) => {
