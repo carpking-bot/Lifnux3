@@ -9,6 +9,7 @@ const STOCK_LISTS_KEY = "lifnux.finance.stockLists.v100";
 const WATCHLIST_KEY = "lifnux.finance.watchlist.v100";
 const ACCOUNTS_KEY = "lifnux.finance.accounts.v100";
 const HOLDINGS_KEY = "lifnux.finance.holdings.v100";
+export const PORTFOLIO_POSITIONS_KEY = "portfolio.positions";
 const SETTINGS_KEY = "lifnux.finance.settings.v100";
 const TRADES_KEY = "lifnux.finance.trades.v100";
 
@@ -21,6 +22,7 @@ export function seedIndices(): IndexItem[] {
     { name: "NASDAQ", symbol: "IXIC", region: "US", last: 18234.1, changePct: 0.72, changeAbs: 130.4 },
     { name: "S&P 500", symbol: "SPX", region: "US", last: 5112.3, changePct: -0.18, changeAbs: -9.2 },
     { name: "DOW", symbol: "DJI", region: "US", last: 38722.4, changePct: 0.11, changeAbs: 42.7 },
+    { name: "USD/KRW", symbol: "USD/KRW", region: "FX", last: 1320.5, changePct: 0.12, changeAbs: 1.6 },
     { name: "KOSPI", symbol: "KS11", region: "KR", last: 2654.2, changePct: 0.64, changeAbs: 16.9 },
     { name: "KOSDAQ", symbol: "KQ11", region: "KR", last: 846.8, changePct: -0.42, changeAbs: -3.6 },
     { name: "HSI", symbol: "HSI", region: "HK", last: 17840.5, changePct: -0.25, changeAbs: -44.6 },
@@ -41,20 +43,20 @@ export function seedIndices(): IndexItem[] {
 
 export function seedStocks(): StockItem[] {
   const data: StockItem[] = [
-    { id: "aapl", name: "Apple", symbol: "AAPL", market: "US", isHeld: true, last: 189.2, changePct: 1.4, mktCapRank: 1 },
-    { id: "msft", name: "Microsoft", symbol: "MSFT", market: "US", isHeld: true, last: 412.6, changePct: 0.6, mktCapRank: 2 },
-    { id: "nvda", name: "NVIDIA", symbol: "NVDA", market: "US", isHeld: false, last: 845.3, changePct: 2.1, mktCapRank: 3 },
-    { id: "amzn", name: "Amazon", symbol: "AMZN", market: "US", isHeld: false, last: 176.7, changePct: -0.3, mktCapRank: 4 },
-    { id: "googl", name: "Alphabet", symbol: "GOOGL", market: "US", isHeld: true, last: 154.9, changePct: -1.2, mktCapRank: 5 },
-    { id: "tsla", name: "Tesla", symbol: "TSLA", market: "US", isHeld: false, last: 214.5, changePct: 3.6, mktCapRank: 6 },
-    { id: "meta", name: "Meta", symbol: "META", market: "US", isHeld: true, last: 479.3, changePct: 0.9, mktCapRank: 7 },
-    { id: "brka", name: "Berkshire", symbol: "BRK.A", market: "US", isHeld: false, last: 610500, changePct: -0.2, mktCapRank: 8 },
-    { id: "samsung", name: "Samsung Elec", symbol: "005930", market: "KR", isHeld: true, last: 74500, changePct: 1.1, mktCapRank: 1 },
-    { id: "skhynix", name: "SK Hynix", symbol: "000660", market: "KR", isHeld: false, last: 163500, changePct: 2.6, mktCapRank: 2 },
-    { id: "naver", name: "NAVER", symbol: "035420", market: "KR", isHeld: true, last: 214000, changePct: -0.8, mktCapRank: 3 },
-    { id: "kakao", name: "Kakao", symbol: "035720", market: "KR", isHeld: false, last: 47600, changePct: -1.9, mktCapRank: 4 },
-    { id: "lgchem", name: "LG Chem", symbol: "051910", market: "KR", isHeld: false, last: 412000, changePct: 0.2, mktCapRank: 5 },
-    { id: "samsungbio", name: "Samsung Bio", symbol: "207940", market: "KR", isHeld: true, last: 822000, changePct: 1.7, mktCapRank: 6 }
+    { id: "aapl", name: "Apple", label: "Apple", symbol: "AAPL", market: "US", last: 189.2, changePct: 1.4, mktCapRank: 1 },
+    { id: "msft", name: "Microsoft", label: "Microsoft", symbol: "MSFT", market: "US", last: 412.6, changePct: 0.6, mktCapRank: 2 },
+    { id: "nvda", name: "NVIDIA", label: "NVIDIA", symbol: "NVDA", market: "US", last: 845.3, changePct: 2.1, mktCapRank: 3 },
+    { id: "amzn", name: "Amazon", label: "Amazon", symbol: "AMZN", market: "US", last: 176.7, changePct: -0.3, mktCapRank: 4 },
+    { id: "googl", name: "Alphabet", label: "Alphabet", symbol: "GOOGL", market: "US", last: 154.9, changePct: -1.2, mktCapRank: 5 },
+    { id: "tsla", name: "Tesla", label: "Tesla", symbol: "TSLA", market: "US", last: 214.5, changePct: 3.6, mktCapRank: 6 },
+    { id: "meta", name: "Meta", label: "Meta", symbol: "META", market: "US", last: 479.3, changePct: 0.9, mktCapRank: 7 },
+    { id: "brka", name: "Berkshire", label: "Berkshire", symbol: "BRK.A", market: "US", last: 610500, changePct: -0.2, mktCapRank: 8 },
+    { id: "samsung", name: "Samsung Elec", label: "Samsung Elec", symbol: "005930", market: "KR", last: 74500, changePct: 1.1, mktCapRank: 1 },
+    { id: "skhynix", name: "SK Hynix", label: "SK Hynix", symbol: "000660", market: "KR", last: 163500, changePct: 2.6, mktCapRank: 2 },
+    { id: "naver", name: "NAVER", label: "NAVER", symbol: "035420", market: "KR", last: 214000, changePct: -0.8, mktCapRank: 3 },
+    { id: "kakao", name: "Kakao", label: "Kakao", symbol: "035720", market: "KR", last: 47600, changePct: -1.9, mktCapRank: 4 },
+    { id: "lgchem", name: "LG Chem", label: "LG Chem", symbol: "051910", market: "KR", last: 412000, changePct: 0.2, mktCapRank: 5 },
+    { id: "samsungbio", name: "Samsung Bio", label: "Samsung Bio", symbol: "207940", market: "KR", last: 822000, changePct: 1.7, mktCapRank: 6 }
   ];
   return data.map((item) => ({ ...item, watchlisted: true }));
 }
@@ -72,6 +74,17 @@ function hashSymbol(value: string) {
   return Math.abs(hash);
 }
 
+export function normalizeSymbol(raw: string) {
+  const cleaned = raw.trim().toUpperCase();
+  if (!cleaned) return "";
+  if (cleaned.endsWith(".KS") || cleaned.endsWith(".KQ")) {
+    return cleaned.slice(0, -3);
+  }
+  if (/^\d{6}$/.test(cleaned)) return cleaned;
+  if (/^[A-Z]{2,5}:[A-Z0-9.\-]+$/.test(cleaned)) return cleaned;
+  return `NAS:${cleaned}`;
+}
+
 export function mockQuote(symbol: string, market: "KR" | "US") {
   const seed = hashSymbol(symbol);
   const changePct = ((seed % 600) - 300) / 100; // -3.00% ~ +3.00%
@@ -83,19 +96,22 @@ export function mockQuote(symbol: string, market: "KR" | "US") {
 
 export function detectMarketFromSymbol(symbol: string): "KR" | "US" {
   const normalized = symbol.trim().toUpperCase();
-  return normalized.endsWith(".KS") || normalized.endsWith(".KQ") ? "KR" : "US";
+  if (normalized.endsWith(".KS") || normalized.endsWith(".KQ") || /^\d{6}$/.test(normalized)) {
+    return "KR";
+  }
+  return "US";
 }
 
-export function createStockItem(symbol: string, market?: "KR" | "US", name?: string): StockItem {
+export function createStockItem(symbol: string, market?: "KR" | "US", label?: string): StockItem {
   const normalized = symbol.trim().toUpperCase();
   const resolvedMarket = market ?? detectMarketFromSymbol(normalized);
   const quote = mockQuote(normalized, resolvedMarket);
+  const displayLabel = label?.trim() ? label.trim() : normalized;
   return {
     id: `${resolvedMarket}-${normalized}`.toLowerCase(),
-    name: name ?? normalized,
+    label: displayLabel,
     symbol: normalized,
     market: resolvedMarket,
-    isHeld: false,
     last: quote.last,
     changePct: quote.changePct,
     changeAbs: quote.changeAbs,
@@ -130,9 +146,9 @@ export function seedAccounts(): BrokerAccount[] {
 
 export function seedHoldings(): Holding[] {
   return [
-    { id: "hold-1", accountId: "acc-us-1", stockId: "aapl", avgPrice: 172.4, qty: 12, currency: "USD" },
-    { id: "hold-2", accountId: "acc-us-1", stockId: "meta", avgPrice: 421.3, qty: 5, currency: "USD" },
-    { id: "hold-3", accountId: "acc-kr-1", stockId: "samsung", avgPrice: 69800, qty: 30, currency: "KRW" }
+    { id: "hold-1", accountId: "acc-us-1", stockId: "aapl", symbolKey: "NAS:AAPL", avgPrice: 172.4, qty: 12, currency: "USD" },
+    { id: "hold-2", accountId: "acc-us-1", stockId: "meta", symbolKey: "NAS:META", avgPrice: 421.3, qty: 5, currency: "USD" },
+    { id: "hold-3", accountId: "acc-kr-1", stockId: "samsung", symbolKey: "005930", avgPrice: 69800, qty: 30, currency: "KRW" }
   ];
 }
 
@@ -145,8 +161,30 @@ export function seedTrades(): Trade[] {
 }
 
 export function loadFinanceState() {
-  const indices = loadState<IndexItem[]>(INDICES_KEY, seedIndices());
+  let indices = loadState<IndexItem[]>(INDICES_KEY, seedIndices());
   let stocks = loadState<StockItem[]>(STOCKS_KEY, []);
+  if (indices.length) {
+    const hasFx = indices.some((item) => item.symbol === "USD/KRW");
+    if (!hasFx) {
+      indices = [...indices, { id: `USD/KRW-${now()}`, name: "USD/KRW", symbol: "USD/KRW", region: "FX", last: 0, changePct: 0, changeAbs: 0, updatedAt: now(), visible: true }];
+    }
+  }
+  if (stocks.length) {
+    stocks = stocks.map((item) => {
+      const normalizedSymbol = item.symbol.trim().toUpperCase();
+      const trimmedLabel = item.label?.trim();
+      const trimmedName = item.name?.trim();
+      const normalizedLabel = trimmedLabel?.toUpperCase();
+      const normalizedName = trimmedName?.toUpperCase();
+      const resolvedLabel =
+        trimmedLabel && normalizedLabel !== normalizedSymbol
+          ? trimmedLabel
+          : trimmedName && normalizedName !== normalizedSymbol
+            ? trimmedName
+            : normalizedSymbol;
+      return { ...item, symbol: normalizedSymbol, label: resolvedLabel };
+    });
+  }
   if (!stocks.length) {
     const legacy = loadState<
       {
@@ -170,7 +208,7 @@ export function loadFinanceState() {
             symbol: item.ticker ? item.ticker.toUpperCase() : item.name ?? "",
             market: item.market,
             name: item.name ?? item.ticker,
-            isHeld: item.isHeld ?? false,
+            label: item.name ?? item.ticker ?? (item.ticker ? item.ticker.toUpperCase() : ""),
             watchlisted: item.watchlisted ?? true,
             notes: item.notes ?? "",
             mktCapRank: item.mktCapRank ?? 9999,
@@ -183,7 +221,19 @@ export function loadFinanceState() {
   }
   const stockLists = loadState<StockList[]>(STOCK_LISTS_KEY, seedStockLists());
   const accounts = loadState<BrokerAccount[]>(ACCOUNTS_KEY, seedAccounts());
-  const holdings = loadState<Holding[]>(HOLDINGS_KEY, seedHoldings());
+  const legacyHoldings = loadState<Holding[]>(HOLDINGS_KEY, []);
+  const savedPositions = loadState<Holding[]>(PORTFOLIO_POSITIONS_KEY, []);
+  const holdingsSeed = seedHoldings();
+  const rawHoldings = savedPositions.length ? savedPositions : legacyHoldings.length ? legacyHoldings : holdingsSeed;
+  const holdings = rawHoldings.map((holding) => {
+    const stock = holding.stockId ? stocks.find((item) => item.id === holding.stockId) : undefined;
+    const symbol = holding.symbolKey || stock?.symbol || "";
+    return {
+      ...holding,
+      symbolKey: normalizeSymbol(symbol)
+    };
+  });
+  console.log("[PORTFOLIO LOAD] count=", holdings.length);
   const settings = loadState<FinanceSettings>(SETTINGS_KEY, seedSettings());
   const trades = loadState<Trade[]>(TRADES_KEY, seedTrades());
   return { indices, stocks, stockLists, accounts, holdings, settings, trades };
@@ -206,7 +256,18 @@ export function saveAccounts(items: BrokerAccount[]) {
 }
 
 export function saveHoldings(items: Holding[]) {
-  saveState(HOLDINGS_KEY, items);
+  const cleaned = items.map((holding) => ({
+    ...holding,
+    symbolKey: normalizeSymbol(holding.symbolKey || "")
+  }));
+  saveState(PORTFOLIO_POSITIONS_KEY, cleaned);
+  console.log("[PORTFOLIO SAVE] key=", PORTFOLIO_POSITIONS_KEY, "count=", cleaned.length);
+  const reloaded = loadState<Holding[]>(PORTFOLIO_POSITIONS_KEY, []);
+  console.log("[PORTFOLIO LOAD] count=", reloaded.length);
+}
+
+export function loadPositions() {
+  return loadState<Holding[]>(PORTFOLIO_POSITIONS_KEY, []);
 }
 
 export function saveFinanceSettings(settings: FinanceSettings) {

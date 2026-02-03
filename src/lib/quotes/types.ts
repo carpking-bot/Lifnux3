@@ -5,5 +5,6 @@ export type Quote = {
   changePercent: number | null;
   currency?: string | null;
   marketTime?: string | null;
-  source: "finnhub" | "dbsec";
+  source: "kis";
+  name?: string | null;
 };

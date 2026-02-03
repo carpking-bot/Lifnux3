@@ -15,7 +15,7 @@ export type StockItem = {
   symbol: string;
   market: "KR" | "US";
   name?: string;
-  isHeld?: boolean;
+  label?: string;
   watchlisted?: boolean;
   notes?: string;
   mktCapRank?: number;
@@ -40,10 +40,14 @@ export type BrokerAccount = {
 export type Holding = {
   id: string;
   accountId: string;
-  stockId: string;
+  stockId?: string;
+  symbolKey: string;
   avgPrice: number;
   qty: number;
   currency: "KRW" | "USD";
+  notes?: string;
+  countryLabel?: string;
+  sectorLabel?: string;
 };
 
 export type FinanceSettings = {

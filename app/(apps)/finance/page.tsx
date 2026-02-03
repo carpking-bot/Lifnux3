@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AppShell } from "../../(shared)/components/AppShell";
 import { Modal } from "../../(shared)/components/Modal";
-import type { IndexItem, StockItem } from "../../(shared)/types/finance";
-import { loadFinanceState, saveIndices, saveStocks } from "../../(shared)/lib/finance";
+import type { Holding, IndexItem, StockItem } from "../../(shared)/types/finance";
+import { loadFinanceState, normalizeSymbol, saveIndices, saveStocks } from "../../(shared)/lib/finance";
 import { useQuotes } from "../../../src/lib/quotes/useQuotes";
 import { Pencil } from "lucide-react";
 
@@ -14,6 +14,7 @@ export default function FinancePage() {
   const router = useRouter();
   const [indices, setIndices] = useState<IndexItem[]>([]);
   const [stocks, setStocks] = useState<StockItem[]>([]);
+  const [holdings, setHoldings] = useState<Holding[]>([]);
   const [activeMarket, setActiveMarket] = useState<"KR" | "US">("KR");
   const [detailStock, setDetailStock] = useState<StockItem | null>(null);
   const [ready, setReady] = useState(false);
@@ -22,6 +23,7 @@ export default function FinancePage() {
     const data = loadFinanceState();
     setIndices(data.indices);
     setStocks(data.stocks);
+    setHoldings(data.holdings);
     setReady(true);
   }, []);
 
@@ -38,9 +40,16 @@ export default function FinancePage() {
   const indexSymbols = useMemo(() => visibleIndices.map((item) => item.symbol), [visibleIndices]);
   const { bySymbol: indexQuotes } = useQuotes(indexSymbols);
 
+  const heldSymbolKeys = useMemo(() => {
+    const ids = new Set<string>();
+    holdings.forEach((holding) => {
+      if (holding.qty > 0) ids.add(normalizeSymbol(holding.symbolKey));
+    });
+    return ids;
+  }, [holdings]);
   const heldWatchlist = useMemo(
-    () => stocks.filter((item) => item.watchlisted !== false && item.isHeld),
-    [stocks]
+    () => stocks.filter((item) => item.watchlisted !== false && heldSymbolKeys.has(normalizeSymbol(item.symbol))),
+    [stocks, heldSymbolKeys]
   );
   const allWatchlist = useMemo(
     () => stocks.filter((item) => item.watchlisted !== false),
@@ -56,11 +65,15 @@ export default function FinancePage() {
     () =>
       allWatchlist.map((item) => ({
         ...item,
-        quote: watchQuotes.get(getQuoteSymbol(item).toUpperCase())
+        quote: watchQuotes.get(getQuoteSymbol(item).toUpperCase()),
+        held: heldSymbolKeys.has(normalizeSymbol(item.symbol))
       })),
-    [allWatchlist, watchQuotes]
+    [allWatchlist, heldSymbolKeys, watchQuotes]
   );
-  const heldWithQuotes = useMemo(() => watchlistWithQuotes.filter((item) => item.isHeld), [watchlistWithQuotes]);
+  const heldWithQuotes = useMemo(
+    () => watchlistWithQuotes.filter((item) => heldSymbolKeys.has(normalizeSymbol(item.symbol))),
+    [watchlistWithQuotes, heldSymbolKeys]
+  );
 
   const topHeldMovers = useMemo(() => {
     return [...heldWithQuotes]
@@ -93,6 +106,23 @@ export default function FinancePage() {
     return watchQuotes.get(getQuoteSymbol(detailStock).toUpperCase());
   }, [detailStock, watchQuotes]);
 
+  const resolveCurrency = (symbol: string, market: "KR" | "US", quoteCurrency?: string | null) => {
+    if (quoteCurrency) return quoteCurrency;
+    if (/^\d{6}$/.test(symbol) || symbol.endsWith(".KS") || symbol.endsWith(".KQ") || market === "KR") return "KRW";
+    return "USD";
+  };
+
+  const formatPrice = (value: number | null | undefined, symbol: string, market: "KR" | "US", quoteCurrency?: string | null) => {
+    if (value === null || value === undefined) return "--";
+    const currency = resolveCurrency(symbol, market, quoteCurrency);
+    const isKRW = currency === "KRW";
+    const prefix = isKRW ? "₩" : "$";
+    const decimals = isKRW ? 0 : 2;
+    return `${prefix}${value.toLocaleString(undefined, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    })}`;
+  };
 
   return (
     <AppShell showTitle={false}>
@@ -138,9 +168,9 @@ export default function FinancePage() {
           <section className="lifnux-glass rounded-2xl p-6">
             <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Watchlist Movers</div>
             <div className="mt-4 grid gap-4">
-              <MoverRow title="Held Movers" items={topHeldMovers} />
-              <MoverRow title="Top Gainers" items={topGainers} />
-              <MoverRow title="Top Losers" items={topLosers} />
+              <MoverRow title="Held Movers" items={topHeldMovers} formatPrice={formatPrice} />
+              <MoverRow title="Top Gainers" items={topGainers} formatPrice={formatPrice} />
+              <MoverRow title="Top Losers" items={topLosers} formatPrice={formatPrice} />
             </div>
           </section>
 
@@ -187,7 +217,7 @@ export default function FinancePage() {
                   >
                     <div>
                       <div className="font-medium">
-                        {item.name ?? item.symbol} <span className="text-[var(--ink-1)]">({item.symbol})</span>
+                        {item.label ?? item.symbol} <span className="text-[var(--ink-1)]">({item.symbol})</span>
                       </div>
                       <div
                         className={`text-xs ${
@@ -215,18 +245,11 @@ export default function FinancePage() {
                         aria-label="Toggle watchlist"
                       >
                         ??                      </button>
-                      <button
-                        className={`text-xs ${item.isHeld ? "text-[var(--accent-1)]" : "text-[var(--ink-1)]"}`}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          setStocks((prev) =>
-                            prev.map((entry) => (entry.id === item.id ? { ...entry, isHeld: !entry.isHeld } : entry))
-                          );
-                        }}
-                        aria-label="Toggle held"
-                      >
-                        Held
-                      </button>
+                      {heldSymbolKeys.has(normalizeSymbol(item.symbol)) ? (
+                        <span className="rounded-full border border-white/10 px-2 py-[2px] text-[10px] text-[var(--accent-1)]">
+                          HELD
+                        </span>
+                      ) : null}
                     </div>
                   </button>
                 ))}
@@ -268,13 +291,11 @@ export default function FinancePage() {
       >
         {detailStock ? (
           <div className="space-y-2 text-sm">
-            <div className="text-lg">{detailStock.name ?? detailStock.symbol}</div>
+            <div className="text-lg">{detailStock.label ?? detailStock.symbol}</div>
             <div className="text-[var(--ink-1)]">{detailStock.symbol}</div>
             <div className="text-[var(--ink-1)]">
               Last:{" "}
-              {detailQuote?.price !== null && detailQuote?.price !== undefined
-                ? detailQuote.price.toLocaleString()
-                : "--"}
+              {formatPrice(detailQuote?.price, detailStock.symbol, detailStock.market, detailQuote?.currency)}
             </div>
             <div
               className={`text-xs ${
@@ -299,10 +320,20 @@ type WatchlistMover = StockItem & {
   quote?: {
     price: number | null;
     changePercent: number | null;
+    currency?: string | null;
   };
+  held?: boolean;
 };
 
-function MoverRow({ title, items }: { title: string; items: WatchlistMover[] }) {
+function MoverRow({
+  title,
+  items,
+  formatPrice
+}: {
+  title: string;
+  items: WatchlistMover[];
+  formatPrice: (value: number | null | undefined, symbol: string, market: "KR" | "US", quoteCurrency?: string | null) => string;
+}) {
   return (
     <div>
       <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{title}</div>
@@ -310,9 +341,9 @@ function MoverRow({ title, items }: { title: string; items: WatchlistMover[] }) 
         {items.map((item) => (
           <div key={item.id} className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm">
             <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">{item.symbol}</div>
-            <div className="font-medium">{item.name ?? item.symbol}</div>
+            <div className="font-medium">{item.label ?? item.symbol}</div>
             <div className="mt-1 text-xs">
-              {item.quote?.price !== null && item.quote?.price !== undefined ? item.quote.price.toLocaleString() : "--"}
+              {formatPrice(item.quote?.price, item.symbol, item.market, item.quote?.currency)}
             </div>
             <div
               className={`text-xs ${
@@ -324,7 +355,7 @@ function MoverRow({ title, items }: { title: string; items: WatchlistMover[] }) 
               {item.quote?.changePercent === null || item.quote?.changePercent === undefined
                 ? "--"
                 : `${item.quote.changePercent >= 0 ? "+" : ""}${item.quote.changePercent.toFixed(2)}%`}
-              {item.isHeld ? <span className="ml-2 rounded-full border border-white/10 px-2 py-[1px] text-[9px]">HELD</span> : null}
+              {item.held ? <span className="ml-2 rounded-full border border-white/10 px-2 py-[1px] text-[9px]">HELD</span> : null}
             </div>
           </div>
         ))}
