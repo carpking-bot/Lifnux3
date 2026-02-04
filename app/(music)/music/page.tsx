@@ -30,6 +30,7 @@ export default function MusicPage() {
     setSelectedPresetId
   } = useMusic();
   const [presetModalOpen, setPresetModalOpen] = useState(false);
+  const [addPresetModalOpen, setAddPresetModalOpen] = useState(false);
   const [overwriteModalOpen, setOverwriteModalOpen] = useState(false);
   const [pendingPresetName, setPendingPresetName] = useState("");
   const [renameModalOpen, setRenameModalOpen] = useState(false);
@@ -153,6 +154,43 @@ export default function MusicPage() {
     setPresets([...presets, payload]);
   };
 
+  const createEmptyPreset = (name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    if (isRatingPresetName(trimmed)) {
+      openConfirmModal({
+        title: "Preset Name",
+        message: "별점 프리셋 이름은 사용할 수 없습니다.",
+        showCancel: false,
+        confirmLabel: "OK",
+        onConfirm: () => undefined
+      });
+      return;
+    }
+    const normalizedName = normalizeName(trimmed);
+    const match = presets.find((preset) => normalizeName(preset.name) === normalizedName);
+    if (match) {
+      openConfirmModal({
+        title: "Preset Name",
+        message: "같은 이름의 프리셋이 이미 있습니다.",
+        showCancel: false,
+        confirmLabel: "OK",
+        onConfirm: () => undefined
+      });
+      return;
+    }
+    setPresets([
+      ...presets,
+      {
+        id: crypto.randomUUID(),
+        name: trimmed,
+        urls: [],
+        tracks: []
+      }
+    ]);
+    setAddPresetModalOpen(false);
+  };
+
   const openRename = (preset: Preset) => {
     setRenamingPreset(preset);
     setRenameModalOpen(true);
@@ -219,6 +257,21 @@ export default function MusicPage() {
     setConfirmAction(() => onConfirm);
     setConfirmOpen(true);
   };
+
+  const openSavePresetModal = () => {
+    if (queue.length === 0) {
+      openConfirmModal({
+        title: "Save Preset",
+        message: "Queue가 비어 있습니다. 먼저 곡을 추가해 주세요.",
+        showCancel: false,
+        confirmLabel: "OK",
+        onConfirm: () => undefined
+      });
+      return;
+    }
+    setPresetModalOpen(true);
+  };
+
   const closeConfirmModal = () => {
     setConfirmOpen(false);
     setConfirmAction(null);
@@ -240,7 +293,15 @@ export default function MusicPage() {
         <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
           <aside className="space-y-4">
             <div className="lifnux-glass rounded-2xl p-5">
-              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Presets</div>
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Presets</div>
+                <button
+                  className="rounded-full border border-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)] hover:text-white"
+                  onClick={() => setAddPresetModalOpen(true)}
+                >
+                  Add
+                </button>
+              </div>
               <div className="mt-4 space-y-3 text-sm">
                 {presets.map((preset) => {
                   const isOpen = expandedPresetId === preset.id;
@@ -313,7 +374,7 @@ export default function MusicPage() {
                             {loadingPresetId === preset.id ? (
                               <div>Loading...</div>
                             ) : items?.length ? (
-                              items.map((item, index) => (
+                              items.slice(0, 5).map((item, index) => (
                                 <div
                                   key={item.id}
                                   draggable={!ratingPreset}
@@ -397,6 +458,9 @@ export default function MusicPage() {
                             ) : (
                               <div>No tracks.</div>
                             )}
+                            {items && items.length > 5 ? (
+                              <div className="text-[10px] text-[var(--ink-1)]">+{items.length - 5} more tracks</div>
+                            ) : null}
                           </div>
                           <div className="flex gap-2">
                             <button
@@ -435,7 +499,7 @@ export default function MusicPage() {
               <div className="flex items-center justify-between">
                 <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Queue</div>
                 <div className="flex items-center gap-3 text-xs text-[var(--ink-1)]">
-                  <button onClick={() => setPresetModalOpen(true)}>Save as preset</button>
+                  <button onClick={openSavePresetModal}>Save as preset</button>
                   <button
                     onClick={() => {
                       if (!queue.length) return;
@@ -493,6 +557,38 @@ export default function MusicPage() {
       </div>
 
       <div ref={metaHostRef} className="hidden" />
+
+      <Modal
+        open={addPresetModalOpen}
+        title="Add Preset"
+        onClose={() => setAddPresetModalOpen(false)}
+        actions={
+          <>
+            <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setAddPresetModalOpen(false)}>
+              Cancel
+            </button>
+            <button
+              className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black"
+              onClick={() => {
+                const nameInput = (document.getElementById("preset-add-name") as HTMLInputElement).value;
+                createEmptyPreset(nameInput);
+              }}
+            >
+              Add
+            </button>
+          </>
+        }
+      >
+        <label className="block text-xs uppercase tracking-wide">
+          Preset Name
+          <input
+            id="preset-add-name"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+            placeholder="New Preset"
+          />
+        </label>
+        <div className="text-xs text-[var(--ink-1)]">빈 프리셋이 생성됩니다.</div>
+      </Modal>
 
       <Modal
         open={presetModalOpen}

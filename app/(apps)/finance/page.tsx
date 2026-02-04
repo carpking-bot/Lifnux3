@@ -1,366 +1,241 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AppShell } from "../../(shared)/components/AppShell";
-import { Modal } from "../../(shared)/components/Modal";
-import type { Holding, IndexItem, StockItem } from "../../(shared)/types/finance";
-import { loadFinanceState, normalizeSymbol, saveIndices, saveStocks } from "../../(shared)/lib/finance";
+import { loadFinanceState, normalizeSymbol } from "../../(shared)/lib/finance";
+import { loadState, saveState } from "../../(shared)/lib/storage";
+import { ReceiptText, TrendingUp, Wallet } from "lucide-react";
 import { useQuotes } from "../../../src/lib/quotes/useQuotes";
-import { Pencil } from "lucide-react";
+import type { Holding, StockItem } from "../../(shared)/types/finance";
+
+const HUB_REVEAL_KEY = "lifnux.finance.hub.reveal.v1";
+const ASSET_MONTHLY_KEY = "lifnux.finance.asset.monthly.v1";
+const EXPENSE_LEDGER_KEY = "lifnux.finance.expense.ledger.v1";
+
+type AssetMonthlySnapshot = {
+  month: string;
+  cash: number;
+  other: number;
+  debt: number;
+  investing?: number;
+  total?: number;
+  updatedAt: number;
+};
+
+type ExpenseEntry = {
+  id: string;
+  date: string;
+  category: string;
+  title: string;
+  amount: number;
+  memo?: string;
+};
+
+const formatKrw = (value: number) => `\u20A9${Math.round(value).toLocaleString("ko-KR")}`;
+const formatPct = (value: number) => `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
 
 export default function FinancePage() {
-  const router = useRouter();
-  const [indices, setIndices] = useState<IndexItem[]>([]);
-  const [stocks, setStocks] = useState<StockItem[]>([]);
-  const [holdings, setHoldings] = useState<Holding[]>([]);
-  const [activeMarket, setActiveMarket] = useState<"KR" | "US">("KR");
-  const [detailStock, setDetailStock] = useState<StockItem | null>(null);
+  const [revealed, setRevealed] = useState(false);
   const [ready, setReady] = useState(false);
 
+  const [assetSnapshots, setAssetSnapshots] = useState<AssetMonthlySnapshot[]>([]);
+  const [expenseEntries, setExpenseEntries] = useState<ExpenseEntry[]>([]);
+  const [holdings, setHoldings] = useState<Holding[]>([]);
+  const [stocks, setStocks] = useState<StockItem[]>([]);
+  const [fxRate, setFxRate] = useState<number | null>(null);
+
   useEffect(() => {
+    setRevealed(loadState<boolean>(HUB_REVEAL_KEY, false));
+    setAssetSnapshots(loadState<AssetMonthlySnapshot[]>(ASSET_MONTHLY_KEY, []));
+    setExpenseEntries(loadState<ExpenseEntry[]>(EXPENSE_LEDGER_KEY, []));
+
     const data = loadFinanceState();
-    setIndices(data.indices);
-    setStocks(data.stocks);
     setHoldings(data.holdings);
+    setStocks(data.stocks);
+    const initialFx = data.indices.find((item) => item.symbol === "USD/KRW")?.last ?? null;
+    setFxRate(initialFx && initialFx > 0 ? initialFx : null);
     setReady(true);
   }, []);
 
   useEffect(() => {
-    if (indices.length) saveIndices(indices);
-  }, [indices]);
+    const fetchFxRate = async () => {
+      try {
+        const response = await fetch("/api/fx?pair=USD/KRW", { cache: "no-store" });
+        if (!response.ok) return;
+        const data = (await response.json()) as { fx?: { rate?: number | null } };
+        const rate = typeof data.fx?.rate === "number" ? data.fx.rate : null;
+        if (rate && rate > 0) setFxRate(rate);
+      } catch {
+        // keep last known rate
+      }
+    };
+    void fetchFxRate();
+    const timer = window.setInterval(() => {
+      void fetchFxRate();
+    }, 30000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (!ready) return;
-    saveStocks(stocks);
-  }, [stocks, ready]);
+    saveState(HUB_REVEAL_KEY, revealed);
+  }, [ready, revealed]);
 
-  const visibleIndices = useMemo(() => indices.slice(0, 10), [indices]);
-  const indexSymbols = useMemo(() => visibleIndices.map((item) => item.symbol), [visibleIndices]);
-  const { bySymbol: indexQuotes } = useQuotes(indexSymbols);
-
-  const heldSymbolKeys = useMemo(() => {
-    const ids = new Set<string>();
-    holdings.forEach((holding) => {
-      if (holding.qty > 0) ids.add(normalizeSymbol(holding.symbolKey));
-    });
-    return ids;
-  }, [holdings]);
-  const heldWatchlist = useMemo(
-    () => stocks.filter((item) => item.watchlisted !== false && heldSymbolKeys.has(normalizeSymbol(item.symbol))),
+  const activeHoldings = useMemo(() => holdings.filter((holding) => holding.qty > 0), [holdings]);
+  const heldSymbolKeys = useMemo(
+    () => new Set(activeHoldings.map((holding) => normalizeSymbol(holding.symbolKey))),
+    [activeHoldings]
+  );
+  const heldStocks = useMemo(
+    () => stocks.filter((stock) => heldSymbolKeys.has(normalizeSymbol(stock.symbol))),
     [stocks, heldSymbolKeys]
   );
-  const allWatchlist = useMemo(
-    () => stocks.filter((item) => item.watchlisted !== false),
-    [stocks]
-  );
-  const getQuoteSymbol = (item: StockItem) => {
-    if (item.market === "KR" && !item.symbol.includes(".")) return `${item.symbol}.KS`;
-    return item.symbol;
-  };
-  const watchSymbols = useMemo(() => allWatchlist.map((item) => getQuoteSymbol(item)), [allWatchlist]);
-  const { bySymbol: watchQuotes } = useQuotes(watchSymbols);
-  const watchlistWithQuotes = useMemo(
-    () =>
-      allWatchlist.map((item) => ({
-        ...item,
-        quote: watchQuotes.get(getQuoteSymbol(item).toUpperCase()),
-        held: heldSymbolKeys.has(normalizeSymbol(item.symbol))
-      })),
-    [allWatchlist, heldSymbolKeys, watchQuotes]
-  );
-  const heldWithQuotes = useMemo(
-    () => watchlistWithQuotes.filter((item) => heldSymbolKeys.has(normalizeSymbol(item.symbol))),
-    [watchlistWithQuotes, heldSymbolKeys]
-  );
 
-  const topHeldMovers = useMemo(() => {
-    return [...heldWithQuotes]
-      .filter((item) => item.quote?.changePercent !== null && item.quote?.changePercent !== undefined)
-      .sort((a, b) => Math.abs(b.quote?.changePercent ?? 0) - Math.abs(a.quote?.changePercent ?? 0))
-      .slice(0, 5);
-  }, [heldWithQuotes]);
-  const topGainers = useMemo(() => {
-    return [...watchlistWithQuotes]
-      .filter((item) => item.quote?.changePercent !== null && item.quote?.changePercent !== undefined)
-      .sort((a, b) => (b.quote?.changePercent ?? -Infinity) - (a.quote?.changePercent ?? -Infinity))
-      .slice(0, 5);
-  }, [watchlistWithQuotes]);
-  const topLosers = useMemo(() => {
-    return [...watchlistWithQuotes]
-      .filter((item) => item.quote?.changePercent !== null && item.quote?.changePercent !== undefined)
-      .sort((a, b) => (a.quote?.changePercent ?? Infinity) - (b.quote?.changePercent ?? Infinity))
-      .slice(0, 5);
-  }, [watchlistWithQuotes]);
-
-  const marketList = useMemo(
-    () =>
-      [...watchlistWithQuotes]
-        .filter((item) => item.market === activeMarket)
-        .sort((a, b) => (a.mktCapRank ?? 9999) - (b.mktCapRank ?? 9999)),
-    [watchlistWithQuotes, activeMarket]
-  );
-  const detailQuote = useMemo(() => {
-    if (!detailStock) return undefined;
-    return watchQuotes.get(getQuoteSymbol(detailStock).toUpperCase());
-  }, [detailStock, watchQuotes]);
-
-  const resolveCurrency = (symbol: string, market: "KR" | "US", quoteCurrency?: string | null) => {
-    if (quoteCurrency) return quoteCurrency;
-    if (/^\d{6}$/.test(symbol) || symbol.endsWith(".KS") || symbol.endsWith(".KQ") || market === "KR") return "KRW";
-    return "USD";
+  const getQuoteSymbol = (stock: StockItem) => {
+    if (stock.market === "KR" && !stock.symbol.includes(".")) return `${stock.symbol}.KS`;
+    return stock.symbol;
   };
 
-  const formatPrice = (value: number | null | undefined, symbol: string, market: "KR" | "US", quoteCurrency?: string | null) => {
-    if (value === null || value === undefined) return "--";
-    const currency = resolveCurrency(symbol, market, quoteCurrency);
-    const isKRW = currency === "KRW";
-    const prefix = isKRW ? "₩" : "$";
-    const decimals = isKRW ? 0 : 2;
-    return `${prefix}${value.toLocaleString(undefined, {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
-    })}`;
-  };
+  const heldSymbols = useMemo(() => heldStocks.map((stock) => getQuoteSymbol(stock)), [heldStocks]);
+  const { bySymbol: heldQuotes } = useQuotes(heldSymbols);
+  const useFx = !!fxRate;
+
+  const investingSummary = useMemo(() => {
+    let krw = 0;
+    let usd = 0;
+    let costBasisKrw = 0;
+
+    activeHoldings.forEach((holding) => {
+      const stock = stocks.find((item) => normalizeSymbol(item.symbol) === normalizeSymbol(holding.symbolKey));
+      const quote = stock ? heldQuotes.get(getQuoteSymbol(stock).toUpperCase()) : undefined;
+      const price = quote?.price ?? stock?.last ?? 0;
+      const marketValue = price * holding.qty;
+      const costBasis = holding.avgPrice * holding.qty;
+      const isUsd = holding.currency === "USD";
+      const rate = useFx && isUsd ? fxRate : null;
+      const costBasisKrwValue = rate ? costBasis * rate : costBasis;
+
+      if (holding.currency === "KRW") krw += marketValue;
+      else usd += marketValue;
+      costBasisKrw += costBasisKrwValue;
+    });
+
+    const totalKrw = useFx && fxRate ? krw + usd * fxRate : null;
+    const displayTotalKrw = totalKrw ?? krw;
+    const pnlKrw = totalKrw !== null ? totalKrw - costBasisKrw : null;
+    const pnlPct = pnlKrw !== null && costBasisKrw > 0 ? (pnlKrw / costBasisKrw) * 100 : null;
+
+    return {
+      totalKrw: displayTotalKrw,
+      pnlKrw,
+      pnlPct
+    };
+  }, [activeHoldings, fxRate, heldQuotes, stocks, useFx]);
+
+  const sortedAssetSnapshots = useMemo(
+    () => [...assetSnapshots].sort((a, b) => a.month.localeCompare(b.month)),
+    [assetSnapshots]
+  );
+
+  const assetSummary = useMemo(() => {
+    const latest = sortedAssetSnapshots[sortedAssetSnapshots.length - 1];
+    const previous = sortedAssetSnapshots.length > 1 ? sortedAssetSnapshots[sortedAssetSnapshots.length - 2] : null;
+    if (!latest) return null;
+
+    const latestInvesting = latest.investing ?? investingSummary.totalKrw;
+    const latestTotal = latest.total ?? Math.round((latest.cash || 0) + (latest.other || 0) + latestInvesting - (latest.debt || 0));
+
+    const previousTotal = previous
+      ? (previous.total ??
+          Math.round((previous.cash || 0) + (previous.other || 0) + (previous.investing ?? latestInvesting) - (previous.debt || 0)))
+      : null;
+
+    const momDiff = previousTotal !== null ? latestTotal - previousTotal : 0;
+    const momPct = previousTotal && previousTotal !== 0 ? (momDiff / previousTotal) * 100 : 0;
+
+    return {
+      total: latestTotal,
+      momDiff,
+      momPct,
+      updatedAt: latest.updatedAt,
+      month: latest.month
+    };
+  }, [investingSummary.totalKrw, sortedAssetSnapshots]);
+
+  const expenseSummary = useMemo(() => {
+    const monthKey = new Date().toISOString().slice(0, 7);
+    const monthEntries = expenseEntries.filter((entry) => entry.date.startsWith(monthKey));
+    const total = monthEntries.reduce((sum, entry) => sum + entry.amount, 0);
+    const byCategory = new Map<string, number>();
+    monthEntries.forEach((entry) => {
+      byCategory.set(entry.category, (byCategory.get(entry.category) ?? 0) + entry.amount);
+    });
+    const topCategory = [...byCategory.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "-";
+    return { total, topCategory, monthKey };
+  }, [expenseEntries]);
+
+  const sensitiveClass = revealed ? "" : "blur-sm select-none";
 
   return (
     <AppShell showTitle={false}>
       <div className="mx-auto w-full max-w-[1200px] pb-20 pt-10">
-        <div className="mb-8">
-          <h1 className="text-3xl">Finance</h1>
-          <div className="text-sm text-[var(--ink-1)]">Snapshot dashboard for indices, watchlist, and portfolio.</div>
+        <div className="mb-8 flex items-start justify-between gap-3">
+          <div>
+            <h1 className="text-3xl">Finance</h1>
+            <div className="text-sm text-[var(--ink-1)]">Personal money hub: asset, expense, and investing.</div>
+          </div>
+          <button
+            className={`rounded-full border px-3 py-1 text-xs ${revealed ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+            onClick={() => setRevealed((prev) => !prev)}
+          >
+            {revealed ? "Hide" : "Reveal"}
+          </button>
         </div>
 
-        <div className="grid gap-6">
-          <section className="lifnux-glass rounded-2xl p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Indices</div>
-                <div className="text-sm text-[var(--ink-1)]">Global benchmarks overview.</div>
-              </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          <Link href="/finance/asset" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">
+            <Wallet className="pointer-events-none absolute right-4 top-1/2 h-11 w-11 -translate-y-1/2 text-white/20" />
+            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Asset</div>
+            <div className={`mt-3 text-2xl font-semibold tabular-nums ${sensitiveClass}`}>
+              {assetSummary ? formatKrw(assetSummary.total) : "-"}
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
-              {visibleIndices.map((item) => {
-                const quote = indexQuotes.get(item.symbol.toUpperCase());
-                const price = quote?.price ?? null;
-                const changePct = quote?.changePercent ?? null;
-                const changeAbs = quote?.change ?? null;
-                return (
-                <div key={item.id} className="rounded-xl border border-white/10 bg-black/20 px-3 py-3">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">{item.symbol}</div>
-                  <div className="text-sm">{item.name}</div>
-                  <div className="mt-2 text-lg">{price !== null ? price.toLocaleString() : "--"}</div>
-                  <div className={`text-xs ${changePct !== null && changePct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
-                    {changePct === null ? "--" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(2)}%`}
-                    {" · "}
-                    {changeAbs === null ? "--" : `${changeAbs >= 0 ? "+" : ""}${changeAbs.toFixed(2)}`}
-                  </div>
-                </div>
-              );
-              })}
-              {visibleIndices.length === 0 ? (
-                <div className="col-span-full text-sm text-[var(--ink-1)]">No indices selected.</div>
-              ) : null}
+            <div className={`mt-2 text-sm tabular-nums ${sensitiveClass} ${(assetSummary?.momDiff ?? 0) >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
+              {assetSummary
+                ? `${assetSummary.momDiff >= 0 ? "+" : "-"}${formatKrw(Math.abs(assetSummary.momDiff))} (${formatPct(assetSummary.momPct)})`
+                : "MoM -"}
             </div>
-          </section>
-
-          <section className="lifnux-glass rounded-2xl p-6">
-            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Watchlist Movers</div>
-            <div className="mt-4 grid gap-4">
-              <MoverRow title="Held Movers" items={topHeldMovers} formatPrice={formatPrice} />
-              <MoverRow title="Top Gainers" items={topGainers} formatPrice={formatPrice} />
-              <MoverRow title="Top Losers" items={topLosers} formatPrice={formatPrice} />
+            <div className="mt-2 text-xs text-[var(--ink-1)]">
+              {assetSummary ? `${assetSummary.month} / ${new Date(assetSummary.updatedAt).toLocaleDateString()}` : "No monthly update yet"}
             </div>
-          </section>
+          </Link>
 
-          <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-            <section
-              className="lifnux-glass rounded-2xl p-6"
-              onClick={() => router.push("/finance/watchlist")}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Watchlist</div>
-                  <div className="text-sm text-[var(--ink-1)]">Manage tracked stocks by market.</div>
-                </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <button
-                    className={`rounded-full border px-3 py-1 ${activeMarket === "KR" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setActiveMarket("KR");
-                    }}
-                  >
-                    KR
-                  </button>
-                  <button
-                    className={`rounded-full border px-3 py-1 ${activeMarket === "US" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setActiveMarket("US");
-                    }}
-                  >
-                    US
-                  </button>
-                </div>
-              </div>
-              <div className="mt-4 max-h-[280px] space-y-2 overflow-y-auto pr-2 lifnux-scroll">
-                {marketList.map((item) => (
-                  <button
-                    key={item.id}
-                    className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-left text-sm"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setDetailStock(item);
-                    }}
-                  >
-                    <div>
-                      <div className="font-medium">
-                        {item.label ?? item.symbol} <span className="text-[var(--ink-1)]">({item.symbol})</span>
-                      </div>
-                      <div
-                        className={`text-xs ${
-                          item.quote?.changePercent !== null && item.quote?.changePercent !== undefined && item.quote?.changePercent >= 0
-                            ? "text-emerald-300"
-                            : "text-rose-300"
-                        }`}
-                      >
-                        {item.quote?.changePercent === null || item.quote?.changePercent === undefined
-                          ? "--"
-                          : `${item.quote.changePercent >= 0 ? "+" : ""}${item.quote.changePercent.toFixed(2)}%`}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        className={`text-xs ${item.watchlisted === false ? "text-[var(--ink-1)]" : "text-[var(--accent-1)]"}`}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          setStocks((prev) =>
-                            prev.map((entry) =>
-                              entry.id === item.id ? { ...entry, watchlisted: entry.watchlisted === false } : entry
-                            )
-                          );
-                        }}
-                        aria-label="Toggle watchlist"
-                      >
-                        ??                      </button>
-                      {heldSymbolKeys.has(normalizeSymbol(item.symbol)) ? (
-                        <span className="rounded-full border border-white/10 px-2 py-[2px] text-[10px] text-[var(--accent-1)]">
-                          HELD
-                        </span>
-                      ) : null}
-                    </div>
-                  </button>
-                ))}
-                {marketList.length === 0 ? <div className="text-sm text-[var(--ink-1)]">No stocks.</div> : null}
-              </div>
-            </section>
+          <Link href="/finance/expense" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">
+            <ReceiptText className="pointer-events-none absolute right-4 top-1/2 h-11 w-11 -translate-y-1/2 text-white/20" />
+            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Expense</div>
+            <div className="mt-3 text-2xl font-semibold tabular-nums">{formatKrw(expenseSummary.total)}</div>
+            <div className="mt-2 text-sm text-white/85">Top category: {expenseSummary.topCategory}</div>
+            <div className="mt-2 text-xs text-[var(--ink-1)]">{expenseSummary.monthKey} month</div>
+          </Link>
 
-            <section className="lifnux-glass rounded-2xl p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Portfolio</div>
-                  <div className="text-sm text-[var(--ink-1)]">Manage holdings across brokers.</div>
-                </div>
-                <Link className="text-xs text-[var(--ink-1)]" href="/finance/portfolio">
-                  Open Portfolio
-                </Link>
+          <Link href="/investing" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">
+            <TrendingUp className="pointer-events-none absolute right-4 top-1/2 h-11 w-11 -translate-y-1/2 text-white/20" />
+            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Investing</div>
+            <div className={`mt-3 text-2xl font-semibold tabular-nums ${sensitiveClass}`}>{formatKrw(investingSummary.totalKrw)}</div>
+            {investingSummary.pnlKrw !== null ? (
+              <div
+                className={`mt-2 text-sm tabular-nums ${sensitiveClass} ${investingSummary.pnlKrw >= 0 ? "text-emerald-300" : "text-rose-300"}`}
+              >
+                {`${investingSummary.pnlKrw >= 0 ? "+" : "-"}${formatKrw(Math.abs(investingSummary.pnlKrw))} (${formatPct(investingSummary.pnlPct ?? 0)})`}
               </div>
-              <div className="mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-black/20 px-4 py-4 text-sm">
-                <div>Go to Portfolio Management</div>
-                <div className="flex items-center gap-2 text-[var(--ink-1)]">
-                  <span>Manage</span>
-                  <Pencil className="h-4 w-4" />
-                </div>
-              </div>
-            </section>
-          </div>
+            ) : (
+              <div className={`mt-2 text-sm tabular-nums ${sensitiveClass} text-[var(--ink-1)]`}>FX not ready</div>
+            )}
+            <div className="mt-2 text-xs text-[var(--ink-1)]">Open investing dashboard</div>
+          </Link>
         </div>
       </div>
-
-      <Modal
-        open={!!detailStock}
-        title="Stock Detail"
-        onClose={() => setDetailStock(null)}
-        actions={
-          <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setDetailStock(null)}>
-            Close
-          </button>
-        }
-      >
-        {detailStock ? (
-          <div className="space-y-2 text-sm">
-            <div className="text-lg">{detailStock.label ?? detailStock.symbol}</div>
-            <div className="text-[var(--ink-1)]">{detailStock.symbol}</div>
-            <div className="text-[var(--ink-1)]">
-              Last:{" "}
-              {formatPrice(detailQuote?.price, detailStock.symbol, detailStock.market, detailQuote?.currency)}
-            </div>
-            <div
-              className={`text-xs ${
-                detailQuote?.changePercent !== null && detailQuote?.changePercent !== undefined && detailQuote?.changePercent >= 0
-                  ? "text-emerald-300"
-                  : "text-rose-300"
-              }`}
-            >
-              {detailQuote?.changePercent === null || detailQuote?.changePercent === undefined
-                ? "--"
-                : `${detailQuote.changePercent >= 0 ? "+" : ""}${detailQuote.changePercent.toFixed(2)}%`}
-            </div>
-            <div className="text-xs text-[var(--ink-1)]">{detailStock.notes || "Beta info only."}</div>
-          </div>
-        ) : null}
-      </Modal>
     </AppShell>
   );
 }
 
-type WatchlistMover = StockItem & {
-  quote?: {
-    price: number | null;
-    changePercent: number | null;
-    currency?: string | null;
-  };
-  held?: boolean;
-};
-
-function MoverRow({
-  title,
-  items,
-  formatPrice
-}: {
-  title: string;
-  items: WatchlistMover[];
-  formatPrice: (value: number | null | undefined, symbol: string, market: "KR" | "US", quoteCurrency?: string | null) => string;
-}) {
-  return (
-    <div>
-      <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{title}</div>
-      <div className="mt-2 grid grid-cols-2 gap-2 md:grid-cols-5">
-        {items.map((item) => (
-          <div key={item.id} className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">{item.symbol}</div>
-            <div className="font-medium">{item.label ?? item.symbol}</div>
-            <div className="mt-1 text-xs">
-              {formatPrice(item.quote?.price, item.symbol, item.market, item.quote?.currency)}
-            </div>
-            <div
-              className={`text-xs ${
-                item.quote?.changePercent !== null && item.quote?.changePercent !== undefined && item.quote?.changePercent >= 0
-                  ? "text-emerald-300"
-                  : "text-rose-300"
-              }`}
-            >
-              {item.quote?.changePercent === null || item.quote?.changePercent === undefined
-                ? "--"
-                : `${item.quote.changePercent >= 0 ? "+" : ""}${item.quote.changePercent.toFixed(2)}%`}
-              {item.held ? <span className="ml-2 rounded-full border border-white/10 px-2 py-[1px] text-[9px]">HELD</span> : null}
-            </div>
-          </div>
-        ))}
-        {items.length === 0 ? <div className="col-span-full text-sm text-[var(--ink-1)]">No data.</div> : null}
-      </div>
-    </div>
-  );
-}

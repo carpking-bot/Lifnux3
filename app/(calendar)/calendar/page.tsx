@@ -169,10 +169,17 @@ export default function CalendarPage() {
   }, [shoppingModalOpen, editingShopping]);
 
   const upcomingEvents = useMemo(() => {
+    const today = new Date();
+    const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const end = new Date(start);
+    end.setDate(end.getDate() + 30);
     return events
       .filter((event) => ["HIGH", "CRITICAL"].includes(event.importance))
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .slice(0, 5);
+      .map((event) => ({ event, date: parseDateKey(event.date) }))
+      .filter(({ date }) => date >= start && date <= end)
+      .sort((a, b) => a.date.getTime() - b.date.getTime())
+      .slice(0, 5)
+      .map(({ event }) => event);
   }, [events]);
 
   const sortedShopping = useMemo(() => {

@@ -233,6 +233,47 @@ export function loadFinanceState() {
       symbolKey: normalizeSymbol(symbol)
     };
   });
+  const stocksBySymbol = new Map(stocks.map((item) => [normalizeSymbol(item.symbol), item]));
+  let stocksChanged = false;
+  const nextStocks = [...stocks];
+  holdings.forEach((holding) => {
+    const symbolKey = normalizeSymbol(holding.symbolKey);
+    if (!symbolKey) return;
+    const existing = stocksBySymbol.get(symbolKey);
+    if (existing) {
+      if (existing.watchlisted === false) {
+        const idx = nextStocks.findIndex((entry) => entry.id === existing.id);
+        if (idx >= 0) {
+          nextStocks[idx] = { ...existing, watchlisted: true };
+          stocksBySymbol.set(symbolKey, nextStocks[idx]);
+          stocksChanged = true;
+        }
+      }
+      return;
+    }
+    const market: "KR" | "US" = /^\d{6}$/.test(symbolKey) ? "KR" : "US";
+    const label = symbolKey.includes(":") ? symbolKey.split(":")[1] : symbolKey;
+    const quote = mockQuote(symbolKey, market);
+    const created: StockItem = {
+      id: `auto-${market}-${symbolKey}`.toLowerCase(),
+      symbol: symbolKey,
+      market,
+      label,
+      name: label,
+      watchlisted: true,
+      mktCapRank: 9999,
+      last: quote.last,
+      changePct: quote.changePct,
+      changeAbs: quote.changeAbs
+    };
+    nextStocks.push(created);
+    stocksBySymbol.set(symbolKey, created);
+    stocksChanged = true;
+  });
+  if (stocksChanged) {
+    stocks = nextStocks;
+    saveState(STOCKS_KEY, stocks);
+  }
   console.log("[PORTFOLIO LOAD] count=", holdings.length);
   const settings = loadState<FinanceSettings>(SETTINGS_KEY, seedSettings());
   const trades = loadState<Trade[]>(TRADES_KEY, seedTrades());

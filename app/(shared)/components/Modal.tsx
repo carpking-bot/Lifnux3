@@ -12,9 +12,25 @@ type ModalProps = {
   actions?: ReactNode;
   closeOnBackdrop?: boolean;
   closeOnEsc?: boolean;
+  panelClassName?: string;
+  titleClassName?: string;
+  contentClassName?: string;
+  closeButtonClassName?: string;
 };
 
-export function Modal({ open, title, onClose, children, actions, closeOnBackdrop, closeOnEsc }: ModalProps) {
+export function Modal({
+  open,
+  title,
+  onClose,
+  children,
+  actions,
+  closeOnBackdrop,
+  closeOnEsc,
+  panelClassName,
+  titleClassName,
+  contentClassName,
+  closeButtonClassName
+}: ModalProps) {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -78,18 +94,22 @@ export function Modal({ open, title, onClose, children, actions, closeOnBackdrop
         >
           <motion.div
             ref={containerRef}
-            className="w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-2xl lifnux-glass p-6"
+            className={`w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-2xl lifnux-glass p-6 ${panelClassName ?? ""}`}
             initial={{ y: 20, scale: 0.96, opacity: 0 }}
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: 10, scale: 0.98, opacity: 0 }}
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-xl">{title}</h2>
-              <button className="text-sm text-[var(--ink-1)]" onClick={onClose} aria-label="Close">
+              <h2 className={`text-xl ${titleClassName ?? ""}`}>{title}</h2>
+              <button
+                className={`text-sm text-[var(--ink-1)] ${closeButtonClassName ?? ""}`}
+                onClick={onClose}
+                aria-label="Close"
+              >
                 X
               </button>
             </div>
-            <div className="mt-4 space-y-4 text-sm text-[var(--ink-1)]">{children}</div>
+            <div className={`mt-4 space-y-4 text-sm text-[var(--ink-1)] ${contentClassName ?? ""}`}>{children}</div>
             {actions ? <div className="mt-6 flex justify-end gap-3">{actions}</div> : null}
           </motion.div>
         </motion.div>

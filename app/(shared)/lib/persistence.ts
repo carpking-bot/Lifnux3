@@ -14,10 +14,11 @@ const BACKUP_KEY = "lifnux:backup";
 const BACKUP_ENABLED_KEY = "lifnux:backup.enabled";
 
 function isLifnuxKey(key: string) {
-  return key.startsWith("lifnux");
+  return key.startsWith("lifnux") || key === "portfolio.positions";
 }
 
 function getCategory(key: string) {
+  if (key === "portfolio.positions") return "finance";
   const normalized = key.startsWith("lifnux:") ? key.slice(7) : key.startsWith("lifnux.") ? key.slice(7) : key.slice(6);
   const match = normalized.match(/^([^.:\s]+)/);
   return match?.[1] || "misc";
