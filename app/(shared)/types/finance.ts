@@ -34,6 +34,7 @@ export type BrokerAccount = {
   id: string;
   brokerName: string;
   countryType: "KR" | "US";
+  currency: "KRW" | "USD";
   memo?: string;
 };
 
@@ -62,4 +63,33 @@ export type Trade = {
   price: number;
   qty: number;
   executedAt: number;
+  fee?: number;
+  memo?: string;
+  realizedPnl?: number | null;
+  realizedPnlPercent?: number | null;
+};
+
+export type CashBalance = {
+  accountId: string;
+  currency: "KRW" | "USD";
+  balance: number;
+};
+
+export type LedgerRecord = {
+  id: string;
+  ts: number;
+  accountId: string;
+  type: "TRADE" | "CASHFLOW";
+  currency: "KRW" | "USD";
+  direction?: "DEPOSIT" | "WITHDRAW";
+  amount?: number;
+  memo?: string;
+  symbol?: string;
+  side?: "BUY" | "SELL";
+  qty?: number;
+  price?: number;
+  fee?: number;
+  realizedPnl?: number | null;
+  realizedPnlPercent?: number | null;
+  costBasis?: number | null;
 };

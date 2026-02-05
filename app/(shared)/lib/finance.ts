@@ -1,7 +1,7 @@
 "use client";
 
 import { loadState, saveState } from "./storage";
-import type { BrokerAccount, FinanceSettings, Holding, IndexItem, StockItem, StockList, Trade } from "../types/finance";
+import type { BrokerAccount, CashBalance, FinanceSettings, Holding, IndexItem, LedgerRecord, StockItem, StockList, Trade } from "../types/finance";
 
 const INDICES_KEY = "lifnux.finance.indices.v100";
 const STOCKS_KEY = "lifnux.finance.stocks.v200";
@@ -12,6 +12,8 @@ const HOLDINGS_KEY = "lifnux.finance.holdings.v100";
 export const PORTFOLIO_POSITIONS_KEY = "portfolio.positions";
 const SETTINGS_KEY = "lifnux.finance.settings.v100";
 const TRADES_KEY = "lifnux.finance.trades.v100";
+const CASH_BALANCES_KEY = "investing_cash_balances";
+const LEDGER_RECORDS_KEY = "investing_ledger_records";
 
 function now() {
   return Date.now();
@@ -139,8 +141,8 @@ export function createIndexItem(name: string, symbol: string, region: string): I
 
 export function seedAccounts(): BrokerAccount[] {
   return [
-    { id: "acc-kr-1", brokerName: "NH Invest", countryType: "KR", memo: "Main KR account" },
-    { id: "acc-us-1", brokerName: "Robinhood", countryType: "US", memo: "US growth" }
+    { id: "acc-kr-1", brokerName: "NH Invest", countryType: "KR", currency: "KRW", memo: "Main KR account" },
+    { id: "acc-us-1", brokerName: "Robinhood", countryType: "US", currency: "USD", memo: "US growth" }
   ];
 }
 
@@ -317,4 +319,20 @@ export function saveFinanceSettings(settings: FinanceSettings) {
 
 export function saveTrades(items: Trade[]) {
   saveState(TRADES_KEY, items);
+}
+
+export function loadCashBalances(): CashBalance[] {
+  return loadState<CashBalance[]>(CASH_BALANCES_KEY, []);
+}
+
+export function saveCashBalances(items: CashBalance[]) {
+  saveState(CASH_BALANCES_KEY, items);
+}
+
+export function loadLedgerRecords(): LedgerRecord[] {
+  return loadState<LedgerRecord[]>(LEDGER_RECORDS_KEY, []);
+}
+
+export function saveLedgerRecords(items: LedgerRecord[]) {
+  saveState(LEDGER_RECORDS_KEY, items);
 }

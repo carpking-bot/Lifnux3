@@ -5,8 +5,19 @@ import { AppShell } from "../../../(shared)/components/AppShell";
 import { Modal } from "../../../(shared)/components/Modal";
 import { ConfirmModal } from "../../../(shared)/components/ConfirmModal";
 import { Select } from "../../../(shared)/components/Select";
-import type { BrokerAccount, Holding, StockItem, Trade } from "../../../(shared)/types/finance";
-import { loadFinanceState, normalizeSymbol, saveAccounts, saveFinanceSettings, saveHoldings, saveTrades } from "../../../(shared)/lib/finance";
+import type { BrokerAccount, CashBalance, Holding, LedgerRecord, StockItem, Trade } from "../../../(shared)/types/finance";
+import {
+  loadCashBalances,
+  loadFinanceState,
+  loadLedgerRecords,
+  normalizeSymbol,
+  saveAccounts,
+  saveCashBalances,
+  saveFinanceSettings,
+  saveHoldings,
+  saveLedgerRecords,
+  saveTrades
+} from "../../../(shared)/lib/finance";
 import { loadState, saveState } from "../../../(shared)/lib/storage";
 import { useQuotes } from "../../../../src/lib/quotes/useQuotes";
 import { Pencil } from "lucide-react";
@@ -44,7 +55,11 @@ export default function PortfolioPage() {
   const [settings, setSettings] = useState({ blurSensitiveNumbers: true });
   const [accountsOpen, setAccountsOpen] = useState(false);
   const [trades, setTrades] = useState<Trade[]>([]);
+  const [cashBalances, setCashBalances] = useState<CashBalance[]>([]);
+  const [ledgerRecords, setLedgerRecords] = useState<LedgerRecord[]>([]);
   const [tradeOpen, setTradeOpen] = useState(false);
+  const [cashOpen, setCashOpen] = useState(false);
+  const [ledgerOpen, setLedgerOpen] = useState(false);
   const [ready, setReady] = useState(false);
   const [fxRate, setFxRate] = useState<number | null>(null);
   const [fxUpdatedAt, setFxUpdatedAt] = useState<number | null>(null);
@@ -57,6 +72,10 @@ export default function PortfolioPage() {
   const [history, setHistory] = useState<PortfolioHistoryPoint[]>([]);
   const [newCountryLabel, setNewCountryLabel] = useState("");
   const [newSectorLabel, setNewSectorLabel] = useState("");
+  const [labelEdits, setLabelEdits] = useState<{ country: Record<string, string>; sector: Record<string, string> }>({
+    country: {},
+    sector: {}
+  });
   const [drafts, setDrafts] = useState<
     Record<
       string,
@@ -75,18 +94,40 @@ export default function PortfolioPage() {
     stockId: "",
     side: "BUY" as "BUY" | "SELL",
     price: "",
-    qty: ""
+    qty: "",
+    fee: "",
+    memo: ""
+  });
+  const [cashForm, setCashForm] = useState({
+    accountId: "",
+    direction: "DEPOSIT" as "DEPOSIT" | "WITHDRAW",
+    amount: "",
+    memo: ""
   });
   const [sortKey, setSortKey] = useState<"weight" | "pnl" | "value" | "cost" | "account" | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const [realizedRange, setRealizedRange] = useState<"MTD" | "YTD" | "ALL">("MTD");
+  const [ledgerFilters, setLedgerFilters] = useState({
+    accountId: "ALL",
+    type: "ALL" as "ALL" | "TRADE" | "CASHFLOW",
+    side: "ALL" as "ALL" | "BUY" | "SELL",
+    startDate: "",
+    endDate: ""
+  });
 
   useEffect(() => {
     const data = loadFinanceState();
-    setAccounts(data.accounts);
+    const normalizedAccounts = data.accounts.map((account) => ({
+      ...account,
+      currency: account.currency ?? (account.countryType === "US" ? "USD" : "KRW")
+    }));
+    setAccounts(normalizedAccounts);
     setHoldings(data.holdings);
     setStocks(data.stocks);
     setSettings(data.settings);
     setTrades(data.trades);
+    const loadedCash = loadCashBalances();
+    const loadedLedger = loadLedgerRecords();
     const persistedOptions = loadState<PortfolioLabelOptions>(PORTFOLIO_LABEL_OPTIONS_KEY, {
       countries: ["KR", "US"],
       sectors: []
@@ -103,6 +144,18 @@ export default function PortfolioPage() {
     });
     const loadedHistory = loadState<PortfolioHistoryPoint[]>(PORTFOLIO_HISTORY_KEY, []);
     setHistory(isLikelySeededTwoYearHistory(loadedHistory) ? [] : loadedHistory);
+    setCashBalances((prev) => {
+      if (prev.length) return prev;
+      const normalized = normalizedAccounts.length
+        ? normalizedAccounts.map((account) => ({
+            accountId: account.id,
+            currency: account.currency ?? (account.countryType === "US" ? "USD" : "KRW"),
+            balance: 0
+          }))
+        : [];
+      return loadedCash.length ? loadedCash : normalized;
+    });
+    setLedgerRecords(loadedLedger);
     setReady(true);
   }, []);
 
@@ -135,6 +188,21 @@ export default function PortfolioPage() {
     if (accounts.length) saveAccounts(accounts);
   }, [accounts]);
   useEffect(() => {
+    if (!accounts.length) return;
+    setCashBalances((prev) => {
+      const next = normalizeCashBalances(prev);
+      const unchanged =
+        prev.length === next.length &&
+        prev.every(
+          (entry, index) =>
+            entry.accountId === next[index]?.accountId &&
+            entry.currency === next[index]?.currency &&
+            entry.balance === next[index]?.balance
+        );
+      return unchanged ? prev : next;
+    });
+  }, [accounts]);
+  useEffect(() => {
     if (!ready) return;
     saveHoldings(holdings);
   }, [holdings, ready]);
@@ -146,12 +214,21 @@ export default function PortfolioPage() {
   }, [trades]);
   useEffect(() => {
     if (!ready) return;
+    saveCashBalances(cashBalances);
+  }, [cashBalances, ready]);
+  useEffect(() => {
+    if (!ready) return;
+    saveLedgerRecords(ledgerRecords);
+  }, [ledgerRecords, ready]);
+  useEffect(() => {
+    if (!ready) return;
     saveState(PORTFOLIO_LABEL_OPTIONS_KEY, labelOptions);
   }, [labelOptions, ready]);
   useEffect(() => {
     if (!ready) return;
     saveState(PORTFOLIO_HISTORY_KEY, history);
   }, [history, ready]);
+
 
   const activeHoldings = useMemo(() => holdings.filter((holding) => holding.qty > 0), [holdings]);
   const heldSymbolKeys = useMemo(
@@ -179,9 +256,9 @@ export default function PortfolioPage() {
       const pnlValue = marketValue - costBasis;
       const isUsd = holding.currency === "USD";
       const rate = useFx && isUsd ? fxRate : null;
-      const marketValueKrw = rate ? marketValue * rate : marketValue;
-      const costBasisKrw = rate ? costBasis * rate : costBasis;
-      const pnlKrw = rate ? pnlValue * rate : pnlValue;
+      const marketValueKrw = isUsd ? (rate ? marketValue * rate : null) : marketValue;
+      const costBasisKrw = isUsd ? (rate ? costBasis * rate : null) : costBasis;
+      const pnlKrw = isUsd ? (rate ? pnlValue * rate : null) : pnlValue;
       return {
         holding,
         stock,
@@ -199,27 +276,140 @@ export default function PortfolioPage() {
     });
   }, [activeHoldings, fxRate, heldQuotes, heldStocks, stocks, useFx]);
 
-  const totalMarketValue = useMemo(() => {
-    return derivedHoldings.reduce((sum, entry) => sum + entry.marketValueKrw, 0);
-  }, [derivedHoldings]);
+  const activeCashBalances = useMemo(() => {
+    const accountIds = new Set(accounts.map((account) => account.id));
+    return cashBalances.filter((entry) => accountIds.has(entry.accountId));
+  }, [accounts, cashBalances]);
+
+  const cashByAccount = useMemo(() => {
+    return new Map(activeCashBalances.map((entry) => [entry.accountId, entry]));
+  }, [activeCashBalances]);
+
+  const cashRows = useMemo(() => {
+    return accounts.map((account) => {
+      const currency = account.currency ?? (account.countryType === "US" ? "USD" : "KRW");
+      const balance = cashByAccount.get(account.id)?.balance ?? 0;
+      const balanceKrw = currency === "USD" ? (useFx && fxRate ? balance * fxRate : null) : balance;
+      return {
+        kind: "cash" as const,
+        account,
+        currency,
+        balance,
+        balanceKrw,
+        valueKrw: balanceKrw ?? 0
+      };
+    });
+  }, [accounts, cashByAccount, fxRate, useFx]);
 
   const totals = useMemo(() => {
-    let krw = 0;
-    let usd = 0;
-    let costBasisKrw = 0;
+    let holdingsKrw = 0;
+    let holdingsUsd = 0;
+    let cashKrw = 0;
+    let cashUsd = 0;
+    let costBasisKrwPartial = 0;
+    let holdingsMarketValueKrwPartial = 0;
+    let hasUsdHoldings = false;
     derivedHoldings.forEach((entry) => {
       if (entry.holding.currency === "KRW") {
-        krw += entry.marketValue;
+        holdingsKrw += entry.marketValue;
+        holdingsMarketValueKrwPartial += entry.marketValue;
+        costBasisKrwPartial += entry.costBasis;
       } else {
-        usd += entry.marketValue;
+        holdingsUsd += entry.marketValue;
+        hasUsdHoldings = true;
+        if (entry.marketValueKrw !== null) holdingsMarketValueKrwPartial += entry.marketValueKrw;
+        if (entry.costBasisKrw !== null) costBasisKrwPartial += entry.costBasisKrw;
       }
-      costBasisKrw += entry.costBasisKrw;
     });
-    const totalKrw = useFx && fxRate ? krw + usd * fxRate : null;
-    const pnlKrw = totalKrw !== null ? totalKrw - costBasisKrw : null;
-    const pnlPct = pnlKrw !== null && costBasisKrw > 0 ? (pnlKrw / costBasisKrw) * 100 : null;
-    return { krw, usd, totalKrw, costBasisKrw, pnlKrw, pnlPct };
-  }, [derivedHoldings, fxRate, useFx]);
+    cashRows.forEach((entry) => {
+      if (entry.currency === "KRW") {
+        cashKrw += entry.balance;
+      } else {
+        cashUsd += entry.balance;
+      }
+    });
+    const hasUsdCash = cashUsd > 0;
+    const totalKrw =
+      hasUsdHoldings || hasUsdCash
+        ? useFx && fxRate
+          ? holdingsKrw + holdingsUsd * fxRate + cashKrw + cashUsd * fxRate
+          : null
+        : holdingsKrw + cashKrw;
+    const holdingsMarketValueKrw = hasUsdHoldings && !(useFx && fxRate) ? null : holdingsMarketValueKrwPartial;
+    const costBasisKrw = hasUsdHoldings && !(useFx && fxRate) ? null : costBasisKrwPartial;
+    const unrealizedPnlKrw =
+      holdingsMarketValueKrw !== null && costBasisKrw !== null ? holdingsMarketValueKrw - costBasisKrw : null;
+    const unrealizedPnlPct =
+      unrealizedPnlKrw !== null && costBasisKrw !== null && costBasisKrw > 0 ? (unrealizedPnlKrw / costBasisKrw) * 100 : null;
+    return {
+      holdingsKrw,
+      holdingsUsd,
+      cashKrw,
+      cashUsd,
+      totalKrw,
+      holdingsMarketValueKrw,
+      costBasisKrw,
+      unrealizedPnlKrw,
+      unrealizedPnlPct
+    };
+  }, [cashRows, derivedHoldings, fxRate, useFx]);
+
+  const realizedSummary = useMemo(() => {
+    const now = new Date();
+    let startTs: number | null = null;
+    if (realizedRange === "MTD") {
+      startTs = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    } else if (realizedRange === "YTD") {
+      startTs = new Date(now.getFullYear(), 0, 1).getTime();
+    }
+    const records = ledgerRecords.filter((record) => {
+      if (record.type !== "TRADE" || record.side !== "SELL") return false;
+      if (typeof record.realizedPnl !== "number") return false;
+      if (startTs && record.ts < startTs) return false;
+      return true;
+    });
+    let realizedKrw = 0;
+    let realizedUsd = 0;
+    let costKrw = 0;
+    let costUsd = 0;
+    records.forEach((record) => {
+      const pnl = record.realizedPnl ?? 0;
+      const costBasis =
+        typeof record.costBasis === "number"
+          ? record.costBasis
+          : typeof record.realizedPnlPercent === "number" && record.realizedPnlPercent !== 0
+            ? pnl / (record.realizedPnlPercent / 100)
+            : null;
+      if (record.currency === "KRW") {
+        realizedKrw += pnl;
+        if (costBasis !== null) costKrw += costBasis;
+      } else {
+        realizedUsd += pnl;
+        if (costBasis !== null) costUsd += costBasis;
+      }
+    });
+    const hasUsd = realizedUsd !== 0 || costUsd !== 0;
+    const realizedTotalKrw =
+      hasUsd && !(useFx && fxRate) ? null : realizedKrw + (useFx && fxRate ? realizedUsd * fxRate : 0);
+    const costTotalKrw = hasUsd && !(useFx && fxRate) ? null : costKrw + (useFx && fxRate ? costUsd * fxRate : 0);
+    const realizedPct =
+      realizedTotalKrw !== null && costTotalKrw !== null && costTotalKrw > 0 ? (realizedTotalKrw / costTotalKrw) * 100 : null;
+    return { records, realizedTotalKrw, realizedPct };
+  }, [fxRate, ledgerRecords, realizedRange, useFx]);
+
+  const filteredLedgerRecords = useMemo(() => {
+    return [...ledgerRecords]
+      .filter((record) => {
+        if (ledgerFilters.accountId !== "ALL" && record.accountId !== ledgerFilters.accountId) return false;
+        if (ledgerFilters.type !== "ALL" && record.type !== ledgerFilters.type) return false;
+        if (ledgerFilters.type === "TRADE" && ledgerFilters.side !== "ALL" && record.side !== ledgerFilters.side) return false;
+        const recordDate = new Date(record.ts).toISOString().slice(0, 10);
+        if (ledgerFilters.startDate && recordDate < ledgerFilters.startDate) return false;
+        if (ledgerFilters.endDate && recordDate > ledgerFilters.endDate) return false;
+        return true;
+      })
+      .sort((a, b) => b.ts - a.ts);
+  }, [ledgerFilters, ledgerRecords]);
 
   useEffect(() => {
     if (!ready || totals.totalKrw === null || totals.totalKrw <= 0) return;
@@ -250,24 +440,129 @@ export default function PortfolioPage() {
     return `${symbol}${formatNumber(value, decimals)}`;
   };
 
+  const formatInputNumber = (value: string, decimals: number) => {
+    const cleaned = value.replace(/[^0-9.]/g, "");
+    if (!cleaned) return "";
+    const parts = cleaned.split(".");
+    const intPart = parts[0] ?? "";
+    const fracRaw = parts[1] ?? "";
+    const frac = decimals > 0 ? fracRaw.slice(0, decimals) : "";
+    const intFormatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (decimals === 0) return intFormatted;
+    if (parts.length === 1) return intFormatted;
+    return `${intFormatted}.${frac}`;
+  };
+
+  const formatDateTime = (ts: number) => {
+    return new Date(ts).toLocaleString(undefined, {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  };
+
   const parseNumber = (value: string) => {
     const cleaned = value.replace(/[^0-9.-]/g, "");
     const parsed = Number(cleaned);
     return Number.isFinite(parsed) ? parsed : 0;
   };
 
+  const formatAccountName = (account: BrokerAccount | undefined) => {
+    if (!account) return "-";
+    const currency = account.currency ?? (account.countryType === "US" ? "USD" : "KRW");
+    return `${account.brokerName} (${currency})`;
+  };
+
+  const resolveAccountCurrency = (accountId: string) => {
+    const account = accounts.find((entry) => entry.id === accountId);
+    return account?.currency ?? (account?.countryType === "US" ? "USD" : "KRW");
+  };
+
+  const normalizeCashBalances = (source: CashBalance[]) => {
+    const byAccount = new Map(source.map((entry) => [entry.accountId, entry]));
+    const normalized = accounts.map((account) => {
+      const currency = account.currency ?? (account.countryType === "US" ? "USD" : "KRW");
+      const existing = byAccount.get(account.id);
+      if (existing) {
+        return { ...existing, currency };
+      }
+      return { accountId: account.id, currency, balance: 0 };
+    });
+    const extras = source.filter((entry) => !accounts.some((account) => account.id === entry.accountId));
+    return [...normalized, ...extras];
+  };
+
   const accountOptions = useMemo(
-    () => accounts.map((acc) => ({ value: acc.id, label: acc.brokerName })),
+    () => accounts.map((acc) => ({ value: acc.id, label: formatAccountName(acc) })),
     [accounts]
+  );
+  const ledgerAccountOptions = useMemo(
+    () => [{ value: "ALL", label: "All Accounts" }, ...accountOptions],
+    [accountOptions]
   );
   const stockOptions = useMemo(
     () => stocks.map((item) => ({ value: item.id, label: `${item.label ?? item.symbol} (${item.symbol})` })),
     [stocks]
   );
+  const sellableStockOptions = useMemo(() => {
+    if (!tradeForm.accountId) return [];
+    const heldIds = new Set(
+      holdings
+        .filter((holding) => holding.accountId === tradeForm.accountId && holding.qty > 0)
+        .map((holding) => holding.stockId)
+        .filter(Boolean) as string[]
+    );
+    const heldBySymbol = new Set(
+      holdings
+        .filter((holding) => holding.accountId === tradeForm.accountId && holding.qty > 0)
+        .map((holding) => normalizeSymbol(holding.symbolKey))
+        .filter(Boolean)
+    );
+    return stocks
+      .filter((item) => heldIds.has(item.id) || heldBySymbol.has(normalizeSymbol(item.symbol)))
+      .map((item) => ({ value: item.id, label: `${item.label ?? item.symbol} (${item.symbol})` }));
+  }, [holdings, stocks, tradeForm.accountId]);
+  const buyableStockOptions = useMemo(() => {
+    if (!tradeForm.accountId) return stockOptions;
+    const currency = resolveAccountCurrency(tradeForm.accountId);
+    const allowedMarket = currency === "USD" ? "US" : "KR";
+    return stocks
+      .filter((item) => item.market === allowedMarket)
+      .map((item) => ({ value: item.id, label: `${item.label ?? item.symbol} (${item.symbol})` }));
+  }, [stocks, tradeForm.accountId, stockOptions]);
+  const tradeStockOptions = tradeForm.side === "SELL" ? sellableStockOptions : buyableStockOptions;
+
+  const tradeCurrency = useMemo(() => {
+    const stock = stocks.find((item) => item.id === tradeForm.stockId);
+    return stock?.market === "KR" ? "KRW" : "USD";
+  }, [stocks, tradeForm.stockId]);
+
+  const cashFormCurrency = useMemo(() => resolveAccountCurrency(cashForm.accountId), [cashForm.accountId]);
+
+  useEffect(() => {
+    if (!tradeForm.accountId) return;
+    const available = tradeStockOptions.map((option) => option.value);
+    if (!available.length) {
+      setTradeForm((prev) => ({ ...prev, stockId: "" }));
+      return;
+    }
+    if (!available.includes(tradeForm.stockId)) {
+      setTradeForm((prev) => ({ ...prev, stockId: available[0] }));
+    }
+  }, [tradeForm.accountId, tradeForm.side, tradeForm.stockId, tradeStockOptions]);
   const countryOptions = useMemo(
     () => [
       { value: "KR", label: "KR" },
       { value: "US", label: "US" }
+    ],
+    []
+  );
+  const currencyOptions = useMemo(
+    () => [
+      { value: "KRW", label: "KRW" },
+      { value: "USD", label: "USD" }
     ],
     []
   );
@@ -318,37 +613,161 @@ export default function PortfolioPage() {
     setNewSectorLabel("");
   };
 
+  const updateLabelEdits = (type: "country" | "sector", key: string, nextValue: string) => {
+    setLabelEdits((prev) => ({
+      ...prev,
+      [type]: { ...prev[type], [key]: nextValue }
+    }));
+  };
+
+  const commitLabelRename = (type: "country" | "sector", original: string) => {
+    const nextValue = labelEdits[type][original]?.trim();
+    if (!nextValue || nextValue === original) return;
+    setLabelOptions((prev) => {
+      const list = type === "country" ? prev.countries : prev.sectors;
+      const updated = list.map((entry) => (entry === original ? nextValue : entry));
+      const unique = Array.from(new Set(updated));
+      return type === "country" ? { ...prev, countries: unique } : { ...prev, sectors: unique };
+    });
+    setHoldings((prev) =>
+      prev.map((holding) => {
+        if (type === "country") {
+          return holding.countryLabel === original ? { ...holding, countryLabel: nextValue } : holding;
+        }
+        return holding.sectorLabel === original ? { ...holding, sectorLabel: nextValue } : holding;
+      })
+    );
+  };
+
+  const deleteLabelOption = (type: "country" | "sector", target: string) => {
+    setLabelOptions((prev) => {
+      const list = type === "country" ? prev.countries : prev.sectors;
+      const updated = list.filter((entry) => entry !== target);
+      return type === "country" ? { ...prev, countries: updated } : { ...prev, sectors: updated };
+    });
+    setHoldings((prev) =>
+      prev.map((holding) => {
+        if (type === "country") {
+          return holding.countryLabel === target ? { ...holding, countryLabel: undefined } : holding;
+        }
+        return holding.sectorLabel === target ? { ...holding, sectorLabel: undefined } : holding;
+      })
+    );
+    setLabelEdits((prev) => {
+      const next = { ...prev[type] };
+      delete next[target];
+      return { ...prev, [type]: next };
+    });
+  };
+
+  const portfolioRows = useMemo(() => {
+    const holdingRows = derivedHoldings.map((entry) => ({ kind: "holding" as const, ...entry }));
+    return [...holdingRows, ...cashRows];
+  }, [cashRows, derivedHoldings]);
+
   const sortedHoldings = useMemo(() => {
-    const rows = [...derivedHoldings];
+    const rows = [...portfolioRows];
     if (!sortKey) return rows;
     const dir = sortDir === "asc" ? 1 : -1;
     return rows.sort((a, b) => {
       if (sortKey === "account") {
-        const aName = accounts.find((acc) => acc.id === a.holding.accountId)?.brokerName ?? "";
-        const bName = accounts.find((acc) => acc.id === b.holding.accountId)?.brokerName ?? "";
+        const aAccountId = a.kind === "cash" ? a.account.id : a.holding.accountId;
+        const bAccountId = b.kind === "cash" ? b.account.id : b.holding.accountId;
+        const aName = accounts.find((acc) => acc.id === aAccountId)?.brokerName ?? "";
+        const bName = accounts.find((acc) => acc.id === bAccountId)?.brokerName ?? "";
         return aName.localeCompare(bName) * dir;
       }
-      if (sortKey === "cost") return (a.costBasisKrw - b.costBasisKrw) * dir;
-      if (sortKey === "pnl") return (a.pnlKrw - b.pnlKrw) * dir;
-      if (sortKey === "value") return (a.marketValueKrw - b.marketValueKrw) * dir;
-      if (sortKey === "weight") return (a.marketValueKrw - b.marketValueKrw) * dir;
+      if (sortKey === "cost") {
+        const aValue = a.kind === "cash" ? 0 : a.costBasisKrw ?? 0;
+        const bValue = b.kind === "cash" ? 0 : b.costBasisKrw ?? 0;
+        return (aValue - bValue) * dir;
+      }
+      if (sortKey === "pnl") {
+        const aValue = a.kind === "cash" ? 0 : a.pnlKrw ?? 0;
+        const bValue = b.kind === "cash" ? 0 : b.pnlKrw ?? 0;
+        return (aValue - bValue) * dir;
+      }
+      if (sortKey === "value" || sortKey === "weight") {
+        const aValue = a.kind === "cash" ? a.valueKrw : a.marketValueKrw ?? 0;
+        const bValue = b.kind === "cash" ? b.valueKrw : b.marketValueKrw ?? 0;
+        return (aValue - bValue) * dir;
+      }
       return 0;
     });
-  }, [accounts, derivedHoldings, sortDir, sortKey]);
+  }, [accounts, portfolioRows, sortDir, sortKey]);
+
+  const totalWeightBaseKrw = totals.totalKrw;
 
   const buildBuckets = (key: "sectorLabel" | "countryLabel") => {
     const buckets = new Map<string, number>();
     derivedHoldings.forEach((entry) => {
       const label = entry.holding[key]?.trim() || "Unlabeled";
-      buckets.set(label, (buckets.get(label) ?? 0) + entry.marketValueKrw);
+      buckets.set(label, (buckets.get(label) ?? 0) + (entry.marketValueKrw ?? 0));
     });
     return Array.from(buckets.entries())
       .map(([label, value]) => ({ label, value }))
       .filter((item) => item.value > 0);
   };
 
-  const sectorData = useMemo(() => buildBuckets("sectorLabel"), [derivedHoldings]);
-  const countryData = useMemo(() => buildBuckets("countryLabel"), [derivedHoldings]);
+  const sectorDetails = useMemo(() => {
+    const map: Record<string, { name: string; value: number }[]> = {};
+    derivedHoldings.forEach((entry) => {
+      const label = entry.holding.sectorLabel?.trim() || "Unlabeled";
+      const value = entry.marketValueKrw ?? 0;
+      if (value <= 0) return;
+      const stockLabel = entry.stock?.label ?? entry.stock?.symbol ?? entry.holding.symbolKey ?? "Unknown";
+      if (!map[label]) map[label] = [];
+      map[label].push({ name: stockLabel, value });
+    });
+    const cashTotal = cashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
+    if (cashTotal > 0) {
+      map.Cash = cashRows
+        .filter((entry) => entry.valueKrw > 0)
+        .map((entry) => ({
+          name: `${formatAccountName(entry.account)} Cash (${entry.currency})`,
+          value: entry.valueKrw
+        }));
+    }
+    Object.values(map).forEach((items) => items.sort((a, b) => b.value - a.value));
+    return map;
+  }, [cashRows, derivedHoldings]);
+
+  const sectorData = useMemo(() => {
+    const base = buildBuckets("sectorLabel");
+    const cashTotal = cashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
+    if (cashTotal > 0) base.push({ label: "Cash", value: cashTotal });
+    return base.sort((a, b) => b.value - a.value);
+  }, [cashRows, derivedHoldings]);
+
+  const countryDetails = useMemo(() => {
+    const map: Record<string, { name: string; value: number }[]> = {};
+    derivedHoldings.forEach((entry) => {
+      const label = entry.holding.countryLabel?.trim() || "Unlabeled";
+      const value = entry.marketValueKrw ?? 0;
+      if (value <= 0) return;
+      const stockLabel = entry.stock?.label ?? entry.stock?.symbol ?? entry.holding.symbolKey ?? "Unknown";
+      if (!map[label]) map[label] = [];
+      map[label].push({ name: stockLabel, value });
+    });
+    const cashTotal = cashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
+    if (cashTotal > 0) {
+      map.Cash = cashRows
+        .filter((entry) => entry.valueKrw > 0)
+        .map((entry) => ({
+          name: `${formatAccountName(entry.account)} Cash (${entry.currency})`,
+          value: entry.valueKrw
+        }));
+    }
+    Object.values(map).forEach((items) => items.sort((a, b) => b.value - a.value));
+    return map;
+  }, [cashRows, derivedHoldings]);
+
+  const countryData = useMemo(() => {
+    const base = buildBuckets("countryLabel");
+    const cashTotal = cashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
+    if (cashTotal > 0) base.push({ label: "Cash", value: cashTotal });
+    return base;
+  }, [cashRows, derivedHoldings]);
   const editingHolding = useMemo(
     () => (editingId ? holdings.find((entry) => entry.id === editingId) ?? null : null),
     [editingId, holdings]
@@ -363,9 +782,22 @@ export default function PortfolioPage() {
       stockId: firstStock,
       side: "BUY",
       price: "",
-      qty: ""
+      qty: "",
+      fee: "",
+      memo: ""
     });
     setTradeOpen(true);
+  };
+
+  const openCash = () => {
+    const firstAccount = accounts[0]?.id ?? "";
+    setCashForm({
+      accountId: firstAccount,
+      direction: "DEPOSIT",
+      amount: "",
+      memo: ""
+    });
+    setCashOpen(true);
   };
 
   const openEditHolding = (holding: Holding) => {
@@ -431,16 +863,47 @@ export default function PortfolioPage() {
   };
 
   const applyTrade = () => {
-    const { accountId, stockId, side, price, qty } = tradeForm;
-    const priceValue = Number(price);
-    const qtyValue = Number(qty);
+    const { accountId, stockId, side, price, qty, fee, memo } = tradeForm;
+    const priceValue = parseNumber(price);
+    const qtyValue = parseNumber(qty);
+    const feeValue = parseNumber(fee);
     if (!accountId || !stockId || !Number.isFinite(priceValue) || !Number.isFinite(qtyValue) || qtyValue <= 0) return;
-    const existing = holdings.find((entry) => entry.accountId === accountId && entry.stockId === stockId);
-    if (!existing && side === "SELL") return;
-
     const stock = stocks.find((item) => item.id === stockId);
-    const currency = stock?.market === "KR" ? "KRW" : "USD";
-    const symbolKey = normalizeSymbol(stock?.symbol ?? "");
+    if (!stock) return;
+    const symbolKey = normalizeSymbol(stock.symbol ?? "");
+    const existing =
+      holdings.find((entry) => entry.accountId === accountId && entry.stockId === stockId) ??
+      holdings.find((entry) => entry.accountId === accountId && normalizeSymbol(entry.symbolKey) === symbolKey);
+    if (!existing && side === "SELL") {
+      window.alert("Holding not found for this account.");
+      return;
+    }
+    const currency = stock.market === "KR" ? "KRW" : "USD";
+    const cashCurrency = resolveAccountCurrency(accountId);
+    const grossTradeValue = priceValue * qtyValue;
+    const netCashChange = side === "BUY" ? -(grossTradeValue + feeValue) : grossTradeValue - feeValue;
+
+    const cashEntry = cashBalances.find((entry) => entry.accountId === accountId);
+    const currentCash = cashEntry?.balance ?? 0;
+    if (side === "BUY") {
+      if (!cashEntry) {
+        window.alert("Please add cash to this account before buying.");
+        return;
+      }
+      if (cashCurrency !== currency) {
+        window.alert("Account cash currency does not match this trade currency.");
+        return;
+      }
+    }
+    if (side === "BUY" && currentCash + netCashChange < 0) {
+      window.alert("Not enough cash for this buy.");
+      return;
+    }
+    if (side === "SELL" && existing && qtyValue > existing.qty) {
+      window.alert("Not enough shares to sell.");
+      return;
+    }
+
     const nextHoldings = [...holdings];
     if (!existing && side === "BUY") {
       nextHoldings.push({
@@ -464,6 +927,7 @@ export default function PortfolioPage() {
             side === "BUY" ? (existing.avgPrice * currentQty + priceValue * qtyValue) / nextQty : existing.avgPrice;
           nextHoldings[idx] = {
             ...existing,
+            stockId: existing.stockId ?? stockId,
             qty: nextQty,
             avgPrice: nextAvg,
             symbolKey: existing.symbolKey || symbolKey
@@ -472,12 +936,92 @@ export default function PortfolioPage() {
       }
     }
 
+    const realizedPnl =
+      side === "SELL" && existing ? (priceValue - existing.avgPrice) * qtyValue - feeValue : null;
+    const costBasis = side === "SELL" && existing ? existing.avgPrice * qtyValue : null;
+    const realizedPnlPercent =
+      realizedPnl !== null && costBasis && costBasis > 0 ? (realizedPnl / costBasis) * 100 : null;
+
     setHoldings(nextHoldings);
+    setCashBalances((prev) => {
+      const normalized = normalizeCashBalances(prev);
+      return normalized.map((entry) =>
+        entry.accountId === accountId ? { ...entry, currency: cashCurrency, balance: entry.balance + netCashChange } : entry
+      );
+    });
+    const executedAt = Date.now();
+    const trimmedMemo = memo.trim();
     setTrades((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), accountId, stockId, side, price: priceValue, qty: qtyValue, executedAt: Date.now() }
+      {
+        id: crypto.randomUUID(),
+        accountId,
+        stockId,
+        side,
+        price: priceValue,
+        qty: qtyValue,
+        executedAt,
+        fee: feeValue || undefined,
+        memo: trimmedMemo || undefined,
+        realizedPnl,
+        realizedPnlPercent
+      }
+    ]);
+    setLedgerRecords((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        ts: executedAt,
+        accountId,
+        type: "TRADE",
+        currency,
+        symbol: stock.symbol,
+        side,
+        qty: qtyValue,
+        price: priceValue,
+        fee: feeValue || undefined,
+        memo: trimmedMemo || undefined,
+        realizedPnl,
+        realizedPnlPercent,
+        costBasis
+      }
     ]);
     setTradeOpen(false);
+  };
+
+  const applyCashflow = () => {
+    const { accountId, direction, amount, memo } = cashForm;
+    const amountValue = parseNumber(amount);
+    if (!accountId || !Number.isFinite(amountValue) || amountValue <= 0) return;
+    const currency = resolveAccountCurrency(accountId);
+    const currentBalance = cashBalances.find((entry) => entry.accountId === accountId)?.balance ?? 0;
+    const netChange = direction === "DEPOSIT" ? amountValue : -amountValue;
+    if (currentBalance + netChange < 0) {
+      window.alert("Withdraw amount exceeds available cash.");
+      return;
+    }
+    const ts = Date.now();
+    const trimmedMemo = memo.trim();
+    setCashBalances((prev) => {
+      const normalized = normalizeCashBalances(prev);
+      return normalized.map((entry) =>
+        entry.accountId === accountId ? { ...entry, currency, balance: entry.balance + netChange } : entry
+      );
+    });
+    setLedgerRecords((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        ts,
+        accountId,
+        type: "CASHFLOW",
+        currency,
+        direction,
+        amount: amountValue,
+        memo: trimmedMemo || undefined
+      }
+    ]);
+    setCashOpen(false);
   };
 
   return (
@@ -498,38 +1042,67 @@ export default function PortfolioPage() {
 
         <div className="lifnux-glass rounded-2xl p-6">
           <div className="sticky top-3 z-10 mb-4 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm backdrop-blur">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">Total Portfolio</div>
-                <div className={`text-3xl font-semibold ${blurClass}`}>
-                  {formatCurrency(totals.totalKrw ?? totals.krw, "KRW")}
+            <div className="grid gap-3 md:grid-cols-3">
+              <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">Total Value (KRW)</div>
+                <div className={`mt-2 text-2xl font-semibold ${blurClass}`}>
+                  {totals.totalKrw !== null ? formatCurrency(totals.totalKrw, "KRW") : "FX not ready"}
                 </div>
-                <div className={`mt-1 text-xs text-white/85 ${blurClass}`}>
-                  KRW {formatCurrency(totals.krw, "KRW")} / USD {formatCurrency(totals.usd, "USD")}
+                <div className={`mt-1 text-xs text-white/75 ${blurClass}`}>
+                  Holdings KRW {formatCurrency(totals.holdingsKrw, "KRW")} / USD {formatCurrency(totals.holdingsUsd, "USD")} · Cash KRW{" "}
+                  {formatCurrency(totals.cashKrw, "KRW")} / USD {formatCurrency(totals.cashUsd, "USD")}
                 </div>
-              </div>
-              <div className={`text-right ${blurClass}`}>
-                <div
-                  className={`text-base ${
-                    totals.pnlKrw !== null && totals.pnlKrw >= 0 ? "text-emerald-300" : "text-rose-300"
-                  }`}
-                >
-                  {totals.pnlKrw !== null
-                    ? `${totals.pnlKrw >= 0 ? "+" : "-"}${formatCurrency(Math.abs(totals.pnlKrw), "KRW")}`
-                    : "-"}
-                </div>
-                <div className="text-[10px] text-[var(--ink-1)]">
-                  <span
-                    className={`text-lg font-semibold ${
-                      totals.pnlPct !== null && totals.pnlPct >= 0 ? "text-emerald-300" : "text-rose-300"
-                    }`}
-                  >
-                    {totals.pnlPct !== null ? `${totals.pnlPct >= 0 ? "+" : ""}${totals.pnlPct.toFixed(2)}%` : "FX not ready"}
-                  </span>
-                </div>
-                <div className="text-[10px] text-[var(--ink-1)]">
+                <div className="mt-1 text-[10px] text-[var(--ink-1)]">
                   {useFx && fxRate ? `FX ${formatCurrency(fxRate, "KRW")}` : "FX not applied"}
                 </div>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">Unrealized PnL (KRW)</div>
+                <div
+                  className={`mt-2 text-2xl font-semibold ${
+                    totals.unrealizedPnlKrw !== null && totals.unrealizedPnlKrw >= 0 ? "text-emerald-300" : "text-rose-300"
+                  } ${blurClass}`}
+                >
+                  {totals.unrealizedPnlKrw !== null
+                    ? `${totals.unrealizedPnlKrw >= 0 ? "+" : "-"}${formatCurrency(Math.abs(totals.unrealizedPnlKrw), "KRW")}`
+                    : "-"}
+                </div>
+                <div className={`mt-1 text-xs ${blurClass}`}>
+                  {totals.unrealizedPnlPct !== null ? `${totals.unrealizedPnlPct >= 0 ? "+" : ""}${totals.unrealizedPnlPct.toFixed(2)}%` : "FX not ready"}
+                </div>
+                <div className="mt-1 text-[10px] text-[var(--ink-1)]">Holdings only</div>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+                <div className="flex items-center justify-between">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">Realized PnL (KRW)</div>
+                  <div className="flex items-center gap-1 text-[10px]">
+                    {(["MTD", "YTD", "ALL"] as const).map((range) => (
+                      <button
+                        key={range}
+                        className={`rounded-full border px-2 py-1 ${
+                          realizedRange === range ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"
+                        }`}
+                        onClick={() => setRealizedRange(range)}
+                        type="button"
+                      >
+                        {range}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div
+                  className={`mt-2 text-2xl font-semibold ${
+                    realizedSummary.realizedTotalKrw !== null && realizedSummary.realizedTotalKrw >= 0 ? "text-emerald-300" : "text-rose-300"
+                  } ${blurClass}`}
+                >
+                  {realizedSummary.realizedTotalKrw !== null
+                    ? `${realizedSummary.realizedTotalKrw >= 0 ? "+" : "-"}${formatCurrency(Math.abs(realizedSummary.realizedTotalKrw), "KRW")}`
+                    : "-"}
+                </div>
+                <div className={`mt-1 text-xs ${blurClass}`}>
+                  {realizedSummary.realizedPct !== null ? `${realizedSummary.realizedPct >= 0 ? "+" : ""}${realizedSummary.realizedPct.toFixed(2)}%` : "FX not ready"}
+                </div>
+                <div className="mt-1 text-[10px] text-[var(--ink-1)]">Sells only</div>
               </div>
             </div>
           </div>
@@ -540,11 +1113,17 @@ export default function PortfolioPage() {
               <button className="rounded-full border border-white/10 px-3 py-1" onClick={openTrade}>
                 Trade
               </button>
+              <button className="rounded-full border border-white/10 px-3 py-1" onClick={openCash}>
+                Add Cash
+              </button>
               <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setAccountsOpen(true)}>
                 Manage Accounts
               </button>
               <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setHistoryOpen(true)}>
                 Asset History
+              </button>
+              <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setLedgerOpen(true)}>
+                History
               </button>
               <button
                 className={`rounded-full border px-3 py-1 ${
@@ -613,6 +1192,47 @@ export default function PortfolioPage() {
                 <div>Today</div>
               </div>
               {sortedHoldings.map((entry) => {
+                if (entry.kind === "cash") {
+                  const weightPct =
+                    totalWeightBaseKrw && totalWeightBaseKrw > 0 ? (entry.valueKrw / totalWeightBaseKrw) * 100 : null;
+                  return (
+                    <div
+                      key={`cash-${entry.account.id}`}
+                      className="grid grid-cols-[1.2fr_1.2fr_1.2fr_1.2fr_0.7fr_1fr_1.2fr_0.8fr_0.7fr] gap-3 rounded-xl border border-white/10 bg-black/20 px-3 py-2"
+                    >
+                      <div>
+                      <div className="text-sm">{formatAccountName(entry.account)}</div>
+                        <div className="mt-1 text-[10px] text-[var(--ink-1)]">{entry.account.countryType}</div>
+                      </div>
+                      <div>
+                        <div className="text-sm">
+                          CASH <span className="text-[var(--ink-1)]">({entry.currency})</span>
+                        </div>
+                      </div>
+                      <div className={blurClass}>
+                        <div>-</div>
+                        <div className="text-xs text-white/80">{formatCurrency(entry.balance, entry.currency)}</div>
+                      </div>
+                      <div className={blurClass}>
+                        <div>-</div>
+                        <div className="text-xs text-white/80">-</div>
+                      </div>
+                      <div className={blurClass}>-</div>
+                      <div className={blurClass}>
+                        <div className="flex flex-wrap gap-1 text-[10px] text-[var(--ink-1)]">
+                          <span className="rounded-full border border-white/10 px-2 py-[1px]">
+                            {entry.currency === "USD" ? "US" : "KR"}
+                          </span>
+                          <span className="rounded-full border border-white/10 px-2 py-[1px]">Cash</span>
+                        </div>
+                      </div>
+                      <div className={blurClass}>-</div>
+                      <div className={blurClass}>{weightPct !== null ? `${formatNumber(weightPct, 2)}%` : "-"}</div>
+                      <div className="text-[var(--ink-1)]">-</div>
+                    </div>
+                  );
+                }
+
                 const holding = entry.holding;
                 const account = accounts.find((acc) => acc.id === holding.accountId);
                 const stock = entry.stock;
@@ -623,18 +1243,20 @@ export default function PortfolioPage() {
                 const costBasis = entry.costBasis;
                 const pnlValue = entry.pnlValue;
                 const pnlPct = costBasis > 0 ? (pnlValue / costBasis) * 100 : 0;
-                const weightPct = totalMarketValue > 0 ? (entry.marketValueKrw / totalMarketValue) * 100 : 0;
+                const valueKrw = entry.marketValueKrw ?? 0;
+                const weightPct =
+                  totalWeightBaseKrw && totalWeightBaseKrw > 0 ? (valueKrw / totalWeightBaseKrw) * 100 : null;
                 const displayCurrency = entry.rate ? "KRW" : holding.currency;
-                const displayMarketValue = entry.rate ? entry.marketValueKrw : marketValue;
-                const displayCostBasis = entry.rate ? entry.costBasisKrw : costBasis;
-                const displayPnl = entry.rate ? entry.pnlKrw : pnlValue;
+                const displayMarketValue = entry.rate ? entry.marketValueKrw ?? marketValue : marketValue;
+                const displayCostBasis = entry.rate ? entry.costBasisKrw ?? costBasis : costBasis;
+                const displayPnl = entry.rate ? entry.pnlKrw ?? pnlValue : pnlValue;
                 return (
                   <div
                     key={holding.id}
                     className="grid grid-cols-[1.2fr_1.2fr_1.2fr_1.2fr_0.7fr_1fr_1.2fr_0.8fr_0.7fr] gap-3 rounded-xl border border-white/10 bg-black/20 px-3 py-2"
                   >
                     <div>
-                      <div className="text-sm">{account?.brokerName ?? "-"}</div>
+                      <div className="text-sm">{formatAccountName(account)}</div>
                       <div className="mt-1 text-[10px] text-[var(--ink-1)]">{account?.countryType}</div>
                     </div>
                     <div>
@@ -688,9 +1310,7 @@ export default function PortfolioPage() {
                         {pnlPct.toFixed(2)}%
                       </div>
                     </div>
-                    <div className={blurClass}>
-                      {formatNumber(weightPct, 2)}%
-                    </div>
+                    <div className={blurClass}>{weightPct !== null ? `${formatNumber(weightPct, 2)}%` : "-"}</div>
                     <div className="flex items-center justify-between gap-2">
                       <span
                         className={
@@ -724,13 +1344,15 @@ export default function PortfolioPage() {
                   </div>
                 );
               })}
-              {activeHoldings.length === 0 ? <div className="text-sm text-[var(--ink-1)]">No holdings yet.</div> : null}
+              {activeHoldings.length === 0 && cashRows.length === 0 ? (
+                <div className="text-sm text-[var(--ink-1)]">No holdings yet.</div>
+              ) : null}
             </div>
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <DonutCard title="Sector Weight (KRW)" data={sectorData} />
-            <DonutCard title="Country Exposure (KRW)" data={countryData} />
+            <DonutCard title="Sector Weight (KRW)" data={sectorData} detailsByLabel={sectorDetails} />
+            <DonutCard title="Country Exposure (KRW)" data={countryData} detailsByLabel={countryDetails} />
           </div>
         </div>
       </div>
@@ -828,6 +1450,8 @@ export default function PortfolioPage() {
                   }))
                 }
                 placeholder="Select country label"
+                enableSearch
+                maxVisibleItems={8}
               />
               <div className="mt-2 flex items-center gap-2">
                 <input
@@ -841,8 +1465,8 @@ export default function PortfolioPage() {
                 </button>
               </div>
             </label>
-            <label className="block text-xs uppercase tracking-wide">
-              Sector Label
+          <label className="block text-xs uppercase tracking-wide">
+            Sector Label
               <Select
                 className="mt-1"
                 value={editingDraft.sectorLabel}
@@ -854,6 +1478,8 @@ export default function PortfolioPage() {
                   }))
                 }
                 placeholder="Select sector label"
+                enableSearch
+                maxVisibleItems={8}
               />
               <div className="mt-2 flex items-center gap-2">
                 <input
@@ -867,6 +1493,70 @@ export default function PortfolioPage() {
                 </button>
               </div>
             </label>
+            <div className="space-y-3">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Manage Country Labels</div>
+              <div className="max-h-48 space-y-2 overflow-y-auto pr-1">
+                {labelOptions.countries.length ? (
+                  labelOptions.countries.map((label) => (
+                    <div key={label} className="flex items-center gap-2">
+                      <input
+                        className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                        value={labelEdits.country[label] ?? label}
+                        onChange={(event) => updateLabelEdits("country", label, event.target.value)}
+                      />
+                      <button
+                        className="rounded-full border border-white/10 px-3 py-2 text-xs"
+                        type="button"
+                        onClick={() => commitLabelRename("country", label)}
+                      >
+                        Rename
+                      </button>
+                      <button
+                        className="rounded-full border border-rose-500/40 px-3 py-2 text-xs text-rose-200"
+                        type="button"
+                        onClick={() => deleteLabelOption("country", label)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-xs text-[var(--ink-1)]">No country labels.</div>
+                )}
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Manage Sector Labels</div>
+              <div className="max-h-48 space-y-2 overflow-y-auto pr-1">
+                {labelOptions.sectors.length ? (
+                  labelOptions.sectors.map((label) => (
+                    <div key={label} className="flex items-center gap-2">
+                      <input
+                        className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                        value={labelEdits.sector[label] ?? label}
+                        onChange={(event) => updateLabelEdits("sector", label, event.target.value)}
+                      />
+                      <button
+                        className="rounded-full border border-white/10 px-3 py-2 text-xs"
+                        type="button"
+                        onClick={() => commitLabelRename("sector", label)}
+                      >
+                        Rename
+                      </button>
+                      <button
+                        className="rounded-full border border-rose-500/40 px-3 py-2 text-xs text-rose-200"
+                        type="button"
+                        onClick={() => deleteLabelOption("sector", label)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-xs text-[var(--ink-1)]">No sector labels.</div>
+                )}
+              </div>
+            </div>
           </div>
         ) : null}
       </Modal>
@@ -909,16 +1599,30 @@ export default function PortfolioPage() {
                   buttonClassName="px-2 py-1 text-xs"
                 />
               </div>
-              <input
-                className="mt-2 w-full rounded-md border border-white/10 bg-black/20 px-2 py-1 text-xs"
-                value={account.memo ?? ""}
-                placeholder="Memo"
-                onChange={(event) =>
-                  setAccounts((prev) =>
-                    prev.map((entry) => (entry.id === account.id ? { ...entry, memo: event.target.value } : entry))
-                  )
-                }
-              />
+              <div className="mt-2 grid grid-cols-2 gap-3">
+                <Select
+                  value={account.currency ?? (account.countryType === "US" ? "USD" : "KRW")}
+                  options={currencyOptions}
+                  onChange={(value) =>
+                    setAccounts((prev) =>
+                      prev.map((entry) =>
+                        entry.id === account.id ? { ...entry, currency: value as "KRW" | "USD" } : entry
+                      )
+                    )
+                  }
+                  buttonClassName="px-2 py-1 text-xs"
+                />
+                <input
+                  className="rounded-md border border-white/10 bg-black/20 px-2 py-1 text-xs"
+                  value={account.memo ?? ""}
+                  placeholder="Memo"
+                  onChange={(event) =>
+                    setAccounts((prev) =>
+                      prev.map((entry) => (entry.id === account.id ? { ...entry, memo: event.target.value } : entry))
+                    )
+                  }
+                />
+              </div>
               <div className="mt-2 text-right">
                 <button
                   className="text-xs text-[var(--ink-1)]"
@@ -934,7 +1638,7 @@ export default function PortfolioPage() {
             onClick={() =>
               setAccounts((prev) => [
                 ...prev,
-                { id: crypto.randomUUID(), brokerName: "New Broker", countryType: "KR", memo: "" }
+                { id: crypto.randomUUID(), brokerName: "New Broker", countryType: "KR", currency: "KRW", memo: "" }
               ])
             }
           >
@@ -972,9 +1676,11 @@ export default function PortfolioPage() {
             Stock
             <Select
               value={tradeForm.stockId}
-              options={stockOptions}
+              options={tradeStockOptions}
               onChange={(value) => setTradeForm((prev) => ({ ...prev, stockId: value }))}
               className="mt-1"
+              enableSearch
+              maxVisibleItems={8}
             />
           </label>
           <label className="block text-xs uppercase tracking-wide">
@@ -995,21 +1701,132 @@ export default function PortfolioPage() {
             </div>
           </label>
           <label className="block text-xs uppercase tracking-wide">
-            Price
-            <input
-              className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
-              type="number"
-              value={tradeForm.price}
-              onChange={(event) => setTradeForm((prev) => ({ ...prev, price: event.target.value }))}
-            />
+            Price ({tradeCurrency ?? "—"})
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                type="text"
+                inputMode="decimal"
+                value={tradeForm.price}
+                onChange={(event) =>
+                  setTradeForm((prev) => ({
+                    ...prev,
+                    price: formatInputNumber(event.target.value, tradeCurrency === "KRW" ? 0 : 2)
+                  }))
+                }
+              />
+              <span className="text-xs text-[var(--ink-1)]">{tradeCurrency ?? ""}</span>
+            </div>
           </label>
           <label className="block text-xs uppercase tracking-wide">
             Quantity
             <input
               className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
-              type="number"
+              type="text"
+              inputMode="numeric"
               value={tradeForm.qty}
-              onChange={(event) => setTradeForm((prev) => ({ ...prev, qty: event.target.value }))}
+              onChange={(event) =>
+                setTradeForm((prev) => ({ ...prev, qty: formatInputNumber(event.target.value, 0) }))
+              }
+            />
+          </label>
+          <label className="block text-xs uppercase tracking-wide">
+            Fee (Optional, {tradeCurrency ?? "—"})
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                type="text"
+                inputMode="decimal"
+                value={tradeForm.fee}
+                onChange={(event) =>
+                  setTradeForm((prev) => ({
+                    ...prev,
+                    fee: formatInputNumber(event.target.value, tradeCurrency === "KRW" ? 0 : 2)
+                  }))
+                }
+              />
+              <span className="text-xs text-[var(--ink-1)]">{tradeCurrency ?? ""}</span>
+            </div>
+          </label>
+          <label className="block text-xs uppercase tracking-wide">
+            Memo (Optional)
+            <textarea
+              className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+              rows={3}
+              value={tradeForm.memo}
+              onChange={(event) => setTradeForm((prev) => ({ ...prev, memo: event.target.value }))}
+            />
+          </label>
+        </div>
+      </Modal>
+
+      <Modal
+        open={cashOpen}
+        title="Add Cash"
+        onClose={() => setCashOpen(false)}
+        actions={
+          <>
+            <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setCashOpen(false)}>
+              Cancel
+            </button>
+            <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={applyCashflow}>
+              Save
+            </button>
+          </>
+        }
+      >
+        <div className="space-y-3 text-sm">
+          <label className="block text-xs uppercase tracking-wide">
+            Account
+            <Select
+              value={cashForm.accountId}
+              options={accountOptions}
+              onChange={(value) => setCashForm((prev) => ({ ...prev, accountId: value }))}
+              className="mt-1"
+            />
+          </label>
+          <label className="block text-xs uppercase tracking-wide">
+            Direction
+            <div className="mt-1 flex gap-2">
+              {(["DEPOSIT", "WITHDRAW"] as const).map((direction) => (
+                <button
+                  key={direction}
+                  className={`rounded-full border px-4 py-2 text-xs ${
+                    cashForm.direction === direction ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10"
+                  }`}
+                  onClick={() => setCashForm((prev) => ({ ...prev, direction }))}
+                  type="button"
+                >
+                  {direction}
+                </button>
+              ))}
+            </div>
+          </label>
+          <label className="block text-xs uppercase tracking-wide">
+            Amount ({cashFormCurrency})
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                type="text"
+                inputMode="decimal"
+                value={cashForm.amount}
+                onChange={(event) =>
+                  setCashForm((prev) => ({
+                    ...prev,
+                    amount: formatInputNumber(event.target.value, cashFormCurrency === "KRW" ? 0 : 2)
+                  }))
+                }
+              />
+              <span className="text-xs text-[var(--ink-1)]">{cashFormCurrency}</span>
+            </div>
+          </label>
+          <label className="block text-xs uppercase tracking-wide">
+            Memo (Optional)
+            <textarea
+              className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+              rows={3}
+              value={cashForm.memo}
+              onChange={(event) => setCashForm((prev) => ({ ...prev, memo: event.target.value }))}
             />
           </label>
         </div>
@@ -1031,9 +1848,146 @@ export default function PortfolioPage() {
       >
         <PortfolioHistoryChart
           data={history}
-          currentPnlPct={totals.pnlPct}
+          currentPnlPct={totals.unrealizedPnlPct}
           onDeleteLog={(date) => setHistory((prev) => prev.filter((entry) => entry.date !== date))}
         />
+      </Modal>
+
+      <Modal
+        open={ledgerOpen}
+        title="History"
+        onClose={() => setLedgerOpen(false)}
+        panelClassName="!w-[96vw] !max-w-[1200px] min-h-[60vh] pt-8"
+        titleClassName="text-3xl font-semibold tracking-tight"
+        contentClassName="text-base md:text-lg"
+        closeButtonClassName="p-2 text-base text-white/80 hover:text-white"
+        actions={
+          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setLedgerOpen(false)}>
+            Close
+          </button>
+        }
+      >
+        <div className="space-y-4">
+          <div className="grid gap-3 md:grid-cols-5">
+            <label className="text-xs uppercase tracking-wide text-[var(--ink-1)]">
+              Account
+              <Select
+                className="mt-2"
+                value={ledgerFilters.accountId}
+                options={ledgerAccountOptions}
+                onChange={(value) => setLedgerFilters((prev) => ({ ...prev, accountId: value }))}
+              />
+            </label>
+            <label className="text-xs uppercase tracking-wide text-[var(--ink-1)]">
+              Type
+              <Select
+                className="mt-2"
+                value={ledgerFilters.type}
+                options={[
+                  { value: "ALL", label: "All" },
+                  { value: "TRADE", label: "Trades" },
+                  { value: "CASHFLOW", label: "Cashflows" }
+                ]}
+                onChange={(value) => setLedgerFilters((prev) => ({ ...prev, type: value as "ALL" | "TRADE" | "CASHFLOW" }))}
+              />
+            </label>
+            {ledgerFilters.type === "TRADE" ? (
+              <label className="text-xs uppercase tracking-wide text-[var(--ink-1)]">
+                Side
+                <Select
+                  className="mt-2"
+                  value={ledgerFilters.side}
+                  options={[
+                    { value: "ALL", label: "All" },
+                    { value: "BUY", label: "BUY" },
+                    { value: "SELL", label: "SELL" }
+                  ]}
+                  onChange={(value) => setLedgerFilters((prev) => ({ ...prev, side: value as "ALL" | "BUY" | "SELL" }))}
+                />
+              </label>
+            ) : (
+              <div />
+            )}
+            <label className="text-xs uppercase tracking-wide text-[var(--ink-1)]">
+              Start Date
+              <input
+                type="date"
+                className="mt-2 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                value={ledgerFilters.startDate}
+                onChange={(event) => setLedgerFilters((prev) => ({ ...prev, startDate: event.target.value }))}
+              />
+            </label>
+            <label className="text-xs uppercase tracking-wide text-[var(--ink-1)]">
+              End Date
+              <input
+                type="date"
+                className="mt-2 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                value={ledgerFilters.endDate}
+                onChange={(event) => setLedgerFilters((prev) => ({ ...prev, endDate: event.target.value }))}
+              />
+            </label>
+          </div>
+
+          <div className="max-h-[52vh] space-y-2 overflow-y-auto pr-1">
+            {filteredLedgerRecords.length ? (
+              filteredLedgerRecords.map((record) => {
+                const account = accounts.find((acc) => acc.id === record.accountId);
+                const summary =
+                  record.type === "TRADE"
+                    ? {
+                        label: `${record.side ?? ""} ${record.symbol ?? "-"}`,
+                        qty: record.qty ?? 0,
+                        price: record.price ?? 0
+                      }
+                    : null;
+                const realized = record.side === "SELL" && typeof record.realizedPnl === "number" ? record.realizedPnl : null;
+                const realizedKrw = realized !== null && record.currency === "USD" && fxRate ? realized * fxRate : null;
+                return (
+                  <div key={record.id} className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="min-w-0">
+                        <div className="text-xs text-[var(--ink-1)]">
+                          {formatDateTime(record.ts)} · {formatAccountName(account)}
+                        </div>
+                        {record.type === "TRADE" && summary ? (
+                          <div className="mt-1 text-base">
+                            <span className="font-semibold">{summary.label}</span> x{formatNumber(summary.qty, 0)} @{" "}
+                            <span className={blurClass}>{formatCurrency(summary.price, record.currency)}</span>
+                          </div>
+                        ) : (
+                          <div className="mt-1 text-base">
+                            <span className="font-semibold">{record.direction ?? "CASHFLOW"}</span>{" "}
+                            <span className={blurClass}>{formatCurrency(record.amount ?? 0, record.currency)}</span>
+                          </div>
+                        )}
+                        {record.memo ? <div className="mt-1 text-xs text-[var(--ink-1)]">{record.memo}</div> : null}
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <div className="rounded-full border border-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">
+                          {record.type === "TRADE" ? "TRADE" : "CASHFLOW"}
+                        </div>
+                        {realized !== null ? (
+                          <div className={`mt-2 text-xs ${realized >= 0 ? "text-emerald-300" : "text-rose-300"} ${blurClass}`}>
+                            Realized {realized >= 0 ? "+" : "-"}
+                            {formatCurrency(Math.abs(realized), record.currency)}
+                          </div>
+                        ) : null}
+                        {realizedKrw !== null ? (
+                          <div className={`text-[10px] text-[var(--ink-1)] ${blurClass}`}>
+                            (~{realizedKrw >= 0 ? "+" : "-"}
+                            {formatCurrency(Math.abs(realizedKrw), "KRW")})
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="text-sm text-[var(--ink-1)]">No history yet.</div>
+            )}
+          </div>
+        </div>
       </Modal>
 
       <ConfirmModal
@@ -1064,7 +2018,21 @@ type DonutDatum = {
   value: number;
 };
 
-function DonutCard({ title, data }: { title: string; data: DonutDatum[] }) {
+type DonutDetailItem = {
+  name: string;
+  value: number;
+};
+
+function DonutCard({
+  title,
+  data,
+  detailsByLabel
+}: {
+  title: string;
+  data: DonutDatum[];
+  detailsByLabel?: Record<string, DonutDetailItem[]>;
+}) {
+  const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
   const palette = [
     "#6EE7B7",
     "#93C5FD",
@@ -1072,32 +2040,80 @@ function DonutCard({ title, data }: { title: string; data: DonutDatum[] }) {
     "#FCD34D",
     "#A5B4FC",
     "#FDBA74",
-    "#67E8F9"
+    "#67E8F9",
+    "#F472B6",
+    "#34D399",
+    "#60A5FA",
+    "#FBBF24",
+    "#C4B5FD",
+    "#F97316",
+    "#2DD4BF",
+    "#E879F9",
+    "#A3E635",
+    "#F43F5E",
+    "#38BDF8",
+    "#FB7185",
+    "#22C55E"
   ];
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+  const formatKrw = (value: number) => `₩${Math.round(value).toLocaleString("ko-KR")}`;
+  const hoveredDetails = hoveredLabel ? detailsByLabel?.[hoveredLabel] ?? null : null;
+  const hoveredTotal = hoveredDetails?.reduce((sum, item) => sum + item.value, 0) ?? null;
   return (
     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
       <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{title}</div>
       <div className="mt-3 flex items-center gap-4">
-        <DonutChart data={data} palette={palette} />
+        <DonutChart data={data} palette={palette} onHover={setHoveredLabel} />
         <div className="space-y-2 text-xs">
           {data.length ? (
             data.map((item, index) => (
               <div key={item.label} className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: palette[index % palette.length] }} />
                 <span className="text-[var(--ink-1)]">{item.label}</span>
-                <span className="text-white/80">{item.value.toLocaleString()}</span>
+                <span className="text-white/80">
+                  {formatKrw(item.value)}
+                  {total > 0 ? ` · ${(item.value / total * 100).toFixed(1)}%` : ""}
+                </span>
               </div>
             ))
           ) : (
-            <div className="text-[var(--ink-1)]">No data</div>
-          )}
+              <div className="text-[var(--ink-1)]">No data</div>
+            )}
         </div>
       </div>
+      {hoveredLabel && hoveredDetails && hoveredDetails.length ? (
+        <div className="mt-3 rounded-xl border border-white/10 bg-black/30 p-3">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">
+            {hoveredLabel} Breakdown
+          </div>
+          <div className="mt-2 max-h-40 space-y-1 overflow-y-auto text-xs">
+            {hoveredDetails.map((item) => (
+              <div key={`${hoveredLabel}-${item.name}`} className="flex items-center justify-between gap-3">
+                <span className="truncate text-white/80">{item.name}</span>
+                <span className="shrink-0 text-white/90">{formatKrw(item.value)}</span>
+              </div>
+            ))}
+          </div>
+          {hoveredTotal !== null ? (
+            <div className="mt-2 text-[10px] text-[var(--ink-1)]">
+              Total: {formatKrw(hoveredTotal)}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function DonutChart({ data, palette }: { data: DonutDatum[]; palette: string[] }) {
+function DonutChart({
+  data,
+  palette,
+  onHover
+}: {
+  data: DonutDatum[];
+  palette: string[];
+  onHover?: (label: string | null) => void;
+}) {
   const size = 140;
   const stroke = 18;
   const radius = (size - stroke) / 2;
@@ -1105,7 +2121,7 @@ function DonutChart({ data, palette }: { data: DonutDatum[]; palette: string[] }
   const total = data.reduce((sum, item) => sum + item.value, 0);
   let offset = 0;
   return (
-    <svg width={size} height={size} className="shrink-0">
+    <svg width={size} height={size} className="shrink-0" onMouseLeave={() => onHover?.(null)}>
       <g transform={`rotate(-90 ${size / 2} ${size / 2})`}>
         <circle
           cx={size / 2}
@@ -1131,7 +2147,8 @@ function DonutChart({ data, palette }: { data: DonutDatum[]; palette: string[] }
               strokeWidth={stroke}
               strokeDasharray={dasharray}
               strokeDashoffset={dashoffset}
-              strokeLinecap="round"
+              strokeLinecap="butt"
+              onMouseEnter={() => onHover?.(item.label)}
             />
           );
         })}
