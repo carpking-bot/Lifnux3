@@ -10,6 +10,14 @@ const EXPENSE_CATEGORIES_KEY = "lifnux.finance.expense.categories.v1";
 const EXPENSE_REVIEW_KEY = "lifnux.finance.expense.review.v1";
 const EXPENSE_BUDGET_KEY = "lifnux.finance.expense.budget.v1";
 
+const formatNumberInput = (value: string) => {
+  const digits = value.replace(/[^\d]/g, "");
+  if (!digits) return "";
+  return Number(digits).toLocaleString("ko-KR");
+};
+
+const parseNumberInput = (value: string) => Number(value.replace(/[^\d]/g, ""));
+
 type ExpenseEntry = {
   id: string;
   date: string;
@@ -50,13 +58,13 @@ export default function FinanceExpensePage() {
     setCategories(loadedCategories);
     setBudgetByMonth(loadedBudget);
     setReviewByMonth(loadedReview);
-    setBudgetInput(loadedBudget[selectedMonth] ? String(loadedBudget[selectedMonth]) : "");
+    setBudgetInput(loadedBudget[selectedMonth] ? formatNumberInput(String(loadedBudget[selectedMonth])) : "");
     setGrade(loadedReview[selectedMonth]?.grade ?? "");
     setReviewNote(loadedReview[selectedMonth]?.note ?? "");
   }, []);
 
   useEffect(() => {
-    setBudgetInput(budgetByMonth[selectedMonth] ? String(budgetByMonth[selectedMonth]) : "");
+    setBudgetInput(budgetByMonth[selectedMonth] ? formatNumberInput(String(budgetByMonth[selectedMonth])) : "");
     setGrade(reviewByMonth[selectedMonth]?.grade ?? "");
     setReviewNote(reviewByMonth[selectedMonth]?.note ?? "");
   }, [budgetByMonth, reviewByMonth, selectedMonth]);
@@ -100,7 +108,7 @@ export default function FinanceExpensePage() {
 
   const saveEntry = () => {
     if (!date || !category || !title.trim()) return;
-    const amountValue = Number(amount);
+    const amountValue = parseNumberInput(amount);
     if (!(amountValue > 0)) return;
     const payload: ExpenseEntry = {
       id: editingId ?? crypto.randomUUID(),
@@ -121,7 +129,7 @@ export default function FinanceExpensePage() {
     setDate(entry.date);
     setCategory(entry.category);
     setTitle(entry.title);
-    setAmount(String(entry.amount));
+    setAmount(formatNumberInput(String(entry.amount)));
     setMemo(entry.memo ?? "");
   };
 
@@ -143,7 +151,7 @@ export default function FinanceExpensePage() {
   };
 
   const saveBudget = () => {
-    const value = Number(budgetInput) || 0;
+    const value = parseNumberInput(budgetInput) || 0;
     const next = { ...budgetByMonth, [selectedMonth]: value };
     setBudgetByMonth(next);
     saveState(EXPENSE_BUDGET_KEY, next);
@@ -192,7 +200,13 @@ export default function FinanceExpensePage() {
               </label>
               <label className="block">
                 <div className="text-[var(--ink-1)]">Amount (KRW)</div>
-                <input type="number" value={amount} onChange={(event) => setAmount(event.target.value)} className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2" />
+                <input
+                  inputMode="numeric"
+                  value={amount}
+                  onChange={(event) => setAmount(formatNumberInput(event.target.value))}
+                  placeholder="0"
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+                />
               </label>
               <label className="block md:col-span-2">
                 <div className="text-[var(--ink-1)]">Memo</div>
@@ -235,13 +249,13 @@ export default function FinanceExpensePage() {
             <div className="mt-3 text-2xl font-semibold">{formatKrw(monthTotal)}</div>
             <div className="mt-1 text-sm text-white/85">Top category: {topCategory}</div>
             <div className="mt-3 flex items-center gap-2 text-sm">
-              <input
-                type="number"
-                value={budgetInput}
-                onChange={(event) => setBudgetInput(event.target.value)}
-                placeholder="Monthly budget"
-                className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2"
-              />
+                <input
+                  inputMode="numeric"
+                  value={budgetInput}
+                  onChange={(event) => setBudgetInput(formatNumberInput(event.target.value))}
+                  placeholder="Monthly budget"
+                  className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+                />
               <button className="rounded-full border border-white/10 px-3 py-2" onClick={saveBudget}>
                 Save
               </button>
@@ -347,20 +361,24 @@ function PieChart({ data }: { data: { label: string; value: number; color: strin
                 strokeWidth={stroke}
                 strokeDasharray={dasharray}
                 strokeDashoffset={dashoffset}
-                strokeLinecap="round"
+                strokeLinecap="butt"
               />
             );
           })}
         </g>
       </svg>
       <div className="space-y-2 text-xs">
-        {data.map((item) => (
+        {data.map((item) => {
+          const pct = total > 0 ? (item.value / total) * 100 : 0;
+          return (
           <div key={item.label} className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
             <span className="text-[var(--ink-1)]">{item.label}</span>
             <span>{formatKrw(item.value)}</span>
+            <span className="text-[var(--ink-1)]">({pct.toFixed(1)}%)</span>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -391,4 +409,3 @@ function MiniLineChart({ points }: { points: { month: string; total: number }[] 
     </svg>
   );
 }
-
