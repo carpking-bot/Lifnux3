@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, Settings, Wrench } from "lucide-react";
 import { AppSwitcherOverlay } from "./AppSwitcherOverlay";
@@ -11,6 +11,11 @@ export function TopMenu() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [launcherOpen, setLauncherOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+  }, [pathname]);
 
   if (pathname === "/") return null;
 
