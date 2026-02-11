@@ -131,6 +131,38 @@ export default function PortfolioPage() {
     setTrades(data.trades);
     const loadedCash = loadCashBalances();
     const loadedLedger = loadLedgerRecords();
+    const stocksById = new Map(data.stocks.map((stock) => [stock.id, stock]));
+    const accountById = new Map(normalizedAccounts.map((account) => [account.id, account]));
+    const migratedLedger: LedgerRecord[] =
+      !loadedLedger.length && data.trades.length
+        ? data.trades.map((trade) => {
+            const stock = stocksById.get(trade.stockId);
+            const account = accountById.get(trade.accountId);
+            const currency: "KRW" | "USD" =
+              stock?.currency ??
+              (stock?.market === "US" ? "USD" : stock?.market === "KR" ? "KRW" : account?.currency ?? "KRW");
+            const pnl = trade.realizedPnl;
+            const pnlPct = trade.realizedPnlPercent;
+            const costBasis =
+              typeof pnl === "number" && typeof pnlPct === "number" && pnlPct !== 0 ? pnl / (pnlPct / 100) : null;
+            return {
+              id: `migrated-${trade.id}`,
+              ts: trade.executedAt,
+              accountId: trade.accountId,
+              type: "TRADE",
+              currency,
+              symbol: stock?.symbol,
+              side: trade.side,
+              qty: trade.qty,
+              price: trade.price,
+              fee: trade.fee,
+              memo: trade.memo,
+              realizedPnl: pnl ?? null,
+              realizedPnlPercent: pnlPct ?? null,
+              costBasis
+            };
+          })
+        : loadedLedger;
     const persistedOptions = loadState<PortfolioLabelOptions>(PORTFOLIO_LABEL_OPTIONS_KEY, {
       countries: ["KR", "US"],
       sectors: []
@@ -158,7 +190,10 @@ export default function PortfolioPage() {
         : [];
       return loadedCash.length ? loadedCash : normalized;
     });
-    setLedgerRecords(loadedLedger);
+    setLedgerRecords(migratedLedger);
+    if (!loadedLedger.length && migratedLedger.length) {
+      saveLedgerRecords(migratedLedger);
+    }
     setReady(true);
   }, []);
 

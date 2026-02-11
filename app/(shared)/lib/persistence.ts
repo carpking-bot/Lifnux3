@@ -12,9 +12,12 @@ type LifnuxExport = {
 const EXPORT_VERSION = "1.0.0";
 const BACKUP_KEY = "lifnux:backup";
 const BACKUP_ENABLED_KEY = "lifnux:backup.enabled";
+const SYNC_EXACT_KEYS = new Set(["portfolio.positions"]);
+const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music."];
 
 function isLifnuxKey(key: string) {
-  return key.startsWith("lifnux") || key === "portfolio.positions";
+  if (SYNC_EXACT_KEYS.has(key)) return true;
+  return SYNC_PREFIXES.some((prefix) => key.startsWith(prefix));
 }
 
 function getCategory(key: string) {
