@@ -82,7 +82,8 @@ export function normalizeSymbol(raw: string) {
   if (cleaned.endsWith(".KS") || cleaned.endsWith(".KQ")) {
     return cleaned.slice(0, -3);
   }
-  if (/^\d{6}$/.test(cleaned)) return cleaned;
+  if (/^A\d{6}$/.test(cleaned)) return cleaned.slice(1);
+  if (/^\d[0-9A-Z]{5,6}$/.test(cleaned)) return cleaned;
   if (/^[A-Z]{2,5}:[A-Z0-9.\-]+$/.test(cleaned)) return cleaned;
   return `NAS:${cleaned}`;
 }
@@ -98,22 +99,33 @@ export function mockQuote(symbol: string, market: "KR" | "US") {
 
 export function detectMarketFromSymbol(symbol: string): "KR" | "US" {
   const normalized = symbol.trim().toUpperCase();
-  if (normalized.endsWith(".KS") || normalized.endsWith(".KQ") || /^\d{6}$/.test(normalized)) {
+  if (normalized.endsWith(".KS") || normalized.endsWith(".KQ") || /^A\d{6}$/.test(normalized) || /^\d[0-9A-Z]{5,6}$/.test(normalized)) {
     return "KR";
   }
   return "US";
 }
 
-export function createStockItem(symbol: string, market?: "KR" | "US", label?: string): StockItem {
+export function createStockItem(
+  symbol: string,
+  market?: "KR" | "US",
+  label?: string,
+  options?: { assetType?: "STOCK" | "ETF" | "ETN"; exchange?: string; currency?: "KRW" | "USD" }
+): StockItem {
   const normalized = symbol.trim().toUpperCase();
   const resolvedMarket = market ?? detectMarketFromSymbol(normalized);
   const quote = mockQuote(normalized, resolvedMarket);
   const displayLabel = label?.trim() ? label.trim() : normalized;
+  const resolvedCurrency = options?.currency ?? (resolvedMarket === "KR" ? "KRW" : "USD");
+  const resolvedExchange = options?.exchange ?? (resolvedMarket === "KR" ? "KRX" : "NASDAQ");
   return {
-    id: `${resolvedMarket}-${normalized}`.toLowerCase(),
+    id: `${resolvedMarket}-${options?.assetType ?? "STOCK"}-${normalized}`.toLowerCase(),
     label: displayLabel,
     symbol: normalized,
     market: resolvedMarket,
+    assetType: options?.assetType ?? "STOCK",
+    exchange: resolvedExchange,
+    currency: resolvedCurrency,
+    createdAt: now(),
     last: quote.last,
     changePct: quote.changePct,
     changeAbs: quote.changeAbs,
@@ -184,7 +196,15 @@ export function loadFinanceState() {
           : trimmedName && normalizedName !== normalizedSymbol
             ? trimmedName
             : normalizedSymbol;
-      return { ...item, symbol: normalizedSymbol, label: resolvedLabel };
+      return {
+        ...item,
+        symbol: normalizedSymbol,
+        label: resolvedLabel,
+        assetType: item.assetType ?? "STOCK",
+        exchange: item.exchange ?? (item.market === "KR" ? "KRX" : "NASDAQ"),
+        currency: item.currency ?? (item.market === "KR" ? "KRW" : "USD"),
+        createdAt: item.createdAt ?? now()
+      };
     });
   }
   if (!stocks.length) {
@@ -209,6 +229,10 @@ export function loadFinanceState() {
             id: item.id,
             symbol: item.ticker ? item.ticker.toUpperCase() : item.name ?? "",
             market: item.market,
+            assetType: "STOCK",
+            exchange: item.market === "KR" ? "KRX" : "NASDAQ",
+            currency: item.market === "KR" ? "KRW" : "USD",
+            createdAt: now(),
             name: item.name ?? item.ticker,
             label: item.name ?? item.ticker ?? (item.ticker ? item.ticker.toUpperCase() : ""),
             watchlisted: item.watchlisted ?? true,
@@ -253,13 +277,17 @@ export function loadFinanceState() {
       }
       return;
     }
-    const market: "KR" | "US" = /^\d{6}$/.test(symbolKey) ? "KR" : "US";
+    const market: "KR" | "US" = /^\d[0-9A-Z]{5,6}$/.test(symbolKey) ? "KR" : "US";
     const label = symbolKey.includes(":") ? symbolKey.split(":")[1] : symbolKey;
     const quote = mockQuote(symbolKey, market);
     const created: StockItem = {
       id: `auto-${market}-${symbolKey}`.toLowerCase(),
       symbol: symbolKey,
       market,
+      assetType: "STOCK",
+      exchange: market === "KR" ? "KRX" : "NASDAQ",
+      currency: market === "KR" ? "KRW" : "USD",
+      createdAt: now(),
       label,
       name: label,
       watchlisted: true,

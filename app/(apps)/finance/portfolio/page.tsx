@@ -107,6 +107,9 @@ export default function PortfolioPage() {
   const [sortKey, setSortKey] = useState<"weight" | "pnl" | "value" | "cost" | "account" | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [realizedRange, setRealizedRange] = useState<"MTD" | "YTD" | "ALL">("MTD");
+  const [realizedDetailOpen, setRealizedDetailOpen] = useState(false);
+  const [realizedDetailSortKey, setRealizedDetailSortKey] = useState<"price" | "time">("time");
+  const [realizedDetailSortDir, setRealizedDetailSortDir] = useState<"asc" | "desc">("desc");
   const [ledgerFilters, setLedgerFilters] = useState({
     accountId: "ALL",
     type: "ALL" as "ALL" | "TRADE" | "CASHFLOW",
@@ -411,6 +414,17 @@ export default function PortfolioPage() {
       .sort((a, b) => b.ts - a.ts);
   }, [ledgerFilters, ledgerRecords]);
 
+  const realizedDetailRows = useMemo(() => {
+    const rows = [...realizedSummary.records];
+    rows.sort((a, b) => {
+      if (realizedDetailSortKey === "price") {
+        return (a.price ?? 0) - (b.price ?? 0);
+      }
+      return a.ts - b.ts;
+    });
+    return realizedDetailSortDir === "asc" ? rows : rows.reverse();
+  }, [realizedDetailSortDir, realizedDetailSortKey, realizedSummary.records]);
+
   useEffect(() => {
     if (!ready || totals.totalKrw === null || totals.totalKrw <= 0) return;
     const today = new Date().toISOString().slice(0, 10);
@@ -473,6 +487,14 @@ export default function PortfolioPage() {
     if (!account) return "-";
     const currency = account.currency ?? (account.countryType === "US" ? "USD" : "KRW");
     return `${account.brokerName} (${currency})`;
+  };
+
+  const findStockDisplay = (symbol: string | undefined) => {
+    if (!symbol) return "-";
+    const normalized = normalizeSymbol(symbol);
+    const stock = stocks.find((item) => normalizeSymbol(item.symbol) === normalized);
+    const name = stock?.label?.trim() || stock?.name?.trim();
+    return name ? `${name} (${symbol})` : symbol;
   };
 
   const resolveAccountCurrency = (accountId: string) => {
@@ -1072,7 +1094,18 @@ export default function PortfolioPage() {
                 </div>
                 <div className="mt-1 text-[10px] text-[var(--ink-1)]">Holdings only</div>
               </div>
-              <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+              <div
+                className="rounded-xl border border-white/10 bg-black/30 p-3 text-left transition hover:border-white/25 cursor-pointer"
+                onClick={() => setRealizedDetailOpen(true)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setRealizedDetailOpen(true);
+                  }
+                }}
+              >
                 <div className="flex items-center justify-between">
                   <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">Realized PnL (KRW)</div>
                   <div className="flex items-center gap-1 text-[10px]">
@@ -1082,7 +1115,10 @@ export default function PortfolioPage() {
                         className={`rounded-full border px-2 py-1 ${
                           realizedRange === range ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"
                         }`}
-                        onClick={() => setRealizedRange(range)}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setRealizedRange(range);
+                        }}
                         type="button"
                       >
                         {range}
@@ -1350,7 +1386,7 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="mt-6 grid gap-4 md:grid-cols-[1.35fr_0.85fr]">
             <DonutCard title="Sector Weight (KRW)" data={sectorData} detailsByLabel={sectorDetails} />
             <DonutCard title="Country Exposure (KRW)" data={countryData} detailsByLabel={countryDetails} />
           </div>
@@ -1935,7 +1971,7 @@ export default function PortfolioPage() {
                 const summary =
                   record.type === "TRADE"
                     ? {
-                        label: `${record.side ?? ""} ${record.symbol ?? "-"}`,
+                        label: `${record.side ?? ""} ${findStockDisplay(record.symbol)}`,
                         qty: record.qty ?? 0,
                         price: record.price ?? 0
                       }
@@ -1990,6 +2026,98 @@ export default function PortfolioPage() {
         </div>
       </Modal>
 
+      <Modal
+        open={realizedDetailOpen}
+        title="Realized PnL Detail"
+        onClose={() => setRealizedDetailOpen(false)}
+        panelClassName="!w-[96vw] !max-w-[1200px] min-h-[60vh] pt-8"
+        titleClassName="text-3xl font-semibold tracking-tight"
+        contentClassName="text-base md:text-lg"
+        closeButtonClassName="p-2 text-base text-white/80 hover:text-white"
+        actions={
+          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setRealizedDetailOpen(false)}>
+            Close
+          </button>
+        }
+      >
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">SELL records with realized pnl ({realizedRange})</div>
+            <div className="flex items-center gap-2 text-[11px] text-[var(--ink-1)]">
+              <button
+                className={`rounded-full border px-2 py-1 ${realizedDetailSortKey === "price" ? "border-white/30 text-white" : "border-white/10"}`}
+                onClick={() => {
+                  if (realizedDetailSortKey === "price") {
+                    setRealizedDetailSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+                  } else {
+                    setRealizedDetailSortKey("price");
+                    setRealizedDetailSortDir("desc");
+                  }
+                }}
+              >
+                Price {realizedDetailSortKey === "price" ? (realizedDetailSortDir === "asc" ? "▲" : "▼") : ""}
+              </button>
+              <button
+                className={`rounded-full border px-2 py-1 ${realizedDetailSortKey === "time" ? "border-white/30 text-white" : "border-white/10"}`}
+                onClick={() => {
+                  if (realizedDetailSortKey === "time") {
+                    setRealizedDetailSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+                  } else {
+                    setRealizedDetailSortKey("time");
+                    setRealizedDetailSortDir("desc");
+                  }
+                }}
+              >
+                Time {realizedDetailSortKey === "time" ? (realizedDetailSortDir === "asc" ? "▲" : "▼") : ""}
+              </button>
+            </div>
+          </div>
+
+          <div className="max-h-[56vh] space-y-2 overflow-y-auto pr-1">
+            {realizedDetailRows.length ? (
+              realizedDetailRows.map((record) => {
+                const account = accounts.find((acc) => acc.id === record.accountId);
+                const realized = typeof record.realizedPnl === "number" ? record.realizedPnl : 0;
+                const realizedKrw = record.currency === "USD" && fxRate ? realized * fxRate : record.currency === "KRW" ? realized : null;
+                return (
+                  <div key={record.id} className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="min-w-0">
+                        <div className="text-xs text-[var(--ink-1)]">
+                          {formatDateTime(record.ts)} · {formatAccountName(account)}
+                        </div>
+                        <div className="mt-1 text-base">
+                          <span className="font-semibold">{record.side ?? "SELL"} {findStockDisplay(record.symbol)}</span>
+                          {" "}x{formatNumber(record.qty ?? 0, 0)} @{" "}
+                          <span className={blurClass}>{formatCurrency(record.price ?? 0, record.currency)}</span>
+                        </div>
+                        {record.memo ? <div className="mt-1 text-xs text-[var(--ink-1)]">{record.memo}</div> : null}
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <div className={`text-xs ${realized >= 0 ? "text-emerald-300" : "text-rose-300"} ${blurClass}`}>
+                          Realized {realized >= 0 ? "+" : "-"}
+                          {formatCurrency(Math.abs(realized), record.currency)}
+                        </div>
+                        {realizedKrw !== null ? (
+                          <div className={`mt-1 text-[11px] ${realizedKrw >= 0 ? "text-emerald-300" : "text-rose-300"} ${blurClass}`}>
+                            KRW {realizedKrw >= 0 ? "+" : "-"}
+                            {formatCurrency(Math.abs(realizedKrw), "KRW")}
+                          </div>
+                        ) : (
+                          <div className={`mt-1 text-[10px] text-[var(--ink-1)] ${blurClass}`}>KRW FX not ready</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="text-sm text-[var(--ink-1)]">No realized records in this range.</div>
+            )}
+          </div>
+        </div>
+      </Modal>
+
       <ConfirmModal
         open={deleteConfirmOpen}
         title="Delete Holding"
@@ -2033,6 +2161,7 @@ function DonutCard({
   detailsByLabel?: Record<string, DonutDetailItem[]>;
 }) {
   const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
+  const [pinnedLabel, setPinnedLabel] = useState<string | null>(null);
   const palette = [
     "#6EE7B7",
     "#93C5FD",
@@ -2057,50 +2186,102 @@ function DonutCard({
   ];
   const total = data.reduce((sum, item) => sum + item.value, 0);
   const formatKrw = (value: number) => `₩${Math.round(value).toLocaleString("ko-KR")}`;
-  const hoveredDetails = hoveredLabel ? detailsByLabel?.[hoveredLabel] ?? null : null;
-  const hoveredTotal = hoveredDetails?.reduce((sum, item) => sum + item.value, 0) ?? null;
+  const activeLabel = pinnedLabel ?? hoveredLabel;
+  const activeDetails = activeLabel ? detailsByLabel?.[activeLabel] ?? null : null;
+  const activeTotal = activeDetails?.reduce((sum, item) => sum + item.value, 0) ?? null;
+  const legendTwoCol = data.length >= 8;
+  const splitIndex = Math.ceil(data.length / 2);
+  const legendCols = legendTwoCol ? [data.slice(0, splitIndex), data.slice(splitIndex)] : [data];
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+    <div className="rounded-2xl border border-white/10 bg-black/20 p-4 min-h-[480px]">
       <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{title}</div>
       <div className="mt-3 flex items-center gap-4">
-        <DonutChart data={data} palette={palette} onHover={setHoveredLabel} />
-        <div className="space-y-2 text-xs">
+        <DonutChart
+          data={data}
+          palette={palette}
+          onHover={(label) => {
+            if (!pinnedLabel) setHoveredLabel(label);
+          }}
+          onSelect={(label) => {
+            setPinnedLabel((prev) => (prev === label ? null : label));
+            setHoveredLabel(label);
+          }}
+        />
+        <div className={`${legendTwoCol ? "grid grid-cols-2 gap-x-6 text-xs flex-1" : "space-y-2 text-xs"}`}>
           {data.length ? (
-            data.map((item, index) => (
-              <div key={item.label} className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: palette[index % palette.length] }} />
-                <span className="text-[var(--ink-1)]">{item.label}</span>
-                <span className="text-white/80">
-                  {formatKrw(item.value)}
-                  {total > 0 ? ` · ${(item.value / total * 100).toFixed(1)}%` : ""}
+            legendCols.map((col, colIndex) => (
+              <div key={colIndex} className="space-y-2">
+                {col.map((item) => {
+                  const dataIndex = data.findIndex((entry) => entry.label === item.label);
+                  return (
+                    <button
+                      key={item.label}
+                      className="flex w-full min-w-0 items-center gap-2 text-left"
+                      onMouseEnter={() => {
+                        if (!pinnedLabel) setHoveredLabel(item.label);
+                      }}
+                      onMouseLeave={() => {
+                        if (!pinnedLabel) setHoveredLabel(null);
+                      }}
+                      onClick={() => {
+                        setPinnedLabel((prev) => (prev === item.label ? null : item.label));
+                        setHoveredLabel(item.label);
+                      }}
+                      type="button"
+                    >
+                      <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: palette[dataIndex % palette.length] }} />
+                      <span className={`min-w-0 flex-1 truncate whitespace-nowrap ${activeLabel === item.label ? "text-white" : "text-[var(--ink-1)]"}`}>
+                        {item.label}
+                      </span>
+                      <span className="shrink-0 whitespace-nowrap text-white/80">
+                        {formatKrw(item.value)}
+                        {total > 0 ? ` · ${(item.value / total * 100).toFixed(1)}%` : ""}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            ))
+          ) : (
+            <div className="text-[var(--ink-1)]">No data</div>
+          )}
+        </div>
+      </div>
+      <div className="mt-3 h-[190px] rounded-xl border border-white/10 bg-black/30 p-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">
+            {activeLabel ? `${activeLabel} Breakdown` : "Breakdown"}
+          </div>
+          {pinnedLabel ? (
+            <button
+              className="rounded-full border border-white/10 px-2 py-1 text-[10px]"
+              onClick={() => setPinnedLabel(null)}
+              type="button"
+            >
+              Unpin
+            </button>
+          ) : null}
+        </div>
+        <div className="mt-2 h-[126px] overflow-y-auto space-y-1 text-xs">
+          {activeLabel && activeDetails && activeDetails.length ? (
+            activeDetails.map((item) => (
+              <div key={`${activeLabel}-${item.name}`} className="flex items-center justify-between gap-3">
+                <span className="truncate text-white/80">{item.name}</span>
+                <span className="shrink-0 text-white/90">
+                  {formatKrw(item.value)} {total > 0 ? `· ${(item.value / total * 100).toFixed(1)}%` : ""}
                 </span>
               </div>
             ))
           ) : (
-              <div className="text-[var(--ink-1)]">No data</div>
-            )}
+            <div className="text-[var(--ink-1)]">Hover or click a segment to view holdings.</div>
+          )}
         </div>
+        {activeTotal !== null ? (
+          <div className="mt-2 text-[10px] text-[var(--ink-1)]">
+            Total: {formatKrw(activeTotal)}
+          </div>
+        ) : null}
       </div>
-      {hoveredLabel && hoveredDetails && hoveredDetails.length ? (
-        <div className="mt-3 rounded-xl border border-white/10 bg-black/30 p-3">
-          <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">
-            {hoveredLabel} Breakdown
-          </div>
-          <div className="mt-2 max-h-40 space-y-1 overflow-y-auto text-xs">
-            {hoveredDetails.map((item) => (
-              <div key={`${hoveredLabel}-${item.name}`} className="flex items-center justify-between gap-3">
-                <span className="truncate text-white/80">{item.name}</span>
-                <span className="shrink-0 text-white/90">{formatKrw(item.value)}</span>
-              </div>
-            ))}
-          </div>
-          {hoveredTotal !== null ? (
-            <div className="mt-2 text-[10px] text-[var(--ink-1)]">
-              Total: {formatKrw(hoveredTotal)}
-            </div>
-          ) : null}
-        </div>
-      ) : null}
     </div>
   );
 }
@@ -2108,11 +2289,13 @@ function DonutCard({
 function DonutChart({
   data,
   palette,
-  onHover
+  onHover,
+  onSelect
 }: {
   data: DonutDatum[];
   palette: string[];
   onHover?: (label: string | null) => void;
+  onSelect?: (label: string) => void;
 }) {
   const size = 140;
   const stroke = 18;
@@ -2149,6 +2332,7 @@ function DonutChart({
               strokeDashoffset={dashoffset}
               strokeLinecap="butt"
               onMouseEnter={() => onHover?.(item.label)}
+              onClick={() => onSelect?.(item.label)}
             />
           );
         })}

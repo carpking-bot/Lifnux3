@@ -16,6 +16,10 @@ app = FastAPI()
 KIS_TOKEN_PATH = "/oauth2/tokenP"
 KIS_PRICE_PATH = "/uapi/domestic-stock/v1/quotations/inquire-price"
 KIS_TR_ID_PRICE = "FHKST01010100"
+KIS_ETF_ETN_PRICE_PATH = (
+    os.getenv("KIS_ETF_ETN_PRICE_PATH", "/uapi/domestic-etf/v1/quotations/inquire-price").strip()
+)
+KIS_TR_ID_ETF_ETN_PRICE = os.getenv("KIS_TR_ID_ETF_ETN_PRICE", "FHKST02400000").strip()
 KIS_OVERSEAS_PRICE_PATH = "/uapi/overseas-price/v1/quotations/price"
 KIS_TR_ID_OVERSEAS_PRICE = "HHDFS00000300"
 NAVER_FX_URL = (
@@ -132,19 +136,39 @@ def _is_kr_symbol(symbol: str) -> bool:
         return True
     if s.endswith(".KS") or s.endswith(".KQ"):
         return True
-    if s.isdigit() and len(s) == 6:
+    if re.fullmatch(r"\d{6}", s):
+        return True
+    if re.fullmatch(r"\d[0-9A-Z]{5}", s):
+        return True
+    if re.fullmatch(r"A\d{6}", s):
         return True
     return False
+
+
+def _normalize_kr_code(symbol: str) -> str:
+    raw = symbol.strip().upper()
+    if raw.endswith(".KS") or raw.endswith(".KQ"):
+        raw = raw[:-3]
+    if re.fullmatch(r"A\d{6}", raw):
+        return raw[1:]
+    return raw
+
+
+def _is_kr_stock_code(code: str) -> bool:
+    return bool(re.fullmatch(r"\d{6}", code))
+
+
+def _is_kr_etf_etn_short_code(code: str) -> bool:
+    return bool(re.fullmatch(r"\d{4}[0-9A-Z]{2}", code) and re.search(r"[A-Z]", code))
 
 
 def _parse_symbol(symbol: str) -> Tuple[str, str | None, str]:
     raw = symbol.strip().upper()
     if not raw:
         return "UNKNOWN", None, ""
-    if raw.endswith(".KS") or raw.endswith(".KQ"):
-        raw = raw[:-3]
-    if raw.isdigit() and len(raw) == 6:
-        return "KR", None, raw
+    kr_code = _normalize_kr_code(raw)
+    if _is_kr_stock_code(kr_code) or _is_kr_etf_etn_short_code(kr_code):
+        return "KR", None, kr_code
     if ":" in raw:
         parts = raw.split(":", 1)
         excd = parts[0].strip().upper()
@@ -368,6 +392,72 @@ async def _fetch_kis_quote(
         if market != "KR":
             return _empty_quote_with_source(symbol, "kis")
 
+        if _is_kr_etf_etn_short_code(code):
+            print(f"[KIS ROUTE] symbol={symbol} route=KR_ETF_ETN code={code}")
+            endpoint_attempts = [
+                (KIS_ETF_ETN_PRICE_PATH, KIS_TR_ID_ETF_ETN_PRICE),
+                (KIS_PRICE_PATH, KIS_TR_ID_PRICE),
+            ]
+            for path, tr_id in endpoint_attempts:
+                params_list = [
+                    {"fid_cond_mrkt_div_code": "J", "fid_input_iscd": code},
+                    {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": code},
+                    {"fid_cond_mrkt_div_code": "Q", "fid_input_iscd": code},
+                ]
+                for params in params_list:
+                    headers = {
+                        "Authorization": f"Bearer {token}",
+                        "appkey": app_key,
+                        "appsecret": app_secret,
+                        "tr_id": tr_id,
+                        "content-type": "application/json",
+                    }
+                    url = f"{base_url}{path}"
+                    try:
+                        resp = await client.get(url, params=params, headers=headers, timeout=10.0)
+                    except Exception as exc:
+                        print(
+                            f"[KIS ETF_ETN ERROR] symbol={symbol} path={path} tr_id={tr_id} params={params} err={repr(exc)}"
+                        )
+                        continue
+
+                    key_fields = ""
+                    data: Dict[str, Any] = {}
+                    if resp.status_code == 200:
+                        try:
+                            data = resp.json()
+                            price, change, change_percent, name = _parse_kis_quote(data)
+                            key_fields = f"price={price} change={change} pct={change_percent}"
+                        except Exception as exc:
+                            print(
+                                f"[KIS ETF_ETN JSON ERROR] symbol={symbol} path={path} tr_id={tr_id} params={params} err={repr(exc)}"
+                            )
+                            continue
+                    print(
+                        f"[KIS ETF_ETN REQ] symbol={symbol} path={path} tr_id={tr_id} params={params} status={resp.status_code} {key_fields}"
+                    )
+                    if resp.status_code != 200:
+                        continue
+
+                    price, change, change_percent, name = _parse_kis_quote(data)
+                    if price is None:
+                        continue
+                    return {
+                        "symbol": symbol,
+                        "price": float(price),
+                        "change": change,
+                        "changePercent": change_percent,
+                        "currency": "KRW",
+                        "marketTime": _iso_time(time.time()),
+                        "source": "kis",
+                        "name": name,
+                    }
+
+            print(
+                f"[KIS ETF_ETN FAIL] symbol={symbol} endpoint={KIS_ETF_ETN_PRICE_PATH} tr_id={KIS_TR_ID_ETF_ETN_PRICE} code={code}"
+            )
+            return _empty_quote_with_source(symbol, "kis")
+
         for market_code in _kis_market_candidates(code):
             params = {"fid_cond_mrkt_div_code": market_code, "fid_input_iscd": code}
             headers = {
@@ -382,18 +472,23 @@ async def _fetch_kis_quote(
                     f"{base_url}{KIS_PRICE_PATH}", params=params, headers=headers, timeout=10.0
                 )
             except Exception as exc:
-                print("[KIS QUOTE ERROR]", raw, repr(exc))
+                print("[KIS QUOTE ERROR]", symbol, repr(exc))
                 continue
             if resp.status_code != 200:
-                print("[KIS QUOTE HTTP ERROR]", resp.status_code, raw, resp.text[:200])
+                print(
+                    f"[KIS STOCK REQ] symbol={symbol} path={KIS_PRICE_PATH} tr_id={KIS_TR_ID_PRICE} params={params} status={resp.status_code} body={resp.text[:120]}"
+                )
                 continue
             try:
                 data = resp.json()
             except Exception as exc:
-                print("[KIS QUOTE JSON ERROR]", raw, repr(exc))
+                print("[KIS QUOTE JSON ERROR]", symbol, repr(exc))
                 continue
 
             price, change, change_percent, name = _parse_kis_quote(data)
+            print(
+                f"[KIS STOCK REQ] symbol={symbol} path={KIS_PRICE_PATH} tr_id={KIS_TR_ID_PRICE} params={params} status=200 price={price} change={change} pct={change_percent}"
+            )
             if price is None:
                 print("[KIS QUOTE MISSING PRICE]", symbol, "keys=", ",".join(sorted(data.keys())))
                 continue
@@ -665,8 +760,9 @@ async def search_symbols(q: str = Query("", description="Search query")) -> Dict
     async with httpx.AsyncClient(headers={"Accept": "application/json"}, verify=ssl_verify) as client:
         if is_kr:
             results = []
-            if query.isdigit() and len(query) == 6:
-                results = [{"symbol": query, "name": None, "market": "KR"}]
+            normalized_kr = _normalize_kr_code(query)
+            if _is_kr_stock_code(normalized_kr) or _is_kr_etf_etn_short_code(normalized_kr):
+                results = [{"symbol": normalized_kr, "name": None, "market": "KR"}]
         else:
             results = []
             if query:

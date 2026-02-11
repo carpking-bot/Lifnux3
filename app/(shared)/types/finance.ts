@@ -14,6 +14,10 @@ export type StockItem = {
   id: string;
   symbol: string;
   market: "KR" | "US";
+  assetType?: "STOCK" | "ETF" | "ETN";
+  currency?: "KRW" | "USD";
+  exchange?: string;
+  createdAt?: number;
   name?: string;
   label?: string;
   watchlisted?: boolean;

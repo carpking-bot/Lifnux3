@@ -1,0 +1,1859 @@
+{
+  "accounts": [
+    {
+      "id": "woori_super",
+      "name": "우리SUPER주거래통장",
+      "group": "CASH",
+      "subGroup": "예금/입출금 계좌"
+    },
+    {
+      "id": "kb_nara_sarang",
+      "name": "KB나라사랑우대통장",
+      "group": "CASH",
+      "subGroup": "예금/입출금 계좌"
+    },
+    {
+      "id": "cash_wallet",
+      "name": "현금",
+      "group": "CASH",
+      "subGroup": "현금"
+    },
+    {
+      "id": "kiwoom_kr_active",
+      "name": "키움증권(국내)",
+      "group": "INVESTING",
+      "subGroup": "액티브"
+    },
+    {
+      "id": "kiwoom_us_active",
+      "name": "키움증권(해외)",
+      "group": "INVESTING",
+      "subGroup": "액티브"
+    },
+    {
+      "id": "namu_isa",
+      "name": "나무증권(ISA)",
+      "group": "INVESTING",
+      "subGroup": "ISA"
+    },
+    {
+      "id": "meritz_super365",
+      "name": "메리츠증권(Super365)",
+      "group": "INVESTING",
+      "subGroup": "액티브"
+    },
+    {
+      "id": "meritz_pension",
+      "name": "메리츠증권(연금저축펀드)",
+      "group": "INVESTING",
+      "subGroup": "연금저축펀드"
+    },
+    {
+      "id": "toss_overseas_active",
+      "name": "토스증권(해외)",
+      "group": "INVESTING",
+      "subGroup": "액티브"
+    },
+    {
+      "id": "upbit_crypto",
+      "name": "업비트(코인)",
+      "group": "CASH",
+      "subGroup": "코인"
+    },
+    {
+      "id": "naverpay_money",
+      "name": "네이버페이 머니",
+      "group": "CASH",
+      "subGroup": "플랫폼/페이머니"
+    },
+    {
+      "id": "kakaopay_money",
+      "name": "카카오페이 머니",
+      "group": "CASH",
+      "subGroup": "플랫폼/페이머니"
+    },
+    {
+      "id": "tosspay_money",
+      "name": "토스페이 머니",
+      "group": "CASH",
+      "subGroup": "플랫폼/페이머니"
+    },
+    {
+      "id": "nh_housing",
+      "name": "주택청약종합저축(농협)",
+      "group": "SAVING",
+      "subGroup": "주택 청약"
+    },
+    {
+      "id": "kb_youth_jump",
+      "name": "KB청년도약계좌",
+      "group": "SAVING",
+      "subGroup": "청약",
+      "memo": "만기 2030.11.03"
+    },
+    {
+      "id": "card_woori",
+      "name": "카드값 (우리)",
+      "group": "DEBT",
+      "subGroup": "카드값"
+    },
+    {
+      "id": "card_kb",
+      "name": "카드값 (KB)",
+      "group": "DEBT",
+      "subGroup": "카드값"
+    }
+  ],
+  "snapshots": [
+    {
+      "month": "2024-03",
+      "createdAt": "2024-03-29T14:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 155699
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 12237724
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 63000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 9748
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 3957
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -413923
+        }
+      ]
+    },
+    {
+      "month": "2024-04",
+      "createdAt": "2024-04-30T23:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 246071
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 11313801
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 90000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 5647
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 3957
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -243468
+        }
+      ]
+    },
+    {
+      "month": "2024-05",
+      "createdAt": "2024-05-31T23:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 246071
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 11313801
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 90000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 5647
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 3957
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -243468
+        }
+      ]
+    },
+    {
+      "month": "2024-06",
+      "createdAt": "2024-06-30T23:50:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 177435
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 6077789
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 90000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 2070382
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 1727577
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 248106
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 1727577
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 248106
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 3875
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 3957
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -264860
+        }
+      ]
+    },
+    {
+      "month": "2024-07",
+      "createdAt": "2024-07-31T21:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 111420
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 612929
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 90000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 3072912
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 2328908
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 816686
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 2328908
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 816686
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 749
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 3957
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -150122
+        }
+      ]
+    },
+    {
+      "month": "2024-08",
+      "createdAt": "2024-08-31T21:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 217189
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 483616
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 2497112
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 2025582
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 1289009
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 2025582
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 1289009
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 4910
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 3957
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -165400
+        }
+      ]
+    },
+    {
+      "month": "2024-09",
+      "createdAt": "2024-10-01T18:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 285233
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 443166
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 200000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 3287213
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 3068214
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 1329624
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 3068214
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 1329624
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 1079
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 3957
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -332870
+        }
+      ]
+    },
+    {
+      "month": "2024-10",
+      "createdAt": "2024-11-01T21:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 239981
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 946796
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 200000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 2576593
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 7389
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 1761500
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 7389
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 1761500
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 8787
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 5157
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -780662
+        }
+      ]
+    },
+    {
+      "month": "2024-11",
+      "createdAt": "2024-12-01T12:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 162786
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 828885
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 200000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 3096768
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 1095835
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 2243273
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 1095835
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 2243273
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 428
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": 438318
+        }
+      ]
+    },
+    {
+      "month": "2024-12",
+      "createdAt": "2024-12-31T23:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 304970
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 1096209
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 100000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 2842777
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 4233888
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 907276
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 845718
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 515586
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 456679
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 66564
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 4900000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -432427
+        }
+      ]
+    },
+    {
+      "month": "2025-01",
+      "createdAt": "2025-01-31T19:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 285090
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 1012828
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 300000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 1456003
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 3937351
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 1916047
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 2738661
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 1028755
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 397424
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 199239
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 7046
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5000000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -462515
+        }
+      ]
+    },
+    {
+      "month": "2025-02",
+      "createdAt": "2025-02-28T22:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 243309
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 930787
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 50000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 1374003
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 3956574
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 2805777
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 4051982
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 1513084
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 352005
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 7379
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 27400
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5100000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -820034
+        }
+      ]
+    },
+    {
+      "month": "2025-03",
+      "createdAt": "2025-03-31T21:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 54435
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 300934
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 1326352
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 4140894
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 2626477
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 3797512
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 1877991
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 234171
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 3862
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5200000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -105462
+        }
+      ]
+    },
+    {
+      "month": "2025-04",
+      "createdAt": "2025-05-01T03:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 117754
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 447672
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 375012
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 3819244
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 3607937
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 4854992
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 2262511
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 210763
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5300000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -562086
+        }
+      ]
+    },
+    {
+      "month": "2025-05",
+      "createdAt": "2025-06-01T00:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 183766
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 643827
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 3114731
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 3123617
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 5723731
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 2789368
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 177911
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5400000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -395582
+        }
+      ]
+    },
+    {
+      "month": "2025-06",
+      "createdAt": "2025-07-01T03:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 114991
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 282696
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 100000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 2940047
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 3320560
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 5997348
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 3227346
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 227389
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5500000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -176749
+        }
+      ]
+    },
+    {
+      "month": "2025-07",
+      "createdAt": "2025-08-01T00:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 148699
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 317893
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 3061648
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 3555597
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 6510690
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 3831455
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 250987
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5600000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -95662
+        }
+      ]
+    },
+    {
+      "month": "2025-08",
+      "createdAt": "2025-08-30T03:00:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 138842
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 617874
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 2688334
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 3682997
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 6498522
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 3865359
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 250987
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5700000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -108768
+        }
+      ]
+    },
+    {
+      "month": "2025-09",
+      "createdAt": "2025-10-02T00:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 274511
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 599106
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 2709664
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 3693387
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 6865699
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 4460241
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 239138
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5800000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -434706
+        }
+      ]
+    },
+    {
+      "month": "2025-10",
+      "createdAt": "2025-10-30T22:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 280842
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 863200
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 30000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 731243
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 4951057
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 10814963
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 6129037
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 269892
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 2305
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 6027
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5820000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": -7900
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -603212
+        }
+      ]
+    },
+    {
+      "month": "2025-11",
+      "createdAt": "2025-11-30T23:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 126420
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 1005209
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 30000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 692230
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 4736726
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 11082043
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 6966684
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 206912
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 9845
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 23000
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 12163
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5820000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 150000
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -712469
+        }
+      ]
+    },
+    {
+      "month": "2025-12",
+      "createdAt": "2026-01-01T02:40:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 132484
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 935963
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 20000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 5635016
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 12225631
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 7560976
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 339683
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 100000
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 47601
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 4200
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 12163
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5840000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 450000
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -758955
+        }
+      ]
+    },
+    {
+      "month": "2026-01",
+      "createdAt": "2026-02-01T02:30:00.000Z",
+      "lines": [
+        {
+          "accountId": "woori_super",
+          "valueKRW": 114693
+        },
+        {
+          "accountId": "kb_nara_sarang",
+          "valueKRW": 598874
+        },
+        {
+          "accountId": "cash_wallet",
+          "valueKRW": 20000
+        },
+        {
+          "accountId": "kiwoom_kr_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "kiwoom_us_active",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "namu_isa",
+          "valueKRW": 8447385
+        },
+        {
+          "accountId": "meritz_super365",
+          "valueKRW": 12387126
+        },
+        {
+          "accountId": "meritz_pension",
+          "valueKRW": 8247084
+        },
+        {
+          "accountId": "toss_overseas_active",
+          "valueKRW": 332878
+        },
+        {
+          "accountId": "upbit_crypto",
+          "valueKRW": 90332
+        },
+        {
+          "accountId": "naverpay_money",
+          "valueKRW": 3485
+        },
+        {
+          "accountId": "kakaopay_money",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "tosspay_money",
+          "valueKRW": 12163
+        },
+        {
+          "accountId": "nh_housing",
+          "valueKRW": 5880000
+        },
+        {
+          "accountId": "kb_youth_jump",
+          "valueKRW": 600000
+        },
+        {
+          "accountId": "card_woori",
+          "valueKRW": 0
+        },
+        {
+          "accountId": "card_kb",
+          "valueKRW": -758955
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "totalAgainstSheet": "틀렸습니다",
+    "mismatchCount": 7,
+    "mismatches": [
+      {
+        "month": "2024-06",
+        "expected": 10134261,
+        "actual": 12109944,
+        "diff": 1975683
+      },
+      {
+        "month": "2024-07",
+        "expected": 6887439,
+        "actual": 10033033,
+        "diff": 3145594
+      },
+      {
+        "month": "2024-08",
+        "expected": 6355975,
+        "actual": 9670566,
+        "diff": 3314591
+      },
+      {
+        "month": "2024-09",
+        "expected": 8277716,
+        "actual": 12675554,
+        "diff": 4397838
+      },
+      {
+        "month": "2024-10",
+        "expected": 4957641,
+        "actual": 6726530,
+        "diff": 1768889
+      },
+      {
+        "month": "2024-11",
+        "expected": 8058393,
+        "actual": 11397501,
+        "diff": 3339108
+      },
+      {
+        "month": "2026-01",
+        "expected": 37224220,
+        "actual": 35975065,
+        "diff": -1249155
+      }
+    ]
+  }
+}

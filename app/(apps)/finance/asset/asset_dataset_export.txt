@@ -1,0 +1,55 @@
+Asset Dataset Export
+accounts=17, snapshots=22
+Accounts:
+- woori_super | 우리SUPER주거래통장 | CASH | 예금/입출금 계좌
+- kb_nara_sarang | KB나라사랑우대통장 | CASH | 예금/입출금 계좌
+- cash_wallet | 현금 | CASH | 현금
+- kiwoom_kr_active | 키움증권(국내) | INVESTING | 액티브
+- kiwoom_us_active | 키움증권(해외) | INVESTING | 액티브
+- namu_isa | 나무증권(ISA) | INVESTING | ISA
+- meritz_super365 | 메리츠증권(Super365) | INVESTING | 액티브
+- meritz_pension | 메리츠증권(연금저축펀드) | INVESTING | 연금저축펀드
+- toss_overseas_active | 토스증권(해외) | INVESTING | 액티브
+- upbit_crypto | 업비트(코인) | CASH | 코인
+- naverpay_money | 네이버페이 머니 | CASH | 플랫폼/페이머니
+- kakaopay_money | 카카오페이 머니 | CASH | 플랫폼/페이머니
+- tosspay_money | 토스페이 머니 | CASH | 플랫폼/페이머니
+- nh_housing | 주택청약종합저축(농협) | SAVING | 주택 청약
+- kb_youth_jump | KB청년도약계좌 | SAVING | 청약 | memo:만기 2030.11.03
+- card_woori | 카드값 (우리) | DEBT | 카드값
+- card_kb | 카드값 (KB) | DEBT | 카드값
+
+Monthly totals:
+- 2024-03 | total=11993205
+- 2024-04 | total=11389008
+- 2024-06 | total=12109944
+- 2024-07 | total=10033033
+- 2024-08 | total=9760566
+- 2024-09 | total=12275554
+- 2024-10 | total=6726530
+- 2024-11 | total=11397501
+- 2024-12 | total=15829340
+- 2025-01 | total=17808029
+- 2025-02 | total=19584366
+- 2025-03 | total=19449266
+- 2025-04 | total=20425899
+- 2025-05 | total=20753469
+- 2025-06 | total=21525728
+- 2025-07 | total=23173407
+- 2025-08 | total=23326247
+- 2025-09 | total=24199140
+- 2025-10 | total=29287454
+- 2025-11 | total=30148763
+- 2025-12 | total=32544762
+- 2026-01 | total=35975065
+
+Validation: 틀렸습니다 (mismatch=9)
+- 2024-03: expected=12056205, actual=11993205, diff=-63000
+- 2024-04: expected=11416008, actual=11389008, diff=-27000
+- 2024-06: expected=10134261, actual=12109944, diff=1975683
+- 2024-07: expected=6887439, actual=10033033, diff=3145594
+- 2024-08: expected=6355975, actual=9760566, diff=3404591
+- 2024-09: expected=8277716, actual=12275554, diff=3997838
+- 2024-10: expected=4957641, actual=6726530, diff=1768889
+- 2024-11: expected=8058393, actual=11397501, diff=3339108
+- 2026-01: expected=37224220, actual=35975065, diff=-1249155

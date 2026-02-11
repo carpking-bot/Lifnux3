@@ -12,6 +12,7 @@ import { useQuotes } from "../../../../src/lib/quotes/useQuotes";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function FinanceWatchlistPage() {
+  type WatchAssetType = "STOCK" | "ETF" | "ETN";
   const defaultExcd = "NAS";
   const excdCandidates = (process.env.NEXT_PUBLIC_KIS_EXCD_CANDIDATES ?? "NAS,NYS,AMS")
     .split(",")
@@ -27,7 +28,9 @@ export default function FinanceWatchlistPage() {
   const [activeListId, setActiveListId] = useState<string>("all");
   const [newSymbol, setNewSymbol] = useState("");
   const [newLabel, setNewLabel] = useState("");
+  const [newAssetType, setNewAssetType] = useState<WatchAssetType>("STOCK");
   const [heldFilter, setHeldFilter] = useState<"all" | "held" | "not-held">("all");
+  const [krAssetFilter, setKrAssetFilter] = useState<"all-domestic" | "stock-only" | "etf-only" | "etn-only">("all-domestic");
   const [playlistAddId, setPlaylistAddId] = useState("");
   const [newIndexName, setNewIndexName] = useState("");
   const [newIndexSymbol, setNewIndexSymbol] = useState("");
@@ -96,16 +99,28 @@ export default function FinanceWatchlistPage() {
                 .map((id) => baseStocks.find((item) => item.id === id))
                 .filter((item): item is StockItem => Boolean(item))
             : baseStocks;
+    const filteredByKrAsset =
+      activeListId === "KR"
+        ? filteredByList.filter((item) => {
+            const type = item.assetType ?? "STOCK";
+            if (krAssetFilter === "stock-only") return type === "STOCK";
+            if (krAssetFilter === "etf-only") return type === "ETF";
+            if (krAssetFilter === "etn-only") return type === "ETN";
+            return true;
+          })
+        : filteredByList;
     if (heldFilter === "held") {
-      return filteredByList.filter((item) => heldSymbolKeys.has(normalizeSymbol(item.symbol)));
+      return filteredByKrAsset.filter((item) => heldSymbolKeys.has(normalizeSymbol(item.symbol)));
     }
     if (heldFilter === "not-held") {
-      return filteredByList.filter((item) => !heldSymbolKeys.has(normalizeSymbol(item.symbol)));
+      return filteredByKrAsset.filter((item) => !heldSymbolKeys.has(normalizeSymbol(item.symbol)));
     }
-    return filteredByList;
-  }, [activeList, activeListId, baseStocks, heldFilter, heldSymbolKeys]);
+    return filteredByKrAsset;
+  }, [activeList, activeListId, baseStocks, heldFilter, heldSymbolKeys, krAssetFilter]);
   const getQuoteSymbol = (item: StockItem) => {
-    if (item.market === "KR" && !item.symbol.includes(".")) return `${item.symbol}.KS`;
+    const upper = item.symbol.toUpperCase();
+    const krCode = upper.replace(/\.(KS|KQ)$/i, "");
+    if (item.market === "KR" && /^\d{6}$/.test(krCode) && !upper.includes(".")) return `${krCode}.KS`;
     return item.symbol;
   };
 
@@ -116,7 +131,7 @@ export default function FinanceWatchlistPage() {
 
   const resolveCurrency = (symbol: string, market: "KR" | "US", quoteCurrency?: string | null) => {
     if (quoteCurrency) return quoteCurrency;
-    if (/^\d{6}$/.test(symbol) || symbol.endsWith(".KS") || symbol.endsWith(".KQ") || market === "KR") return "KRW";
+    if (/^A\d{6}$/.test(symbol) || /^\d[0-9A-Z]{5,6}$/.test(symbol) || symbol.endsWith(".KS") || symbol.endsWith(".KQ") || market === "KR") return "KRW";
     return "USD";
   };
 
@@ -162,12 +177,20 @@ export default function FinanceWatchlistPage() {
       normalized = normalized.slice(0, -3);
     }
 
-    if (/^\d{6}$/.test(normalized)) {
-      const quote = await fetchQuote(normalized);
-      if (isValidQuote(quote)) {
-        return { symbol: normalized, market: "KR" as const };
+    if (/^A\d{6}$/.test(normalized) || /^\d[0-9A-Z]{5,6}$/.test(normalized)) {
+      const krxSymbol = normalizeSymbol(normalized);
+      const quoteDirect = await fetchQuote(krxSymbol);
+      if (isValidQuote(quoteDirect)) return { symbol: krxSymbol, market: "KR" as const };
+      const isNumericKrStock = /^\d{6}$/.test(krxSymbol);
+      const isAlnumKrEtfEtn = /^\d{4}[0-9A-Z]{2}$/.test(krxSymbol) && /[A-Z]/.test(krxSymbol);
+      if (isNumericKrStock && !isAlnumKrEtfEtn) {
+        const quoteKs = await fetchQuote(`${krxSymbol}.KS`);
+        if (isValidQuote(quoteKs)) return { symbol: krxSymbol, market: "KR" as const };
+        const quoteKq = await fetchQuote(`${krxSymbol}.KQ`);
+        if (isValidQuote(quoteKq)) return { symbol: krxSymbol, market: "KR" as const };
       }
-      return null;
+      // Allow valid KRX code input even when quote backend cannot resolve immediately.
+      return { symbol: krxSymbol, market: "KR" as const };
     }
 
     if (!/^[A-Z]{2,5}:[A-Z0-9.\-]+$/.test(normalized)) {
@@ -213,7 +236,7 @@ export default function FinanceWatchlistPage() {
 
   const listOptions = useMemo(() => {
     const base = [
-      { value: "all", label: "All Stocks" },
+      { value: "all", label: "All Assets" },
       { value: "KR", label: "KR" },
       { value: "US", label: "US" }
     ];
@@ -231,7 +254,11 @@ export default function FinanceWatchlistPage() {
   );
 
   const accountOptions = useMemo(
-    () => accounts.map((account) => ({ value: account.id, label: account.brokerName })),
+    () =>
+      accounts.map((account) => ({
+        value: account.id,
+        label: `${account.brokerName} (${account.countryType}/${account.currency})`
+      })),
     [accounts]
   );
 
@@ -403,7 +430,7 @@ export default function FinanceWatchlistPage() {
           </button>
           <div>
             <h1 className="text-3xl">Watchlist</h1>
-            <div className="text-sm text-[var(--ink-1)]">Manage indices and tracked stocks.</div>
+            <div className="text-sm text-[var(--ink-1)]">Manage indices and tracked assets.</div>
           </div>
         </div>
 
@@ -426,7 +453,7 @@ export default function FinanceWatchlistPage() {
                 className={`rounded-full border px-3 py-1 ${section === "watchlist" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
                 onClick={() => setSection("watchlist")}
               >
-                Stocks
+                Assets
               </button>
             </div>
           </div>
@@ -519,7 +546,7 @@ export default function FinanceWatchlistPage() {
               <div className="mt-4 flex flex-wrap items-center gap-2">
                 <input
                   className="rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
-                  placeholder="Symbol"
+                  placeholder="Name or Symbol"
                   value={newSymbol}
                   onChange={(event) => setNewSymbol(event.target.value)}
                 />
@@ -529,23 +556,54 @@ export default function FinanceWatchlistPage() {
                   value={newLabel}
                   onChange={(event) => setNewLabel(event.target.value)}
                 />
+                <Select
+                  value={newAssetType}
+                  options={[
+                    { value: "STOCK", label: "Stock" },
+                    { value: "ETF", label: "ETF" },
+                    { value: "ETN", label: "ETN" }
+                  ]}
+                  onChange={(value) => setNewAssetType(value as WatchAssetType)}
+                />
                 <button
                   className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black"
                   onClick={async () => {
                     if (!newSymbol.trim()) return;
-                    const symbol = newSymbol.trim().toUpperCase();
-                    const resolved = await resolveSymbolForSave(symbol);
+                    const query = newSymbol.trim();
+                    const queryUpper = query.toUpperCase();
+                    const existingByNameExact = stocks.find((item) =>
+                      (item.label && item.label.trim().toUpperCase() === queryUpper) ||
+                      (item.name && item.name.trim().toUpperCase() === queryUpper)
+                    );
+                    const existingByNamePartial =
+                      existingByNameExact ??
+                      stocks.find((item) =>
+                        (item.label && item.label.trim().toUpperCase().includes(queryUpper)) ||
+                        (item.name && item.name.trim().toUpperCase().includes(queryUpper))
+                      );
+                    const resolved = existingByNamePartial
+                      ? { symbol: existingByNamePartial.symbol, market: existingByNamePartial.market }
+                      : await resolveSymbolForSave(queryUpper);
                     if (!resolved) {
-                      showNotice(`Symbol not found or quote unavailable: ${symbol}`);
+                      showNotice(`Asset not found or quote unavailable: ${queryUpper}`);
                       return;
                     }
                     const existing = stocks.find(
-                      (item) => item.symbol.toUpperCase() === resolved.symbol && item.market === resolved.market
+                      (item) =>
+                        item.symbol.toUpperCase() === resolved.symbol &&
+                        item.market === resolved.market &&
+                        (item.assetType ?? "STOCK") === newAssetType
                     );
                     const rawLabel = newLabel.trim();
-                    const fallbackLabel = symbol.includes(":") ? symbol : symbol.replace(/\.K[QS]$/i, "");
+                    const fallbackLabel = queryUpper.includes(":") ? queryUpper : queryUpper.replace(/\.K[QS]$/i, "");
                     const label = rawLabel || fallbackLabel || resolved.symbol;
-                    const next = existing ?? createStockItem(resolved.symbol, resolved.market, label);
+                    const next =
+                      existing ??
+                      createStockItem(resolved.symbol, resolved.market, label, {
+                        assetType: newAssetType,
+                        exchange: resolved.market === "KR" ? "KRX" : "NASDAQ",
+                        currency: resolved.market === "KR" ? "KRW" : "USD"
+                      });
                     if (!existing) {
                       setStocks((prev) => [...prev, next]);
                     } else if (label && existing.label !== label) {
@@ -558,10 +616,11 @@ export default function FinanceWatchlistPage() {
                     }
                     setNewSymbol("");
                     setNewLabel("");
-                    showNotice(`Stock added: ${symbol}`);
+                    setNewAssetType("STOCK");
+                    showNotice(`Asset added: ${queryUpper}`);
                   }}
                 >
-                  + Add Symbol
+                  + Add Asset
                 </button>
               </div>
 
@@ -597,6 +656,37 @@ export default function FinanceWatchlistPage() {
                     </button>
                   </div>
                 </div>
+                {activeListId === "KR" ? (
+                  <div className="flex flex-col gap-2">
+                    <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">KR Asset Scope</div>
+                    <div className="flex items-center gap-2 text-xs">
+                      <button
+                        className={`rounded-full border px-3 py-1 ${krAssetFilter === "all-domestic" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+                        onClick={() => setKrAssetFilter("all-domestic")}
+                      >
+                        KR All
+                      </button>
+                      <button
+                        className={`rounded-full border px-3 py-1 ${krAssetFilter === "stock-only" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+                        onClick={() => setKrAssetFilter("stock-only")}
+                      >
+                        KR Stock
+                      </button>
+                      <button
+                        className={`rounded-full border px-3 py-1 ${krAssetFilter === "etf-only" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+                        onClick={() => setKrAssetFilter("etf-only")}
+                      >
+                        KR ETF
+                      </button>
+                      <button
+                        className={`rounded-full border px-3 py-1 ${krAssetFilter === "etn-only" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+                        onClick={() => setKrAssetFilter("etn-only")}
+                      >
+                        KR ETN
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
                 <div className="flex flex-wrap items-center gap-2 text-xs">
                   <button
                     className="rounded-full border border-white/10 px-3 py-1 text-[var(--ink-1)]"
@@ -670,6 +760,12 @@ export default function FinanceWatchlistPage() {
                     <div>
                       <div className="font-medium">
                         {item.label ?? item.symbol} <span className="text-[var(--ink-1)]">({item.symbol})</span>
+                        <span className="ml-2 rounded-full border border-white/10 px-2 py-[1px] text-[9px] text-[var(--ink-1)]">
+                          {item.assetType ?? "STOCK"}
+                        </span>
+                        <span className="ml-1 rounded-full border border-white/10 px-2 py-[1px] text-[9px] text-[var(--ink-1)]">
+                          {item.exchange ?? (item.market === "KR" ? "KRX" : "NASDAQ")}
+                        </span>
                         {heldSymbolKeys.has(normalizeSymbol(item.symbol)) ? (
                           <span className="ml-2 rounded-full border border-white/10 px-2 py-[1px] text-[9px] text-[var(--accent-1)]">
                             HELD
@@ -746,7 +842,7 @@ export default function FinanceWatchlistPage() {
                     </div>
                   </div>
                 ))}
-                {visibleStocks.length === 0 ? <div className="text-sm text-[var(--ink-1)]">No stocks.</div> : null}
+                {visibleStocks.length === 0 ? <div className="text-sm text-[var(--ink-1)]">No assets.</div> : null}
               </div>
             </>
           )}

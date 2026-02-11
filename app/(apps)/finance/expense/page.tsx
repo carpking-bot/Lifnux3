@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AppShell } from "../../../(shared)/components/AppShell";
 import { Modal } from "../../../(shared)/components/Modal";
@@ -11,6 +11,7 @@ const EXPENSE_CATEGORIES_KEY = "lifnux.finance.expense.categories.v1";
 const EXPENSE_REVIEW_KEY = "lifnux.finance.expense.review.v1";
 const EXPENSE_BUDGET_KEY = "lifnux.finance.expense.budget.v1";
 const EXPENSE_SEED_BATCH = "seed-2010-2019";
+const PRESERVED_BUDGET_MONTH = "2026-02";
 
 const formatNumberInput = (value: string) => {
   const digits = value.replace(/[^\d]/g, "");
@@ -77,6 +78,12 @@ const getPrevMonthKey = (monthKey: string) => {
   const [year, month] = monthKey.split("-").map(Number);
   const prev = new Date(year, month - 2, 1);
   return `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}`;
+};
+
+const shiftMonthKey = (monthKey: string, delta: number) => {
+  const [year, month] = monthKey.split("-").map(Number);
+  const next = new Date(year, month - 1 + delta, 1);
+  return `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}`;
 };
 
 export default function FinanceExpensePage() {
@@ -153,12 +160,20 @@ export default function FinanceExpensePage() {
     const loadedCategories = loadState<string[]>(EXPENSE_CATEGORIES_KEY, ["Food", "Transport", "Housing", "Shopping", "Other"]);
     const loadedBudget = loadState<Record<string, number>>(EXPENSE_BUDGET_KEY, {});
     const loadedReview = loadState<MonthlyReviewStore>(EXPENSE_REVIEW_KEY, {});
+    const sanitizedBudget = Object.fromEntries(
+      Object.entries(loadedBudget)
+        .filter(([month]) => month === PRESERVED_BUDGET_MONTH)
+        .map(([month, value]) => [month, Number(value) || 0])
+    );
     setEntries(loadedEntries);
     setCategories(loadedCategories.includes(DEFAULT_CATEGORY) ? loadedCategories : [...loadedCategories, DEFAULT_CATEGORY]);
-    setBudgetByMonth(loadedBudget);
+    setBudgetByMonth(sanitizedBudget);
     setReviewByMonth(loadedReview);
-    setBudgetInput(loadedBudget[selectedMonth] ? formatNumberInput(String(loadedBudget[selectedMonth])) : "");
+    setBudgetInput(sanitizedBudget[selectedMonth] ? formatNumberInput(String(sanitizedBudget[selectedMonth])) : "");
     setSelectedCategories([]);
+    if (Object.keys(loadedBudget).length !== Object.keys(sanitizedBudget).length) {
+      saveState(EXPENSE_BUDGET_KEY, sanitizedBudget);
+    }
   }, []);
 
   useEffect(() => {
@@ -248,9 +263,27 @@ export default function FinanceExpensePage() {
       .map((month) => ({
         month,
         total: byMonth.get(month) ?? 0,
-        budget: budgetByMonth[month] ?? null
+        budget: budgetByMonth[month] ?? 0
       }));
   }, [budgetByMonth, entries]);
+
+  const monthlyHistoryWindow = useMemo(() => {
+    const byMonth = new Map(monthlyHistory.map((row) => [row.month, row]));
+    const latest = monthlyHistory.length ? monthlyHistory[monthlyHistory.length - 1].month : new Date().toISOString().slice(0, 7);
+    const start = shiftMonthKey(latest, -23);
+    const rows: { month: string; total: number; budget: number }[] = [];
+    const [startYear, startMon] = start.split("-").map(Number);
+    const [endYear, endMon] = latest.split("-").map(Number);
+    const cursor = new Date(startYear, startMon - 1, 1);
+    const end = new Date(endYear, endMon - 1, 1);
+    while (cursor <= end) {
+      const key = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}`;
+      const found = byMonth.get(key);
+      rows.push({ month: key, total: found?.total ?? 0, budget: found?.budget ?? 0 });
+      cursor.setMonth(cursor.getMonth() + 1);
+    }
+    return rows;
+  }, [monthlyHistory]);
 
   const totalsByMonth = useMemo(() => {
     const map = new Map<string, number>();
@@ -290,6 +323,11 @@ export default function FinanceExpensePage() {
     const [year, month] = selectedMonth.split("-").map(Number);
     const next = new Date(year, month - 1 + delta, 1);
     applyMonth(next.getFullYear(), next.getMonth() + 1);
+  };
+
+  const goToCurrentMonth = () => {
+    setSelectedMonth(new Date().toISOString().slice(0, 7));
+    setViewMode("monthly");
   };
 
   const saveEntry = () => {
@@ -757,6 +795,28 @@ export default function FinanceExpensePage() {
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([year, total]) => ({ month: year, total, budget: null }));
     }
+    if (historyDetailMode === "monthly") {
+      const totalByMonth = new Map<string, number>();
+      monthlyHistory.forEach((point) => totalByMonth.set(point.month, point.total));
+      const latestMonth = monthlyHistory.length
+        ? monthlyHistory[monthlyHistory.length - 1].month
+        : new Date().toISOString().slice(0, 7);
+      const [latestYear, latestMon] = latestMonth.split("-").map(Number);
+      const end = new Date(latestYear, latestMon - 1, 1);
+      const start = new Date(latestYear, latestMon - 24 + 1, 1);
+      const rows: { month: string; total: number; budget: number }[] = [];
+      const cursor = new Date(start.getFullYear(), start.getMonth(), 1);
+      while (cursor <= end) {
+        const key = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}`;
+        rows.push({
+          month: key,
+          total: totalByMonth.get(key) ?? 0,
+          budget: 0
+        });
+        cursor.setMonth(cursor.getMonth() + 1);
+      }
+      return rows;
+    }
     const rangeStart = historyDetailRangeStart ? `${historyDetailRangeStart}-01` : "";
     const rangeEnd = historyDetailRangeEnd ? `${historyDetailRangeEnd}-01` : "";
     const startTime = rangeStart ? new Date(`${rangeStart}T00:00:00Z`).getTime() : null;
@@ -846,6 +906,13 @@ export default function FinanceExpensePage() {
                     aria-label="Next month"
                   >
                     Next
+                  </button>
+                  <button
+                    className="rounded-full border border-white/10 px-2 py-1 text-[11px]"
+                    onClick={goToCurrentMonth}
+                    aria-label="Go to current month"
+                  >
+                    Current
                   </button>
                 </div>
                 <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1">
@@ -1223,7 +1290,7 @@ export default function FinanceExpensePage() {
               <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Expense History</div>
               <div className="mt-3">
                 <ExpenseHistoryChart
-                  points={monthlyHistory}
+                  points={monthlyHistoryWindow}
                   onChartClick={() => setHistoryDetailOpen(true)}
                 />
               </div>
@@ -1437,174 +1504,196 @@ export default function FinanceExpensePage() {
       <Modal
         open={historyDetailOpen}
         title="Expense History Detail"
-        onClose={() => setHistoryDetailOpen(false)}
-        panelClassName="w-[1100px] max-w-[92vw]"
+        onClose={() => {
+          setHistoryDetailOpen(false);
+          setHistoryDrillOpen(false);
+        }}
+        panelClassName="!w-[58vw] !max-w-[58vw] h-[85vh] max-h-[85vh] overflow-hidden flex flex-col"
+        contentClassName="flex-1 overflow-y-auto lifnux-scroll pr-1"
       >
-        <div className="space-y-4 text-sm">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              {(["monthly", "yearly", "range"] as const).map((mode) => (
-                <button
-                  key={mode}
-                  className={`rounded-full border px-3 py-1 text-xs ${historyDetailMode === mode ? "border-white/30 text-white" : "border-white/10 text-[var(--ink-1)]"}`}
-                  onClick={() => setHistoryDetailMode(mode)}
-                >
-                  {mode}
-                </button>
-              ))}
+        <div className="flex flex-col gap-6 text-sm min-[1100px]:flex-row">
+          <div className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-black/20 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                {(["monthly", "yearly", "range"] as const).map((mode) => (
+                  <button
+                    key={mode}
+                    className={`rounded-full border px-3 py-1 text-xs ${historyDetailMode === mode ? "border-white/30 text-white" : "border-white/10 text-[var(--ink-1)]"}`}
+                    onClick={() => setHistoryDetailMode(mode)}
+                  >
+                    {mode}
+                  </button>
+                ))}
+              </div>
+              {historyDetailMode === "range" ? (
+                <div className="flex items-center gap-2 text-xs">
+                  <input
+                    type="month"
+                    value={historyDetailRangeStart}
+                    onChange={(event) => setHistoryDetailRangeStart(event.target.value)}
+                    className="rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+                  />
+                  <span>~</span>
+                  <input
+                    type="month"
+                    value={historyDetailRangeEnd}
+                    onChange={(event) => setHistoryDetailRangeEnd(event.target.value)}
+                    className="rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+                  />
+                </div>
+              ) : null}
             </div>
-            {historyDetailMode === "range" ? (
-              <div className="flex items-center gap-2 text-xs">
-                <input
-                  type="month"
-                  value={historyDetailRangeStart}
-                  onChange={(event) => setHistoryDetailRangeStart(event.target.value)}
-                  className="rounded-lg border border-white/10 bg-black/20 px-3 py-2"
-                />
-                <span>~</span>
-                <input
-                  type="month"
-                  value={historyDetailRangeEnd}
-                  onChange={(event) => setHistoryDetailRangeEnd(event.target.value)}
-                  className="rounded-lg border border-white/10 bg-black/20 px-3 py-2"
-                />
+            <ExpenseHistoryChart
+              points={historyDetailPoints}
+              height={340}
+              selectedMonth={historyDrillMonth}
+              onSelectMonth={(month) => {
+                if (historyDetailMode === "yearly") return;
+                const monthEntries = entries.filter((entry) => entry.date.startsWith(month));
+                const monthTotals = buildCategoryTotals(monthEntries);
+                setHistoryDrillMonth(month);
+                setHistoryDrillCategory(monthTotals[0]?.label ?? null);
+                setHistoryDrillPinned(false);
+                setHistoryDrillSortKey("amount");
+                setHistoryDrillSortDir("desc");
+                setHistoryDrillOpen(true);
+              }}
+            />
+            <div className="text-xs text-[var(--ink-1)]">Hover: month + amount. Click: open detail panel.</div>
+
+            {historyDrillOpen && historyDrillMonth ? (
+              <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
+                <div className="text-sm font-semibold">Monthly Summary ({historyDrillMonth})</div>
+                <div className="mt-3 rounded-xl border border-white/10 bg-black/20 p-3">
+                  <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Summary</div>
+                  <div className="mt-2 text-lg font-semibold">{formatKrw(historyTotal)}</div>
+                  <div className="text-xs text-[var(--ink-1)]">Top category: {historyCategoryTotals[0]?.label ?? "-"}</div>
+                </div>
+                <div className="mt-3">
+                  <PieChart
+                    data={historyGroupedCategoryData.data}
+                    legendColumns={2}
+                    activeLabel={historyDrillCategory}
+                    onHoverLabel={(label) => {
+                      if (!historyDrillPinned) setHistoryDrillCategory(label);
+                    }}
+                    onLeave={() => {
+                      if (!historyDrillPinned) setHistoryDrillCategory(null);
+                    }}
+                    onSelectLabel={(label) => {
+                      if (historyDrillCategory === label && historyDrillPinned) {
+                        setHistoryDrillPinned(false);
+                        setHistoryDrillCategory(null);
+                      } else {
+                        setHistoryDrillCategory(label);
+                        setHistoryDrillPinned(true);
+                      }
+                    }}
+                  />
+                </div>
+                <div className="mt-3 rounded-xl border border-white/10 bg-black/20 p-4 text-xs">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Insight</div>
+                    {historyDrillPinned ? (
+                      <button
+                        className="rounded-full border border-white/10 px-2 py-1 text-[11px]"
+                        onClick={() => {
+                          setHistoryDrillPinned(false);
+                          setHistoryDrillCategory(null);
+                        }}
+                      >
+                        Clear
+                      </button>
+                    ) : null}
+                  </div>
+                  <div className="mt-2 h-[160px] overflow-y-auto lifnux-scroll">
+                    {historyDrillCategory ? (
+                      <>
+                        <div className="text-sm">{historyDrillCategory} top 5</div>
+                        <div className="mt-3 space-y-2">
+                          {historyInsightEntries.map((entry) => (
+                            <div key={entry.id} className="flex items-center justify-between gap-2">
+                              <span className="truncate text-white/80">
+                                {entry.date} · {entry.title}
+                              </span>
+                              <span className="shrink-0 font-semibold">{formatKrw(entry.amount)}</span>
+                            </div>
+                          ))}
+                          {!historyInsightEntries.length ? <div className="text-[var(--ink-1)]">No entries.</div> : null}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-[var(--ink-1)]">카테고리를 선택하면 상위 소비내역이 표시됩니다.</div>
+                    )}
+                  </div>
+                </div>
               </div>
             ) : null}
           </div>
-          <ExpenseHistoryChart
-            points={historyDetailPoints}
-            height={240}
-            onSelectMonth={(month) => {
-              if (historyDetailMode === "yearly") return;
-              const monthEntries = entries.filter((entry) => entry.date.startsWith(month));
-              const monthTotals = buildCategoryTotals(monthEntries);
-              setHistoryDrillMonth(month);
-              setHistoryDrillCategory(monthTotals[0]?.label ?? null);
-              setHistoryDrillPinned(false);
-              setHistoryDrillSortKey("amount");
-              setHistoryDrillSortDir("desc");
-              setHistoryDrillOpen(true);
-            }}
-          />
-          <div className="text-xs text-[var(--ink-1)]">Click a month to open summary + report detail.</div>
-        </div>
-      </Modal>
 
-      <Modal
-        open={historyDrillOpen}
-        title={historyDrillMonth ? `Monthly Summary (${historyDrillMonth})` : "Monthly Summary"}
-        onClose={() => setHistoryDrillOpen(false)}
-        panelClassName="w-[1200px] max-w-[92vw]"
-      >
-        <div className="grid gap-4 text-sm md:grid-cols-[1.05fr_0.95fr]">
-          <div className="space-y-3">
-            <div className="rounded-xl border border-white/10 bg-black/20 p-3">
-              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Summary</div>
-              <div className="mt-2 text-lg font-semibold">{formatKrw(historyTotal)}</div>
-              <div className="text-xs text-[var(--ink-1)]">Top category: {historyCategoryTotals[0]?.label ?? "-"}</div>
-            </div>
-            <PieChart
-              data={historyGroupedCategoryData.data}
-              activeLabel={historyDrillCategory}
-              onHoverLabel={(label) => {
-                if (!historyDrillPinned) setHistoryDrillCategory(label);
-              }}
-              onLeave={() => {
-                if (!historyDrillPinned) setHistoryDrillCategory(null);
-              }}
-              onSelectLabel={(label) => {
-                if (historyDrillCategory === label && historyDrillPinned) {
-                  setHistoryDrillPinned(false);
-                  setHistoryDrillCategory(null);
-                } else {
-                  setHistoryDrillCategory(label);
-                  setHistoryDrillPinned(true);
-                }
-              }}
-            />
-            <div className="rounded-xl border border-white/10 bg-black/20 p-4 text-xs">
-              <div className="flex items-center justify-between gap-2">
-                <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Insight</div>
-                {historyDrillPinned ? (
+          {historyDrillOpen && historyDrillMonth ? (
+            <div className="w-full min-w-0 min-[1100px]:w-[430px]">
+              <div className="h-[70vh] rounded-2xl border border-white/10 bg-black/20 p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-sm font-semibold">Report Detail ({historyDrillMonth})</div>
                   <button
-                    className="rounded-full border border-white/10 px-2 py-1 text-[11px]"
-                    onClick={() => {
-                      setHistoryDrillPinned(false);
-                      setHistoryDrillCategory(null);
-                    }}
+                    className="rounded-full border border-white/10 px-3 py-1 text-xs"
+                    onClick={() => setHistoryDrillOpen(false)}
                   >
-                    Clear
+                    X
                   </button>
-                ) : null}
-              </div>
-              {historyDrillCategory ? (
-                <>
-                  <div className="mt-2 text-sm">{historyDrillCategory} top 5</div>
-                  <div className="mt-3 space-y-2">
-                    {historyInsightEntries.map((entry) => (
-                      <div key={entry.id} className="flex items-center justify-between gap-2">
-                        <span className="truncate text-white/80">
-                          {entry.date} · {entry.title}
-                        </span>
-                        <span className="shrink-0 font-semibold">{formatKrw(entry.amount)}</span>
-                      </div>
+                </div>
+                <div className="mt-4 h-[calc(100%-3rem)] rounded-xl border border-white/10 bg-black/20 p-3 flex flex-col">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Report Detail</div>
+                    <div className="flex items-center gap-2 text-[11px] text-[var(--ink-1)]">
+                      <button
+                        className={`rounded-full border px-2 py-1 ${historyDrillSortKey === "amount" ? "border-white/30 text-white" : "border-white/10"}`}
+                        onClick={() => {
+                          if (historyDrillSortKey === "amount") {
+                            setHistoryDrillSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+                          } else {
+                            setHistoryDrillSortKey("amount");
+                            setHistoryDrillSortDir("desc");
+                          }
+                        }}
+                      >
+                        Amount {historyDrillSortKey === "amount" ? (historyDrillSortDir === "asc" ? "▲" : "▼") : ""}
+                      </button>
+                      <button
+                        className={`rounded-full border px-2 py-1 ${historyDrillSortKey === "date" ? "border-white/30 text-white" : "border-white/10"}`}
+                        onClick={() => {
+                          if (historyDrillSortKey === "date") {
+                            setHistoryDrillSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+                          } else {
+                            setHistoryDrillSortKey("date");
+                            setHistoryDrillSortDir("desc");
+                          }
+                        }}
+                      >
+                        Date {historyDrillSortKey === "date" ? (historyDrillSortDir === "asc" ? "▲" : "▼") : ""}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex-1 space-y-2 overflow-y-auto text-xs lifnux-scroll">
+                    {historyDrillReportEntries.map((entry) => (
+                      <button
+                        key={entry.id}
+                        className="flex w-full items-start justify-between gap-2 border-b border-white/5 pb-2 text-left last:border-b-0 last:pb-0"
+                        onClick={() => setDetailEntry(entry)}
+                      >
+                        <div className="text-white/80">
+                          {entry.date} | {entry.title}
+                        </div>
+                        <div className="text-right font-semibold">{formatKrw(entry.amount)}</div>
+                      </button>
                     ))}
-                    {!historyInsightEntries.length ? <div className="text-[var(--ink-1)]">No entries.</div> : null}
+                    {!historyDrillReportEntries.length ? <div className="text-[var(--ink-1)]">No entries.</div> : null}
                   </div>
-                </>
-              ) : (
-                <div className="mt-2 text-[var(--ink-1)]">카테고리를 선택하면 상위 소비내역이 표시됩니다.</div>
-              )}
-            </div>
-          </div>
-          <div className="rounded-xl border border-white/10 bg-black/20 p-3">
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Report Detail</div>
-              <div className="flex items-center gap-2 text-[11px] text-[var(--ink-1)]">
-                <button
-                  className={`rounded-full border px-2 py-1 ${historyDrillSortKey === "amount" ? "border-white/30 text-white" : "border-white/10"}`}
-                  onClick={() => {
-                    if (historyDrillSortKey === "amount") {
-                      setHistoryDrillSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
-                    } else {
-                      setHistoryDrillSortKey("amount");
-                      setHistoryDrillSortDir("desc");
-                    }
-                  }}
-                >
-                  Amount {historyDrillSortKey === "amount" ? (historyDrillSortDir === "asc" ? "▲" : "▼") : ""}
-                </button>
-                <button
-                  className={`rounded-full border px-2 py-1 ${historyDrillSortKey === "date" ? "border-white/30 text-white" : "border-white/10"}`}
-                  onClick={() => {
-                    if (historyDrillSortKey === "date") {
-                      setHistoryDrillSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
-                    } else {
-                      setHistoryDrillSortKey("date");
-                      setHistoryDrillSortDir("desc");
-                    }
-                  }}
-                >
-                  Date {historyDrillSortKey === "date" ? (historyDrillSortDir === "asc" ? "▲" : "▼") : ""}
-                </button>
+                </div>
               </div>
             </div>
-            <div className="mt-4 max-h-[420px] space-y-2 overflow-y-auto text-xs lifnux-scroll">
-              {historyDrillReportEntries.map((entry) => (
-                <button
-                  key={entry.id}
-                  className="flex w-full items-start justify-between gap-2 border-b border-white/5 pb-2 text-left last:border-b-0 last:pb-0"
-                  onClick={() => setDetailEntry(entry)}
-                >
-                  <div className="text-white/80">
-                    {entry.date} | {entry.title}
-                  </div>
-                  <div className="text-right font-semibold">{formatKrw(entry.amount)}</div>
-                </button>
-              ))}
-              {!historyDrillReportEntries.length ? <div className="text-[var(--ink-1)]">No entries.</div> : null}
-            </div>
-          </div>
+          ) : null}
         </div>
       </Modal>
 
@@ -2058,13 +2147,15 @@ function PieChart({
   activeLabel,
   onHoverLabel,
   onLeave,
-  onSelectLabel
+  onSelectLabel,
+  legendColumns = 1
 }: {
   data: { label: string; value: number; color: string }[];
   activeLabel?: string | null;
   onHoverLabel?: (label: string) => void;
   onLeave?: () => void;
   onSelectLabel?: (label: string) => void;
+  legendColumns?: 1 | 2;
 }) {
   if (!data.length) return <div className="text-sm text-[var(--ink-1)]">No category data.</div>;
   const size = 200;
@@ -2073,6 +2164,9 @@ function PieChart({
   const circumference = 2 * Math.PI * radius;
   const sorted = [...data].sort((a, b) => b.value - a.value);
   const total = sorted.reduce((sum, item) => sum + item.value, 0);
+  const splitIndex = Math.ceil(sorted.length / 2);
+  const col1 = sorted.slice(0, splitIndex);
+  const col2 = sorted.slice(splitIndex);
   let offset = 0;
   const gap = data.length > 1 ? Math.min(2, circumference * 0.004) : 0;
 
@@ -2109,27 +2203,55 @@ function PieChart({
           })}
         </g>
       </svg>
-      <div className="space-y-2 text-xs">
-        {sorted.map((item) => {
-          const pct = total > 0 ? (item.value / total) * 100 : 0;
-          return (
-            <button
-              key={item.label}
-              className="flex w-full items-center gap-2 text-left"
-              onMouseEnter={() => onHoverLabel?.(item.label)}
-              onMouseLeave={() => onLeave?.()}
-              onClick={() => onSelectLabel?.(item.label)}
-            >
-              <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-              <span className={`min-w-0 flex-1 truncate ${activeLabel === item.label ? "text-white" : "text-[var(--ink-1)]"}`}>
-                {item.label}
-              </span>
-              <span className="shrink-0">{formatKrw(item.value)}</span>
-              <span className="shrink-0 text-[var(--ink-1)]">({pct.toFixed(1)}%)</span>
-            </button>
-          );
-        })}
-      </div>
+      {legendColumns === 2 ? (
+        <div className="grid gap-x-8 text-xs md:grid-cols-2">
+          {[col1, col2].map((col, colIndex) => (
+            <div key={colIndex} className="space-y-2">
+              {col.map((item) => {
+                const pct = total > 0 ? (item.value / total) * 100 : 0;
+                return (
+                  <button
+                    key={item.label}
+                    className="flex w-full items-center gap-2 text-left"
+                    onMouseEnter={() => onHoverLabel?.(item.label)}
+                    onMouseLeave={() => onLeave?.()}
+                    onClick={() => onSelectLabel?.(item.label)}
+                  >
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                    <span className={`min-w-0 flex-1 truncate ${activeLabel === item.label ? "text-white" : "text-[var(--ink-1)]"}`}>
+                      {item.label}
+                    </span>
+                    <span className="shrink-0">{formatKrw(item.value)}</span>
+                    <span className="shrink-0 text-[var(--ink-1)]">({pct.toFixed(1)}%)</span>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="space-y-2 text-xs">
+          {sorted.map((item) => {
+            const pct = total > 0 ? (item.value / total) * 100 : 0;
+            return (
+              <button
+                key={item.label}
+                className="flex w-full items-center gap-2 text-left"
+                onMouseEnter={() => onHoverLabel?.(item.label)}
+                onMouseLeave={() => onLeave?.()}
+                onClick={() => onSelectLabel?.(item.label)}
+              >
+                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                <span className={`min-w-0 flex-1 truncate ${activeLabel === item.label ? "text-white" : "text-[var(--ink-1)]"}`}>
+                  {item.label}
+                </span>
+                <span className="shrink-0">{formatKrw(item.value)}</span>
+                <span className="shrink-0 text-[var(--ink-1)]">({pct.toFixed(1)}%)</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -2138,76 +2260,134 @@ function ExpenseHistoryChart({
   points,
   onSelectMonth,
   onChartClick,
+  selectedMonth,
   height = 180
 }: {
   points: { month: string; total: number; budget: number | null }[];
   onSelectMonth?: (month: string) => void;
   onChartClick?: () => void;
+  selectedMonth?: string | null;
   height?: number;
 }) {
   if (!points.length) return <div className="text-sm text-[var(--ink-1)]">No monthly history.</div>;
-  const width = 420;
-  const pad = 16;
-  const [hovered, setHovered] = useState(false);
-  const values = points.flatMap((point) => [point.total, point.budget ?? 0]);
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  const toX = (index: number) => (points.length === 1 ? width / 2 : pad + (index / (points.length - 1)) * (width - pad * 2));
-  const toY = (value: number) => pad + ((max - value) / range) * (height - pad * 2);
-  const totalLine = points.map((point, index) => `${toX(index)},${toY(point.total)}`).join(" ");
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [chartWidth, setChartWidth] = useState(420);
+  useEffect(() => {
+    if (!containerRef.current || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver((entries) => {
+      const next = Math.max(420, Math.floor(entries[0]?.contentRect.width ?? 0));
+      if (next > 0) setChartWidth(next);
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
-  const budgetSegments: string[] = [];
-  let current: string[] = [];
-  points.forEach((point, index) => {
-    if (point.budget === null || Number.isNaN(point.budget)) {
-      if (current.length > 1) budgetSegments.push(current.join(" "));
-      current = [];
-      return;
-    }
-    current.push(`${toX(index)},${toY(point.budget)}`);
-  });
-  if (current.length > 1) budgetSegments.push(current.join(" "));
+  const width = chartWidth;
+  const padTop = 16;
+  const padBottom = 24;
+  const padLeft = 78;
+  const padRight = 16;
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const totals = points.map((point) => point.total);
+  const rawMax = Math.max(...totals, 0);
+  const min = 0;
+  const paddedMax = rawMax > 0 ? rawMax * 1.12 : 0;
+  const max = Math.max(1_000_000, paddedMax || 1);
+  const range = max - min || 1;
+  const toX = (index: number) =>
+    points.length === 1 ? (padLeft + (width - padRight)) / 2 : padLeft + (index / (points.length - 1)) * (width - padLeft - padRight);
+  const toY = (value: number) => padTop + ((max - value) / range) * (height - padTop - padBottom);
+  const totalLine = points.map((point, index) => `${toX(index)},${toY(point.total)}`).join(" ");
+  const selectedIndex = selectedMonth ? points.findIndex((point) => point.month === selectedMonth) : -1;
+  const activeTotalStroke = selectedIndex >= 0 ? "#9EF4DF" : "#7FE9CF";
+  const activeTotalStrokeWidth = selectedIndex >= 0 ? 3 : 2;
+  const hoveredPoint = hoveredIndex !== null ? points[hoveredIndex] : null;
+  const hoveredX = hoveredIndex !== null ? toX(hoveredIndex) : null;
+  const hoveredY = hoveredIndex !== null ? toY(points[hoveredIndex].total) : null;
+  const yMax = max;
+  const yMid = max / 2;
+  const yMin = 0;
+  const baseY = toY(0);
 
   return (
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      className="w-full rounded-lg border border-white/10 bg-black/20"
-      style={{ height }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onClick={() => onChartClick?.()}
-    >
-      {budgetSegments.map((segment, index) => (
-        <polyline key={index} points={segment} fill="none" stroke="#f9a8d4" strokeWidth="2" strokeDasharray="4 4" />
-      ))}
-      <polyline points={totalLine} fill="none" stroke="#7FE9CF" strokeWidth="2" />
-      {points.map((point, index) => (
-        <circle
-          key={`hit-${point.month}`}
-          cx={toX(index)}
-          cy={toY(point.total)}
-          r={8}
-          className="fill-transparent"
-          onClick={(event) => {
-            if (onSelectMonth) {
-              event.stopPropagation();
-              onSelectMonth(point.month);
-            }
+    <div ref={containerRef} className="relative w-full">
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full rounded-lg border border-white/10 bg-black/20"
+        style={{ height }}
+        onMouseLeave={() => setHoveredIndex(null)}
+        onClick={() => onChartClick?.()}
+      >
+        <line x1={padLeft} y1={toY(yMax)} x2={width - padRight} y2={toY(yMax)} stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+        <line x1={padLeft} y1={toY(yMid)} x2={width - padRight} y2={toY(yMid)} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+        <line x1={padLeft} y1={toY(yMin)} x2={width - padRight} y2={toY(yMin)} stroke="rgba(255,255,255,0.09)" strokeWidth="1" />
+        <text x={8} y={toY(yMax) + 3} className="fill-white/60 text-[10px]">
+          {formatKrw(yMax)}
+        </text>
+        <text x={8} y={toY(yMid) + 3} className="fill-white/45 text-[10px]">
+          {formatKrw(yMid)}
+        </text>
+        <text x={8} y={toY(yMin) + 3} className="fill-white/55 text-[10px]">
+          {formatKrw(yMin)}
+        </text>
+        {selectedIndex >= 0 ? (
+          <line
+            x1={toX(selectedIndex)}
+            y1={padTop}
+            x2={toX(selectedIndex)}
+            y2={height - padBottom}
+            stroke="rgba(255,255,255,0.22)"
+            strokeWidth="1.5"
+          />
+        ) : null}
+        {hoveredIndex !== null && hoveredX !== null ? (
+          <line x1={hoveredX} y1={padTop} x2={hoveredX} y2={height - padBottom} stroke="rgba(255,255,255,0.16)" strokeWidth="1" />
+        ) : null}
+        {points.length === 1 ? (
+          <polyline
+            points={`${padLeft},${baseY} ${toX(0) - 48},${baseY} ${toX(0)},${toY(points[0].total)} ${toX(0) + 48},${baseY} ${width - padRight},${baseY}`}
+            fill="none"
+            stroke={activeTotalStroke}
+            strokeWidth={activeTotalStrokeWidth}
+          />
+        ) : (
+          <polyline points={totalLine} fill="none" stroke={activeTotalStroke} strokeWidth={activeTotalStrokeWidth} />
+        )}
+        {points.map((point, index) => (
+          <circle
+            key={`hit-${point.month}`}
+            cx={toX(index)}
+            cy={toY(point.total)}
+            r={12}
+            className="fill-transparent"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onClick={(event) => {
+              if (onSelectMonth) {
+                event.stopPropagation();
+                onSelectMonth(point.month);
+              }
+            }}
+          />
+        ))}
+        <text x={padLeft} y={height - 8} className="fill-white/60 text-[10px]">
+          {points[0]?.month}
+        </text>
+        <text x={width - padRight} y={height - 8} textAnchor="end" className="fill-white/60 text-[10px]">
+          {points[points.length - 1]?.month}
+        </text>
+      </svg>
+      {hoveredPoint && hoveredX !== null && hoveredY !== null ? (
+        <div
+          className="pointer-events-none absolute z-10 rounded-md border border-white/15 bg-black/80 px-2 py-1 text-[11px] text-white shadow-[0_8px_28px_rgba(0,0,0,0.45)]"
+          style={{
+            left: hoveredX,
+            top: hoveredY,
+            transform: "translate(-50%, -130%)"
           }}
-        />
-      ))}
-      {hovered
-        ? points.map((point, index) => (
-            <circle key={`dot-${point.month}`} cx={toX(index)} cy={toY(point.total)} r={4} className="fill-white/90" />
-          ))
-        : null}
-      <text x={pad} y={height - 8} className="fill-white/60 text-[10px]">
-        {points[0]?.month}
-      </text>
-      <text x={width - pad} y={height - 8} textAnchor="end" className="fill-white/60 text-[10px]">
-        {points[points.length - 1]?.month}
-      </text>
-    </svg>
+        >
+          {hoveredPoint.month} {formatKrw(hoveredPoint.total)}
+        </div>
+      ) : null}
+    </div>
   );
 }

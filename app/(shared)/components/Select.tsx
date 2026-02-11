@@ -88,7 +88,11 @@ export function Select({
         type="button"
         disabled={disabled}
         className={`flex w-full items-center justify-between rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-sm text-white/90 shadow-sm transition hover:border-white/30 ${buttonClassName ?? ""} ${disabled ? "cursor-not-allowed opacity-50" : ""}`}
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setOpen((prev) => !prev);
+        }}
       >
         <span className={selectedLabel ? "truncate" : "text-white/50"}>{selectedLabel || placeholder}</span>
         <ChevronDown className={`h-4 w-4 text-white/70 transition ${open ? "rotate-180" : ""}`} />
@@ -122,7 +126,9 @@ export function Select({
                     className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm transition ${
                       option.value === value ? "bg-white/10 text-white" : "text-white/80 hover:bg-white/5"
                     } ${option.disabled ? "cursor-not-allowed opacity-40" : ""}`}
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
                       if (option.disabled) return;
                       onChange(option.value);
                       setOpen(false);

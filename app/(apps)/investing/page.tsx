@@ -127,9 +127,14 @@ export default function InvestingPage() {
   return (
     <AppShell showTitle={false}>
       <div className="mx-auto w-full max-w-[1200px] pb-20 pt-10">
-        <div className="mb-8">
-          <h1 className="text-3xl">Investing</h1>
-          <div className="text-sm text-[var(--ink-1)]">Snapshot dashboard for indices, watchlist, and portfolio.</div>
+        <div className="mb-8 flex items-start justify-between gap-3">
+          <div>
+            <h1 className="text-3xl">Investing</h1>
+            <div className="text-sm text-[var(--ink-1)]">Snapshot dashboard for indices, watchlist, and portfolio.</div>
+          </div>
+          <Link className="rounded-full border border-white/10 px-3 py-1 text-xs text-[var(--ink-1)]" href="/finance">
+            Back
+          </Link>
         </div>
 
         <div className="grid gap-6">
