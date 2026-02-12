@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 
 const PORTFOLIO_LABEL_OPTIONS_KEY = "lifnux.finance.portfolio.labels.v100";
 const PORTFOLIO_HISTORY_KEY = "lifnux.finance.portfolio.history.v100";
+const PORTFOLIO_PERFORMANCE_KEY = "investing.portfolio.performance.v1";
 
 type PortfolioLabelOptions = {
   countries: string[];
@@ -435,6 +436,30 @@ export default function PortfolioPage() {
     return { records, realizedTotalKrw, realizedPct };
   }, [fxRate, ledgerRecords, realizedRange, useFx]);
 
+  const realizedYtdTotalKrw = useMemo(() => {
+    const now = new Date();
+    const startTs = new Date(now.getFullYear(), 0, 1).getTime();
+    const records = ledgerRecords.filter((record) => {
+      if (record.type !== "TRADE" || record.side !== "SELL") return false;
+      if (typeof record.realizedPnl !== "number") return false;
+      if (record.ts < startTs) return false;
+      return true;
+    });
+    let realizedKrw = 0;
+    let realizedUsd = 0;
+    records.forEach((record) => {
+      const pnl = record.realizedPnl ?? 0;
+      if (record.currency === "KRW") {
+        realizedKrw += pnl;
+      } else {
+        realizedUsd += pnl;
+      }
+    });
+    const hasUsd = realizedUsd !== 0;
+    if (hasUsd && !(useFx && fxRate)) return null;
+    return realizedKrw + (useFx && fxRate ? realizedUsd * fxRate : 0);
+  }, [fxRate, ledgerRecords, useFx]);
+
   const filteredLedgerRecords = useMemo(() => {
     return [...ledgerRecords]
       .filter((record) => {
@@ -476,6 +501,16 @@ export default function PortfolioPage() {
       return next;
     });
   }, [ready, totals.totalKrw]);
+
+  useEffect(() => {
+    if (!ready) return;
+    saveState(PORTFOLIO_PERFORMANCE_KEY, {
+      totalValueKrw: totals.totalKrw,
+      unrealizedPnlKrw: totals.unrealizedPnlKrw,
+      realizedPnlYtdKrw: realizedYtdTotalKrw,
+      updatedAt: Date.now()
+    });
+  }, [ready, realizedYtdTotalKrw, totals.totalKrw, totals.unrealizedPnlKrw]);
 
   const blurClass = settings.blurSensitiveNumbers ? "blur-sm select-none" : "";
 
@@ -2708,7 +2743,6 @@ function PortfolioHistoryChart({
     </div>
   );
 }
-
 
 
 

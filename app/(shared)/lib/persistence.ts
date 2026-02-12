@@ -12,7 +12,7 @@ type LifnuxExport = {
 const EXPORT_VERSION = "1.0.0";
 const BACKUP_KEY = "lifnux:backup";
 const BACKUP_ENABLED_KEY = "lifnux:backup.enabled";
-const SYNC_EXACT_KEYS = new Set(["portfolio.positions"]);
+const SYNC_EXACT_KEYS = new Set(["portfolio.positions", "investing.portfolio.performance.v1"]);
 const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music."];
 
 function isLifnuxKey(key: string) {
@@ -69,9 +69,9 @@ export function getBackupExport(): LifnuxExport | null {
   }
 }
 
-export function downloadLifnuxExport({ useBackup = true }: { useBackup?: boolean } = {}) {
+export function downloadLifnuxExport({ useBackup = false }: { useBackup?: boolean } = {}) {
   if (typeof window === "undefined") return;
-  const payload = useBackup ? getBackupExport() ?? buildLifnuxExport() : buildLifnuxExport();
+  const payload = useBackup && isAutoBackupEnabled() ? getBackupExport() ?? buildLifnuxExport() : buildLifnuxExport();
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");

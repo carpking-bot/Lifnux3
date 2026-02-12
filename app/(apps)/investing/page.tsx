@@ -8,7 +8,7 @@ import { Modal } from "../../(shared)/components/Modal";
 import type { Holding, IndexItem, StockItem } from "../../(shared)/types/finance";
 import { loadFinanceState, normalizeSymbol, saveIndices, saveStocks } from "../../(shared)/lib/finance";
 import { useQuotes } from "../../../src/lib/quotes/useQuotes";
-import { Pencil } from "lucide-react";
+import { Eye, EyeOff, Pencil } from "lucide-react";
 
 export default function InvestingPage() {
   const router = useRouter();
@@ -249,7 +249,8 @@ export default function InvestingPage() {
                         }}
                         aria-label="Toggle watchlist"
                       >
-                        ??                      </button>
+                        {item.watchlisted === false ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                      </button>
                       {heldSymbolKeys.has(normalizeSymbol(item.symbol)) ? (
                         <span className="rounded-full border border-white/10 px-2 py-[2px] text-[10px] text-[var(--accent-1)]">
                           HELD

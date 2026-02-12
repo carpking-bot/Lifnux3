@@ -58,7 +58,7 @@ export default function SettingsPage() {
               <button
                 className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black"
                 onClick={() => {
-                  downloadLifnuxExport({ useBackup: true });
+                  downloadLifnuxExport({ useBackup: false });
                   showToast({ type: "success", message: "Export downloaded." });
                 }}
               >

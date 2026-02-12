@@ -792,9 +792,10 @@ export default function FinanceWatchlistPage() {
                       <button
                         className="text-xs text-[var(--ink-1)] hover:text-[var(--accent-2)]"
                         onClick={() => openLabelModal(item)}
-                        aria-label="Rename stock"
+                        aria-label="Edit stock label"
+                        title="Edit stock label"
                       >
-                        Rename
+                        Edit
                       </button>
                       <button
                         className={`text-xs ${heldSymbolKeys.has(normalizeSymbol(item.symbol)) ? "text-[var(--accent-1)]" : "text-[var(--ink-1)]"}`}
