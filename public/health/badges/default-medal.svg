@@ -1,0 +1,13 @@
+<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 10H40L48 30L32 42L24 10Z" fill="#3E9CB2"/>
+  <path d="M56 10H72L64 42L48 30L56 10Z" fill="#2E7F92"/>
+  <circle cx="48" cy="58" r="26" fill="url(#medalGrad)"/>
+  <circle cx="48" cy="58" r="22" stroke="#FFF2CE" stroke-opacity="0.55" stroke-width="2"/>
+  <path d="M48 43L51.7 50.5L60 51.7L54 57.5L55.4 65.8L48 61.9L40.6 65.8L42 57.5L36 51.7L44.3 50.5L48 43Z" fill="#FFF2CE"/>
+  <defs>
+    <linearGradient id="medalGrad" x1="48" y1="32" x2="48" y2="84" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE39A"/>
+      <stop offset="1" stop-color="#F28B2F"/>
+    </linearGradient>
+  </defs>
+</svg>

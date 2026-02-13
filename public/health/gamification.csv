@@ -1,0 +1,41 @@
+﻿sheet,id,level,minXp,name,description,image,rule,scope,activity,threshold,step,limit,
+level,lv1,1,0,작은 불꽃,시작 단계입니다.,,,,,,,,
+level,lv2,2,200,새싹 불꽃,루틴이 만들어지는 단계입니다.,,,,,,,,
+level,lv3,3,500,중형 불꽃,루틴이 안정화된 단계입니다.,,,,,,,,
+level,lv4,4,900,강화 불꽃,운동 볼륨이 늘어나는 단계입니다.,,,,,,,,
+level,lv5,5,1500,대형 불꽃,성장 가속 구간입니다.,,,,,,,,
+level,lv6,6,2300,심화 불꽃,지속성과 강도를 함께 챙기는 단계입니다.,,,,,,,,
+level,lv7,7,3300,푸른 불꽃,강한 집중의 단계입니다.,,,,,,,,
+level,lv8,8,4500,맹렬한 불꽃,꾸준함이 실력으로 드러나는 단계입니다.,,,,,,,,
+level,lv9,9,6000,폭풍 불꽃,상위권 페이스를 유지하는 단계입니다.,,,,,,,,
+level,lv10,10,8000,황금 불꽃,최상위 불꽃 단계입니다.,,,,,,,,
+badge,global-7,,,,건강한 일주일,7일 연속 운동,/health/badges/default-medal.svg,streak_best_at_least,global,,7,,
+badge,global-90,,,,철의 의지,90일 연속 운동,/health/badges/default-medal.svg,streak_best_at_least,global,,90,,
+badge,global-365,,,,올해의 운동왕,365일 연속 운동,/health/badges/default-medal.svg,streak_best_at_least,global,,365,,
+badge,global-month-master,,,,{month}월의 지배자,{monthKey} 한 달 개근,/health/badges/default-medal.svg,perfect_month_any,global,,,,
+badge,first-running,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,running,,,
+badge,first-swimming,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,swimming,,,
+badge,first-home,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,home,,,
+badge,first-soccer,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,soccer,,,
+badge,first-gym,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,gym,,,
+badge,first-tennis,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,tennis,,,
+badge,first-walking,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,walking,,,
+badge,first-bicycle,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,bicycle,,,
+badge,distance-running,,,,{value}km,러닝 거리 마일스톤,/health/badges/default-medal.svg,distance_step,activity,running,,10,200
+badge,distance-walking,,,,{value}km,걷기 거리 마일스톤,/health/badges/default-medal.svg,distance_step,activity,walking,,10,200
+badge,count-swimming,,,,{value}회,수영 횟수 마일스톤,/health/badges/default-medal.svg,count_step,activity,swimming,,10,200
+badge,count-home,,,,{value}회,홈 트레이닝 횟수 마일스톤,/health/badges/default-medal.svg,count_step,activity,home,,10,200
+badge,count-gym,,,,{value}회,헬스 횟수 마일스톤,/health/badges/default-medal.svg,count_step,activity,gym,,10,200
+badge,count-soccer,,,,{value}회,축구 횟수 마일스톤,/health/badges/default-medal.svg,count_step,activity,soccer,,5,200
+badge,count-tennis,,,,{value}회,테니스 횟수 마일스톤,/health/badges/default-medal.svg,count_step,activity,tennis,,5,200
+badge,special-soccer,,,,발롱도르,축구 100회 달성,/health/badges/default-medal.svg,count_at_least,activity,soccer,100,,
+badge,special-tennis,,,,그랜드 슬램,테니스 100회 달성,/health/badges/default-medal.svg,count_at_least,activity,tennis,100,,
+badge,special-swim,,,,인간 물고기,수영 100회 달성,/health/badges/default-medal.svg,count_at_least,activity,swimming,100,,
+badge,special-home,,,,사이타마,홈 트레이닝 100회 달성,/health/badges/default-medal.svg,count_at_least,activity,home,100,,
+badge,special-running,,,,서울 to 부산,러닝 400km 달성,/health/badges/default-medal.svg,distance_at_least,activity,running,400,,
+badge,special-walk,,,,한강 종주,걷기 300km 달성,/health/badges/default-medal.svg,distance_at_least,activity,walking,300,,
+badge,special-bicycle,,,,전국일주 완료!,자전거 600km 달성,/health/badges/default-medal.svg,distance_at_least,activity,bicycle,600,,
+badge,first-test-distance,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,test_distance,,,
+badge,first-test-count,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,test_count,,,
+badge,distance-test,,,,{value}km,테스트 거리 마일스톤,/health/badges/default-medal.svg,distance_step,activity,test_distance,,10,120
+badge,count-test,,,,{value}회,테스트 횟수 마일스톤,/health/badges/default-medal.svg,count_step,activity,test_count,,10,120

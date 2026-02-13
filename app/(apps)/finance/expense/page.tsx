@@ -20,6 +20,9 @@ const formatNumberInput = (value: string) => {
 };
 
 const parseNumberInput = (value: string) => Number(value.replace(/[^\d]/g, ""));
+const normalizeEntryKind = (entry: ExpenseEntry): "expense" | "income" => (entry.kind === "income" ? "income" : "expense");
+const dayKeyFromDate = (date: Date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
 type ExpenseEntry = {
   id: string;
@@ -28,6 +31,7 @@ type ExpenseEntry = {
   category: string;
   title: string;
   amount: number;
+  kind?: "expense" | "income";
   memo?: string;
   batchId?: string;
 };
@@ -86,6 +90,23 @@ const shiftMonthKey = (monthKey: string, delta: number) => {
   return `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}`;
 };
 
+const monthGrid = (monthKey: string) => {
+  const [year, month] = monthKey.split("-").map(Number);
+  const first = new Date(year, month - 1, 1);
+  const weekday = first.getDay();
+  const mondayOffset = weekday === 0 ? 6 : weekday - 1;
+  const start = new Date(year, month - 1, 1 - mondayOffset);
+  return Array.from({ length: 42 }, (_, idx) => {
+    const date = new Date(start);
+    date.setDate(start.getDate() + idx);
+    return {
+      key: dayKeyFromDate(date),
+      day: date.getDate(),
+      inMonth: date.getMonth() === month - 1
+    };
+  });
+};
+
 export default function FinanceExpensePage() {
   const isDev = process.env.NODE_ENV !== "production";
   const [entries, setEntries] = useState<ExpenseEntry[]>([]);
@@ -116,6 +137,7 @@ export default function FinanceExpensePage() {
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [categoryDrafts, setCategoryDrafts] = useState<string[]>([]);
   const [categoryMoveTarget, setCategoryMoveTarget] = useState<Record<string, string>>({});
+  const [pendingCategoryDelete, setPendingCategoryDelete] = useState<string | null>(null);
   const [expenseModalOpen, setExpenseModalOpen] = useState(false);
   const [detailEntry, setDetailEntry] = useState<ExpenseEntry | null>(null);
   const [pendingDelete, setPendingDelete] = useState<ExpenseEntry | null>(null);
@@ -154,6 +176,11 @@ export default function FinanceExpensePage() {
   const [historyDrillPinned, setHistoryDrillPinned] = useState(false);
   const [historyDrillSortKey, setHistoryDrillSortKey] = useState<"amount" | "date">("amount");
   const [historyDrillSortDir, setHistoryDrillSortDir] = useState<"asc" | "desc">("desc");
+  const [ledgerKindTab, setLedgerKindTab] = useState<"expense" | "income">("expense");
+  const [selectedLedgerDate, setSelectedLedgerDate] = useState<string | null>(null);
+  const [ledgerUiMode, setLedgerUiMode] = useState<"calendar" | "ledger">("calendar");
+  const [pendingReviewDeleteMonth, setPendingReviewDeleteMonth] = useState<string | null>(null);
+  const [inlineNotice, setInlineNotice] = useState<string | null>(null);
 
   useEffect(() => {
     const loadedEntries = loadState<ExpenseEntry[]>(EXPENSE_LEDGER_KEY, []);
@@ -165,7 +192,7 @@ export default function FinanceExpensePage() {
         .filter(([month]) => month === PRESERVED_BUDGET_MONTH)
         .map(([month, value]) => [month, Number(value) || 0])
     );
-    setEntries(loadedEntries);
+    setEntries(loadedEntries.map((entry) => ({ ...entry, kind: normalizeEntryKind(entry) })));
     setCategories(loadedCategories.includes(DEFAULT_CATEGORY) ? loadedCategories : [...loadedCategories, DEFAULT_CATEGORY]);
     setBudgetByMonth(sanitizedBudget);
     setReviewByMonth(loadedReview);
@@ -180,12 +207,32 @@ export default function FinanceExpensePage() {
     setBudgetInput(budgetByMonth[selectedMonth] ? formatNumberInput(String(budgetByMonth[selectedMonth])) : "");
   }, [budgetByMonth, selectedMonth]);
 
+  useEffect(() => {
+    const today = new Date();
+    const todayMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
+    if (selectedMonth === todayMonth) {
+      setSelectedLedgerDate(dayKeyFromDate(today));
+      return;
+    }
+    setSelectedLedgerDate(`${selectedMonth}-01`);
+  }, [selectedMonth]);
+
+  useEffect(() => {
+    if (!selectedLedgerDate || !selectedLedgerDate.startsWith(selectedMonth)) {
+      setSelectedLedgerDate(`${selectedMonth}-01`);
+      return;
+    }
+  }, [entries, ledgerKindTab, selectedLedgerDate, selectedMonth]);
+
   const monthEntries = useMemo(
-    () => entries.filter((entry) => entry.date.startsWith(selectedMonth)),
+    () => entries.filter((entry) => entry.date.startsWith(selectedMonth) && normalizeEntryKind(entry) === "expense"),
     [entries, selectedMonth]
   );
   const yearKey = useMemo(() => selectedMonth.slice(0, 4), [selectedMonth]);
-  const yearEntries = useMemo(() => entries.filter((entry) => entry.date.startsWith(yearKey)), [entries, yearKey]);
+  const yearEntries = useMemo(
+    () => entries.filter((entry) => entry.date.startsWith(yearKey) && normalizeEntryKind(entry) === "expense"),
+    [entries, yearKey]
+  );
   const rangeEntries = useMemo(() => {
     if (!rangeStart || !rangeEnd) return [];
     const start = new Date(`${rangeStart}T00:00:00Z`).getTime();
@@ -193,22 +240,31 @@ export default function FinanceExpensePage() {
     if (Number.isNaN(start) || Number.isNaN(end) || start > end) return [];
     return entries.filter((entry) => {
       const time = new Date(`${entry.date}T00:00:00Z`).getTime();
-      return time >= start && time <= end;
+      return time >= start && time <= end && normalizeEntryKind(entry) === "expense";
     });
   }, [entries, rangeStart, rangeEnd]);
-  const activeEntries = useMemo(() => {
-    if (viewMode === "yearly") return yearEntries;
-    if (viewMode === "range") return rangeEntries;
-    return monthEntries;
-  }, [monthEntries, rangeEntries, viewMode, yearEntries]);
-  const filteredEntries = useMemo(() => {
-    if (!selectedCategories.length) return activeEntries;
+  const ledgerScopedEntries = useMemo(() => {
+    const byKind = entries.filter((entry) => normalizeEntryKind(entry) === ledgerKindTab);
+    if (viewMode === "yearly") return byKind.filter((entry) => entry.date.startsWith(yearKey));
+    if (viewMode === "range") {
+      if (!rangeStart || !rangeEnd) return [];
+      const start = new Date(`${rangeStart}T00:00:00Z`).getTime();
+      const end = new Date(`${rangeEnd}T23:59:59Z`).getTime();
+      if (Number.isNaN(start) || Number.isNaN(end) || start > end) return [];
+      return byKind.filter((entry) => {
+        const time = new Date(`${entry.date}T00:00:00Z`).getTime();
+        return time >= start && time <= end;
+      });
+    }
+    return byKind.filter((entry) => entry.date.startsWith(selectedMonth));
+  }, [entries, ledgerKindTab, rangeEnd, rangeStart, selectedMonth, viewMode, yearKey]);
+  const ledgerFilteredEntries = useMemo(() => {
+    if (ledgerKindTab === "income" || !selectedCategories.length) return ledgerScopedEntries;
     const set = new Set(selectedCategories);
-    return activeEntries.filter((entry) => set.has(entry.category));
-  }, [activeEntries, selectedCategories]);
-
-  const sortedMonthEntries = useMemo(() => {
-    const rows = [...filteredEntries];
+    return ledgerScopedEntries.filter((entry) => set.has(entry.category));
+  }, [ledgerKindTab, ledgerScopedEntries, selectedCategories]);
+  const sortedLedgerEntries = useMemo(() => {
+    const rows = [...ledgerFilteredEntries];
     if (ledgerSort === "amount") {
       rows.sort((a, b) => a.amount - b.amount);
     } else {
@@ -219,7 +275,22 @@ export default function FinanceExpensePage() {
       });
     }
     return ledgerSortDir === "asc" ? rows : rows.reverse();
-  }, [filteredEntries, ledgerSort, ledgerSortDir]);
+  }, [ledgerFilteredEntries, ledgerSort, ledgerSortDir]);
+  const ledgerMonthDateTotals = useMemo(() => {
+    const map = new Map<string, number>();
+    entries
+      .filter((entry) => entry.date.startsWith(selectedMonth) && normalizeEntryKind(entry) === ledgerKindTab)
+      .forEach((entry) => map.set(entry.date, (map.get(entry.date) ?? 0) + entry.amount));
+    return map;
+  }, [entries, ledgerKindTab, selectedMonth]);
+  const ledgerTotalInView = useMemo(
+    () => sortedLedgerEntries.reduce((sum, entry) => sum + entry.amount, 0),
+    [sortedLedgerEntries]
+  );
+  const selectedDayLedgerEntries = useMemo(() => {
+    if (viewMode !== "monthly" || !selectedLedgerDate) return sortedLedgerEntries;
+    return sortedLedgerEntries.filter((entry) => entry.date === selectedLedgerDate);
+  }, [selectedLedgerDate, sortedLedgerEntries, viewMode]);
   const monthTotal = useMemo(() => monthEntries.reduce((sum, entry) => sum + entry.amount, 0), [monthEntries]);
   const yearTotal = useMemo(() => yearEntries.reduce((sum, entry) => sum + entry.amount, 0), [yearEntries]);
   const rangeTotal = useMemo(() => rangeEntries.reduce((sum, entry) => sum + entry.amount, 0), [rangeEntries]);
@@ -308,8 +379,10 @@ export default function FinanceExpensePage() {
     setDate(new Date().toISOString().slice(0, 10));
   };
 
-  const openCreate = () => {
+  const openCreate = (dateOverride?: string) => {
     resetForm();
+    if (dateOverride) setDate(dateOverride);
+    else if (viewMode === "monthly" && selectedLedgerDate) setDate(selectedLedgerDate);
     setCategory(categories[0] ?? "Other");
     setExpenseModalOpen(true);
   };
@@ -334,13 +407,15 @@ export default function FinanceExpensePage() {
     if (!date || !category || !title.trim()) return;
     const amountValue = parseNumberInput(amount);
     if (!(amountValue > 0)) return;
+    const existing = editingId ? entries.find((entry) => entry.id === editingId) : null;
     const payload: ExpenseEntry = {
       id: editingId ?? crypto.randomUUID(),
-      createdAt: editingId ? entries.find((entry) => entry.id === editingId)?.createdAt ?? Date.now() : Date.now(),
+      createdAt: existing?.createdAt ?? Date.now(),
       date,
       category,
       title: title.trim(),
       amount: amountValue,
+      kind: existing ? normalizeEntryKind(existing) : ledgerKindTab,
       memo: memo.trim() || undefined
     };
     const next = editingId ? entries.map((entry) => (entry.id === editingId ? payload : entry)) : [...entries, payload];
@@ -352,6 +427,7 @@ export default function FinanceExpensePage() {
 
   const startEdit = (entry: ExpenseEntry) => {
     setEditingId(entry.id);
+    setLedgerKindTab(normalizeEntryKind(entry));
     setDate(entry.date);
     setCategory(entry.category);
     setTitle(entry.title);
@@ -410,12 +486,13 @@ export default function FinanceExpensePage() {
   };
 
   const deleteCategory = (label: string) => {
-    if (label === DEFAULT_CATEGORY) return;
-    if ((categoryCounts.get(label) ?? 0) > 0) return;
+    if (label === DEFAULT_CATEGORY) return false;
+    if ((categoryCounts.get(label) ?? 0) > 0) return false;
     const next = categories.filter((item) => item !== label);
     setCategories(next);
     saveState(EXPENSE_CATEGORIES_KEY, next);
     if (category === label) setCategory(DEFAULT_CATEGORY);
+    return true;
   };
 
   const seedExpenses = (config: { start: string; end: string; density: "light" | "normal" | "heavy" }, force = false) => {
@@ -641,10 +718,26 @@ export default function FinanceExpensePage() {
     setReviewWriteOpen(false);
   };
 
+  const removeMonthlyReview = (monthKey: string) => {
+    const next = { ...reviewByMonth };
+    delete next[monthKey];
+    setReviewByMonth(next);
+    saveState(EXPENSE_REVIEW_KEY, next);
+    if (reviewDetailMonth === monthKey) setReviewDetailMonth(null);
+    setPendingReviewDeleteMonth(null);
+    setInlineNotice(`Deleted monthly review: ${monthKey}`);
+  };
+
   const openReviewDetail = (monthKey: string) => {
     setReviewDetailMonth(monthKey);
     setReviewDetailOpen(true);
   };
+
+  useEffect(() => {
+    if (!inlineNotice) return;
+    const timer = window.setTimeout(() => setInlineNotice(null), 2200);
+    return () => window.clearTimeout(timer);
+  }, [inlineNotice]);
 
   const historyEntries = useMemo(
     () => (historyDrillMonth ? entries.filter((entry) => entry.date.startsWith(historyDrillMonth)) : []),
@@ -917,6 +1010,34 @@ export default function FinanceExpensePage() {
                 </div>
                 <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1">
                   <button
+                    className={`rounded-full px-2 py-1 text-[11px] ${ledgerKindTab === "expense" ? "border border-white/20 text-white" : "text-[var(--ink-1)]"}`}
+                    onClick={() => setLedgerKindTab("expense")}
+                  >
+                    Expense
+                  </button>
+                  <button
+                    className={`rounded-full px-2 py-1 text-[11px] ${ledgerKindTab === "income" ? "border border-white/20 text-white" : "text-[var(--ink-1)]"}`}
+                    onClick={() => setLedgerKindTab("income")}
+                  >
+                    Income
+                  </button>
+                </div>
+                <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1">
+                  <button
+                    className={`rounded-full px-2 py-1 text-[11px] ${ledgerUiMode === "calendar" ? "border border-white/20 text-white" : "text-[var(--ink-1)]"}`}
+                    onClick={() => setLedgerUiMode("calendar")}
+                  >
+                    Calendar UI
+                  </button>
+                  <button
+                    className={`rounded-full px-2 py-1 text-[11px] ${ledgerUiMode === "ledger" ? "border border-white/20 text-white" : "text-[var(--ink-1)]"}`}
+                    onClick={() => setLedgerUiMode("ledger")}
+                  >
+                    Ledger UI
+                  </button>
+                </div>
+                <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1">
+                  <button
                     className={`rounded-full px-2 py-1 text-[11px] ${viewMode === "monthly" ? "border border-white/20 text-white" : "text-[var(--ink-1)]"}`}
                     onClick={() => setViewMode("monthly")}
                   >
@@ -936,7 +1057,7 @@ export default function FinanceExpensePage() {
                   </button>
                 </div>
                 <button className="rounded-full border border-white/10 px-3 py-1 text-xs" onClick={openCreate}>
-                  + Add Expense
+                  + Add {ledgerKindTab === "income" ? "Income" : "Expense"}
                 </button>
                 {isDev ? (
                   <button className="rounded-full border border-white/10 px-3 py-1 text-[11px]" onClick={() => setDebugOpen(true)}>
@@ -975,10 +1096,64 @@ export default function FinanceExpensePage() {
               <button
                 className="rounded-full border border-white/10 px-3 py-1 text-[var(--ink-1)]"
                 onClick={() => setCategoryFilterOpen(true)}
+                disabled={ledgerKindTab === "income"}
               >
                 Category Filter
               </button>
             </div>
+            {viewMode === "monthly" && ledgerUiMode === "calendar" ? (
+              <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-3">
+                <div className="mb-2 flex items-center justify-between text-xs text-[var(--ink-1)]">
+                  <span>{selectedMonth} Calendar</span>
+                  <span>
+                    {ledgerKindTab === "income" ? "Income" : "Expense"} Total:{" "}
+                    <span className={ledgerKindTab === "income" ? "text-emerald-300" : "text-rose-200"}>{formatKrw(ledgerTotalInView)}</span>
+                  </span>
+                </div>
+                <div className="grid grid-cols-7 gap-1 text-[10px] uppercase tracking-[0.08em] text-[var(--ink-1)]">
+                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+                    <div key={day} className="px-1 py-1 text-center">
+                      {day}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-1 grid grid-cols-7 gap-1">
+                  {monthGrid(selectedMonth).map((cell) => {
+                    const daily = ledgerMonthDateTotals.get(cell.key) ?? 0;
+                    const selected = selectedLedgerDate === cell.key;
+                    const hasValue = daily > 0;
+                    return (
+                      <button
+                        key={cell.key}
+                        onClick={() => setSelectedLedgerDate(cell.key)}
+                        onDoubleClick={() => {
+                          setSelectedLedgerDate(cell.key);
+                          openCreate(cell.key);
+                        }}
+                        className={`min-h-[64px] rounded-md border px-1 py-1 text-left text-xs transition ${
+                          selected
+                            ? "border-white/40 bg-white/10"
+                            : hasValue
+                              ? ledgerKindTab === "income"
+                                ? "border-emerald-500/50 bg-emerald-500/15"
+                                : "border-rose-500/50 bg-rose-500/15"
+                              : cell.inMonth
+                                ? "border-white/10 bg-black/20 hover:border-white/25"
+                                : "border-white/5 bg-black/10 text-white/30"
+                        }`}
+                      >
+                        <div className={cell.inMonth ? "text-[var(--ink-0)]" : "text-white/35"}>{cell.day}</div>
+                        {hasValue ? (
+                          <div className={`mt-1 text-[10px] ${ledgerKindTab === "income" ? "text-emerald-300" : "text-rose-200"}`}>
+                            {formatKrw(daily)}
+                          </div>
+                        ) : null}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
             {viewMode === "range" ? (
               <div className="mt-3 grid gap-2 text-xs md:grid-cols-2">
                 <label className="block">
@@ -1003,8 +1178,8 @@ export default function FinanceExpensePage() {
             ) : null}
             <div className="mt-4 max-h-[520px] space-y-2 overflow-y-auto pr-1">
               {viewMode === "monthly" || viewMode === "range" ? (
-                sortedMonthEntries.length ? (
-                  sortedMonthEntries.map((entry) => (
+                (viewMode === "monthly" ? (ledgerUiMode === "calendar" ? selectedDayLedgerEntries : sortedLedgerEntries) : sortedLedgerEntries).length ? (
+                  (viewMode === "monthly" ? (ledgerUiMode === "calendar" ? selectedDayLedgerEntries : sortedLedgerEntries) : sortedLedgerEntries).map((entry) => (
                     <div
                       key={entry.id}
                       className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm"
@@ -1014,11 +1189,10 @@ export default function FinanceExpensePage() {
                         onClick={() => setDetailEntry(entry)}
                       >
                         <span className="truncate text-white/85">
-                          {entry.date} | {entry.title}
+                          {entry.date} / {entry.category} / {entry.title} / {formatKrw(entry.amount)}
                         </span>
                       </button>
                       <div className="flex items-center gap-3">
-                        <span className="text-right font-semibold">{formatKrw(entry.amount)}</span>
                         <button
                           className="rounded-full border border-white/10 px-2 py-[2px] text-xs"
                           onClick={(event) => {
@@ -1041,7 +1215,7 @@ export default function FinanceExpensePage() {
                     </div>
                   ))
                 ) : (
-                  <div className="text-sm text-[var(--ink-1)]">No entries in this view.</div>
+                  ledgerUiMode === "calendar" && viewMode === "monthly" ? <div className="h-2" /> : <div className="text-sm text-[var(--ink-1)]">No entries in this view.</div>
                 )
               ) : (
                 <div className="space-y-3 text-sm">
@@ -1313,11 +1487,9 @@ export default function FinanceExpensePage() {
                   className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
                 />
                 <button
-                  className="rounded-full border border-rose-500/40 px-3 py-2 text-xs text-rose-200 disabled:opacity-50"
-                  disabled={(categoryCounts.get(entry) ?? 0) > 0}
+                  className="rounded-full border border-rose-500/40 px-3 py-2 text-xs text-rose-200"
                   onClick={() => {
-                    deleteCategory(entry);
-                    setCategoryDrafts((prev) => prev.filter((item) => item !== entry));
+                    setPendingCategoryDelete(entry);
                   }}
                 >
                   Delete
@@ -1326,38 +1498,7 @@ export default function FinanceExpensePage() {
                 <div className="mt-2 text-xs text-[var(--ink-1)]">
                   This category has {categoryCounts.get(entry) ?? 0} entries.
                 </div>
-                {(categoryCounts.get(entry) ?? 0) > 0 ? (
-                  <div className="mt-2 grid gap-2 text-xs">
-                    <div className="text-[var(--ink-1)]">Move entries to:</div>
-                    <div className="flex items-center gap-2">
-                      <select
-                        value={categoryMoveTarget[entry] ?? DEFAULT_CATEGORY}
-                        className="lifnux-select w-full rounded-lg border border-white/20 bg-[#0f1620] px-3 py-2 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-                        onChange={(event) =>
-                          setCategoryMoveTarget((prev) => ({ ...prev, [entry]: event.target.value }))
-                        }
-                      >
-                        {[DEFAULT_CATEGORY, ...categories.filter((item) => item !== entry && item !== DEFAULT_CATEGORY)].map((item) => (
-                          <option key={item} value={item}>
-                            {item}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        className="rounded-full border border-white/10 px-3 py-2 text-xs"
-                        onClick={() => applyCategoryMove(entry, categoryMoveTarget[entry] ?? DEFAULT_CATEGORY)}
-                      >
-                        Move
-                      </button>
-                    </div>
-                    <div className="text-[var(--ink-1)]">Entries must be moved before deleting.</div>
-                    <div className="text-[var(--ink-1)]">이 카테고리에 속한 소비 내역이 남아 있어 삭제할 수 없습니다.</div>
-                  </div>
-                ) : (
-                  <div className="mt-2 text-xs text-[var(--ink-1)]">
-                    You can delete this category because no entries remain.
-                  </div>
-                )}
+                <div className="mt-2 text-xs text-[var(--ink-1)]">Delete opens a dedicated popup for move/delete actions.</div>
               </div>
             ))
           ) : (
@@ -1499,6 +1640,70 @@ export default function FinanceExpensePage() {
             </button>
           </div>
         </div>
+      </Modal>
+
+      <Modal open={!!pendingCategoryDelete} title="Delete Category" onClose={() => setPendingCategoryDelete(null)}>
+        {pendingCategoryDelete ? (
+          <div className="space-y-3 text-sm">
+            <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Category</div>
+              <div className="mt-1">{pendingCategoryDelete}</div>
+              <div className="mt-2 text-xs text-[var(--ink-1)]">
+                This category has {categoryCounts.get(pendingCategoryDelete) ?? 0} entries.
+              </div>
+            </div>
+
+            {(categoryCounts.get(pendingCategoryDelete) ?? 0) > 0 ? (
+              <div className="grid gap-2 text-xs">
+                <div className="text-[var(--ink-1)]">Move entries to:</div>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={categoryMoveTarget[pendingCategoryDelete] ?? DEFAULT_CATEGORY}
+                    className="lifnux-select w-full rounded-lg border border-white/20 bg-[#0f1620] px-3 py-2 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+                    onChange={(event) =>
+                      setCategoryMoveTarget((prev) => ({ ...prev, [pendingCategoryDelete]: event.target.value }))
+                    }
+                  >
+                    {[DEFAULT_CATEGORY, ...categories.filter((item) => item !== pendingCategoryDelete && item !== DEFAULT_CATEGORY)].map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    className="rounded-full border border-white/10 px-3 py-2 text-xs"
+                    onClick={() => applyCategoryMove(pendingCategoryDelete, categoryMoveTarget[pendingCategoryDelete] ?? DEFAULT_CATEGORY)}
+                  >
+                    Move
+                  </button>
+                </div>
+                <div className="text-[var(--ink-1)]">Entries must be moved before deleting.</div>
+                <div className="text-[var(--ink-1)]">이 카테고리에 속한 소비 내역이 남아 있어 삭제할 수 없습니다.</div>
+              </div>
+            ) : (
+              <div className="text-xs text-[var(--ink-1)]">You can delete this category because no entries remain.</div>
+            )}
+
+            <div className="flex justify-end gap-2">
+              <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setPendingCategoryDelete(null)}>
+                Cancel
+              </button>
+              <button
+                className="rounded-full border border-rose-500/40 px-4 py-2 text-xs text-rose-200 disabled:opacity-50"
+                disabled={pendingCategoryDelete === DEFAULT_CATEGORY || (categoryCounts.get(pendingCategoryDelete) ?? 0) > 0}
+                onClick={() => {
+                  const deleted = deleteCategory(pendingCategoryDelete);
+                  if (!deleted) return;
+                  setCategoryDrafts((prev) => prev.filter((item) => item !== pendingCategoryDelete));
+                  setPendingCategoryDelete(null);
+                  setInlineNotice(`Deleted category: ${pendingCategoryDelete}`);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ) : null}
       </Modal>
 
       <Modal
@@ -1885,18 +2090,24 @@ export default function FinanceExpensePage() {
           </div>
           <div className="space-y-2">
             {reviewRows.map((row) => (
-              <button
-                key={row.month}
-                className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-left"
-                onClick={() => openReviewDetail(row.month)}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-semibold">{row.month}</div>
-                  <div className="text-xs text-[var(--ink-1)]">{formatKrw(totalsByMonth.get(row.month) ?? 0)}</div>
+              <div key={row.month} className="w-full rounded-xl border border-white/10 bg-black/20 p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <button className="min-w-0 flex-1 text-left" onClick={() => openReviewDetail(row.month)}>
+                    <div className="text-sm font-semibold">{row.month}</div>
+                    <div className="mt-1 text-xs text-[var(--ink-1)]">Overall: {row.overallRating}</div>
+                    <div className="mt-1 truncate text-xs text-[var(--ink-1)]">{row.overallComment || "-"}</div>
+                  </button>
+                  <div className="flex flex-col items-end gap-2">
+                    <div className="text-xs text-[var(--ink-1)]">{formatKrw(totalsByMonth.get(row.month) ?? 0)}</div>
+                    <button
+                      className="rounded-full border border-rose-500/40 px-2 py-[2px] text-[11px] text-rose-200"
+                      onClick={() => setPendingReviewDeleteMonth(row.month)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-                <div className="mt-1 text-xs text-[var(--ink-1)]">Overall: {row.overallRating}</div>
-                <div className="mt-1 truncate text-xs text-[var(--ink-1)]">{row.overallComment || "-"}</div>
-              </button>
+              </div>
             ))}
             {!reviewRows.length ? <div className="text-[var(--ink-1)]">No reviews yet.</div> : null}
           </div>
@@ -1996,7 +2207,7 @@ export default function FinanceExpensePage() {
 
       <Modal
         open={expenseModalOpen}
-        title={editingId ? "Edit Expense" : "Add Expense"}
+        title={editingId ? `Edit ${ledgerKindTab === "income" ? "Income" : "Expense"}` : `Add ${ledgerKindTab === "income" ? "Income" : "Expense"}`}
         onClose={() => setExpenseModalOpen(false)}
       >
         <div className="grid gap-3 text-sm">
@@ -2041,7 +2252,9 @@ export default function FinanceExpensePage() {
             />
           </label>
           <label className="block">
-            <div className="text-[var(--ink-1)]">Amount (KRW)</div>
+            <div className="text-[var(--ink-1)]">
+              Amount (KRW) {ledgerKindTab === "income" ? "(Income)" : "(Expense)"}
+            </div>
             <input
               inputMode="numeric"
               value={amount}
@@ -2069,7 +2282,11 @@ export default function FinanceExpensePage() {
         </div>
       </Modal>
 
-      <Modal open={!!detailEntry} title="Expense Detail" onClose={() => setDetailEntry(null)}>
+      <Modal
+        open={!!detailEntry}
+        title={`${detailEntry ? (normalizeEntryKind(detailEntry) === "income" ? "Income" : "Expense") : "Entry"} Detail`}
+        onClose={() => setDetailEntry(null)}
+      >
         {detailEntry ? (
           <div className="space-y-3 text-sm">
             <div className="rounded-lg border border-white/10 bg-black/20 p-3">
@@ -2114,7 +2331,11 @@ export default function FinanceExpensePage() {
         ) : null}
       </Modal>
 
-      <Modal open={!!pendingDelete} title="Delete this expense?" onClose={() => setPendingDelete(null)}>
+      <Modal
+        open={!!pendingDelete}
+        title={`Delete this ${pendingDelete && normalizeEntryKind(pendingDelete) === "income" ? "income" : "expense"}?`}
+        onClose={() => setPendingDelete(null)}
+      >
         {pendingDelete ? (
           <div className="space-y-4 text-sm">
             <div className="rounded-lg border border-white/10 bg-black/20 p-3 text-white/80">
@@ -2138,6 +2359,35 @@ export default function FinanceExpensePage() {
           </div>
         ) : null}
       </Modal>
+
+      <Modal
+        open={!!pendingReviewDeleteMonth}
+        title="Delete this monthly review?"
+        onClose={() => setPendingReviewDeleteMonth(null)}
+      >
+        {pendingReviewDeleteMonth ? (
+          <div className="space-y-4 text-sm">
+            <div className="rounded-lg border border-white/10 bg-black/20 p-3 text-white/80">{pendingReviewDeleteMonth}</div>
+            <div className="flex justify-end gap-2">
+              <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setPendingReviewDeleteMonth(null)}>
+                Cancel
+              </button>
+              <button
+                className="rounded-full border border-rose-500/40 px-4 py-2 text-xs text-rose-200"
+                onClick={() => removeMonthlyReview(pendingReviewDeleteMonth)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </Modal>
+
+      {inlineNotice ? (
+        <div className="fixed bottom-5 right-5 z-[1300] rounded-xl border border-white/15 bg-[#0f1824] px-4 py-2 text-sm text-[var(--ink-0)] shadow-lg">
+          {inlineNotice}
+        </div>
+      ) : null}
     </AppShell>
   );
 }

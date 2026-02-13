@@ -2,15 +2,128 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-02-12T08:50:11.267Z"
+    "exportedAt": "2026-02-13T09:09:13.301Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "h0KIWaUEIgQ",
+        "trackId": "E5BLkMGxDgQ",
         "volume": 80,
         "position": 0
       }
+    },
+    "health": {
+      "lifnux.health.activityTypes.v1": [
+        {
+          "id": "running",
+          "name": "Running",
+          "icon": "🏃",
+          "planMode": "weekly",
+          "weeklyTargetCount": 0,
+          "monthlyTargetCount": 0,
+          "createdAt": "2026-02-13T01:22:15.453Z",
+          "updatedAt": "2026-02-13T01:32:33.790Z"
+        },
+        {
+          "id": "swimming",
+          "name": "Swimming",
+          "icon": "🏊",
+          "planMode": "weekly",
+          "weeklyTargetCount": 3,
+          "monthlyTargetCount": 12,
+          "createdAt": "2026-02-13T01:22:15.453Z",
+          "updatedAt": "2026-02-13T05:10:46.377Z"
+        },
+        {
+          "id": "home",
+          "name": "Home Training",
+          "icon": "🏠",
+          "planMode": "weekly",
+          "weeklyTargetCount": 3,
+          "monthlyTargetCount": 12,
+          "createdAt": "2026-02-13T01:22:15.453Z",
+          "updatedAt": "2026-02-13T01:22:15.453Z"
+        },
+        {
+          "id": "soccer",
+          "name": "Soccer",
+          "icon": "⚽",
+          "planMode": "unplanned",
+          "weeklyTargetCount": 0,
+          "monthlyTargetCount": 0,
+          "createdAt": "2026-02-13T01:22:15.453Z",
+          "updatedAt": "2026-02-13T01:30:43.053Z"
+        },
+        {
+          "id": "gym",
+          "name": "Gym",
+          "icon": "🏋️",
+          "planMode": "weekly",
+          "weeklyTargetCount": 0,
+          "monthlyTargetCount": 0,
+          "createdAt": "2026-02-13T01:22:15.453Z",
+          "updatedAt": "2026-02-13T01:22:15.453Z"
+        },
+        {
+          "id": "tennis",
+          "name": "Tennis",
+          "icon": "🎾",
+          "planMode": "unplanned",
+          "weeklyTargetCount": 0,
+          "monthlyTargetCount": 0,
+          "createdAt": "2026-02-13T01:22:15.453Z",
+          "updatedAt": "2026-02-13T01:22:15.453Z"
+        },
+        {
+          "id": "walking",
+          "name": "Walking",
+          "icon": "walk",
+          "planMode": "unplanned",
+          "weeklyTargetCount": 0,
+          "monthlyTargetCount": 0,
+          "createdAt": "2026-02-13T06:39:23.980Z",
+          "updatedAt": "2026-02-13T06:39:23.980Z"
+        },
+        {
+          "id": "bicycle",
+          "name": "Bicycle",
+          "icon": "bicycle",
+          "planMode": "unplanned",
+          "weeklyTargetCount": 0,
+          "monthlyTargetCount": 0,
+          "createdAt": "2026-02-13T06:39:23.980Z",
+          "updatedAt": "2026-02-13T06:39:23.980Z"
+        }
+      ],
+      "lifnux.health.test.activityTypes.v1": [
+        {
+          "id": "test_distance",
+          "name": "TEST Distance",
+          "icon": "🧪",
+          "planMode": "unplanned",
+          "weeklyTargetCount": 0,
+          "monthlyTargetCount": 0,
+          "createdAt": "2026-02-13T09:08:50.764Z",
+          "updatedAt": "2026-02-13T09:08:50.764Z"
+        },
+        {
+          "id": "test_count",
+          "name": "TEST Count",
+          "icon": "🔢",
+          "planMode": "unplanned",
+          "weeklyTargetCount": 0,
+          "monthlyTargetCount": 0,
+          "createdAt": "2026-02-13T09:08:50.764Z",
+          "updatedAt": "2026-02-13T09:08:50.764Z"
+        }
+      ],
+      "lifnux.health.debug.testMode.v1": false,
+      "lifnux.health.debug.direct.v1": {
+        "distanceKm": 12,
+        "distanceSessions": 3,
+        "countSessions": 8
+      },
+      "lifnux.health.activityLogs.v1": []
     },
     "finance": {
       "lifnux.finance.asset.dataset.imported.v2": true,
@@ -57,11 +170,15 @@
         },
         {
           "date": "2026-02-12",
-          "totalKrw": 28596270.240000002
+          "totalKrw": 28616924.3372
+        },
+        {
+          "date": "2026-02-13",
+          "totalKrw": 28433252.762
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -4819,106 +4936,6 @@
         "2010-09": {
           "grade": "C",
           "note": "TEST"
-        },
-        "2015-05": {
-          "month": "2015-05",
-          "overallRating": "Soso",
-          "overallComment": "ㅁㅇㄴㅁㅇㄴ",
-          "categoryReviews": {
-            "Shopping": {
-              "rating": "Soso",
-              "comment": "ㅁㅁㄴㅇ"
-            },
-            "Game": {
-              "rating": "Soso",
-              "comment": "ㅁㄴㅇ"
-            },
-            "Food": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Medical": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Transport": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Education": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Gift": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Subscription": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Other": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Entertainment": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Snacks & Coffee": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Uncategorized": {
-              "rating": "Soso",
-              "comment": ""
-            }
-          },
-          "updatedAt": 1770714033820
-        },
-        "2015-07": {
-          "month": "2015-07",
-          "overallRating": "Great",
-          "overallComment": "ㅁㄴㅇㅇ",
-          "categoryReviews": {
-            "Shopping": {
-              "rating": "Soso",
-              "comment": "ㅁㅇㄴ"
-            },
-            "Entertainment": {
-              "rating": "Great",
-              "comment": ""
-            },
-            "Game": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Food": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Transport": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Medical": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Subscription": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Uncategorized": {
-              "rating": "Soso",
-              "comment": ""
-            },
-            "Snacks & Coffee": {
-              "rating": "Soso",
-              "comment": ""
-            }
-          },
-          "updatedAt": 1770714052405
         }
       },
       "lifnux.finance.portfolio.labels.v100": {
@@ -4956,8 +4973,7 @@
         "Uncategorized",
         "Snacks & Coffee",
         "Medical",
-        "Gift",
-        "Education"
+        "Gift"
       ],
       "lifnux.finance.watchlist.v100": [
         {
@@ -5893,17 +5909,21 @@
       "lifnux.finance.expense.ledger.v1": [
         {
           "id": "080c2526-efb5-4411-845f-e8dc9445c621",
+          "createdAt": 1770958746817,
           "date": "2026-02-01",
           "category": "Entertainment",
           "title": "코인 노래방",
-          "amount": 2000
+          "amount": 4496,
+          "kind": "expense"
         },
         {
           "id": "eec6bcca-a8be-4eb2-a39c-148751f269c8",
+          "createdAt": 1770958756700,
           "date": "2026-02-02",
           "category": "Shopping",
           "title": "폰 케이스",
-          "amount": 19000,
+          "amount": 18984,
+          "kind": "expense",
           "memo": "오광덕 투명 젤하드 맥세이프케이스"
         },
         {
@@ -5911,14 +5931,16 @@
           "date": "2026-02-05",
           "category": "Transport",
           "title": "카카오바이크",
-          "amount": 480
+          "amount": 480,
+          "kind": "expense"
         },
         {
           "id": "fba01901-e46e-47ee-8077-1e15e441e4d7",
           "date": "2026-02-06",
           "category": "Other",
           "title": "Fun&FuN 참가회비",
-          "amount": 1000
+          "amount": 1000,
+          "kind": "expense"
         },
         {
           "id": "3983725d-1868-4310-a07e-ddcac2b6006f",
@@ -5926,28 +5948,32 @@
           "category": "Snacks & Coffe",
           "title": "디저티스트",
           "amount": 21000,
-          "memo": "With 윤덕, 진재웅"
+          "memo": "With 윤덕, 진재웅",
+          "kind": "expense"
         },
         {
           "id": "bf29e131-a342-4f1a-91b8-d9e5b37d881a",
           "date": "2026-02-06",
           "category": "Snacks & Coffe",
           "title": "롯데리아 토네이도",
-          "amount": 4000
+          "amount": 4000,
+          "kind": "expense"
         },
         {
           "id": "2e2b367e-5c66-4225-a53d-c93a9765e63d",
           "date": "2026-02-07",
           "category": "Snacks & Coffe",
           "title": "시그니처 초콜릿",
-          "amount": 7264
+          "amount": 7264,
+          "kind": "expense"
         },
         {
           "id": "fc77b9e0-9625-4854-9d37-0006d6d3e4c2",
           "date": "2026-02-08",
           "category": "Subscription",
           "title": "카카오 이모티콘 플러스",
-          "amount": 3900
+          "amount": 3900,
+          "kind": "expense"
         },
         {
           "id": "bb39c488-5e91-48c7-8eb2-2f966569c201",
@@ -5955,42 +5981,76 @@
           "category": "Subscription",
           "title": "쿠팡플레이 스포츠 패스",
           "amount": 9900,
-          "memo": "맞나??"
+          "memo": "맞나??",
+          "kind": "expense"
         },
         {
           "id": "aa6301b6-35d7-411f-bb74-ec3e1561d123",
           "date": "2026-02-09",
           "category": "Subscription",
           "title": "카카오바이크 패스",
-          "amount": 38900
+          "amount": 38900,
+          "kind": "expense"
         },
         {
           "id": "5d49aec5-a754-46ad-b675-58c029bc1497",
           "date": "2026-02-10",
           "category": "Subscription",
           "title": "쿠팡와우 멤버십",
-          "amount": 7890
+          "amount": 7890,
+          "kind": "expense"
         },
         {
           "id": "939582e3-ed69-4149-ae19-cf050441fe9f",
           "date": "2026-02-10",
           "category": "Game",
           "title": "카제나 월정액",
-          "amount": 5900
+          "amount": 5900,
+          "kind": "expense"
         },
         {
           "id": "df41e7b9-e249-4ef0-bd74-fa315cf7c498",
           "date": "2026-02-10",
           "category": "Food",
           "title": "[점심] KFC",
-          "amount": 9300
+          "amount": 9300,
+          "kind": "expense"
         },
         {
           "id": "1dc9a044-1427-49a7-bdb1-2ad218361161",
           "date": "2026-02-10",
           "category": "Snacks & Coffe",
           "title": "졸음껌",
-          "amount": 6000
+          "amount": 6000,
+          "kind": "expense"
+        },
+        {
+          "id": "0b3b8c13-9c3e-44dd-834f-bab723363a58",
+          "createdAt": 1770958843295,
+          "date": "2026-02-11",
+          "category": "Snacks & Coffe",
+          "title": "빽다방",
+          "amount": 4300,
+          "kind": "expense"
+        },
+        {
+          "id": "3cdcee97-91a8-48bd-b419-9430610ea329",
+          "createdAt": 1770959038488,
+          "date": "2026-02-11",
+          "category": "Transport",
+          "title": "1월 교통비",
+          "amount": 82100,
+          "kind": "expense",
+          "memo": "지하철 78,900\n버스 38,900\nKPASS 환금 35,700"
+        },
+        {
+          "id": "ed429b4f-a0e4-4f75-a24a-3decf23c2911",
+          "createdAt": 1770966027437,
+          "date": "2026-02-13",
+          "category": "Other",
+          "title": "Gpt Pro 1개월 이용권",
+          "amount": 29000,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -6032,7 +6092,7 @@
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
         "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "2bfcad1b-7eb7-44c9-8532-aa0d553fe6a2",
+        "selectedVideoId": "e52d3f5c-2ea2-4165-8717-2622e2a9a8b6",
         "loopEnabled": false,
         "speed": 1,
         "shadowing": false,
@@ -6186,6 +6246,10 @@
         {
           "dateKey": "2026-02-10",
           "createdAt": 1770734548501
+        },
+        {
+          "dateKey": "2026-02-12",
+          "createdAt": 1770906770040
         }
       ],
       "lifnux:guitar:videos": [
@@ -6321,7 +6385,7 @@
           "id": "2bfcad1b-7eb7-44c9-8532-aa0d553fe6a2",
           "songId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
           "youtubeId": "zLUnEAWuOEU",
-          "kind": "BACKING",
+          "kind": "TAB",
           "youtubeTitle": "[TAB] 리도어(Redoor) - 사랑의 미학 Guitar Cover 기타 커버 | 타브악보 | Score",
           "createdAt": 1770645675896
         }
@@ -6329,10 +6393,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 28596270.240000002,
-        "unrealizedPnlKrw": 3329148.256000001,
-        "realizedPnlYtdKrw": 1142085.176,
-        "updatedAt": 1770885948437
+        "totalValueKrw": 28433252.762,
+        "unrealizedPnlKrw": 3150113.080799997,
+        "realizedPnlYtdKrw": 1142282.7567999999,
+        "updatedAt": 1770952387806
       }
     },
     "personalGrowth": {
@@ -11776,8 +11840,8 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "h0KIWaUEIgQ",
-        "queueIndex": 3,
+        "videoId": "E5BLkMGxDgQ",
+        "queueIndex": 7,
         "currentTime": 0,
         "repeatMode": "all",
         "shuffle": false
@@ -11886,7 +11950,7 @@
             "customTitle": "유다빈밴드 - 좋지 아니한가?"
           }
         ],
-        "currentIndex": 3,
+        "currentIndex": 7,
         "isPlaying": true,
         "shuffle": false,
         "repeatMode": "all",

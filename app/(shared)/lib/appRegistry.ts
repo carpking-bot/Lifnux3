@@ -3,7 +3,6 @@ import {
   Music2,
   Gamepad2,
   Landmark,
-  Dumbbell,
   Activity,
   BriefcaseBusiness,
   Sparkles
@@ -15,8 +14,7 @@ export const coreApps: OrbitApp[] = [
   { key: "music", label: "MUSIC", href: "/music", icon: Music2 },
   { key: "gaming", label: "GAMING", href: "/gaming", icon: Gamepad2 },
   { key: "finance", label: "FINANCE", href: "/finance", icon: Landmark },
-  { key: "sport", label: "SPORT", href: "/sport", icon: Dumbbell },
-  { key: "running", label: "RUNNING", href: "/running", icon: Activity },
+  { key: "health", label: "HEALTH", href: "/health", icon: Activity },
   { key: "career", label: "CAREER", href: "/career", icon: BriefcaseBusiness },
   { key: "growth", label: "PERSONAL GROWTH", href: "/personal-growth", icon: Sparkles }
 ];
