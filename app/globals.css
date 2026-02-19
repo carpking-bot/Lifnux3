@@ -86,21 +86,23 @@ button {
 }
 
 .lifnux-scroll::-webkit-scrollbar {
-  width: 10px;
+  width: 9px;
 }
 
 .lifnux-scroll::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(7, 11, 18, 0.92);
   border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .lifnux-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.25);
+  background: linear-gradient(180deg, rgba(140, 150, 168, 0.34), rgba(112, 122, 142, 0.42));
   border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .lifnux-scroll {
-  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.06);
+  scrollbar-color: rgba(128, 138, 156, 0.65) rgba(7, 11, 18, 0.9);
   scrollbar-width: auto;
 }
 

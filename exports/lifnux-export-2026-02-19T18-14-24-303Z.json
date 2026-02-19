@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-02-13T09:09:13.301Z"
+    "exportedAt": "2026-02-19T18:14:24.299Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "E5BLkMGxDgQ",
+        "trackId": "KpM6xNAgRoI",
         "volume": 80,
         "position": 0
       }
@@ -119,11 +119,159 @@
       ],
       "lifnux.health.debug.testMode.v1": false,
       "lifnux.health.debug.direct.v1": {
-        "distanceKm": 12,
-        "distanceSessions": 3,
+        "distanceKm": 500,
+        "distanceSessions": 100,
         "countSessions": 8
       },
-      "lifnux.health.activityLogs.v1": []
+      "lifnux.health.activityLogs.v1": [
+        {
+          "id": "3583b1a8-4434-41ee-8b25-5b791e6e9804",
+          "typeId": "swimming",
+          "loggedForDate": "2026-01-15",
+          "durationMin": 50,
+          "memo": "수영 1회차",
+          "createdAt": "2026-02-13T16:24:58.575Z"
+        },
+        {
+          "id": "9783675a-af11-4a4c-99f7-0e06a354fda3",
+          "typeId": "swimming",
+          "loggedForDate": "2026-01-16",
+          "durationMin": 50,
+          "memo": "수영 2회차",
+          "createdAt": "2026-02-13T16:25:05.886Z"
+        },
+        {
+          "id": "65a1ba99-e33b-4076-ada4-c01c3b273f7b",
+          "typeId": "swimming",
+          "loggedForDate": "2026-01-20",
+          "durationMin": 50,
+          "memo": "수영 3회차",
+          "createdAt": "2026-02-13T16:25:13.239Z"
+        },
+        {
+          "id": "d574ab63-2d34-43a9-a37d-232cbe08f84b",
+          "typeId": "swimming",
+          "loggedForDate": "2026-01-22",
+          "durationMin": 50,
+          "memo": "수영 4회차",
+          "createdAt": "2026-02-13T16:25:23.718Z"
+        },
+        {
+          "id": "efeb312a-3c6b-4c06-878f-6c85eceb529c",
+          "typeId": "swimming",
+          "loggedForDate": "2026-01-23",
+          "durationMin": 50,
+          "memo": "수영 5회차",
+          "createdAt": "2026-02-13T16:25:30.135Z"
+        },
+        {
+          "id": "c358b7d8-4cc1-4a8d-9b47-7c1e4fd351c8",
+          "typeId": "swimming",
+          "loggedForDate": "2026-01-27",
+          "durationMin": 50,
+          "memo": "수영 6회차",
+          "createdAt": "2026-02-13T16:25:34.719Z"
+        },
+        {
+          "id": "ebc0ab1e-4e97-4a8d-a4b5-37a2da7438e7",
+          "typeId": "swimming",
+          "loggedForDate": "2026-01-29",
+          "durationMin": 50,
+          "memo": "수영 7회차",
+          "createdAt": "2026-02-13T16:25:39.856Z"
+        },
+        {
+          "id": "60c7be97-d8db-4ead-9a39-6819be66eb11",
+          "typeId": "swimming",
+          "loggedForDate": "2026-01-30",
+          "durationMin": 50,
+          "memo": "수영 8회차",
+          "createdAt": "2026-02-13T16:25:44.240Z"
+        },
+        {
+          "id": "811fb55b-8fa6-4c89-a2a3-7940c1eaaa3a",
+          "typeId": "swimming",
+          "loggedForDate": "2026-02-03",
+          "durationMin": 50,
+          "memo": "수영 9회차",
+          "createdAt": "2026-02-13T16:25:52.048Z"
+        },
+        {
+          "id": "6956d0fa-a761-46ba-be01-6a6cf2771753",
+          "typeId": "swimming",
+          "loggedForDate": "2026-02-05",
+          "durationMin": 50,
+          "memo": "수영 10회차",
+          "createdAt": "2026-02-13T16:25:59.584Z"
+        },
+        {
+          "id": "71207d97-b317-464c-b1e2-8f629874d492",
+          "typeId": "swimming",
+          "loggedForDate": "2026-02-12",
+          "durationMin": 50,
+          "memo": "수영 11회차\n약속, 감기때문에 2번 빠지고 갑자기 키 판없이 자유형부터 시작했는데 생각보다 되긴 됐다.\n[+] 갑자기 수영 킥에 대해 깨달았다. 나 뭐지??",
+          "createdAt": "2026-02-13T16:26:05.927Z"
+        },
+        {
+          "id": "8ac8e29b-c929-454c-af29-82421da4f17e",
+          "typeId": "swimming",
+          "loggedForDate": "2026-02-13",
+          "durationMin": 50,
+          "memo": "수영 12회차",
+          "createdAt": "2026-02-13T16:27:03.227Z"
+        },
+        {
+          "id": "a8d91805-4f76-4226-9c8a-0af5491ad7a8",
+          "typeId": "walking",
+          "loggedForDate": "2026-02-16",
+          "durationMin": 47,
+          "memo": "걷기",
+          "createdAt": "2026-02-16T15:32:54.764Z",
+          "distanceKm": 3.96,
+          "calorieOverride": 169
+        },
+        {
+          "id": "e29d16d0-6121-4130-a637-c503fd70e4ff",
+          "typeId": "walking",
+          "loggedForDate": "2026-02-17",
+          "durationMin": 47,
+          "createdAt": "2026-02-17T17:26:29.066Z",
+          "distanceKm": 4.05,
+          "calorieOverride": 163,
+          "memo": "걷기"
+        },
+        {
+          "id": "7c626057-761b-4e93-8dbf-3d737ee40d39",
+          "typeId": "home",
+          "loggedForDate": "2026-02-17",
+          "durationMin": 20,
+          "createdAt": "2026-02-17T17:57:24.725Z"
+        },
+        {
+          "id": "c0e7568d-e825-46ea-b29c-28e7c37374fb",
+          "typeId": "walking",
+          "loggedForDate": "2026-02-18",
+          "durationMin": 54,
+          "createdAt": "2026-02-18T16:35:24.063Z",
+          "distanceKm": 4.54,
+          "calorieOverride": 189
+        },
+        {
+          "id": "d3c06876-089f-4fc5-9c1b-986fe5d69688",
+          "typeId": "home",
+          "loggedForDate": "2026-02-18",
+          "durationMin": 20,
+          "createdAt": "2026-02-18T16:35:34.679Z"
+        },
+        {
+          "id": "7b21672b-4ca9-4647-bc2c-662d8846edcf",
+          "typeId": "swimming",
+          "loggedForDate": "2026-02-19",
+          "durationMin": 50,
+          "memo": "수영 13회차\n여전히 호흡이 문제.",
+          "createdAt": "2026-02-19T15:12:38.936Z"
+        }
+      ]
     },
     "finance": {
       "lifnux.finance.asset.dataset.imported.v2": true,
@@ -174,7 +322,15 @@
         },
         {
           "date": "2026-02-13",
-          "totalKrw": 28433252.762
+          "totalKrw": 28492710.589999996
+        },
+        {
+          "date": "2026-02-14",
+          "totalKrw": 28575444.204000004
+        },
+        {
+          "date": "2026-02-19",
+          "totalKrw": 30829330.786000002
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -4973,7 +5129,10 @@
         "Uncategorized",
         "Snacks & Coffee",
         "Medical",
-        "Gift"
+        "Gift",
+        "Wage",
+        "Interest",
+        "Dividends"
       ],
       "lifnux.finance.watchlist.v100": [
         {
@@ -5501,8 +5660,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:amzn",
           "symbolKey": "NAS:AMZN",
-          "avgPrice": 207.78661111111109,
-          "qty": 9,
+          "avgPrice": 206.96095,
+          "qty": 10,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Big Tech"
@@ -5513,7 +5672,7 @@
           "stockId": "us-nas:pltr",
           "symbolKey": "NAS:PLTR",
           "avgPrice": 112.80687499999999,
-          "qty": 16,
+          "qty": 12,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "AI Software"
@@ -5534,8 +5693,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:googl",
           "symbolKey": "NAS:GOOGL",
-          "avgPrice": 301.6025,
-          "qty": 4,
+          "avgPrice": 302.536,
+          "qty": 5,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Big Tech"
@@ -6051,6 +6210,102 @@
           "title": "Gpt Pro 1개월 이용권",
           "amount": 29000,
           "kind": "expense"
+        },
+        {
+          "id": "30cd8afe-f484-4e5d-bedd-9e69a2ac3cbd",
+          "createdAt": 1771082867055,
+          "date": "2026-02-13",
+          "category": "Transport",
+          "title": "카카오바이크",
+          "amount": 1280,
+          "kind": "expense",
+          "memo": "수영 가느라"
+        },
+        {
+          "id": "ce472bc9-b6e2-434b-9a8e-4d1a04503d07",
+          "createdAt": 1771082884767,
+          "date": "2026-02-13",
+          "category": "Other",
+          "title": "FUN&FUN 회비",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "1f7a667e-a7ab-4ecb-8494-765ba0a2fee3",
+          "createdAt": 1771083146344,
+          "date": "2026-02-14",
+          "category": "Snacks & Coffe",
+          "title": "메가커피",
+          "amount": 3300,
+          "kind": "expense",
+          "memo": "레몬티(HOT)"
+        },
+        {
+          "id": "3181a0a3-b7e4-48fd-b5c1-83bfe629f2e0",
+          "createdAt": 1771083162888,
+          "date": "2026-02-14",
+          "category": "Snacks & Coffe",
+          "title": "스타벅스",
+          "amount": 7500,
+          "kind": "expense",
+          "memo": "클래식 밀크티(ICE)"
+        },
+        {
+          "id": "c00fea35-dba6-45ba-891c-738fb055f9ac",
+          "createdAt": 1771083175185,
+          "date": "2026-02-14",
+          "category": "Entertainment",
+          "title": "코노",
+          "amount": 3042,
+          "kind": "expense"
+        },
+        {
+          "id": "c2ead404-21f8-4d10-8861-269ebfcc60d8",
+          "createdAt": 1771083197256,
+          "date": "2026-02-14",
+          "category": "Food",
+          "title": "호떡",
+          "amount": 5000,
+          "kind": "expense",
+          "memo": "현금"
+        },
+        {
+          "id": "242c0007-d31a-4f07-918f-cf170c4a1a69",
+          "createdAt": 1771095214281,
+          "date": "2026-02-02",
+          "category": "Other",
+          "title": "용돈",
+          "amount": 30000,
+          "kind": "income",
+          "memo": "성남사랑 30-27"
+        },
+        {
+          "id": "b71a64b4-ff61-41ac-9e0e-8de856217f7c",
+          "createdAt": 1771095253065,
+          "date": "2026-02-10",
+          "category": "Wage",
+          "title": "1월 추가 급여",
+          "amount": 21450,
+          "kind": "income"
+        },
+        {
+          "id": "a04cd57c-9d5e-4cc4-bec9-356a8c7e0144",
+          "createdAt": 1771095309050,
+          "date": "2026-02-14",
+          "category": "Interest",
+          "title": "결산 이자(KB)",
+          "amount": 125,
+          "kind": "income"
+        },
+        {
+          "id": "77314b55-13a6-498a-a30a-9d9cca012844",
+          "createdAt": 1771095433373,
+          "date": "2026-02-03",
+          "category": "Dividends",
+          "title": "배당금",
+          "amount": 34161,
+          "kind": "income",
+          "memo": "S&P500 12,376원\n나스닥100 9,452원\nKorea플러스배당액티브 2,925원\n미국AI밸류체인데일리고정커버드콜 9,408원"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -6093,7 +6348,7 @@
       "lifnux:guitar:state": {
         "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
         "selectedVideoId": "e52d3f5c-2ea2-4165-8717-2622e2a9a8b6",
-        "loopEnabled": false,
+        "loopEnabled": true,
         "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-01-31T15:00:00.000Z"
@@ -6116,15 +6371,6 @@
           "endSec": 100,
           "speed": 1,
           "createdAt": 1769582243253
-        },
-        {
-          "id": "5c3bdd27-51c1-4cb8-bae5-5fd4bcb8cb94",
-          "videoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
-          "name": "Part 1 ~ 3",
-          "startSec": 0,
-          "endSec": 100,
-          "speed": 1,
-          "createdAt": 1769584571961
         },
         {
           "id": "351044c7-d720-4732-8cad-8285f8c8961b",
@@ -6161,6 +6407,15 @@
           "endSec": 209.84057496757507,
           "speed": 1,
           "createdAt": 1770649539869
+        },
+        {
+          "id": "01c030f5-6567-4a95-b6d7-831849733d93",
+          "videoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
+          "name": "Part 1~4",
+          "startSec": 0,
+          "endSec": 135,
+          "speed": 1,
+          "createdAt": 1771422956046
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -6253,7 +6508,23 @@
         },
         {
           "dateKey": "2026-02-13",
-          "createdAt": 1770984000000
+          "createdAt": 1770999398583
+        },
+        {
+          "dateKey": "2026-02-14",
+          "createdAt": 1771079411781
+        },
+        {
+          "dateKey": "2026-02-17",
+          "createdAt": 1771337602024
+        },
+        {
+          "dateKey": "2026-02-18",
+          "createdAt": 1771422058520
+        },
+        {
+          "dateKey": "2026-02-19",
+          "createdAt": 1771511331345
         }
       ],
       "lifnux:guitar:videos": [
@@ -6397,10 +6668,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 28433252.762,
-        "unrealizedPnlKrw": 3150113.080799997,
-        "realizedPnlYtdKrw": 1142282.7567999999,
-        "updatedAt": 1770952387806
+        "totalValueKrw": 30829330.786000002,
+        "unrealizedPnlKrw": 5411240.275399994,
+        "realizedPnlYtdKrw": 1245593.3534,
+        "updatedAt": 1771488257590
       }
     },
     "personalGrowth": {
@@ -6836,6 +7107,54 @@
           "importance": "HIGH",
           "labelId": "f9d034cb-f271-47c0-b853-6b3e554151b9",
           "location": "경기 성남시 분당구 판교역로241번길 22 판교엠타워 1층",
+          "memo": ""
+        },
+        {
+          "id": "f4e20a7c-183a-4310-bfb6-8a9958478e52",
+          "title": "저녁 약속",
+          "date": "2026-02-19",
+          "type": "TIMED",
+          "startTime": "18:00",
+          "endTime": "20:00",
+          "importance": "HIGH",
+          "labelId": "f9d034cb-f271-47c0-b853-6b3e554151b9",
+          "location": "잠실",
+          "memo": "With 윤덕"
+        },
+        {
+          "id": "66b3c21f-dd81-40be-86d5-f97a32f671a9",
+          "title": "영화 관람",
+          "date": "2026-02-17",
+          "type": "TIMED",
+          "startTime": "11:00",
+          "endTime": "14:00",
+          "importance": "HIGH",
+          "labelId": "f9d034cb-f271-47c0-b853-6b3e554151b9",
+          "location": "잠실 롯데월드몰",
+          "memo": "왕과 사는 남자 With 엄마, 아빠"
+        },
+        {
+          "id": "cf16d467-7348-48cf-ad52-ddb3f7ef38a7",
+          "title": "[영어] Fun&Fun",
+          "date": "2026-02-21",
+          "type": "TIMED",
+          "startTime": "10:30",
+          "endTime": "12:00",
+          "importance": "HIGH",
+          "labelId": "20f08160-d6eb-49ec-aed7-043408872d67",
+          "location": "메가커피 석촌한솔점",
+          "memo": ""
+        },
+        {
+          "id": "2a9a7aaa-7016-4152-943e-501b972c5999",
+          "title": "일렉기타 레슨",
+          "date": "2026-02-21",
+          "type": "TIMED",
+          "startTime": "13:00",
+          "endTime": "13:50",
+          "importance": "HIGH",
+          "labelId": "20f08160-d6eb-49ec-aed7-043408872d67",
+          "location": "문정 블루힐즈 스튜디오",
           "memo": ""
         }
       ],
@@ -11844,8 +12163,8 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "E5BLkMGxDgQ",
-        "queueIndex": 7,
+        "videoId": "KpM6xNAgRoI",
+        "queueIndex": 13,
         "currentTime": 0,
         "repeatMode": "all",
         "shuffle": false
@@ -11954,7 +12273,7 @@
             "customTitle": "유다빈밴드 - 좋지 아니한가?"
           }
         ],
-        "currentIndex": 7,
+        "currentIndex": 13,
         "isPlaying": true,
         "shuffle": false,
         "repeatMode": "all",
@@ -12272,7 +12591,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 5.02000000000001
+          "balance": 21.620000000000005
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -12874,6 +13193,48 @@
           "direction": "WITHDRAW",
           "amount": 1610000,
           "memo": "주식 매수"
+        },
+        {
+          "id": "0f469df7-30e7-450e-b26c-2432140ba4ed",
+          "ts": 1770999427780,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:PLTR",
+          "side": "SELL",
+          "qty": 4,
+          "price": 130.6,
+          "realizedPnl": 71.17250000000001,
+          "realizedPnlPercent": 15.773085638619106,
+          "costBasis": 451.22749999999996
+        },
+        {
+          "id": "a5c88ae1-6fd1-43a2-af69-295273318d7b",
+          "ts": 1770999448899,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:AMZN",
+          "side": "BUY",
+          "qty": 1,
+          "price": 199.53,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "a9cedee9-47b5-45cd-8b80-c79ec2a82b7f",
+          "ts": 1770999465108,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:GOOGL",
+          "side": "BUY",
+          "qty": 1,
+          "price": 306.27,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },

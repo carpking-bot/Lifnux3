@@ -2332,7 +2332,7 @@ function DonutCard({
             </button>
           ) : null}
         </div>
-        <div className="mt-2 h-[126px] overflow-y-auto space-y-1 text-xs">
+        <div className="lifnux-scroll mt-2 h-[126px] overflow-y-auto space-y-1 text-xs">
           {activeLabel && activeDetails && activeDetails.length ? (
             activeDetails.map((item) => (
               <div key={`${activeLabel}-${item.name}`} className="flex items-center justify-between gap-3">
