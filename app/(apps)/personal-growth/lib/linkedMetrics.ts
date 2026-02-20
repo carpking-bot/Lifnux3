@@ -39,6 +39,7 @@ const POSITIONS_KEY = "portfolio.positions";
 const CASH_BALANCES_KEY = "investing_cash_balances";
 const LEDGER_RECORDS_KEY = "investing_ledger_records";
 const PORTFOLIO_PERFORMANCE_KEY = "investing.portfolio.performance.v1";
+const HEALTH_ACTIVITY_LOGS_KEY = "lifnux.health.activityLogs.v1";
 
 type PortfolioPerformanceSnapshot = {
   totalValueKrw?: number | null;
@@ -56,6 +57,17 @@ function readStorageJson<T>(key: string, fallback: T): T {
   } catch {
     return fallback;
   }
+}
+
+type HealthActivityLog = {
+  typeId?: string;
+  loggedForDate?: string;
+};
+
+function getHealthSwimmingSessionsByYear(year: number) {
+  const logs = readStorageJson<HealthActivityLog[]>(HEALTH_ACTIVITY_LOGS_KEY, []);
+  const yearPrefix = `${year}-`;
+  return logs.filter((log) => log.typeId === "swimming" && typeof log.loggedForDate === "string" && log.loggedForDate.startsWith(yearPrefix)).length;
 }
 
 function normalizeCategoryName(value: string) {
@@ -219,6 +231,10 @@ export function getLinkedMetricValue(linkedSource?: LinkedSource): LinkedMetricR
   const seed = `${linkedSource.sourceApp}:${linkedSource.sourceMetric}:${JSON.stringify(linkedSource.params ?? {})}`;
 
   switch (`${linkedSource.sourceApp}:${linkedSource.sourceMetric}`) {
+    case "HEALTH:swimmingSessions2026": {
+      const value = getHealthSwimmingSessionsByYear(2026);
+      return { value, unit: "sessions", summary: "Health swimming sessions in 2026" };
+    }
     case "HEALTH:swimAttendanceThisMonth": {
       const attended = Math.round(deterministicNumber(seed, 4, 14));
       return { value: attended, unit: "sessions" };

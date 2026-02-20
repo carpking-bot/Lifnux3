@@ -38,7 +38,7 @@ const DISPLAY_MODE_OPTIONS: GoalDisplayMode[] = ["TARGET", "TRACKER"];
 
 const SOURCE_APP_OPTIONS: Array<"HEALTH" | "ASSET" | "INVESTING" | "CAREER"> = ["HEALTH", "ASSET", "INVESTING", "CAREER"];
 const SOURCE_METRIC_OPTIONS: Record<"HEALTH" | "ASSET" | "INVESTING" | "CAREER", string[]> = {
-  HEALTH: ["swimAttendanceThisMonth", "stepsAvg"],
+  HEALTH: ["swimmingSessions2026", "swimAttendanceThisMonth", "stepsAvg"],
   ASSET: ["netWorth"],
   INVESTING: ["monthlyContribution", "annualReturnRate"],
   CAREER: ["studyHoursWeek"]

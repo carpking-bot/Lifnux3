@@ -15,6 +15,14 @@ export function loadState<T>(key: string, fallback: T): T {
 
 export function saveState<T>(key: string, value: T) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(key, JSON.stringify(value));
-  updateAutoBackup();
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    return;
+  }
+  try {
+    updateAutoBackup();
+  } catch {
+    // Ignore backup failures to avoid blocking primary app writes.
+  }
 }

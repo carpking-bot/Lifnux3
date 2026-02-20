@@ -29,11 +29,13 @@ type ExpenseEntry = {
   category: string;
   title: string;
   amount: number;
+  kind?: "expense" | "income";
   memo?: string;
 };
 
 const formatKrw = (value: number) => `\u20A9${Math.round(value).toLocaleString("ko-KR")}`;
 const formatPct = (value: number) => `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
+const normalizeEntryKind = (entry: ExpenseEntry): "expense" | "income" => (entry.kind === "income" ? "income" : "expense");
 
 export default function FinancePage() {
   const [revealed, setRevealed] = useState(false);
@@ -44,6 +46,7 @@ export default function FinancePage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [stocks, setStocks] = useState<StockItem[]>([]);
   const [fxRate, setFxRate] = useState<number | null>(null);
+  const [transactionCardTab, setTransactionCardTab] = useState<"expense" | "income">("expense");
 
   useEffect(() => {
     setRevealed(loadState<boolean>(HUB_REVEAL_KEY, false));
@@ -165,7 +168,9 @@ export default function FinancePage() {
 
   const expenseSummary = useMemo(() => {
     const monthKey = new Date().toISOString().slice(0, 7);
-    const monthEntries = expenseEntries.filter((entry) => entry.date.startsWith(monthKey));
+    const monthEntries = expenseEntries.filter(
+      (entry) => entry.date.startsWith(monthKey) && normalizeEntryKind(entry) === transactionCardTab
+    );
     const total = monthEntries.reduce((sum, entry) => sum + entry.amount, 0);
     const byCategory = new Map<string, number>();
     monthEntries.forEach((entry) => {
@@ -173,7 +178,7 @@ export default function FinancePage() {
     });
     const topCategory = [...byCategory.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "-";
     return { total, topCategory, monthKey };
-  }, [expenseEntries]);
+  }, [expenseEntries, transactionCardTab]);
 
   const sensitiveClass = revealed ? "" : "blur-sm select-none";
 
@@ -183,7 +188,7 @@ export default function FinancePage() {
         <div className="mb-8 flex items-start justify-between gap-3">
           <div>
             <h1 className="text-3xl">Finance</h1>
-            <div className="text-sm text-[var(--ink-1)]">Personal money hub: asset, expense, and investing.</div>
+            <div className="text-sm text-[var(--ink-1)]">Personal money hub: asset, transaction, and investing.</div>
           </div>
           <button
             className={`rounded-full border px-3 py-1 text-xs ${revealed ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
@@ -212,10 +217,34 @@ export default function FinancePage() {
 
           <Link href="/finance/expense" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">
             <ReceiptText className="pointer-events-none absolute right-4 top-1/2 h-11 w-11 -translate-y-1/2 text-white/20" />
-            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Expense</div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Transaction</div>
+              <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 text-[10px]">
+                <button
+                  className={`rounded-full px-2 py-1 ${transactionCardTab === "expense" ? "border border-white/25 text-white" : "text-[var(--ink-1)]"}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setTransactionCardTab("expense");
+                  }}
+                >
+                  Expense
+                </button>
+                <button
+                  className={`rounded-full px-2 py-1 ${transactionCardTab === "income" ? "border border-white/25 text-white" : "text-[var(--ink-1)]"}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setTransactionCardTab("income");
+                  }}
+                >
+                  Income
+                </button>
+              </div>
+            </div>
             <div className="mt-3 text-2xl font-semibold tabular-nums">{formatKrw(expenseSummary.total)}</div>
             <div className="mt-2 text-sm text-white/85">Top category: {expenseSummary.topCategory}</div>
-            <div className="mt-2 text-xs text-[var(--ink-1)]">{expenseSummary.monthKey} month</div>
+            <div className="mt-2 text-xs text-[var(--ink-1)]">
+              {expenseSummary.monthKey} {transactionCardTab === "income" ? "income" : "expense"}
+            </div>
           </Link>
 
           <Link href="/investing" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">

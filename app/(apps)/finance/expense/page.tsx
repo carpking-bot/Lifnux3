@@ -181,6 +181,7 @@ export default function FinanceExpensePage() {
   const [ledgerUiMode, setLedgerUiMode] = useState<"calendar" | "ledger">("calendar");
   const [pendingReviewDeleteMonth, setPendingReviewDeleteMonth] = useState<string | null>(null);
   const [inlineNotice, setInlineNotice] = useState<string | null>(null);
+  const ledgerTabLabel = ledgerKindTab === "income" ? "Income" : "Expense";
 
   useEffect(() => {
     const loadedEntries = loadState<ExpenseEntry[]>(EXPENSE_LEDGER_KEY, []);
@@ -224,14 +225,24 @@ export default function FinanceExpensePage() {
     }
   }, [entries, ledgerKindTab, selectedLedgerDate, selectedMonth]);
 
+  useEffect(() => {
+    setSelectedCategory(null);
+    setCategoryPinned(false);
+    setReportDetailOpen(false);
+    setHistoryDrillOpen(false);
+    setHistoryDrillMonth(null);
+    setHistoryDrillCategory(null);
+    setHistoryDrillPinned(false);
+  }, [ledgerKindTab]);
+
   const monthEntries = useMemo(
-    () => entries.filter((entry) => entry.date.startsWith(selectedMonth) && normalizeEntryKind(entry) === "expense"),
-    [entries, selectedMonth]
+    () => entries.filter((entry) => entry.date.startsWith(selectedMonth) && normalizeEntryKind(entry) === ledgerKindTab),
+    [entries, ledgerKindTab, selectedMonth]
   );
   const yearKey = useMemo(() => selectedMonth.slice(0, 4), [selectedMonth]);
   const yearEntries = useMemo(
-    () => entries.filter((entry) => entry.date.startsWith(yearKey) && normalizeEntryKind(entry) === "expense"),
-    [entries, yearKey]
+    () => entries.filter((entry) => entry.date.startsWith(yearKey) && normalizeEntryKind(entry) === ledgerKindTab),
+    [entries, ledgerKindTab, yearKey]
   );
   const rangeEntries = useMemo(() => {
     if (!rangeStart || !rangeEnd) return [];
@@ -240,9 +251,9 @@ export default function FinanceExpensePage() {
     if (Number.isNaN(start) || Number.isNaN(end) || start > end) return [];
     return entries.filter((entry) => {
       const time = new Date(`${entry.date}T00:00:00Z`).getTime();
-      return time >= start && time <= end && normalizeEntryKind(entry) === "expense";
+      return time >= start && time <= end && normalizeEntryKind(entry) === ledgerKindTab;
     });
-  }, [entries, rangeStart, rangeEnd]);
+  }, [entries, ledgerKindTab, rangeStart, rangeEnd]);
   const ledgerScopedEntries = useMemo(() => {
     const byKind = entries.filter((entry) => normalizeEntryKind(entry) === ledgerKindTab);
     if (viewMode === "yearly") return byKind.filter((entry) => entry.date.startsWith(yearKey));
@@ -324,19 +335,21 @@ export default function FinanceExpensePage() {
 
   const monthlyHistory = useMemo(() => {
     const byMonth = new Map<string, number>();
-    entries.forEach((entry) => {
+    entries
+      .filter((entry) => normalizeEntryKind(entry) === ledgerKindTab)
+      .forEach((entry) => {
       const monthKey = entry.date.slice(0, 7);
       byMonth.set(monthKey, (byMonth.get(monthKey) ?? 0) + entry.amount);
-    });
+      });
     const monthKeys = new Set<string>([...byMonth.keys(), ...Object.keys(budgetByMonth)]);
     return [...monthKeys]
       .sort((a, b) => a.localeCompare(b))
       .map((month) => ({
         month,
         total: byMonth.get(month) ?? 0,
-        budget: budgetByMonth[month] ?? 0
+        budget: ledgerKindTab === "expense" ? budgetByMonth[month] ?? 0 : 0
       }));
-  }, [budgetByMonth, entries]);
+  }, [budgetByMonth, entries, ledgerKindTab]);
 
   const monthlyHistoryWindow = useMemo(() => {
     const byMonth = new Map(monthlyHistory.map((row) => [row.month, row]));
@@ -358,10 +371,12 @@ export default function FinanceExpensePage() {
 
   const totalsByMonth = useMemo(() => {
     const map = new Map<string, number>();
-    entries.forEach((entry) => {
+    entries
+      .filter((entry) => normalizeEntryKind(entry) === "expense")
+      .forEach((entry) => {
       const key = entry.date.slice(0, 7);
       map.set(key, (map.get(key) ?? 0) + entry.amount);
-    });
+      });
     return map;
   }, [entries]);
 
@@ -680,7 +695,9 @@ export default function FinanceExpensePage() {
 
   const buildReviewDraft = (monthKey: string) => {
     const existing = reviewByMonth[monthKey];
-    const monthEntriesForDraft = entries.filter((entry) => entry.date.startsWith(monthKey));
+    const monthEntriesForDraft = entries.filter(
+      (entry) => entry.date.startsWith(monthKey) && normalizeEntryKind(entry) === "expense"
+    );
     const monthTotals = buildCategoryTotals(monthEntriesForDraft);
     const categoryList = monthTotals.length ? monthTotals.map((item) => item.label) : categories;
     const categoryReviews: Record<string, { rating: ReviewRating; comment: string }> = {};
@@ -740,8 +757,13 @@ export default function FinanceExpensePage() {
   }, [inlineNotice]);
 
   const historyEntries = useMemo(
-    () => (historyDrillMonth ? entries.filter((entry) => entry.date.startsWith(historyDrillMonth)) : []),
-    [entries, historyDrillMonth]
+    () =>
+      historyDrillMonth
+        ? entries.filter(
+            (entry) => entry.date.startsWith(historyDrillMonth) && normalizeEntryKind(entry) === ledgerKindTab
+          )
+        : [],
+    [entries, historyDrillMonth, ledgerKindTab]
   );
   const historyTotal = useMemo(() => historyEntries.reduce((sum, entry) => sum + entry.amount, 0), [historyEntries]);
   const historyCategoryTotals = useMemo(() => buildCategoryTotals(historyEntries), [historyEntries]);
@@ -773,8 +795,13 @@ export default function FinanceExpensePage() {
   );
   const reportPrevMonthKey = useMemo(() => (reportBaseMonth ? getPrevMonthKey(reportBaseMonth) : null), [reportBaseMonth]);
   const reportPrevMonthEntries = useMemo(
-    () => (reportPrevMonthKey ? entries.filter((entry) => entry.date.startsWith(reportPrevMonthKey)) : []),
-    [entries, reportPrevMonthKey]
+    () =>
+      reportPrevMonthKey
+        ? entries.filter(
+            (entry) => entry.date.startsWith(reportPrevMonthKey) && normalizeEntryKind(entry) === ledgerKindTab
+          )
+        : [],
+    [entries, ledgerKindTab, reportPrevMonthKey]
   );
   const reportPrevCategoryTotals = useMemo(() => {
     const map = new Map<string, number>();
@@ -852,7 +879,7 @@ export default function FinanceExpensePage() {
 
   const reviewDraftMonth = reviewDraft?.month ?? selectedMonth;
   const reviewDraftEntries = useMemo(
-    () => entries.filter((entry) => entry.date.startsWith(reviewDraftMonth)),
+    () => entries.filter((entry) => entry.date.startsWith(reviewDraftMonth) && normalizeEntryKind(entry) === "expense"),
     [entries, reviewDraftMonth]
   );
   const reviewDraftTotal = useMemo(() => reviewDraftEntries.reduce((sum, entry) => sum + entry.amount, 0), [reviewDraftEntries]);
@@ -880,10 +907,12 @@ export default function FinanceExpensePage() {
   const historyDetailPoints = useMemo(() => {
     if (historyDetailMode === "yearly") {
       const map = new Map<string, number>();
-      entries.forEach((entry) => {
+      entries
+        .filter((entry) => normalizeEntryKind(entry) === ledgerKindTab)
+        .forEach((entry) => {
         const yearKey = entry.date.slice(0, 4);
         map.set(yearKey, (map.get(yearKey) ?? 0) + entry.amount);
-      });
+        });
       return [...map.entries()]
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([year, total]) => ({ month: year, total, budget: null }));
@@ -921,7 +950,7 @@ export default function FinanceExpensePage() {
       if (endTime && pointTime > endTime) return false;
       return true;
     });
-  }, [entries, historyDetailMode, historyDetailRangeEnd, historyDetailRangeStart, monthlyHistory]);
+  }, [entries, historyDetailMode, historyDetailRangeEnd, historyDetailRangeStart, ledgerKindTab, monthlyHistory]);
 
   const historyDrillReportEntries = useMemo(() => {
     if (!historyDrillCategory) return [];
@@ -966,8 +995,8 @@ export default function FinanceExpensePage() {
       <div className="mx-auto w-full max-w-[1200px] pb-20 pt-10">
         <div className="mb-8 flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-3xl">Expense</h1>
-            <div className="text-sm text-[var(--ink-1)]">Daily ledger and monthly review.</div>
+            <h1 className="text-3xl">Transaction</h1>
+            <div className="text-sm text-[var(--ink-1)]">Manage expense and income in one place.</div>
           </div>
           <Link className="rounded-full border border-white/10 px-3 py-1 text-xs text-[var(--ink-1)]" href="/finance">
             Back
@@ -1017,7 +1046,10 @@ export default function FinanceExpensePage() {
                   </button>
                   <button
                     className={`rounded-full px-2 py-1 text-[11px] ${ledgerKindTab === "income" ? "border border-white/20 text-white" : "text-[var(--ink-1)]"}`}
-                    onClick={() => setLedgerKindTab("income")}
+                    onClick={() => {
+                      setLedgerKindTab("income");
+                      setSelectedCategories([]);
+                    }}
                   >
                     Income
                   </button>
@@ -1220,7 +1252,7 @@ export default function FinanceExpensePage() {
               ) : (
                 <div className="space-y-3 text-sm">
                   <div className="rounded-lg border border-white/10 bg-black/20 p-3">
-                    <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Year Total</div>
+                    <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{ledgerTabLabel} Year Total</div>
                     <div className="mt-2 text-lg font-semibold">{formatKrw(yearTotal)}</div>
                   </div>
                   <div className="rounded-lg border border-white/10 bg-black/20 p-3">
@@ -1266,10 +1298,10 @@ export default function FinanceExpensePage() {
             <section className="lifnux-glass rounded-2xl p-6">
               <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">
                 {viewMode === "monthly"
-                  ? `Monthly Summary (${selectedMonth})`
+                  ? `${ledgerTabLabel} Monthly Summary (${selectedMonth})`
                   : viewMode === "yearly"
-                    ? `Yearly Summary (${yearKey})`
-                    : `Range Summary (${rangeStart || "----"} ~ ${rangeEnd || "----"})`}
+                    ? `${ledgerTabLabel} Yearly Summary (${yearKey})`
+                    : `${ledgerTabLabel} Range Summary (${rangeStart || "----"} ~ ${rangeEnd || "----"})`}
               </div>
               <div className="mt-3 text-2xl font-semibold">
                 {formatKrw(viewMode === "monthly" ? monthTotal : viewMode === "yearly" ? yearTotal : rangeTotal)}
@@ -1278,7 +1310,7 @@ export default function FinanceExpensePage() {
                 Top category:{" "}
                 {topCategory}
               </div>
-              {viewMode === "monthly" ? (
+              {viewMode === "monthly" && ledgerKindTab === "expense" ? (
                 <>
                   <div className="mt-3 flex items-center gap-2 text-sm">
                     <input
@@ -1298,12 +1330,16 @@ export default function FinanceExpensePage() {
                 </>
               ) : null}
               <div className="mt-3 flex flex-wrap gap-2">
-                <button className="rounded-full border border-white/10 px-3 py-2 text-xs" onClick={() => openWriteReview()}>
-                  Write Monthly Review
-                </button>
-                <button className="rounded-full border border-white/10 px-3 py-2 text-xs" onClick={() => setReviewListOpen(true)}>
-                  View Reviews
-                </button>
+                {ledgerKindTab === "expense" ? (
+                  <>
+                    <button className="rounded-full border border-white/10 px-3 py-2 text-xs" onClick={() => openWriteReview()}>
+                      Write Monthly Review
+                    </button>
+                    <button className="rounded-full border border-white/10 px-3 py-2 text-xs" onClick={() => setReviewListOpen(true)}>
+                      View Reviews
+                    </button>
+                  </>
+                ) : null}
               </div>
               <div className="mt-4">
                 <PieChart
@@ -1372,7 +1408,7 @@ export default function FinanceExpensePage() {
                     </div>
                   </>
                 ) : (
-                  <div className="mt-2 text-[var(--ink-1)]">카테고리를 선택하면 상위 소비내역이 표시됩니다.</div>
+                  <div className="mt-2 text-[var(--ink-1)]">카테고리를 선택하면 상위 거래내역이 표시됩니다.</div>
                 )}
               </div>
             </section>
@@ -1461,7 +1497,7 @@ export default function FinanceExpensePage() {
             ) : null}
 
             <section className="lifnux-glass rounded-2xl p-6">
-              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Expense History</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{ledgerTabLabel} History</div>
               <div className="mt-3">
                 <ExpenseHistoryChart
                   points={monthlyHistoryWindow}
@@ -1708,7 +1744,7 @@ export default function FinanceExpensePage() {
 
       <Modal
         open={historyDetailOpen}
-        title="Expense History Detail"
+        title={`${ledgerTabLabel} History Detail`}
         onClose={() => {
           setHistoryDetailOpen(false);
           setHistoryDrillOpen(false);
@@ -1754,7 +1790,9 @@ export default function FinanceExpensePage() {
               selectedMonth={historyDrillMonth}
               onSelectMonth={(month) => {
                 if (historyDetailMode === "yearly") return;
-                const monthEntries = entries.filter((entry) => entry.date.startsWith(month));
+                const monthEntries = entries.filter(
+                  (entry) => entry.date.startsWith(month) && normalizeEntryKind(entry) === ledgerKindTab
+                );
                 const monthTotals = buildCategoryTotals(monthEntries);
                 setHistoryDrillMonth(month);
                 setHistoryDrillCategory(monthTotals[0]?.label ?? null);
@@ -1768,7 +1806,7 @@ export default function FinanceExpensePage() {
 
             {historyDrillOpen && historyDrillMonth ? (
               <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
-                <div className="text-sm font-semibold">Monthly Summary ({historyDrillMonth})</div>
+                <div className="text-sm font-semibold">{ledgerTabLabel} Monthly Summary ({historyDrillMonth})</div>
                 <div className="mt-3 rounded-xl border border-white/10 bg-black/20 p-3">
                   <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Summary</div>
                   <div className="mt-2 text-lg font-semibold">{formatKrw(historyTotal)}</div>
@@ -1828,7 +1866,7 @@ export default function FinanceExpensePage() {
                         </div>
                       </>
                     ) : (
-                      <div className="text-[var(--ink-1)]">카테고리를 선택하면 상위 소비내역이 표시됩니다.</div>
+                      <div className="text-[var(--ink-1)]">카테고리를 선택하면 상위 거래내역이 표시됩니다.</div>
                     )}
                   </div>
                 </div>

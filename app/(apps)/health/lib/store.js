@@ -15,7 +15,7 @@ function nowIso() {
     return new Date().toISOString();
 }
 function isDistanceTypeId(typeId) {
-    return typeId === "running" || typeId === "walking" || typeId === "bicycle" || typeId === "test_distance";
+    return typeId === "running" || typeId === "walking" || typeId === "bicycle";
 }
 function defaultMainActivityTypes() {
     const now = nowIso();
@@ -31,45 +31,33 @@ function defaultMainActivityTypes() {
     ];
 }
 function defaultTestActivityTypes() {
-    const now = nowIso();
-    return [
-        {
-            id: "test_distance",
-            name: "TEST Distance",
-            icon: "🧪",
-            planMode: "unplanned",
-            weeklyTargetCount: 0,
-            monthlyTargetCount: 0,
-            createdAt: now,
-            updatedAt: now
-        },
-        {
-            id: "test_count",
-            name: "TEST Count",
-            icon: "🔢",
-            planMode: "unplanned",
-            weeklyTargetCount: 0,
-            monthlyTargetCount: 0,
-            createdAt: now,
-            updatedAt: now
-        }
-    ];
+    return defaultMainActivityTypes().map((item) => ({ ...item }));
 }
 export class LocalStorageHealthStore {
+    mode;
     keys;
     defaults;
     constructor(mode = "main") {
+        this.mode = mode;
         this.keys = STORE_KEYS[mode];
         this.defaults = mode === "test" ? defaultTestActivityTypes() : defaultMainActivityTypes();
     }
     loadActivityTypes() {
-        const loaded = loadState(this.keys.types, []);
+        const loadedRaw = loadState(this.keys.types, []);
+        const loaded = Array.isArray(loadedRaw) ? loadedRaw : [];
         if (loaded.length) {
             const migratedMap = new Map();
+            const allowedIds = new Set(this.defaults.map((item) => item.id));
             for (const item of loaded) {
+                if (!item || typeof item !== "object")
+                    continue;
+                if (typeof item.id !== "string")
+                    continue;
+                const id = item.id;
+                if (!allowedIds.has(id)) continue;
                 const legacyMode = item.planMode ?? (item.isPlanned ? "weekly" : "unplanned");
-                migratedMap.set(item.id, {
-                    id: item.id,
+                migratedMap.set(id, {
+                    id,
                     name: item.name,
                     icon: typeof item.icon === "string" ? item.icon : item.id,
                     planMode: legacyMode,
@@ -88,8 +76,12 @@ export class LocalStorageHealthStore {
                     migratedMap.set(seeded.id, seeded);
             }
             const migrated = [...migratedMap.values()];
-            this.saveActivityTypes(migrated);
-            return migrated;
+            if (migrated.length) {
+                this.saveActivityTypes(migrated);
+                return migrated;
+            }
+            this.saveActivityTypes(this.defaults);
+            return this.defaults;
         }
         this.saveActivityTypes(this.defaults);
         return this.defaults;
@@ -118,7 +110,23 @@ export class LocalStorageHealthStore {
         return types;
     }
     loadActivityLogs() {
-        return loadState(this.keys.logs, []);
+        const loadedRaw = loadState(this.keys.logs, []);
+        const loaded = Array.isArray(loadedRaw) ? loadedRaw : [];
+        if (this.mode !== "test") return loaded;
+        let changed = false;
+        const migrated = loaded.map((item) => {
+            if (item.typeId === "test_distance") {
+                changed = true;
+                return { ...item, typeId: "running" };
+            }
+            if (item.typeId === "test_count") {
+                changed = true;
+                return { ...item, typeId: "home" };
+            }
+            return item;
+        });
+        if (changed) this.saveActivityLogs(migrated);
+        return migrated;
     }
     saveActivityLogs(logs) {
         saveState(this.keys.logs, logs);
@@ -165,7 +173,13 @@ export class LocalStorageHealthStore {
         this.saveActivityLogs(this.loadActivityLogs().filter((item) => item.id !== id));
     }
     loadWeeklyTargets() {
-        return loadState(this.keys.weeklyTargets, []);
+        const loadedRaw = loadState(this.keys.weeklyTargets, []);
+        const loaded = Array.isArray(loadedRaw) ? loadedRaw : [];
+        if (this.mode !== "test") return loaded;
+        const allowedIds = new Set(this.defaults.map((item) => item.id));
+        const filtered = loaded.filter((item) => allowedIds.has(item.typeId));
+        if (filtered.length !== loaded.length) this.saveWeeklyTargets(filtered);
+        return filtered;
     }
     saveWeeklyTargets(targets) {
         saveState(this.keys.weeklyTargets, targets);
@@ -188,4 +202,5 @@ export function createHealthStore(mode = "main") {
     return new LocalStorageHealthStore(mode);
 }
 export const healthStore = createHealthStore("main");
+
 

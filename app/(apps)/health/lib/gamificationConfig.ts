@@ -60,6 +60,32 @@ function splitCsvLine(line: string) {
   return line.split(",").map((item) => item.trim());
 }
 
+const KNOWN_BADGE_RULES: BadgeRuleType[] = [
+  "streak_best_at_least",
+  "perfect_month_any",
+  "first_log",
+  "count_at_least",
+  "distance_at_least",
+  "count_step",
+  "distance_step"
+];
+
+const KNOWN_BADGE_SCOPES: BadgeScope[] = ["global", "activity"];
+
+function isKnownRule(value: string | undefined): value is BadgeRuleType {
+  return Boolean(value && KNOWN_BADGE_RULES.includes(value as BadgeRuleType));
+}
+
+function isKnownScope(value: string | undefined): value is BadgeScope {
+  return Boolean(value && KNOWN_BADGE_SCOPES.includes(value as BadgeScope));
+}
+
+function toOptionalNumber(value: string | undefined) {
+  if (!value) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 export function parseGamificationCsv(text: string): GamificationConfig {
   const lines = text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
   if (lines.length <= 1) return DEFAULT_CONFIG;
@@ -100,19 +126,34 @@ export function parseGamificationCsv(text: string): GamificationConfig {
     }
 
     if (sheetKey === "badge") {
-      const rule = ((ruleRaw || "count_at_least").toLowerCase() as BadgeRuleType);
-      const scope = ((scopeRaw || "activity").toLowerCase() as BadgeScope);
+      // Backward-compat for malformed rows where one extra comma shifted badge columns.
+      // Expected: ...,name,description,image,rule,scope,activity,threshold,step,limit
+      // Broken:   ..., ,name,description,image,rule,scope,activity,threshold,step,limit
+      const misaligned = ruleRaw?.startsWith("/health/") && isKnownRule(scopeRaw?.toLowerCase());
+
+      const normalizedName = misaligned ? description : name;
+      const normalizedDescription = misaligned ? image : description;
+      const normalizedImage = misaligned ? ruleRaw : image;
+      const normalizedRuleRaw = (misaligned ? scopeRaw : ruleRaw)?.toLowerCase();
+      const normalizedScopeRaw = (misaligned ? activity : scopeRaw)?.toLowerCase();
+      const normalizedActivity = misaligned ? thresholdRaw : activity;
+      const normalizedThresholdRaw = misaligned ? stepRaw : thresholdRaw;
+      const normalizedStepRaw = misaligned ? limitRaw : stepRaw;
+      const normalizedLimitRaw = misaligned ? undefined : limitRaw;
+
+      const rule = isKnownRule(normalizedRuleRaw) ? normalizedRuleRaw : "count_at_least";
+      const scope = isKnownScope(normalizedScopeRaw) ? normalizedScopeRaw : "activity";
       badgeRules.push({
         id,
-        name: name || id,
-        description: description || "",
-        image: image || undefined,
+        name: normalizedName || id,
+        description: normalizedDescription || "",
+        image: normalizedImage || undefined,
         rule,
         scope,
-        activity: activity || undefined,
-        threshold: thresholdRaw ? Number(thresholdRaw) : undefined,
-        step: stepRaw ? Number(stepRaw) : undefined,
-        limit: limitRaw ? Number(limitRaw) : undefined
+        activity: normalizedActivity || undefined,
+        threshold: toOptionalNumber(normalizedThresholdRaw),
+        step: toOptionalNumber(normalizedStepRaw),
+        limit: toOptionalNumber(normalizedLimitRaw)
       });
     }
   }

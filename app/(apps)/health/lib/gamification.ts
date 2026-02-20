@@ -96,19 +96,46 @@ function perfectMonths(logs: ActivityLog[]) {
     }));
 }
 
+function monthNumberFromRuleId(ruleId: string) {
+  const lowered = ruleId.toLowerCase();
+  const map: Array<[string, number]> = [
+    ["jan", 1],
+    ["feb", 2],
+    ["mar", 3],
+    ["apr", 4],
+    ["may", 5],
+    ["jun", 6],
+    ["jul", 7],
+    ["aug", 8],
+    ["sep", 9],
+    ["oct", 10],
+    ["nov", 11],
+    ["dec", 12]
+  ];
+  for (const [token, month] of map) {
+    if (lowered.includes(token)) return month;
+  }
+  return undefined;
+}
+
 function reachedDateForStreak(logs: ActivityLog[], threshold: number, baseDateKey = todayDateKey()) {
   if (threshold <= 0 || !logs.length) return undefined;
-  const daySet = new Set(logs.map((log) => log.loggedForDate));
-  const firstDay = [...daySet].sort()[0];
-  const fullRange = allDateKeysBetween(firstDay, baseDateKey);
+  const limit = parseDateKey(baseDateKey).getTime();
+  const days = [...new Set(logs.map((log) => log.loggedForDate))]
+    .filter((dayKey) => parseDateKey(dayKey).getTime() <= limit)
+    .sort();
   let run = 0;
-  for (const dayKey of fullRange) {
-    if (daySet.has(dayKey)) {
-      run += 1;
-      if (run >= threshold) return dayKey;
+  let prevTime: number | null = null;
+  for (const dayKey of days) {
+    const time = parseDateKey(dayKey).getTime();
+    if (prevTime === null) {
+      run = 1;
     } else {
-      run = 0;
+      const dayDiff = Math.round((time - prevTime) / 86400000);
+      run = dayDiff === 1 ? run + 1 : 1;
     }
+    if (run >= threshold) return dayKey;
+    prevTime = time;
   }
   return undefined;
 }
@@ -116,26 +143,38 @@ function reachedDateForStreak(logs: ActivityLog[], threshold: number, baseDateKe
 export function calculateStreak(logs: ActivityLog[], baseDateKey = todayDateKey()): StreakStats {
   if (!logs.length) return { current: 0, best: 0, bestReachedDateByThreshold: {} };
   const daySet = new Set(logs.map((log) => log.loggedForDate));
-  const firstDay = [...daySet].sort()[0];
-  const fullRange = allDateKeysBetween(firstDay, baseDateKey);
+  const limit = parseDateKey(baseDateKey).getTime();
+  const days = [...daySet]
+    .filter((dayKey) => parseDateKey(dayKey).getTime() <= limit)
+    .sort();
 
   let running = 0;
   let best = 0;
   const reached: Record<number, string | undefined> = {};
-  for (const dayKey of fullRange) {
-    if (daySet.has(dayKey)) {
-      running += 1;
-      if (running > best) best = running;
-      if (running >= 7 && !reached[7]) reached[7] = dayKey;
-      if (running >= 90 && !reached[90]) reached[90] = dayKey;
-      if (running >= 365 && !reached[365]) reached[365] = dayKey;
+  let prevTime: number | null = null;
+  for (const dayKey of days) {
+    const time = parseDateKey(dayKey).getTime();
+    if (prevTime === null) {
+      running = 1;
     } else {
-      running = 0;
+      const dayDiff = Math.round((time - prevTime) / 86400000);
+      running = dayDiff === 1 ? running + 1 : 1;
     }
+    if (running > best) best = running;
+    if (running >= 7 && !reached[7]) reached[7] = dayKey;
+    if (running >= 90 && !reached[90]) reached[90] = dayKey;
+    if (running >= 365 && !reached[365]) reached[365] = dayKey;
+    prevTime = time;
   }
 
+  // Grace rule: if there is no workout today, keep yesterday's streak until day rollover.
+  // The streak is broken only when the missed day is in the past.
   let current = 0;
-  let cursor = baseDateKey;
+  const anchorDate = parseDateKey(baseDateKey);
+  if (!daySet.has(baseDateKey)) {
+    anchorDate.setDate(anchorDate.getDate() - 1);
+  }
+  let cursor = dateKeyFromDate(anchorDate);
   while (daySet.has(cursor)) {
     current += 1;
     const prev = parseDateKey(cursor);
@@ -290,6 +329,23 @@ export function generateBadgesByRules(
       }
 
       if (rule.rule === "perfect_month_any") {
+        const fixedMonth = monthNumberFromRuleId(rule.id);
+        if (fixedMonth) {
+          const matched = months.filter((month) => Number(month.monthKey.slice(5, 7)) === fixedMonth);
+          if (matched.length) {
+            const latest = matched[matched.length - 1];
+            push("global", {
+              id: rule.id,
+              name: rule.name || `${fixedMonth}월의 지배자`,
+              description: rule.description || `${latest.monthKey} 한 달 개근`,
+              image: rule.image,
+              unlocked: true,
+              achievedDate: latest.achievedDate
+            });
+          }
+          continue;
+        }
+
         for (const month of months) {
           push("global", {
             id: `${rule.id}-${month.monthKey}`,

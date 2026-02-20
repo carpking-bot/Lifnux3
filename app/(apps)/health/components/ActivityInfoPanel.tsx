@@ -4,7 +4,6 @@ import { WorkoutCalendar } from "./WorkoutCalendar";
 
 type ActivityInfoPanelProps = {
   selectedType: ActivityType;
-  isTestMode?: boolean;
   selectedDateKey: string;
   calendarMonthKey: string;
   markedDateCounts: Record<string, number>;
@@ -22,7 +21,6 @@ type ActivityInfoPanelProps = {
   onOpenRunningGame: () => void;
   onEditLog: (log: ActivityLog) => void;
   onDeleteLog: (log: ActivityLog) => void;
-  onOpenDirectEdit?: () => void;
 };
 
 function logMeta(log: ActivityLog) {
@@ -31,16 +29,12 @@ function logMeta(log: ActivityLog) {
   if ((log.typeId === "running" || log.typeId === "walking" || log.typeId === "bicycle") && typeof log.distanceKm === "number") {
     items.push(`${log.distanceKm.toFixed(1)} km`);
   }
-  if (log.typeId === "test_distance" && typeof log.distanceKm === "number") {
-    items.push(`${log.distanceKm.toFixed(1)} km`);
-  }
   if (log.typeId === "running" && log.paceText) items.push(`pace ${log.paceText}`);
   return items.join(" / ");
 }
 
 export function ActivityInfoPanel({
   selectedType,
-  isTestMode,
   selectedDateKey,
   calendarMonthKey,
   markedDateCounts,
@@ -57,8 +51,7 @@ export function ActivityInfoPanel({
   onCalendarDateSelect,
   onOpenRunningGame,
   onEditLog,
-  onDeleteLog,
-  onOpenDirectEdit
+  onDeleteLog
 }: ActivityInfoPanelProps) {
   const summaryItems: string[] = [];
   if (selectedType.planMode === "weekly") {
@@ -67,7 +60,7 @@ export function ActivityInfoPanel({
     summaryItems.push(`Monthly progress: ${monthlyCount}/${selectedType.monthlyTargetCount}`);
   }
   summaryItems.push(`Monthly sessions: ${monthlyCount}`);
-  if (selectedType.id === "running" || selectedType.id === "walking" || selectedType.id === "bicycle" || selectedType.id === "test_distance") {
+  if (selectedType.id === "running" || selectedType.id === "walking" || selectedType.id === "bicycle") {
     summaryItems.push(`Weekly distance: ${runningWeeklyKm.toFixed(1)} km`);
     summaryItems.push(`Monthly distance: ${runningMonthlyKm.toFixed(1)} km`);
   }
@@ -97,15 +90,9 @@ export function ActivityInfoPanel({
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {isTestMode ? (
-            <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={onOpenDirectEdit}>
-              Direct Edit
-            </button>
-          ) : (
-            <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={onAddLog}>
-              Log Workout
-            </button>
-          )}
+          <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={onAddLog}>
+            Log Workout
+          </button>
           {selectedType.planMode !== "unplanned" ? (
             <button className="rounded-full border border-white/15 px-4 py-2 text-xs text-[var(--ink-1)]" onClick={onEditTarget}>
               Edit Target
@@ -121,9 +108,7 @@ export function ActivityInfoPanel({
 
       <div className="mt-5">
         <div className="mb-2 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Calendar</div>
-        <div className="mb-2 text-xs text-[var(--ink-1)]">
-          {isTestMode ? `Test mode direct editing active. Selected: ${selectedDateKey}` : `Click a date to open workout log modal. Selected: ${selectedDateKey}`}
-        </div>
+        <div className="mb-2 text-xs text-[var(--ink-1)]">Click a date to open workout log modal. Selected: {selectedDateKey}</div>
         <WorkoutCalendar
           monthKey={calendarMonthKey}
           selectedDateKey={selectedDateKey}
@@ -147,16 +132,14 @@ export function ActivityInfoPanel({
                     <div className="mt-1 text-xs text-[var(--ink-1)]">{logMeta(log) || "No details"}</div>
                     {log.memo ? <div className="mt-1 text-xs text-[var(--ink-1)]">{log.memo}</div> : null}
                   </div>
-                  {isTestMode ? null : (
-                    <div className="flex gap-2">
-                      <button className="rounded-full border border-white/15 px-3 py-1 text-xs text-[var(--ink-1)]" onClick={() => onEditLog(log)}>
-                        Edit
-                      </button>
-                      <button className="rounded-full border border-[var(--accent-2)]/50 px-3 py-1 text-xs text-[var(--accent-2)]" onClick={() => onDeleteLog(log)}>
-                        Delete
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex gap-2">
+                    <button className="rounded-full border border-white/15 px-3 py-1 text-xs text-[var(--ink-1)]" onClick={() => onEditLog(log)}>
+                      Edit
+                    </button>
+                    <button className="rounded-full border border-[var(--accent-2)]/50 px-3 py-1 text-xs text-[var(--accent-2)]" onClick={() => onDeleteLog(log)}>
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

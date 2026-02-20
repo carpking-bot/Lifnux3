@@ -28,7 +28,7 @@ function nowIso() {
 }
 
 function isDistanceTypeId(typeId: ActivityTypeId) {
-  return typeId === "running" || typeId === "walking" || typeId === "bicycle" || typeId === "test_distance";
+  return typeId === "running" || typeId === "walking" || typeId === "bicycle";
 }
 
 function defaultMainActivityTypes(): ActivityType[] {
@@ -46,29 +46,7 @@ function defaultMainActivityTypes(): ActivityType[] {
 }
 
 function defaultTestActivityTypes(): ActivityType[] {
-  const now = nowIso();
-  return [
-    {
-      id: "test_distance",
-      name: "TEST Distance",
-      icon: "🧪",
-      planMode: "unplanned",
-      weeklyTargetCount: 0,
-      monthlyTargetCount: 0,
-      createdAt: now,
-      updatedAt: now
-    },
-    {
-      id: "test_count",
-      name: "TEST Count",
-      icon: "🔢",
-      planMode: "unplanned",
-      weeklyTargetCount: 0,
-      monthlyTargetCount: 0,
-      createdAt: now,
-      updatedAt: now
-    }
-  ];
+  return defaultMainActivityTypes().map((item) => ({ ...item }));
 }
 
 export interface HealthStore {
@@ -87,22 +65,30 @@ export interface HealthStore {
 }
 
 export class LocalStorageHealthStore implements HealthStore {
+  private readonly mode: HealthStoreMode;
   private readonly keys: { types: string; logs: string; weeklyTargets: string };
   private readonly defaults: ActivityType[];
 
   constructor(mode: HealthStoreMode = "main") {
+    this.mode = mode;
     this.keys = STORE_KEYS[mode];
     this.defaults = mode === "test" ? defaultTestActivityTypes() : defaultMainActivityTypes();
   }
 
   loadActivityTypes() {
-    const loaded = loadState<any[]>(this.keys.types, []);
+    const loadedRaw = loadState<any>(this.keys.types, []);
+    const loaded = Array.isArray(loadedRaw) ? loadedRaw : [];
     if (loaded.length) {
       const migratedMap = new Map<ActivityTypeId, ActivityType>();
+      const allowedIds = new Set<ActivityTypeId>(this.defaults.map((item) => item.id));
       for (const item of loaded) {
+        if (!item || typeof item !== "object") continue;
+        if (typeof item.id !== "string") continue;
+        const id = item.id as ActivityTypeId;
+        if (!allowedIds.has(id)) continue;
         const legacyMode: ActivityPlanMode = item.planMode ?? (item.isPlanned ? "weekly" : "unplanned");
-        migratedMap.set(item.id as ActivityTypeId, {
-          id: item.id,
+        migratedMap.set(id, {
+          id,
           name: item.name,
           icon: typeof item.icon === "string" ? item.icon : item.id,
           planMode: legacyMode,
@@ -120,8 +106,12 @@ export class LocalStorageHealthStore implements HealthStore {
         if (!migratedMap.has(seeded.id)) migratedMap.set(seeded.id, seeded);
       }
       const migrated = [...migratedMap.values()];
-      this.saveActivityTypes(migrated);
-      return migrated;
+      if (migrated.length) {
+        this.saveActivityTypes(migrated);
+        return migrated;
+      }
+      this.saveActivityTypes(this.defaults);
+      return this.defaults;
     }
     this.saveActivityTypes(this.defaults);
     return this.defaults;
@@ -151,7 +141,23 @@ export class LocalStorageHealthStore implements HealthStore {
   }
 
   loadActivityLogs() {
-    return loadState<ActivityLog[]>(this.keys.logs, []);
+    const loadedRaw = loadState<any>(this.keys.logs, []);
+    const loaded = Array.isArray(loadedRaw) ? (loadedRaw as ActivityLog[]) : [];
+    if (this.mode !== "test") return loaded;
+    let changed = false;
+    const migrated = loaded.map((item) => {
+      if (item.typeId === "test_distance") {
+        changed = true;
+        return { ...item, typeId: "running" as ActivityTypeId };
+      }
+      if (item.typeId === "test_count") {
+        changed = true;
+        return { ...item, typeId: "home" as ActivityTypeId };
+      }
+      return item;
+    });
+    if (changed) this.saveActivityLogs(migrated);
+    return migrated;
   }
 
   saveActivityLogs(logs: ActivityLog[]) {
@@ -202,7 +208,13 @@ export class LocalStorageHealthStore implements HealthStore {
   }
 
   loadWeeklyTargets() {
-    return loadState<ActivityWeeklyTarget[]>(this.keys.weeklyTargets, []);
+    const loadedRaw = loadState<any>(this.keys.weeklyTargets, []);
+    const loaded = Array.isArray(loadedRaw) ? (loadedRaw as ActivityWeeklyTarget[]) : [];
+    if (this.mode !== "test") return loaded;
+    const allowedIds = new Set<ActivityTypeId>(this.defaults.map((item) => item.id));
+    const filtered = loaded.filter((item) => allowedIds.has(item.typeId));
+    if (filtered.length !== loaded.length) this.saveWeeklyTargets(filtered);
+    return filtered;
   }
 
   saveWeeklyTargets(targets: ActivityWeeklyTarget[]) {
@@ -229,4 +241,6 @@ export function createHealthStore(mode: HealthStoreMode = "main"): HealthStore {
 }
 
 export const healthStore: HealthStore = createHealthStore("main");
+
+
 

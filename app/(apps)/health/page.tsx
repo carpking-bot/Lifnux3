@@ -13,7 +13,6 @@ import { SummaryDashboard } from "./components/SummaryDashboard";
 import { TargetEditorModal } from "./components/TargetEditorModal";
 import { calculateLogXP, calculateStreak } from "./lib/gamification";
 import {
-  dateKeyFromDate,
   isInMonth,
   isInWeek,
   monthGridFromMonthKey,
@@ -28,19 +27,69 @@ import { createHealthStore } from "./lib/store";
 import type { ActivityLog, ActivityLogDraft, ActivityType, ActivityTypeId, ActivityWeeklyTarget } from "./types";
 
 const TEST_MODE_KEY = "lifnux.health.debug.testMode.v1";
-const TEST_DIRECT_KEY = "lifnux.health.debug.direct.v1";
 
-type TestDirectState = {
-  distanceKm: number;
-  distanceSessions: number;
-  countSessions: number;
-};
+function fallbackTypes(): ActivityType[] {
+  const now = new Date().toISOString();
+  return [
+    { id: "running", name: "Running", icon: "run", planMode: "weekly", weeklyTargetCount: 0, monthlyTargetCount: 0, createdAt: now, updatedAt: now },
+    { id: "walking", name: "Walking", icon: "walk", planMode: "unplanned", weeklyTargetCount: 0, monthlyTargetCount: 0, createdAt: now, updatedAt: now },
+    { id: "bicycle", name: "Bicycle", icon: "bicycle", planMode: "unplanned", weeklyTargetCount: 0, monthlyTargetCount: 0, createdAt: now, updatedAt: now },
+    { id: "swimming", name: "Swimming", icon: "swim", planMode: "weekly", weeklyTargetCount: 3, monthlyTargetCount: 12, createdAt: now, updatedAt: now },
+    { id: "home", name: "Home Training", icon: "home", planMode: "weekly", weeklyTargetCount: 3, monthlyTargetCount: 12, createdAt: now, updatedAt: now },
+    { id: "soccer", name: "Soccer", icon: "soccer", planMode: "unplanned", weeklyTargetCount: 0, monthlyTargetCount: 0, createdAt: now, updatedAt: now },
+    { id: "gym", name: "Gym", icon: "gym", planMode: "weekly", weeklyTargetCount: 0, monthlyTargetCount: 0, createdAt: now, updatedAt: now },
+    { id: "tennis", name: "Tennis", icon: "tennis", planMode: "unplanned", weeklyTargetCount: 0, monthlyTargetCount: 0, createdAt: now, updatedAt: now }
+  ];
+}
 
-const DEFAULT_TEST_DIRECT: TestDirectState = {
-  distanceKm: 12,
-  distanceSessions: 3,
-  countSessions: 8
-};
+function daysInMonth(monthKey: string) {
+  return monthGridFromMonthKey(monthKey)
+    .filter((cell) => cell.inCurrentMonth)
+    .map((cell) => cell.dateKey);
+}
+
+function distributeDateKeys(dayKeys: string[], sessionCount: number) {
+  if (sessionCount <= 0 || !dayKeys.length) return [] as string[];
+  if (sessionCount <= dayKeys.length) {
+    if (sessionCount === 1) return [dayKeys[dayKeys.length - 1]];
+    return Array.from({ length: sessionCount }, (_, idx) => {
+      const pos = Math.round((idx * (dayKeys.length - 1)) / (sessionCount - 1));
+      return dayKeys[pos];
+    });
+  }
+  return Array.from({ length: sessionCount }, (_, idx) => dayKeys[idx % dayKeys.length]);
+}
+
+function defaultDurationByType(typeId: ActivityTypeId) {
+  if (typeId === "running") return 40;
+  if (typeId === "walking") return 45;
+  if (typeId === "bicycle") return 50;
+  if (typeId === "swimming") return 45;
+  if (typeId === "home") return 35;
+  if (typeId === "soccer") return 70;
+  if (typeId === "gym") return 60;
+  if (typeId === "tennis") return 65;
+  return 40;
+}
+
+function buildSyntheticLogsForType(
+  typeId: ActivityTypeId,
+  dateKeys: string[],
+  totalDistanceKm: number,
+  createdAtSeed = Date.now()
+): ActivityLog[] {
+  const isDistanceType = typeId === "running" || typeId === "walking" || typeId === "bicycle";
+  const perDistance = isDistanceType && dateKeys.length > 0 ? totalDistanceKm / dateKeys.length : 0;
+  return dateKeys.map((dateKey, idx) => ({
+    id: crypto.randomUUID(),
+    typeId,
+    loggedForDate: dateKey,
+    durationMin: defaultDurationByType(typeId),
+    distanceKm: isDistanceType ? Number(perDistance.toFixed(2)) : undefined,
+    memo: "Test quick-fill",
+    createdAt: new Date(createdAtSeed + idx * 1000).toISOString()
+  }));
+}
 
 function compareLogsDesc(a: ActivityLog, b: ActivityLog) {
   if (a.loggedForDate !== b.loggedForDate) return b.loggedForDate.localeCompare(a.loggedForDate);
@@ -62,44 +111,6 @@ function emptyCountRecord() {
   } satisfies Record<ActivityTypeId, number>;
 }
 
-function buildDebugVirtualLogs(direct: TestDirectState): ActivityLog[] {
-  const result: ActivityLog[] = [];
-  const today = new Date();
-
-  const distanceSessionCount = direct.distanceSessions > 0 ? direct.distanceSessions : direct.distanceKm > 0 ? 1 : 0;
-  const perSessionKm = distanceSessionCount > 0 ? direct.distanceKm / distanceSessionCount : 0;
-  for (let i = 0; i < distanceSessionCount; i += 1) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i);
-    const dateKey = dateKeyFromDate(date);
-    result.push({
-      id: `debug-distance-${i}`,
-      typeId: "test_distance",
-      loggedForDate: dateKey,
-      durationMin: 35,
-      distanceKm: Number(perSessionKm.toFixed(2)),
-      memo: "Debug direct data",
-      createdAt: `${dateKey}T12:00:00.000Z`
-    });
-  }
-
-  for (let i = 0; i < direct.countSessions; i += 1) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i);
-    const dateKey = dateKeyFromDate(date);
-    result.push({
-      id: `debug-count-${i}`,
-      typeId: "test_count",
-      loggedForDate: dateKey,
-      durationMin: 30,
-      memo: "Debug direct data",
-      createdAt: `${dateKey}T12:00:00.000Z`
-    });
-  }
-
-  return result;
-}
-
 function countByTypeInWeek(logs: ActivityLog[], weekKey: string) {
   const counts = emptyCountRecord();
   for (const log of logs) {
@@ -118,15 +129,16 @@ function countByTypeInMonth(logs: ActivityLog[], monthKey: string) {
 
 export default function HealthPage() {
   const router = useRouter();
-  const today = todayDateKey();
+  const todayKey = todayDateKey();
   const [isTestMode, setIsTestMode] = useState(false);
+  const [testModeReady, setTestModeReady] = useState(false);
 
   const [types, setTypes] = useState<ActivityType[]>([]);
   const [logs, setLogs] = useState<ActivityLog[]>([]);
   const [weeklyTargets, setWeeklyTargets] = useState<ActivityWeeklyTarget[]>([]);
   const [selectedTypeId, setSelectedTypeId] = useState<ActivityTypeId>("running");
-  const [selectedDateKey, setSelectedDateKey] = useState(today);
-  const [calendarMonthKey, setCalendarMonthKey] = useState(monthKeyFromDateKey(today));
+  const [selectedDateKey, setSelectedDateKey] = useState(todayKey);
+  const [calendarMonthKey, setCalendarMonthKey] = useState(monthKeyFromDateKey(todayKey));
   const [logModalOpen, setLogModalOpen] = useState(false);
   const [targetModalOpen, setTargetModalOpen] = useState(false);
   const [editingLog, setEditingLog] = useState<ActivityLog | null>(null);
@@ -134,11 +146,11 @@ export default function HealthPage() {
   const [debugModalOpen, setDebugModalOpen] = useState(false);
   const [enterTestConfirmOpen, setEnterTestConfirmOpen] = useState(false);
   const [clearMainLogsConfirmOpen, setClearMainLogsConfirmOpen] = useState(false);
-  const [directEditorOpen, setDirectEditorOpen] = useState(false);
-  const [testDirect, setTestDirect] = useState<TestDirectState>(DEFAULT_TEST_DIRECT);
-  const [directDistanceKm, setDirectDistanceKm] = useState(String(DEFAULT_TEST_DIRECT.distanceKm));
-  const [directDistanceSessions, setDirectDistanceSessions] = useState(String(DEFAULT_TEST_DIRECT.distanceSessions));
-  const [directCountSessions, setDirectCountSessions] = useState(String(DEFAULT_TEST_DIRECT.countSessions));
+  const [testOverallSessionsInput, setTestOverallSessionsInput] = useState("0");
+  const [testOverallDistanceInput, setTestOverallDistanceInput] = useState("0");
+  const [testMonthKeyInput, setTestMonthKeyInput] = useState(monthKeyFromDateKey(todayDateKey()));
+  const [testMonthSessionsInput, setTestMonthSessionsInput] = useState("0");
+  const [testMonthDistanceInput, setTestMonthDistanceInput] = useState("0");
   const [xpGainModalValue, setXpGainModalValue] = useState<number | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -146,42 +158,62 @@ export default function HealthPage() {
 
   useEffect(() => {
     setIsTestMode(loadState<boolean>(TEST_MODE_KEY, false));
+    setTestModeReady(true);
   }, []);
 
   useEffect(() => {
-    setTypes(activeStore.loadActivityTypes());
-    setLogs(activeStore.loadActivityLogs());
-    setWeeklyTargets(activeStore.loadWeeklyTargets());
+    // Recovery guard: ensure hidden modal state/scroll-lock never blocks interactions on entry.
+    setLogModalOpen(false);
+    setTargetModalOpen(false);
+    setDebugModalOpen(false);
+    setEnterTestConfirmOpen(false);
+    setClearMainLogsConfirmOpen(false);
+    setDeletingLog(null);
+    setXpGainModalValue(null);
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = "";
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const loadedTypes = activeStore.loadActivityTypes();
+      setTypes(loadedTypes.length ? loadedTypes : fallbackTypes());
+      setLogs(activeStore.loadActivityLogs());
+      setWeeklyTargets(activeStore.loadWeeklyTargets());
+    } catch {
+      setTypes(fallbackTypes());
+      setLogs([]);
+      setWeeklyTargets([]);
+      setToast("Health data recovered with fallback defaults.");
+    }
   }, [activeStore]);
 
   useEffect(() => {
-    if (!isTestMode) return;
-    setTestDirect(loadState<TestDirectState>(TEST_DIRECT_KEY, DEFAULT_TEST_DIRECT));
-  }, [isTestMode]);
-
-  useEffect(() => {
-    if (!isTestMode) return;
-    saveState(TEST_DIRECT_KEY, testDirect);
-  }, [isTestMode, testDirect]);
-
-  useEffect(() => {
+    if (!testModeReady) return;
     saveState(TEST_MODE_KEY, isTestMode);
     if (!isTestMode) return;
-    setSelectedTypeId("test_distance");
+    setSelectedTypeId("running");
     setSelectedDateKey(todayDateKey());
     setCalendarMonthKey(monthKeyFromDateKey(todayDateKey()));
-  }, [isTestMode]);
+  }, [isTestMode, testModeReady]);
+
+  const safeTypes = useMemo(() => (types.length ? types : fallbackTypes()), [types]);
 
   useEffect(() => {
-    if (!types.length) return;
-    if (!types.some((item) => item.id === selectedTypeId)) setSelectedTypeId(types[0].id);
-  }, [types, selectedTypeId]);
+    if (!safeTypes.length) return;
+    if (!safeTypes.some((item) => item.id === selectedTypeId)) setSelectedTypeId(safeTypes[0].id);
+  }, [safeTypes, selectedTypeId]);
 
-  const effectiveLogs = useMemo(() => (isTestMode ? buildDebugVirtualLogs(testDirect) : logs), [isTestMode, logs, testDirect]);
-  const selectedType = useMemo(() => types.find((item) => item.id === selectedTypeId) ?? types[0], [types, selectedTypeId]);
+  const effectiveLogs = useMemo(() => logs, [logs]);
+  const selectedType = useMemo(() => safeTypes.find((item) => item.id === selectedTypeId) ?? safeTypes[0], [safeTypes, selectedTypeId]);
+  const gamificationBaseDateKey = useMemo(() => {
+    if (!isTestMode) return todayKey;
+    return effectiveLogs.reduce((max, log) => (log.loggedForDate > max ? log.loggedForDate : max), todayKey);
+  }, [effectiveLogs, isTestMode, todayKey]);
 
-  const currentWeekKey = weekKeyFromDateKey(today);
-  const currentMonthKey = monthKeyFromDateKey(today);
+  const currentWeekKey = weekKeyFromDateKey(todayKey);
+  const currentMonthKey = monthKeyFromDateKey(todayKey);
   const selectedWeekKey = weekKeyFromDateKey(selectedDateKey);
   const selectedMonthKey = monthKeyFromDateKey(selectedDateKey);
 
@@ -195,7 +227,7 @@ export default function HealthPage() {
     return effectiveLogs
       .filter(
         (item) =>
-          (item.typeId === "running" || item.typeId === "walking" || item.typeId === "bicycle" || item.typeId === "test_distance") &&
+          (item.typeId === "running" || item.typeId === "walking" || item.typeId === "bicycle") &&
           item.typeId === selectedTypeId &&
           isInWeek(item.loggedForDate, selectedWeekKey)
       )
@@ -206,14 +238,14 @@ export default function HealthPage() {
     return effectiveLogs
       .filter(
         (item) =>
-          (item.typeId === "running" || item.typeId === "walking" || item.typeId === "bicycle" || item.typeId === "test_distance") &&
+          (item.typeId === "running" || item.typeId === "walking" || item.typeId === "bicycle") &&
           item.typeId === selectedTypeId &&
           isInMonth(item.loggedForDate, selectedMonthKey)
       )
       .reduce((sum, item) => sum + (item.distanceKm ?? 0), 0);
   }, [effectiveLogs, selectedTypeId, selectedMonthKey]);
 
-  const streakStats = useMemo(() => calculateStreak(effectiveLogs), [effectiveLogs]);
+  const streakStats = useMemo(() => calculateStreak(effectiveLogs, gamificationBaseDateKey), [effectiveLogs, gamificationBaseDateKey]);
 
   const selectedWeeklyTarget = useMemo(() => {
     if (!selectedType) return 0;
@@ -223,6 +255,7 @@ export default function HealthPage() {
 
   const selectedWeeklyCount = selectedType ? weeklyCountsSelected[selectedType.id] : 0;
   const selectedMonthlyCount = selectedType ? monthlyCountsSelected[selectedType.id] : 0;
+  const isSelectedDistanceType = selectedType ? selectedType.id === "running" || selectedType.id === "walking" || selectedType.id === "bicycle" : false;
 
   const recentLogs = useMemo(() => {
     if (!selectedType) return [];
@@ -242,11 +275,6 @@ export default function HealthPage() {
   }, [effectiveLogs, selectedType, calendarMonthKey]);
 
   const handleCreateOrUpdateLog = (draft: ActivityLogDraft) => {
-    if (isTestMode) {
-      setToast("Test mode에서는 Direct Edit로 수치만 수정합니다.");
-      setLogModalOpen(false);
-      return;
-    }
     if (editingLog) {
       const updated = activeStore.updateActivityLog(editingLog.id, draft);
       if (!updated) {
@@ -271,7 +299,6 @@ export default function HealthPage() {
   };
 
   const confirmDeleteLog = () => {
-    if (isTestMode) return;
     if (!deletingLog) return;
     activeStore.deleteActivityLog(deletingLog.id);
     setDeletingLog(null);
@@ -293,10 +320,6 @@ export default function HealthPage() {
   };
 
   const handleChangePlanMode = (planMode: "unplanned" | "weekly" | "monthly") => {
-    if (isTestMode) {
-      setToast("Test mode에서는 plan mode 변경을 잠시 비활성화했습니다.");
-      return;
-    }
     if (!selectedType) return;
     setTypes(activeStore.updatePlanMode(selectedType.id, planMode));
     setToast(`${selectedType.name} mode changed to ${planMode}.`);
@@ -335,38 +358,80 @@ export default function HealthPage() {
     setToast("Main health logs cleared.");
   };
 
-  const openDirectEditor = () => {
-    setDirectDistanceKm(String(testDirect.distanceKm));
-    setDirectDistanceSessions(String(testDirect.distanceSessions));
-    setDirectCountSessions(String(testDirect.countSessions));
-    setDirectEditorOpen(true);
+  const syncTestQuickToolInputs = () => {
+    if (!isTestMode || !selectedType) return;
+    const totalSessions = effectiveLogs.filter((log) => log.typeId === selectedType.id).length;
+    const totalDistance = effectiveLogs
+      .filter((log) => log.typeId === selectedType.id)
+      .reduce((sum, log) => sum + (log.distanceKm ?? 0), 0);
+    const monthSessions = effectiveLogs.filter((log) => log.typeId === selectedType.id && isInMonth(log.loggedForDate, calendarMonthKey)).length;
+    const monthDistance = effectiveLogs
+      .filter((log) => log.typeId === selectedType.id && isInMonth(log.loggedForDate, calendarMonthKey))
+      .reduce((sum, log) => sum + (log.distanceKm ?? 0), 0);
+    setTestOverallSessionsInput(String(totalSessions));
+    setTestOverallDistanceInput(totalDistance.toFixed(1));
+    setTestMonthKeyInput(calendarMonthKey);
+    setTestMonthSessionsInput(String(monthSessions));
+    setTestMonthDistanceInput(monthDistance.toFixed(1));
   };
 
-  const saveDirectEditor = () => {
-    const distanceKm = Number(directDistanceKm);
-    const distanceSessions = Number(directDistanceSessions);
-    const countSessions = Number(directCountSessions);
+  const applyTestOverallData = () => {
+    if (!isTestMode || !selectedType) return;
+    const sessions = Number(testOverallSessionsInput);
+    const totalDistance = Number(testOverallDistanceInput);
+    if (!Number.isFinite(sessions) || sessions < 0) {
+      setToast("Overall sessions must be 0 or greater.");
+      return;
+    }
+    if (!Number.isFinite(totalDistance) || totalDistance < 0) {
+      setToast("Overall distance must be 0 or greater.");
+      return;
+    }
+    const targetSessions = Math.floor(sessions);
+    const todayDate = new Date();
+    todayDate.setHours(12, 0, 0, 0);
+    const dayKeys = Array.from({ length: targetSessions }, (_, idx) => {
+      const d = new Date(todayDate);
+      d.setDate(todayDate.getDate() - idx);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    }).reverse();
+    const synthetic = buildSyntheticLogsForType(selectedType.id, dayKeys, isSelectedDistanceType ? totalDistance : 0);
+    const next = [...logs.filter((log) => log.typeId !== selectedType.id), ...synthetic].sort(compareLogsDesc);
+    activeStore.saveActivityLogs(next);
+    setLogs(next);
+    setToast(`Applied overall data to ${selectedType.name}: ${targetSessions} sessions.`);
+  };
 
-    if (!Number.isFinite(distanceKm) || distanceKm < 0) {
-      setToast("Distance km must be >= 0.");
+  const applyTestMonthAutoFill = () => {
+    if (!isTestMode || !selectedType) return;
+    const sessions = Number(testMonthSessionsInput);
+    const totalDistance = Number(testMonthDistanceInput);
+    if (!testMonthKeyInput || !/^\d{4}-\d{2}$/.test(testMonthKeyInput)) {
+      setToast("Month must be in YYYY-MM format.");
       return;
     }
-    if (!Number.isFinite(distanceSessions) || distanceSessions < 0) {
-      setToast("Distance sessions must be >= 0.");
+    if (!Number.isFinite(sessions) || sessions < 0) {
+      setToast("Month sessions must be 0 or greater.");
       return;
     }
-    if (!Number.isFinite(countSessions) || countSessions < 0) {
-      setToast("Count sessions must be >= 0.");
+    if (!Number.isFinite(totalDistance) || totalDistance < 0) {
+      setToast("Month distance must be 0 or greater.");
       return;
     }
 
-    setTestDirect({
-      distanceKm,
-      distanceSessions: Math.floor(distanceSessions),
-      countSessions: Math.floor(countSessions)
-    });
-    setDirectEditorOpen(false);
-    setToast("Debug direct values saved.");
+    const targetSessions = Math.floor(sessions);
+    const monthDays = daysInMonth(testMonthKeyInput);
+    const pickedDates = distributeDateKeys(monthDays, targetSessions);
+    const synthetic = buildSyntheticLogsForType(selectedType.id, pickedDates, isSelectedDistanceType ? totalDistance : 0);
+    const next = [
+      ...logs.filter((log) => !(log.typeId === selectedType.id && isInMonth(log.loggedForDate, testMonthKeyInput))),
+      ...synthetic
+    ]
+      .sort(compareLogsDesc);
+    activeStore.saveActivityLogs(next);
+    setLogs(next);
+    setCalendarMonthKey(testMonthKeyInput);
+    setToast(`Auto-filled ${testMonthKeyInput} for ${selectedType.name}: ${targetSessions} sessions.`);
   };
 
   useEffect(() => {
@@ -376,25 +441,34 @@ export default function HealthPage() {
   }, [toast]);
 
   useEffect(() => {
+    if (!isTestMode || !selectedType) return;
+    const totalSessions = effectiveLogs.filter((log) => log.typeId === selectedType.id).length;
+    const totalDistance = effectiveLogs
+      .filter((log) => log.typeId === selectedType.id)
+      .reduce((sum, log) => sum + (log.distanceKm ?? 0), 0);
+    const monthSessions = effectiveLogs.filter((log) => log.typeId === selectedType.id && isInMonth(log.loggedForDate, calendarMonthKey)).length;
+    const monthDistance = effectiveLogs
+      .filter((log) => log.typeId === selectedType.id && isInMonth(log.loggedForDate, calendarMonthKey))
+      .reduce((sum, log) => sum + (log.distanceKm ?? 0), 0);
+    setTestOverallSessionsInput(String(totalSessions));
+    setTestOverallDistanceInput(totalDistance.toFixed(1));
+    setTestMonthKeyInput(calendarMonthKey);
+    setTestMonthSessionsInput(String(monthSessions));
+    setTestMonthDistanceInput(monthDistance.toFixed(1));
+  }, [calendarMonthKey, effectiveLogs, isTestMode, selectedType]);
+
+  useEffect(() => {
     if (xpGainModalValue === null) return;
     const id = window.setTimeout(() => setXpGainModalValue(null), 1200);
     return () => window.clearTimeout(id);
   }, [xpGainModalValue]);
 
-  if (!selectedType) {
-    return (
-      <AppShell showTitle={false}>
-        <div className="mx-auto w-full max-w-[1200px] py-10 text-sm text-[var(--ink-1)]">Loading Health app...</div>
-      </AppShell>
-    );
-  }
-
   return (
     <AppShell showTitle={false}>
       <div className={`mx-auto w-full max-w-[2000px] px-4 pb-16 pt-10 ${isTestMode ? "rounded-2xl border border-emerald-300/25 bg-[rgba(16,58,52,0.12)]" : ""}`}>
         <div className="grid gap-4 xl:grid-cols-[430px_minmax(0,1fr)_320px]">
-          <div className="hidden xl:block">
-            <BadgeShowcasePanel logs={effectiveLogs} selectedTypeId={selectedType.id} />
+          <div>
+            <BadgeShowcasePanel logs={effectiveLogs} selectedTypeId={selectedType.id} baseDateKey={gamificationBaseDateKey} />
           </div>
 
           <div className="space-y-4">
@@ -418,11 +492,96 @@ export default function HealthPage() {
               bestStreak={streakStats.best}
             />
 
-            <ActivityIconRow types={types} selectedTypeId={selectedTypeId} onSelect={setSelectedTypeId} />
+            {isTestMode && selectedType ? (
+              <section className="space-y-4 rounded-2xl border border-emerald-300/30 bg-[rgba(16,58,52,0.22)] p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-xs uppercase tracking-[0.12em] text-emerald-200">Test-Only Quick Tools ({selectedType.name})</div>
+                  <button className="rounded-full border border-emerald-300/70 px-3 py-1 text-xs text-emerald-200" onClick={syncTestQuickToolInputs}>
+                    Sync
+                  </button>
+                </div>
+
+                <div className="space-y-2 rounded-lg border border-white/10 bg-black/20 p-3">
+                  <div className="text-xs text-[var(--ink-1)]">Overall Data (all-time for selected activity)</div>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <label className="text-xs text-[var(--ink-1)]">
+                      Sessions
+                      <input
+                        type="number"
+                        min={0}
+                        className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-[var(--ink-0)] outline-none"
+                        value={testOverallSessionsInput}
+                        onChange={(event) => setTestOverallSessionsInput(event.target.value)}
+                      />
+                    </label>
+                    <label className="text-xs text-[var(--ink-1)]">
+                      Total KM
+                      <input
+                        type="number"
+                        min={0}
+                        step="0.1"
+                        disabled={!isSelectedDistanceType}
+                        className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-[var(--ink-0)] outline-none disabled:opacity-50"
+                        value={testOverallDistanceInput}
+                        onChange={(event) => setTestOverallDistanceInput(event.target.value)}
+                      />
+                    </label>
+                  </div>
+                  <div className="flex justify-end">
+                    <button className="rounded-full border border-emerald-300/70 px-4 py-2 text-xs text-emerald-200" onClick={applyTestOverallData}>
+                      Apply Overall
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2 rounded-lg border border-white/10 bg-black/20 p-3">
+                  <div className="text-xs text-[var(--ink-1)]">Calendar Auto Fill (replace selected month for selected activity)</div>
+                  <div className="grid gap-2 sm:grid-cols-3">
+                    <label className="text-xs text-[var(--ink-1)]">
+                      Month
+                      <input
+                        type="month"
+                        className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-[var(--ink-0)] outline-none"
+                        value={testMonthKeyInput}
+                        onChange={(event) => setTestMonthKeyInput(event.target.value)}
+                      />
+                    </label>
+                    <label className="text-xs text-[var(--ink-1)]">
+                      Sessions
+                      <input
+                        type="number"
+                        min={0}
+                        className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-[var(--ink-0)] outline-none"
+                        value={testMonthSessionsInput}
+                        onChange={(event) => setTestMonthSessionsInput(event.target.value)}
+                      />
+                    </label>
+                    <label className="text-xs text-[var(--ink-1)]">
+                      Total KM
+                      <input
+                        type="number"
+                        min={0}
+                        step="0.1"
+                        disabled={!isSelectedDistanceType}
+                        className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-[var(--ink-0)] outline-none disabled:opacity-50"
+                        value={testMonthDistanceInput}
+                        onChange={(event) => setTestMonthDistanceInput(event.target.value)}
+                      />
+                    </label>
+                  </div>
+                  <div className="flex justify-end">
+                    <button className="rounded-full border border-emerald-300/70 px-4 py-2 text-xs text-emerald-200" onClick={applyTestMonthAutoFill}>
+                      Auto Fill Month
+                    </button>
+                  </div>
+                </div>
+              </section>
+            ) : null}
+
+            <ActivityIconRow types={safeTypes} selectedTypeId={selectedTypeId} onSelect={setSelectedTypeId} />
 
             <ActivityInfoPanel
               selectedType={selectedType}
-              isTestMode={isTestMode}
               selectedDateKey={selectedDateKey}
               calendarMonthKey={calendarMonthKey}
               markedDateCounts={markedDateCounts}
@@ -433,10 +592,6 @@ export default function HealthPage() {
               runningMonthlyKm={selectedDistanceMonthlyKm}
               recentLogs={recentLogs}
               onAddLog={() => {
-                if (isTestMode) {
-                  openDirectEditor();
-                  return;
-                }
                 setEditingLog(null);
                 setLogModalOpen(true);
               }}
@@ -446,7 +601,6 @@ export default function HealthPage() {
               onCalendarDateSelect={(dateKey) => {
                 setSelectedDateKey(dateKey);
                 setCalendarMonthKey(monthKeyFromDateKey(dateKey));
-                if (isTestMode) return;
                 setEditingLog(null);
                 setLogModalOpen(true);
               }}
@@ -458,7 +612,6 @@ export default function HealthPage() {
                 setLogModalOpen(true);
               }}
               onDeleteLog={handleDeleteLog}
-              onOpenDirectEdit={openDirectEditor}
             />
           </div>
 
@@ -549,55 +702,6 @@ export default function HealthPage() {
         }
       >
         <div className="text-sm text-[var(--ink-1)]">test 저장소는 유지하고, 실제(main) 운동 로그만 모두 삭제할까요?</div>
-      </PlainModal>
-      <PlainModal
-        open={directEditorOpen}
-        title="Test Direct Editor"
-        onClose={() => setDirectEditorOpen(false)}
-        actions={
-          <>
-            <button className="rounded-full border border-white/15 px-4 py-2 text-xs text-[var(--ink-1)]" onClick={() => setDirectEditorOpen(false)}>
-              Cancel
-            </button>
-            <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={saveDirectEditor}>
-              Save
-            </button>
-          </>
-        }
-      >
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className="text-xs text-[var(--ink-1)]">
-            Distance Total (km)
-            <input
-              type="number"
-              min={0}
-              step="0.1"
-              className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-[var(--ink-0)] outline-none"
-              value={directDistanceKm}
-              onChange={(event) => setDirectDistanceKm(event.target.value)}
-            />
-          </label>
-          <label className="text-xs text-[var(--ink-1)]">
-            Distance Sessions
-            <input
-              type="number"
-              min={0}
-              className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-[var(--ink-0)] outline-none"
-              value={directDistanceSessions}
-              onChange={(event) => setDirectDistanceSessions(event.target.value)}
-            />
-          </label>
-          <label className="text-xs text-[var(--ink-1)] sm:col-span-2">
-            Count Sessions
-            <input
-              type="number"
-              min={0}
-              className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-[var(--ink-0)] outline-none"
-              value={directCountSessions}
-              onChange={(event) => setDirectCountSessions(event.target.value)}
-            />
-          </label>
-        </div>
       </PlainModal>
       <PlainModal
         open={Boolean(deletingLog)}

@@ -1,14 +1,17 @@
-"use client";
+﻿"use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { calculateLevel, calculateTotalXP, generateBadgesByRules } from "../lib/gamification";
 import { getBadgeImageSrc } from "../lib/badgeAssets";
 import { resolveLevelMetaByLevel, useGamificationConfig } from "../lib/gamificationConfig";
+import { PlainModal } from "./PlainModal";
+import type { BadgeItem } from "../lib/gamification";
 import type { ActivityLog, ActivityTypeId } from "../types";
 
 type GamificationSidePanelsProps = {
   logs: ActivityLog[];
   selectedTypeId: ActivityTypeId;
+  baseDateKey?: string;
 };
 
 function flameVisualClass(level: number) {
@@ -19,11 +22,17 @@ function flameVisualClass(level: number) {
   return "h-24 w-24";
 }
 
-export function BadgeShowcasePanel({ logs, selectedTypeId }: GamificationSidePanelsProps) {
+export function BadgeShowcasePanel({ logs, selectedTypeId, baseDateKey }: GamificationSidePanelsProps) {
   const config = useGamificationConfig();
-  const badges = useMemo(() => generateBadgesByRules(logs, selectedTypeId, config.badgeRules), [logs, selectedTypeId, config.badgeRules]);
-  const unlockedBadges = useMemo(() => {
-    return [...badges.globalBadges, ...badges.activityBadges].filter((badge) => badge.unlocked);
+  const [selectedBadge, setSelectedBadge] = useState<BadgeItem | null>(null);
+
+  const badges = useMemo(
+    () => generateBadgesByRules(logs, selectedTypeId, config.badgeRules, baseDateKey),
+    [baseDateKey, logs, selectedTypeId, config.badgeRules]
+  );
+
+  const unlockedBadges = useMemo<BadgeItem[]>(() => {
+    return [...badges.globalBadges, ...badges.activityBadges].filter((badge) => badge.unlocked === true);
   }, [badges]);
 
   return (
@@ -32,7 +41,7 @@ export function BadgeShowcasePanel({ logs, selectedTypeId }: GamificationSidePan
       {unlockedBadges.length === 0 ? (
         <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-4 text-xs text-[var(--ink-1)]">
           <img src={getBadgeImageSrc("default")} alt="default medal" className="mb-2 h-8 w-8 opacity-60" />
-          획득한 배지가 아직 없어요.
+          아직 획득한 배지가 없습니다.
         </div>
       ) : (
         <div className="grid grid-cols-4 gap-3">
@@ -40,9 +49,12 @@ export function BadgeShowcasePanel({ logs, selectedTypeId }: GamificationSidePan
             const displayName = badge.name;
             const displayDesc = badge.description;
             const displayImage = badge.image || getBadgeImageSrc(badge.id);
+
             return (
-              <div
+              <button
                 key={badge.id}
+                type="button"
+                onClick={() => setSelectedBadge(badge)}
                 title={`${displayName}\n${displayDesc}${badge.achievedDate ? `\n획득일: ${badge.achievedDate}` : ""}`}
                 className={`group relative flex h-[88px] w-[88px] items-center justify-center rounded-xl border ${
                   badge.tier === "special"
@@ -56,11 +68,38 @@ export function BadgeShowcasePanel({ logs, selectedTypeId }: GamificationSidePan
                   <div className="mt-1 text-[var(--ink-1)]">{displayDesc}</div>
                   {badge.achievedDate ? <div className="mt-1 text-[10px] text-[var(--ink-1)]">획득일: {badge.achievedDate}</div> : null}
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
       )}
+
+      <PlainModal
+        open={Boolean(selectedBadge)}
+        title={selectedBadge?.name ?? "Badge"}
+        onClose={() => setSelectedBadge(null)}
+        panelClassName="max-w-md"
+      >
+        {selectedBadge ? (
+          <div className="space-y-4">
+            <div className="flex justify-center">
+              <img
+                src={selectedBadge.image || getBadgeImageSrc(selectedBadge.id)}
+                alt={`${selectedBadge.name} badge`}
+                className="h-72 w-72 object-contain"
+              />
+            </div>
+            <div className="rounded-xl border border-white/10 bg-black/20 p-3 text-sm">
+              <div className="text-[10px] uppercase tracking-[0.14em] text-[var(--ink-1)]">Clear Condition</div>
+              <div className="mt-1 text-[var(--ink-0)]">{selectedBadge.description || "-"}</div>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-black/20 p-3 text-sm">
+              <div className="text-[10px] uppercase tracking-[0.14em] text-[var(--ink-1)]">Achieved At</div>
+              <div className="mt-1 text-[var(--ink-0)]">{selectedBadge.achievedDate || "-"}</div>
+            </div>
+          </div>
+        ) : null}
+      </PlainModal>
     </aside>
   );
 }
