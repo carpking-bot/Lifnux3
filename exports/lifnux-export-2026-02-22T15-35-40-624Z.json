@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-02-19T18:14:24.299Z"
+    "exportedAt": "2026-02-22T15:35:40.619Z"
   },
   "data": {
     "lastState": {
@@ -270,6 +270,14 @@
           "durationMin": 50,
           "memo": "수영 13회차\n여전히 호흡이 문제.",
           "createdAt": "2026-02-19T15:12:38.936Z"
+        },
+        {
+          "id": "62d5d906-96e4-43be-a569-bbb4ee3fd11a",
+          "typeId": "swimming",
+          "loggedForDate": "2026-02-20",
+          "durationMin": 50,
+          "memo": "수영 14회차\n체력 훈련으로 자유형 드릴했는데 ㅈㄴ 힘듬",
+          "createdAt": "2026-02-20T14:06:42.373Z"
         }
       ]
     },
@@ -6348,7 +6356,7 @@
       "lifnux:guitar:state": {
         "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
         "selectedVideoId": "e52d3f5c-2ea2-4165-8717-2622e2a9a8b6",
-        "loopEnabled": true,
+        "loopEnabled": false,
         "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-01-31T15:00:00.000Z"
@@ -6409,13 +6417,22 @@
           "createdAt": 1770649539869
         },
         {
-          "id": "01c030f5-6567-4a95-b6d7-831849733d93",
+          "id": "1c8155c4-e51f-4257-b45b-1480d7b91704",
           "videoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
-          "name": "Part 1~4",
+          "name": "Part 5",
+          "startSec": 131.2126970772476,
+          "endSec": 163.78686400286102,
+          "speed": 0.75,
+          "createdAt": 1771770268128
+        },
+        {
+          "id": "36d229bd-7e28-4db0-9c2a-bf3d1c104f9e",
+          "videoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
+          "name": "Part 1~5",
           "startSec": 0,
-          "endSec": 135,
-          "speed": 1,
-          "createdAt": 1771422956046
+          "endSec": 163,
+          "speed": 0.75,
+          "createdAt": 1771770982482
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -6525,6 +6542,14 @@
         {
           "dateKey": "2026-02-19",
           "createdAt": 1771511331345
+        },
+        {
+          "dateKey": "2026-02-20",
+          "createdAt": 1771598363999
+        },
+        {
+          "dateKey": "2026-02-22",
+          "createdAt": 1771769908246
         }
       ],
       "lifnux:guitar:videos": [
