@@ -1,4 +1,6 @@
-﻿export type ContractType = "Full-time" | "Contract" | "Intern" | "Other";
+﻿export type ContractType = "Full-time" | "Contract" | "Short-term Contract" | "Part-time" | "Intern" | "Other";
+export type JobPostingContractType = "정규직" | "계약직" | "단기계약직" | "아르바이트" | "인턴";
+export const JOB_POSTING_CONTRACT_TYPES: JobPostingContractType[] = ["정규직", "계약직", "단기계약직", "아르바이트", "인턴"];
 
 export type Employment = {
   employmentId: string;
@@ -6,6 +8,10 @@ export type Employment = {
   startDate: string;
   endDate: string | null;
   contractType: ContractType;
+  department?: string;
+  title?: string;
+  level?: string;
+  salaryKRW?: number | null;
   isCurrent: boolean;
   remainingPTO: number | null;
   notes: string;
@@ -27,7 +33,7 @@ export type Industry = {
   name: string;
 };
 
-export type Importance = "LOW" | "MID" | "HIGH";
+export type Importance = number;
 
 export type JobPosting = {
   postingId: string;
@@ -35,15 +41,17 @@ export type JobPosting = {
   companyName: string;
   postingTitle: string;
   role: string;
-  contractType: string;
+  contractType: JobPostingContractType;
   departmentInfo: string;
   responsibilities: string;
   requirements: string;
+  neededSkills: string;
   preferred: string;
   memo: string;
   comment: string;
   deadline: string | null;
-  importance: Importance;
+  importance: Importance; // integer scale: 1..10
+  isFavorite: boolean;
   link: string | null;
   createdAt: string;
   updatedAt: string;
@@ -90,3 +98,5 @@ export const DEFAULT_CAREER_STATE: CareerState = {
   jobPostings: [],
   applications: []
 };
+
+

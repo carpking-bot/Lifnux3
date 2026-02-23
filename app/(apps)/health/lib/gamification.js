@@ -265,6 +265,15 @@ function activityLabelKo(typeId) {
         return "\uD5EC\uC2A4";
     return "\uD14C\uB2C8\uC2A4";
 }
+function applyBadgeTextTemplate(template, vars) {
+    if (!template)
+        return "";
+    let text = template;
+    Object.entries(vars).forEach(([key, value]) => {
+        text = text.replace(new RegExp(`\\{${key}\\}`, "g"), String(value));
+    });
+    return text;
+}
 export function generateBadges(logs, selectedTypeId, baseDateKey = todayDateKey()) {
     const streak = calculateStreak(logs, baseDateKey);
     const months = perfectMonths(logs);
@@ -443,6 +452,20 @@ export function generateBadgesByRules(logs, selectedTypeId, badgeRules, baseDate
                 image: rule.image,
                 unlocked: count >= t,
                 achievedDate: thresholdReachedDateForCount(targetLogs, t)
+            });
+            continue;
+        }
+        if (rule.rule === "count_in_year_at_least") {
+            const t = Math.max(1, rule.threshold ?? 1);
+            const targetYear = Number.isFinite(rule.limit) ? Number(rule.limit) : Number(baseDateKey.slice(0, 4));
+            const targetLogsInYear = targetLogs.filter((log) => log.loggedForDate.startsWith(`${targetYear}-`));
+            push(rule.scope, {
+                id: rule.id,
+                name: applyBadgeTextTemplate(rule.name, { year: targetYear, value: t, threshold: t }),
+                description: applyBadgeTextTemplate(rule.description, { year: targetYear, value: t, threshold: t }),
+                image: rule.image,
+                unlocked: targetLogsInYear.length >= t,
+                achievedDate: thresholdReachedDateForCount(targetLogsInYear, t)
             });
             continue;
         }

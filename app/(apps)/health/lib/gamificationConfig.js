@@ -23,6 +23,7 @@ const KNOWN_BADGE_RULES = [
     "streak_best_at_least",
     "perfect_month_any",
     "first_log",
+    "count_in_year_at_least",
     "count_at_least",
     "distance_at_least",
     "count_step",
@@ -77,6 +78,13 @@ export function parseGamificationCsv(text) {
             const normalizedThresholdRaw = misaligned ? stepRaw : thresholdRaw;
             const normalizedStepRaw = misaligned ? limitRaw : stepRaw;
             const normalizedLimitRaw = misaligned ? undefined : limitRaw;
+            const shouldShiftActivityToThreshold = normalizedRuleRaw === "count_in_year_at_least" &&
+                normalizedScopeRaw === "global" &&
+                !normalizedThresholdRaw &&
+                !!normalizedActivity &&
+                Number.isFinite(Number(normalizedActivity));
+            const finalActivity = shouldShiftActivityToThreshold ? undefined : normalizedActivity;
+            const finalThresholdRaw = shouldShiftActivityToThreshold ? normalizedActivity : normalizedThresholdRaw;
             const rule = isKnownRule(normalizedRuleRaw) ? normalizedRuleRaw : "count_at_least";
             const scope = isKnownScope(normalizedScopeRaw) ? normalizedScopeRaw : "activity";
             badgeRules.push({
@@ -86,8 +94,8 @@ export function parseGamificationCsv(text) {
                 image: normalizedImage || undefined,
                 rule,
                 scope,
-                activity: normalizedActivity || undefined,
-                threshold: toOptionalNumber(normalizedThresholdRaw),
+                activity: finalActivity || undefined,
+                threshold: toOptionalNumber(finalThresholdRaw),
                 step: toOptionalNumber(normalizedStepRaw),
                 limit: toOptionalNumber(normalizedLimitRaw)
             });

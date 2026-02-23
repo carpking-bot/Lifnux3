@@ -51,3 +51,6 @@ badge,first-test-distance,,,,시작이 반이다,첫 운동 기록 완료,/healt
 badge,first-test-count,,,,시작이 반이다,첫 운동 기록 완료,/health/badges/start.png,first_log,activity,test_count,,,
 badge,distance-test,,,,{value}km,테스트 거리 마일스톤,/health/badges/default-medal.svg,distance_step,activity,test_distance,,10,120
 badge,count-test,,,,{value}회,테스트 횟수 마일스톤,/health/badges/default-medal.svg,count_step,activity,test_count,,10,120
+badge,session-100,,,,100점 만점에 100점!! ({year}),{year}년 운동 100회 달성,/health/badges/session100.png,count_in_year_at_least,global,100,100,,
+badge,session-200,,,,더블 센추리 ({year}),{year}년 운동 200회 달성,/health/badges/session200.png,count_in_year_at_least,global,200,200,,
+badge,session-300,,,,300 ({year}),{year}년 운동 300회 달성,/health/badges/session300.png,count_in_year_at_least,global,300,300,,

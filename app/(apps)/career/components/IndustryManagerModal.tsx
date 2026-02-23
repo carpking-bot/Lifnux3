@@ -31,19 +31,19 @@ export function IndustryManagerModal({ open, industries, postings, onClose, onSa
     <>
       <Modal
         open={open}
-        title="Manage Categories"
+        title="카테고리 관리"
         onClose={onClose}
         closeOnBackdrop
         closeOnEsc
         actions={
           <>
-            <button className="rounded-full border border-white/20 px-4 py-2 text-xs" onClick={onClose}>Close</button>
-            <button className="rounded-full border border-cyan-300/50 px-4 py-2 text-xs text-cyan-300" onClick={apply}>Save</button>
+            <button className="rounded-full border border-white/20 px-4 py-2 text-xs" onClick={onClose}>닫기</button>
+            <button className="rounded-full border border-cyan-300/50 px-4 py-2 text-xs text-cyan-300" onClick={apply}>저장</button>
           </>
         }
       >
         <div className="flex gap-2">
-          <input className="flex-1 rounded-lg border border-white/15 bg-black/25 px-3 py-2 text-sm text-white" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Industry name" />
+          <input className="flex-1 rounded-lg border border-white/15 bg-black/25 px-3 py-2 text-sm text-white" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="산업 카테고리명" />
           <button
             className="rounded-full border border-cyan-300/50 px-3 py-1 text-xs text-cyan-300"
             onClick={() => {
@@ -52,7 +52,7 @@ export function IndustryManagerModal({ open, industries, postings, onClose, onSa
               setNewName("");
             }}
           >
-            Add
+            추가
           </button>
         </div>
 
@@ -62,7 +62,7 @@ export function IndustryManagerModal({ open, industries, postings, onClose, onSa
             return (
               <div key={industry.industryId} className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/20 p-2">
                 <input className="flex-1 rounded-lg border border-white/15 bg-black/25 px-2 py-1 text-sm text-white" value={industry.name} onChange={(e) => setDraft((prev) => prev.map((item) => (item.industryId === industry.industryId ? { ...item, name: e.target.value } : item)))} />
-                <button className="rounded-full border border-rose-400/50 px-2 py-1 text-xs text-rose-300 disabled:opacity-50" disabled={used} onClick={() => setPendingDeleteId(industry.industryId)}>Delete</button>
+                <button className="rounded-full border border-rose-400/50 px-2 py-1 text-xs text-rose-300 disabled:opacity-50" disabled={used} onClick={() => setPendingDeleteId(industry.industryId)}>삭제</button>
               </div>
             );
           })}
@@ -71,17 +71,17 @@ export function IndustryManagerModal({ open, industries, postings, onClose, onSa
 
       <ConfirmModal
         open={Boolean(pendingDeleteId)}
-        title="Delete Industry"
-        description="Delete this industry category?"
-        detail="Used categories cannot be deleted while postings reference them."
-        confirmLabel="Delete"
-        cancelLabel="Cancel"
+        title="산업 카테고리 삭제"
+        description="이 산업 카테고리를 삭제할까요?"
+        detail="공고에서 사용 중인 카테고리는 삭제할 수 없습니다."
+        confirmLabel="삭제"
+        cancelLabel="취소"
         variant="danger"
         onCancel={() => setPendingDeleteId(null)}
         onConfirm={() => {
           if (!pendingDeleteId) return;
           if (usedIndustryIds.has(pendingDeleteId)) {
-            window.alert("This category is used by postings. Remove references first.");
+            window.alert("이 카테고리는 공고에서 사용 중입니다. 먼저 참조를 해제하세요.");
             setPendingDeleteId(null);
             return;
           }

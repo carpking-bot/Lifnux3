@@ -25,6 +25,8 @@ export function CalendarGrid({
   resolveEvents?: (dateKey: string) => CalendarEvent[];
   onEventClick?: (event: CalendarEvent) => void;
 }) {
+  const todayKey = formatDateKey(new Date());
+
   return (
     <div className="grid grid-cols-7 gap-3">
       {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((label) => (
@@ -41,6 +43,7 @@ export function CalendarGrid({
             key={key}
             date={date}
             inMonth={isCurrent}
+            isToday={key === todayKey}
             events={dayEvents}
             isHoliday={holidaySet.has(key)}
             holidayTitles={holidayTitles[key]}

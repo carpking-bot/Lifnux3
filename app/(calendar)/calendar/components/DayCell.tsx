@@ -14,6 +14,7 @@ const warnedLabelIds = new Set<string>();
 export function DayCell({
   date,
   inMonth,
+  isToday,
   events,
   isHoliday,
   holidayTitles,
@@ -23,6 +24,7 @@ export function DayCell({
 }: {
   date: Date;
   inMonth: boolean;
+  isToday: boolean;
   events: CalendarEvent[];
   isHoliday: boolean;
   holidayTitles?: string[];
@@ -53,9 +55,19 @@ export function DayCell({
       }}
       className={`min-h-[90px] rounded-2xl p-3 text-left transition hover:scale-[1.01] ${
         inMonth ? "lifnux-glass" : "bg-transparent opacity-50"
+      } ${
+        isToday && inMonth ? "ring-1 ring-[var(--accent-1)] bg-[var(--accent-1)]/10" : ""
       }`}
     >
-      <div className={`text-sm ${isWeekend || isHoliday ? "text-[var(--accent-2)]" : "text-[var(--ink-0)]"}`}>
+      <div
+        className={`text-sm ${
+          isToday && inMonth
+            ? "font-semibold text-[var(--accent-1)]"
+            : isWeekend || isHoliday
+              ? "text-[var(--accent-2)]"
+              : "text-[var(--ink-0)]"
+        }`}
+      >
         {date.getDate()}
       </div>
       {holidayTitle ? (

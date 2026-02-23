@@ -49,7 +49,7 @@ export function ConfirmModal({
           {showCancel ? (
             <button
               ref={cancelRef}
-              className="rounded-full border border-white/10 px-4 py-2 text-xs"
+              className="rounded-full border border-white/10 px-5 py-2.5 text-sm"
               onClick={onCancel}
             >
               {cancelLabel}
@@ -57,7 +57,7 @@ export function ConfirmModal({
           ) : null}
           <button
             ref={confirmRef}
-            className={`rounded-full px-4 py-2 text-xs text-black ${
+            className={`rounded-full px-5 py-2.5 text-sm text-black ${
               variant === "danger" ? "bg-[var(--accent-2)]" : "bg-[var(--accent-1)]"
             }`}
             onClick={onConfirm}
@@ -67,7 +67,7 @@ export function ConfirmModal({
         </>
       }
     >
-      <div className="space-y-2 text-sm text-[var(--ink-1)]">
+      <div className="space-y-2 text-base text-[var(--ink-1)]">
         <div className="text-[var(--ink-0)]">{description}</div>
         {detail ? <div className="text-[var(--ink-1)]">{detail}</div> : null}
       </div>

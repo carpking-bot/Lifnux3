@@ -42,6 +42,7 @@ export default function FinanceWatchlistPage() {
   const [listNameDraft, setListNameDraft] = useState("");
   const [listError, setListError] = useState<string | null>(null);
   const [pendingDeleteList, setPendingDeleteList] = useState<StockList | null>(null);
+  const [pendingDeleteStock, setPendingDeleteStock] = useState<StockItem | null>(null);
   const [labelModalOpen, setLabelModalOpen] = useState(false);
   const [labelDraft, setLabelDraft] = useState("");
   const [labelError, setLabelError] = useState<string | null>(null);
@@ -832,10 +833,7 @@ export default function FinanceWatchlistPage() {
                       ) : null}
                       <button
                         className="text-xs text-[var(--ink-1)] hover:text-[var(--accent-2)]"
-                        onClick={() => {
-                          setStocks((prev) => prev.filter((entry) => entry.id !== item.id));
-                          removeStockFromAllLists(item.id);
-                        }}
+                        onClick={() => setPendingDeleteStock(item)}
                         aria-label="Delete stock"
                       >
                         X
@@ -920,6 +918,26 @@ export default function FinanceWatchlistPage() {
           setPendingDeleteList(null);
         }}
         onCancel={() => setPendingDeleteList(null)}
+      />
+      <ConfirmModal
+        open={!!pendingDeleteStock}
+        title="Delete Asset"
+        description={
+          pendingDeleteStock
+            ? `Delete "${pendingDeleteStock.label ?? pendingDeleteStock.symbol}" from watchlist?`
+            : ""
+        }
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={() => {
+          if (!pendingDeleteStock) return;
+          setStocks((prev) => prev.filter((entry) => entry.id !== pendingDeleteStock.id));
+          removeStockFromAllLists(pendingDeleteStock.id);
+          showNotice(`Asset deleted: ${pendingDeleteStock.label ?? pendingDeleteStock.symbol}`);
+          setPendingDeleteStock(null);
+        }}
+        onCancel={() => setPendingDeleteStock(null)}
       />
 
       <Modal

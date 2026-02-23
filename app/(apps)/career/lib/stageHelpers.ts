@@ -10,11 +10,11 @@ export function createDefaultStageTemplate(): Stage[] {
 }
 
 export function stageLabel(stage: Stage) {
-  if (stage.type === "CUSTOM") return stage.customLabel || "Custom";
-  if (stage.type === "INTERVIEW_1") return "Interview 1";
-  if (stage.type === "INTERVIEW_2") return "Interview 2";
-  if (stage.type === "DOCUMENT") return "Document";
-  return "Final";
+  if (stage.type === "CUSTOM") return stage.customLabel || "커스텀";
+  if (stage.type === "INTERVIEW_1") return "1차 면접";
+  if (stage.type === "INTERVIEW_2") return "2차 면접";
+  if (stage.type === "DOCUMENT") return "서류";
+  return "최종";
 }
 
 export function deriveCurrentStage(app: Application): Stage | null {
@@ -37,11 +37,25 @@ export function updatedAtForApplication(app: Application): string {
 }
 
 export function autoDoneOnFinal(app: Application): Application {
-  const finalStage = app.stages.find((stage) => stage.type === "FINAL");
-  if (!finalStage || finalStage.result === "PENDING") return { ...app, status: "IN_PROGRESS", finalResult: null };
+  // Rule:
+  // 1) Any failed stage means the process is done with FAIL.
+  // 2) If the last stage is PASS, the process is done with PASS.
+  // 3) Otherwise still in progress.
+  const hasFail = app.stages.some((stage) => stage.result === "FAIL");
+  if (hasFail) {
+    return {
+      ...app,
+      status: "DONE",
+      finalResult: "FAIL"
+    };
+  }
+  const lastStage = app.stages[app.stages.length - 1];
+  if (!lastStage || lastStage.result !== "PASS") {
+    return { ...app, status: "IN_PROGRESS", finalResult: null };
+  }
   return {
     ...app,
     status: "DONE",
-    finalResult: finalStage.result
+    finalResult: "PASS"
   };
 }

@@ -94,22 +94,22 @@ export function Modal({
         >
           <motion.div
             ref={containerRef}
-            className={`w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-2xl lifnux-glass p-6 ${panelClassName ?? ""}`}
+            className={`w-full max-w-2xl max-h-[88vh] overflow-y-auto rounded-2xl lifnux-glass p-7 ${panelClassName ?? ""}`}
             initial={{ y: 20, scale: 0.96, opacity: 0 }}
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: 10, scale: 0.98, opacity: 0 }}
           >
             <div className="flex items-center justify-between">
-              <h2 className={`text-xl ${titleClassName ?? ""}`}>{title}</h2>
+              <h2 className={`text-2xl ${titleClassName ?? ""}`}>{title}</h2>
               <button
-                className={`text-sm text-[var(--ink-1)] ${closeButtonClassName ?? ""}`}
+                className={`text-base text-[var(--ink-1)] ${closeButtonClassName ?? ""}`}
                 onClick={onClose}
                 aria-label="Close"
               >
                 X
               </button>
             </div>
-            <div className={`mt-4 space-y-4 text-sm text-[var(--ink-1)] ${contentClassName ?? ""}`}>{children}</div>
+            <div className={`mt-5 space-y-4 text-base text-[var(--ink-1)] ${contentClassName ?? ""}`}>{children}</div>
             {actions ? <div className="mt-6 flex justify-end gap-3">{actions}</div> : null}
           </motion.div>
         </motion.div>

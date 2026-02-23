@@ -3,7 +3,7 @@ const EXPORT_VERSION = "1.0.0";
 const BACKUP_KEY = "lifnux:backup";
 const BACKUP_ENABLED_KEY = "lifnux:backup.enabled";
 const SYNC_EXACT_KEYS = new Set(["portfolio.positions", "investing.portfolio.performance.v1"]);
-const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music."];
+const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music.", "career_"];
 function isLifnuxKey(key) {
     if (SYNC_EXACT_KEYS.has(key))
         return true;
@@ -12,6 +12,8 @@ function isLifnuxKey(key) {
 function getCategory(key) {
     if (key === "portfolio.positions")
         return "finance";
+    if (key.startsWith("career_"))
+        return "career";
     const normalized = key.startsWith("lifnux:") ? key.slice(7) : key.startsWith("lifnux.") ? key.slice(7) : key.slice(6);
     const match = normalized.match(/^([^.:\s]+)/);
     return match?.[1] || "misc";

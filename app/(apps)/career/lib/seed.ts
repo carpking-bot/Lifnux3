@@ -11,7 +11,14 @@ function isoNow(offsetMs = 0) {
   return new Date(Date.now() + offsetMs).toISOString();
 }
 
-function createPosting(industryId: string | null, companyName: string, postingTitle: string, role: string, importance: JobPosting["importance"], deadlineOffset: number): JobPosting {
+function createPosting(
+  industryId: string | null,
+  companyName: string,
+  postingTitle: string,
+  role: string,
+  importance: JobPosting["importance"],
+  deadlineOffset: number
+): JobPosting {
   const now = isoNow();
   return {
     postingId: crypto.randomUUID(),
@@ -19,15 +26,17 @@ function createPosting(industryId: string | null, companyName: string, postingTi
     companyName,
     postingTitle,
     role,
-    contractType: "Full-time",
+    contractType: "정규직",
     departmentInfo: "Product / Engineering",
     responsibilities: "Build and ship user features",
     requirements: "2+ years relevant experience",
+    neededSkills: "TypeScript, React, communication",
     preferred: "Portfolio and communication skills",
     memo: "",
     comment: "",
     deadline: ymd(deadlineOffset),
     importance,
+    isFavorite: false,
     link: "https://example.com",
     createdAt: now,
     updatedAt: now
@@ -67,12 +76,12 @@ export function generateCareerSeedData(): CareerState {
   ];
 
   const postings: JobPosting[] = [
-    createPosting(industries[0].industryId, "Nexa Labs", "Frontend Engineer", "Frontend", "HIGH", 14),
-    createPosting(industries[0].industryId, "Pulse Cloud", "Fullstack Engineer", "Fullstack", "MID", 21),
-    createPosting(industries[1].industryId, "MediFlow", "Data Analyst", "Data", "LOW", 10),
-    createPosting(industries[1].industryId, "BioTrack", "Product Manager", "PM", "MID", 18),
-    createPosting(industries[2].industryId, "Alpha Securities", "Quant Developer", "Quant", "HIGH", 30),
-    createPosting(industries[2].industryId, "Core Bank", "Backend Engineer", "Backend", "MID", 7)
+    createPosting(industries[0].industryId, "Nexa Labs", "Frontend Engineer", "Frontend", 9, 14),
+    createPosting(industries[0].industryId, "Pulse Cloud", "Fullstack Engineer", "Fullstack", 6, 21),
+    createPosting(industries[1].industryId, "MediFlow", "Data Analyst", "Data", 3, 10),
+    createPosting(industries[1].industryId, "BioTrack", "Product Manager", "PM", 6, 18),
+    createPosting(industries[2].industryId, "Alpha Securities", "Quant Developer", "Quant", 9, 30),
+    createPosting(industries[2].industryId, "Core Bank", "Backend Engineer", "Backend", 6, 7)
   ];
 
   const inProgress = [
@@ -112,3 +121,4 @@ export function generateCareerSeedData(): CareerState {
     applications: [...inProgress, ...doneApps]
   };
 }
+
