@@ -87,23 +87,36 @@ button {
 
 .lifnux-scroll::-webkit-scrollbar {
   width: 9px;
+  height: 9px;
 }
 
 .lifnux-scroll::-webkit-scrollbar-track {
-  background: rgba(7, 11, 18, 0.92);
+  background: linear-gradient(180deg, rgba(7, 11, 18, 0.96), rgba(10, 15, 24, 0.94));
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .lifnux-scroll::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(140, 150, 168, 0.34), rgba(112, 122, 142, 0.42));
+  background: linear-gradient(180deg, rgba(97, 116, 146, 0.5), rgba(72, 90, 118, 0.62));
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.lifnux-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(110, 132, 166, 0.62), rgba(84, 106, 138, 0.72));
+}
+
+.lifnux-scroll::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, rgba(122, 148, 184, 0.72), rgba(98, 124, 160, 0.8));
+}
+
+.lifnux-scroll::-webkit-scrollbar-corner {
+  background: rgba(8, 12, 20, 0.96);
+}
+
 .lifnux-scroll {
-  scrollbar-color: rgba(128, 138, 156, 0.65) rgba(7, 11, 18, 0.9);
-  scrollbar-width: auto;
+  scrollbar-color: rgba(106, 124, 152, 0.82) rgba(7, 11, 18, 0.94);
+  scrollbar-width: thin;
 }
 
 @keyframes slow-rotate {

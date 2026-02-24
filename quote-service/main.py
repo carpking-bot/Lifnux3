@@ -2,7 +2,7 @@ import asyncio
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Tuple
 
 import httpx
@@ -22,6 +22,15 @@ KIS_ETF_ETN_PRICE_PATH = (
 KIS_TR_ID_ETF_ETN_PRICE = os.getenv("KIS_TR_ID_ETF_ETN_PRICE", "FHKST02400000").strip()
 KIS_OVERSEAS_PRICE_PATH = "/uapi/overseas-price/v1/quotations/price"
 KIS_TR_ID_OVERSEAS_PRICE = "HHDFS00000300"
+KIS_DAILY_PRICE_PATH = (
+    os.getenv("KIS_DAILY_PRICE_PATH", "/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice")
+    .strip()
+)
+KIS_TR_ID_DAILY_PRICE = os.getenv("KIS_TR_ID_DAILY_PRICE", "FHKST03010100").strip()
+KIS_OVERSEAS_DAILY_PRICE_PATH = (
+    os.getenv("KIS_OVERSEAS_DAILY_PRICE_PATH", "/uapi/overseas-price/v1/quotations/dailyprice").strip()
+)
+KIS_TR_ID_OVERSEAS_DAILY_PRICE = os.getenv("KIS_TR_ID_OVERSEAS_DAILY_PRICE", "HHDFS76240000").strip()
 NAVER_FX_URL = (
     "https://m.search.naver.com/p/csearch/content/qapirender.nhn"
     "?key=calculator&pkid=141&q=%ED%99%98%EC%9C%A8&where=m&u1=keb&u6=standardUnit&u7=0&u3=USD&u4=KRW&u8=down&u2=1"
@@ -194,6 +203,69 @@ def _to_float(value: Any) -> float | None:
         except ValueError:
             return None
     return None
+
+
+def _normalize_date_key(value: Any) -> str | None:
+    if value is None:
+        return None
+    raw = str(value).strip()
+    if not raw:
+        return None
+    cleaned = re.sub(r"[^0-9]", "", raw)
+    if len(cleaned) != 8:
+        return None
+    yyyy = cleaned[0:4]
+    mm = cleaned[4:6]
+    dd = cleaned[6:8]
+    return f"{yyyy}-{mm}-{dd}"
+
+
+def _to_ymd_compact(value: str) -> str:
+    return value.replace("-", "")
+
+
+def _resolve_history_range(start: str | None, end: str | None) -> Tuple[str, str]:
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    end_key = _normalize_date_key(end) or today
+    start_key = _normalize_date_key(start)
+    if not start_key:
+        end_dt = datetime.strptime(end_key, "%Y-%m-%d")
+        start_key = (end_dt - timedelta(days=60)).strftime("%Y-%m-%d")
+    if start_key > end_key:
+        start_key, end_key = end_key, start_key
+    return start_key, end_key
+
+
+def _extract_history_points(
+    payload: Dict[str, Any],
+    *,
+    date_keys: List[str],
+    close_keys: List[str],
+    start_date: str,
+    end_date: str,
+) -> List[Dict[str, Any]]:
+    candidates: List[Dict[str, Any]] = []
+    for key in ("output2", "output", "prices", "data", "items", "results"):
+        value = payload.get(key)
+        if isinstance(value, list):
+            candidates.extend([row for row in value if isinstance(row, dict)])
+    if not candidates:
+        candidates = [payload] if isinstance(payload, dict) else []
+
+    parsed: List[Dict[str, Any]] = []
+    for row in candidates:
+        date_value = _find_value(row, date_keys)
+        close_value = _find_value(row, close_keys)
+        date_key = _normalize_date_key(date_value)
+        close = _to_float(close_value)
+        if not date_key or close is None:
+            continue
+        if date_key < start_date or date_key > end_date:
+            continue
+        parsed.append({"date": date_key, "close": float(close)})
+
+    by_date: Dict[str, Dict[str, Any]] = {point["date"]: point for point in parsed}
+    return [by_date[key] for key in sorted(by_date.keys())]
 
 
 def _find_value(node: Any, keys: List[str]) -> Any:
@@ -575,6 +647,146 @@ async def _fetch_kis_overseas_quote(
         }
 
 
+async def _fetch_kis_daily_history_kr(
+    client: httpx.AsyncClient,
+    symbol: str,
+    token: str,
+    app_key: str,
+    app_secret: str,
+    base_url: str,
+    start_date: str,
+    end_date: str,
+    sem: asyncio.Semaphore,
+) -> Dict[str, Any]:
+    async with sem:
+        market, _, code = _parse_symbol(symbol)
+        if market != "KR":
+            return {"symbol": symbol, "points": [], "source": "kis", "warning": "invalid-market"}
+
+        ymd_start = _to_ymd_compact(start_date)
+        ymd_end = _to_ymd_compact(end_date)
+        endpoint_attempts = [("J", KIS_DAILY_PRICE_PATH), ("Q", KIS_DAILY_PRICE_PATH)]
+
+        for market_code, path in endpoint_attempts:
+            params = {
+                "FID_COND_MRKT_DIV_CODE": market_code,
+                "FID_INPUT_ISCD": code,
+                "FID_INPUT_DATE_1": ymd_start,
+                "FID_INPUT_DATE_2": ymd_end,
+                "FID_PERIOD_DIV_CODE": "D",
+                "FID_ORG_ADJ_PRC": "1",
+            }
+            headers = {
+                "Authorization": f"Bearer {token}",
+                "appkey": app_key,
+                "appsecret": app_secret,
+                "tr_id": KIS_TR_ID_DAILY_PRICE,
+                "content-type": "application/json",
+            }
+            try:
+                resp = await client.get(f"{base_url}{path}", params=params, headers=headers, timeout=12.0)
+            except Exception as exc:
+                print("[KIS DAILY KR ERROR]", symbol, repr(exc))
+                continue
+            if resp.status_code != 200:
+                print(
+                    f"[KIS DAILY KR REQ] symbol={symbol} path={path} tr_id={KIS_TR_ID_DAILY_PRICE} params={params} status={resp.status_code}"
+                )
+                continue
+            try:
+                data = resp.json()
+            except Exception as exc:
+                print("[KIS DAILY KR JSON ERROR]", symbol, repr(exc))
+                continue
+
+            points = _extract_history_points(
+                data,
+                date_keys=["stck_bsop_date", "bsop_date", "date", "trd_dd", "bas_dt"],
+                close_keys=["stck_clpr", "clpr", "close", "last", "stck_prpr"],
+                start_date=start_date,
+                end_date=end_date,
+            )
+            if points:
+                return {"symbol": symbol, "points": points, "source": "kis"}
+
+        return {"symbol": symbol, "points": [], "source": "kis", "warning": "no-history"}
+
+
+async def _fetch_kis_daily_history_us(
+    client: httpx.AsyncClient,
+    symbol: str,
+    token: str,
+    app_key: str,
+    app_secret: str,
+    base_url: str,
+    start_date: str,
+    end_date: str,
+    sem: asyncio.Semaphore,
+) -> Dict[str, Any]:
+    async with sem:
+        market, excd, symb = _parse_symbol(symbol)
+        if market != "US" or not excd or not symb:
+            return {"symbol": symbol, "points": [], "source": "kis", "warning": "invalid-market"}
+
+        params = {
+            "AUTH": "",
+            "EXCD": excd,
+            "SYMB": symb,
+            "GUBN": "0",
+            "BYMD": _to_ymd_compact(end_date),
+            "MODP": "0",
+        }
+
+        async def _request_history(access_token: str) -> httpx.Response:
+            headers = {
+                "Authorization": f"Bearer {access_token}",
+                "appkey": app_key,
+                "appsecret": app_secret,
+                "tr_id": KIS_TR_ID_OVERSEAS_DAILY_PRICE,
+                "content-type": "application/json",
+            }
+            return await client.get(
+                f"{base_url}{KIS_OVERSEAS_DAILY_PRICE_PATH}", params=params, headers=headers, timeout=12.0
+            )
+
+        try:
+            resp = await _request_history(token)
+        except Exception as exc:
+            print("[KIS DAILY US ERROR]", symbol, repr(exc))
+            return {"symbol": symbol, "points": [], "source": "kis", "warning": "request-failed"}
+
+        if resp.status_code in (401, 403):
+            await _invalidate_kis_token()
+            refreshed = await _get_kis_token(client)
+            if refreshed:
+                try:
+                    resp = await _request_history(refreshed)
+                except Exception as exc:
+                    print("[KIS DAILY US RETRY ERROR]", symbol, repr(exc))
+                    return {"symbol": symbol, "points": [], "source": "kis", "warning": "request-failed"}
+
+        if resp.status_code != 200:
+            print("[KIS DAILY US HTTP ERROR]", symbol, resp.status_code, resp.text[:200])
+            return {"symbol": symbol, "points": [], "source": "kis", "warning": "http-error"}
+
+        try:
+            data = resp.json()
+        except Exception as exc:
+            print("[KIS DAILY US JSON ERROR]", symbol, repr(exc))
+            return {"symbol": symbol, "points": [], "source": "kis", "warning": "json-error"}
+
+        points = _extract_history_points(
+            data,
+            date_keys=["xymd", "date", "trd_dd", "bas_dt", "stck_bsop_date"],
+            close_keys=["clos", "last", "ovrs_nmix_prpr", "ovrs_clpr", "close", "stck_clpr"],
+            start_date=start_date,
+            end_date=end_date,
+        )
+        if not points:
+            return {"symbol": symbol, "points": [], "source": "kis", "warning": "no-history"}
+        return {"symbol": symbol, "points": points, "source": "kis"}
+
+
 async def _get_usd_krw_rate(client: httpx.AsyncClient) -> Dict[str, Any]:
     pair = "USD/KRW"
     now = time.time()
@@ -741,6 +953,70 @@ async def get_quotes(symbols: str = Query("", description="Comma-separated symbo
 
     _cache[key] = (now + _get_ttl_seconds(), quotes)
     return {"quotes": quotes}
+
+
+@app.get("/history")
+async def get_history(
+    symbols: str = Query("", description="Comma-separated symbols"),
+    start: str = Query("", description="Start date YYYY-MM-DD"),
+    end: str = Query("", description="End date YYYY-MM-DD"),
+) -> Dict[str, Any]:
+    raw_symbols = symbols.split(",") if symbols else []
+    normalized = _normalize_symbols(raw_symbols)
+    if not normalized:
+        return {"series": [], "start": None, "end": None, "asOf": _iso_time(time.time())}
+
+    start_date, end_date = _resolve_history_range(start, end)
+    if start_date > end_date:
+        raise HTTPException(status_code=400, detail="Invalid date range")
+
+    kr_symbols = [symbol for symbol in normalized if _parse_symbol(symbol)[0] == "KR"]
+    us_symbols = [symbol for symbol in normalized if _parse_symbol(symbol)[0] == "US"]
+
+    app_key, app_secret, base_url = _get_kis_config()
+    if (kr_symbols or us_symbols) and not (app_key and app_secret and base_url):
+        raise HTTPException(status_code=500, detail="KIS credentials not configured")
+
+    sem = asyncio.Semaphore(_get_concurrency())
+    ssl_verify = _get_ssl_verify()
+    if not ssl_verify:
+        print("[HISTORY SERVICE WARNING] SSL verification disabled")
+
+    async with httpx.AsyncClient(headers={"Accept": "application/json"}, verify=ssl_verify) as client:
+        token = await _get_kis_token(client)
+        if not token:
+            raise HTTPException(status_code=500, detail="KIS token acquisition failed")
+
+        tasks: List[asyncio.Task] = []
+        for symbol in kr_symbols:
+            tasks.append(
+                asyncio.create_task(
+                    _fetch_kis_daily_history_kr(
+                        client, symbol, token, app_key, app_secret, base_url, start_date, end_date, sem
+                    )
+                )
+            )
+        for symbol in us_symbols:
+            tasks.append(
+                asyncio.create_task(
+                    _fetch_kis_daily_history_us(
+                        client, symbol, token, app_key, app_secret, base_url, start_date, end_date, sem
+                    )
+                )
+            )
+
+        fetched = await asyncio.gather(*tasks)
+        by_symbol = {item["symbol"].upper(): item for item in fetched}
+        ordered = []
+        for symbol in normalized:
+            ordered.append(by_symbol.get(symbol.upper()) or {"symbol": symbol, "points": [], "source": "kis", "warning": "not-found"})
+
+    return {
+        "start": start_date,
+        "end": end_date,
+        "asOf": _iso_time(time.time()),
+        "series": ordered,
+    }
 
 
 @app.get("/search")

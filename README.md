@@ -25,8 +25,11 @@ npm run dev:all
   - `http://127.0.0.1:8000/health`
 - Quote service quotes:
   - `http://127.0.0.1:8000/quotes?symbols=AMZN,AAPL,005930.KS`
+- Quote service history:
+  - `http://127.0.0.1:8000/history?symbols=AMZN,AAPL,005930.KS&start=2026-01-01&end=2026-02-24`
 - Next.js proxy:
   - `http://localhost:3000/api/quotes?symbols=AMZN,AAPL,005930.KS`
+  - `http://localhost:3000/api/history?symbols=AMZN,AAPL,005930.KS&start=2026-01-01&end=2026-02-24`
 
 ### Notes
 

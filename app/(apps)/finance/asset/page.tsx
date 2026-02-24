@@ -17,6 +17,9 @@ const ASSET_CATEGORY_SCHEMA_KEY = "lifnux.finance.asset.category.schema.v1";
 const ASSET_SNAPSHOT_LOGS_KEY = "lifnux.finance.asset.snapshot.logs.v1";
 const ASSET_EDITOR_DRAFTS_KEY = "lifnux.finance.asset.editor.drafts.v1";
 const ASSET_DATASET_IMPORTED_KEY = "lifnux.finance.asset.dataset.imported.v9";
+const EXPENSE_LEDGER_KEY = "lifnux.finance.expense.ledger.v1";
+const CASHFLOW_PLANNER_KEY = "lifnux.finance.asset.cashflowPlanner.v1";
+const CASHFLOW_PLANNER_SNAPSHOTS_KEY = "lifnux.finance.asset.cashflowPlanner.snapshots.v1";
 const ASSET_MIN_MONTH = "2024-03";
 const UNCATEGORIZED_ID = "uncategorized";
 
@@ -100,6 +103,41 @@ type HoverSummary = {
   deltaPercent: number | null;
   hasPrev: boolean;
 } | null;
+type ExpenseLedgerEntry = {
+  date: string;
+  amount: number;
+  category?: string;
+  kind?: "expense" | "income";
+};
+type PlannerIncomeMode = "FIXED" | "MANUAL";
+type PlannerAllocationGroup = "Emergency" | "Investing" | "Savings" | "Debt" | "Expense" | "Other";
+type PlannerAllocationItem = {
+  id: string;
+  name: string;
+  group: PlannerAllocationGroup;
+  mode: "FIXED";
+  amount: number;
+  schedule: "ALL_MONTHS" | "PER_MONTH";
+  perMonth: number[];
+};
+type CashflowPlannerState = {
+  projectionMonths: number;
+  incomeMode: PlannerIncomeMode;
+  fixedSalary: number;
+  manualIncome: number[];
+  fixedExpense: number;
+  variableExpense: number;
+  currentLiquidOverride: number;
+  allocations: PlannerAllocationItem[];
+};
+type CashflowPlannerSnapshot = {
+  id: string;
+  name: string;
+  startMonth: string;
+  endMonth: string;
+  createdAt: number;
+  planner: CashflowPlannerState;
+};
 
 const COLORS = ["#7dd3fc", "#6ee7b7", "#f9a8d4", "#fde68a", "#c4b5fd", "#fca5a5", "#67e8f9", "#34d399", "#60a5fa"];
 const DARK_SELECT_STYLE = { backgroundColor: "#0b0f1a", color: "#e5e7eb" } as const;
@@ -137,6 +175,68 @@ const formatAmountWithComma = (raw: string) => {
   return Number(digits).toLocaleString("ko-KR");
 };
 const sumItems = (items: AssetItem[]) => items.reduce((sum, item) => sum + item.amountKRW, 0);
+const createDefaultCashflowPlannerState = (): CashflowPlannerState => ({
+  projectionMonths: 3,
+  incomeMode: "FIXED",
+  fixedSalary: 0,
+  manualIncome: Array.from({ length: 12 }, () => 0),
+  fixedExpense: 0,
+  variableExpense: 0,
+  currentLiquidOverride: 0,
+  allocations: [
+    { id: crypto.randomUUID(), name: "비상금", group: "Emergency", mode: "FIXED", amount: 300000, schedule: "ALL_MONTHS", perMonth: Array.from({ length: 12 }, () => 0) },
+    { id: crypto.randomUUID(), name: "투자", group: "Investing", mode: "FIXED", amount: 500000, schedule: "ALL_MONTHS", perMonth: Array.from({ length: 12 }, () => 0) },
+    { id: crypto.randomUUID(), name: "부채상환", group: "Debt", mode: "FIXED", amount: 200000, schedule: "ALL_MONTHS", perMonth: Array.from({ length: 12 }, () => 0) }
+  ]
+});
+const normalizeCashflowPlannerState = (stored: Partial<CashflowPlannerState> | null | undefined): CashflowPlannerState => {
+  const defaultPlan = createDefaultCashflowPlannerState();
+  const manual = Array.isArray(stored?.manualIncome) ? stored!.manualIncome.slice(0, 12).map((value) => Number(value) || 0) : Array.from({ length: 12 }, () => 0);
+  while (manual.length < 12) manual.push(0);
+  const allocations =
+    Array.isArray(stored?.allocations) && stored!.allocations.length
+      ? stored!.allocations.map((item) => ({
+          id: item.id || crypto.randomUUID(),
+          name: item.name || "항목",
+          group:
+            item.group === "Emergency" ||
+            item.group === "Investing" ||
+            item.group === "Savings" ||
+            item.group === "Debt" ||
+            item.group === "Expense" ||
+            item.group === "Other"
+              ? item.group
+              : "Other",
+          mode: "FIXED" as const,
+          amount:
+            Number.isFinite(Number((item as Partial<{ amount: number }>).amount))
+              ? Number((item as Partial<{ amount: number }>).amount)
+              : Number.isFinite(Number((item as Partial<{ value: number }>).value))
+                ? Number((item as Partial<{ value: number }>).value)
+                : 0,
+          schedule: (item as Partial<{ schedule: string }>).schedule === "PER_MONTH" ? "PER_MONTH" : "ALL_MONTHS",
+          perMonth: (() => {
+            const raw = (item as Partial<{ perMonth: number[] }>).perMonth;
+            const base = Array.isArray(raw) ? raw.slice(0, 12).map((value) => (Number.isFinite(Number(value)) ? Number(value) : 0)) : Array.from({ length: 12 }, () => 0);
+            while (base.length < 12) base.push(0);
+            return base;
+          })()
+        }))
+      : defaultPlan.allocations;
+  return {
+    projectionMonths:
+      Number.isFinite(Number(stored?.projectionMonths)) && Number(stored?.projectionMonths) >= 1 && Number(stored?.projectionMonths) <= 12
+        ? Number(stored?.projectionMonths)
+        : 3,
+    incomeMode: stored?.incomeMode === "MANUAL" ? "MANUAL" : "FIXED",
+    fixedSalary: Number.isFinite(Number(stored?.fixedSalary)) ? Number(stored?.fixedSalary) : 0,
+    manualIncome: manual,
+    fixedExpense: Number.isFinite(Number(stored?.fixedExpense)) ? Number(stored?.fixedExpense) : 0,
+    variableExpense: Number.isFinite(Number(stored?.variableExpense)) ? Number(stored?.variableExpense) : 0,
+    currentLiquidOverride: Number.isFinite(Number(stored?.currentLiquidOverride)) ? Number(stored?.currentLiquidOverride) : 0,
+    allocations
+  };
+};
 
 const toCategoryKind = (group: string): CategoryKind | undefined => {
   if (group === "CASH" || group === "SAVING" || group === "INVESTING" || group === "PHYSICAL") return group;
@@ -461,6 +561,7 @@ export default function FinanceAssetPage() {
   const [seedStatusMessage, setSeedStatusMessage] = useState<string | null>(null);
   const [seedSummary, setSeedSummary] = useState<SeedSummary | null>(null);
   const [historyModalOpen, setHistoryModalOpen] = useState(false);
+  const [cashflowPlannerOpen, setCashflowPlannerOpen] = useState(false);
   const [logsModalOpen, setLogsModalOpen] = useState(false);
   const [growthModalOpen, setGrowthModalOpen] = useState(false);
   const [growthStartMonth, setGrowthStartMonth] = useState("");
@@ -480,10 +581,23 @@ export default function FinanceAssetPage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [stocks, setStocks] = useState<StockItem[]>([]);
   const [fxRate, setFxRate] = useState<number | null>(null);
+  const [expenseAverageHint, setExpenseAverageHint] = useState("");
+  const [liquidSyncHint, setLiquidSyncHint] = useState("");
+  const [plannerNotice, setPlannerNotice] = useState<string | null>(null);
+  const [cashflowPlanner, setCashflowPlanner] = useState<CashflowPlannerState>(createDefaultCashflowPlannerState);
+  const [cashflowPlannerSnapshots, setCashflowPlannerSnapshots] = useState<CashflowPlannerSnapshot[]>([]);
+  const [plannerSnapshotName, setPlannerSnapshotName] = useState("");
+  const [activePlannerSnapshotId, setActivePlannerSnapshotId] = useState<string | null>(null);
+  const [plannerLocked, setPlannerLocked] = useState(false);
+  const [plannerAllocationExpanded, setPlannerAllocationExpanded] = useState<Record<string, boolean>>({});
+  const [plannerOverwriteConfirmOpen, setPlannerOverwriteConfirmOpen] = useState(false);
+  const [plannerOverwriteTargetId, setPlannerOverwriteTargetId] = useState<string | null>(null);
+  const [plannerOverwriteTargetName, setPlannerOverwriteTargetName] = useState("");
   const hydratedEditorMonthRef = useRef<string>("");
   const anyAssetModalOpen =
     categoryModalOpen ||
     historyModalOpen ||
+    cashflowPlannerOpen ||
     growthModalOpen ||
     logsModalOpen ||
     debugOpen ||
@@ -494,6 +608,39 @@ export default function FinanceAssetPage() {
     overwriteOpen ||
     editModalOpen ||
     editApplyConfirmOpen;
+
+  useEffect(() => {
+    const stored = loadState<Partial<CashflowPlannerState> | null>(CASHFLOW_PLANNER_KEY, null);
+    setCashflowPlanner(normalizeCashflowPlannerState(stored));
+  }, []);
+
+  useEffect(() => {
+    saveState(CASHFLOW_PLANNER_KEY, cashflowPlanner);
+  }, [cashflowPlanner]);
+
+  useEffect(() => {
+    const stored = loadState<CashflowPlannerSnapshot[]>(CASHFLOW_PLANNER_SNAPSHOTS_KEY, []);
+    if (!Array.isArray(stored)) {
+      setCashflowPlannerSnapshots([]);
+      return;
+    }
+    const normalized = stored
+      .filter((item) => item && typeof item.id === "string" && typeof item.name === "string")
+      .map((item) => ({
+        id: item.id,
+        name: item.name.trim() || "Unnamed Plan",
+        startMonth: typeof item.startMonth === "string" ? item.startMonth : monthNow(),
+        endMonth: typeof item.endMonth === "string" ? item.endMonth : monthNow(),
+        createdAt: Number.isFinite(Number(item.createdAt)) ? Number(item.createdAt) : Date.now(),
+        planner: normalizeCashflowPlannerState(item.planner)
+      }))
+      .sort((a, b) => b.createdAt - a.createdAt);
+    setCashflowPlannerSnapshots(normalized);
+  }, []);
+
+  useEffect(() => {
+    saveState(CASHFLOW_PLANNER_SNAPSHOTS_KEY, cashflowPlannerSnapshots);
+  }, [cashflowPlannerSnapshots]);
 
   useEffect(() => {
     if (month < ASSET_MIN_MONTH) setMonth(ASSET_MIN_MONTH);
@@ -757,6 +904,304 @@ export default function FinanceAssetPage() {
     });
     return map;
   }, [categories]);
+
+  const latestSnapshotForPlanner = useMemo(() => {
+    const sorted = [...sortedSnapshots].filter((snapshot) => snapshot.items.length > 0).sort((a, b) => a.month.localeCompare(b.month));
+    return sorted.length ? sorted[sorted.length - 1] : null;
+  }, [sortedSnapshots]);
+
+  const latestSnapshotLiquid = useMemo(() => {
+    if (!latestSnapshotForPlanner) return 0;
+    return latestSnapshotForPlanner.items.reduce((sum, item) => {
+      const group = categoryGroupById.get(item.categoryId) ?? "PHYSICAL";
+      if (group !== "CASH") return sum;
+      return sum + Math.max(0, item.amountKRW);
+    }, 0);
+  }, [categoryGroupById, latestSnapshotForPlanner]);
+
+  const plannerAllocationTotal = useMemo(
+    () => cashflowPlanner.allocations.reduce((sum, item) => sum + Math.max(0, item.amount), 0),
+    [cashflowPlanner.allocations]
+  );
+
+  const plannerProjectionRows = useMemo(() => {
+    const rows: Array<{
+      month: string;
+      income: number;
+      fixed: number;
+      variable: number;
+      net: number;
+      allocations: Array<{ id: string; name: string; group: PlannerAllocationGroup; amount: number }>;
+      allocatedTotal: number;
+      monthlyDelta: number;
+      openingLiquid: number;
+      closingLiquid: number;
+    }> = [];
+    const baseOpeningLiquid = Math.max(0, cashflowPlanner.currentLiquidOverride);
+    const startMonth = monthNow();
+    const projectionMonths = Math.max(1, Math.min(12, Math.round(cashflowPlanner.projectionMonths || 3)));
+    for (let i = 0; i < projectionMonths; i += 1) {
+      const openingLiquid = i === 0 ? baseOpeningLiquid : rows[i - 1].closingLiquid;
+      const targetMonth = shiftMonth(startMonth, i);
+      const income =
+        cashflowPlanner.incomeMode === "FIXED"
+          ? Math.max(0, cashflowPlanner.fixedSalary)
+          : Math.max(0, cashflowPlanner.manualIncome[i] ?? 0);
+      const fixed = Math.max(0, cashflowPlanner.fixedExpense);
+      const variable = Math.max(0, cashflowPlanner.variableExpense);
+      const net = income - fixed - variable;
+      const allocations = cashflowPlanner.allocations.map((item) => ({
+        id: item.id,
+        name: item.name,
+        group: item.group,
+        amount:
+          item.schedule === "PER_MONTH"
+            ? Math.max(0, Math.round((Array.isArray(item.perMonth) ? item.perMonth[i] : 0) ?? 0))
+            : Math.max(0, Math.round(item.amount))
+      }));
+      const allocatedTotal = allocations.reduce((sum, item) => sum + item.amount, 0);
+      const monthlyDelta = net - allocatedTotal;
+      const closingLiquid = openingLiquid + monthlyDelta;
+      rows.push({
+        month: targetMonth,
+        income,
+        fixed,
+        variable,
+        net,
+        allocations,
+        allocatedTotal,
+        monthlyDelta,
+        openingLiquid,
+        closingLiquid
+      });
+    }
+    return rows;
+  }, [cashflowPlanner.allocations, cashflowPlanner.currentLiquidOverride, cashflowPlanner.fixedExpense, cashflowPlanner.fixedSalary, cashflowPlanner.incomeMode, cashflowPlanner.manualIncome, cashflowPlanner.projectionMonths, cashflowPlanner.variableExpense]);
+  const plannerProjectionMonths = Math.max(1, Math.min(12, Math.round(cashflowPlanner.projectionMonths || 3)));
+  const plannerProjectionMonthKeys = useMemo(
+    () => Array.from({ length: plannerProjectionMonths }, (_, index) => shiftMonth(monthNow(), index)),
+    [plannerProjectionMonths]
+  );
+
+  const updatePlannerNumber = (
+    key: "fixedSalary" | "fixedExpense" | "variableExpense" | "currentLiquidOverride",
+    value: string
+  ) => {
+    const parsed = Number(value.replace(/[^0-9.-]/g, ""));
+    const safe = Number.isFinite(parsed) ? parsed : 0;
+    setCashflowPlanner((prev) => ({ ...prev, [key]: safe }));
+  };
+
+  const updateManualIncome = (index: number, value: string) => {
+    const parsed = Number(value.replace(/[^0-9.-]/g, ""));
+    const safe = Number.isFinite(parsed) ? parsed : 0;
+    setCashflowPlanner((prev) => {
+      const next = [...prev.manualIncome];
+      next[index] = safe;
+      return { ...prev, manualIncome: next.slice(0, 12) };
+    });
+  };
+
+  const updateAllocationItem = (id: string, patch: Partial<PlannerAllocationItem>) => {
+    setCashflowPlanner((prev) => ({
+      ...prev,
+      allocations: prev.allocations.map((item) => (item.id === id ? { ...item, ...patch } : item))
+    }));
+  };
+
+  const updateAllocationPerMonth = (id: string, index: number, value: string) => {
+    const parsed = Number(value.replace(/[^0-9.-]/g, ""));
+    const safe = Number.isFinite(parsed) ? parsed : 0;
+    setCashflowPlanner((prev) => ({
+      ...prev,
+      allocations: prev.allocations.map((item) => {
+        if (item.id !== id) return item;
+        const next = Array.isArray(item.perMonth) ? [...item.perMonth] : Array.from({ length: 12 }, () => 0);
+        next[index] = safe;
+        return { ...item, perMonth: next.slice(0, 12) };
+      })
+    }));
+  };
+
+  const addAllocationItem = () => {
+    setCashflowPlanner((prev) => ({
+      ...prev,
+      allocations: [
+        ...prev.allocations,
+        { id: crypto.randomUUID(), name: "새 항목", group: "Other", mode: "FIXED", amount: 0, schedule: "ALL_MONTHS", perMonth: Array.from({ length: 12 }, () => 0) }
+      ]
+    }));
+  };
+
+  const removeAllocationItem = (id: string) => {
+    setCashflowPlanner((prev) => ({
+      ...prev,
+      allocations: prev.allocations.filter((item) => item.id !== id)
+    }));
+    setPlannerAllocationExpanded((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  };
+
+  const persistCashflowPlannerSnapshot = (name: string, overwriteId?: string) => {
+    const snapshotMonths = Array.from(
+      { length: Math.max(1, Math.min(12, Math.round(cashflowPlanner.projectionMonths || 3))) },
+      (_, index) => shiftMonth(monthNow(), index)
+    );
+    const startMonth = snapshotMonths[0];
+    const endMonth = snapshotMonths[snapshotMonths.length - 1];
+    const planner = normalizeCashflowPlannerState(cashflowPlanner);
+    let savedId = overwriteId ?? "";
+    setCashflowPlannerSnapshots((prev) => {
+      if (overwriteId) {
+        const target = prev.find((item) => item.id === overwriteId);
+        if (target) {
+          const updated: CashflowPlannerSnapshot = {
+            ...target,
+            name,
+            startMonth,
+            endMonth,
+            planner
+          };
+          savedId = updated.id;
+          return [updated, ...prev.filter((item) => item.id !== overwriteId)].slice(0, 50);
+        }
+      }
+      const created: CashflowPlannerSnapshot = {
+        id: crypto.randomUUID(),
+        name,
+        startMonth,
+        endMonth,
+        createdAt: Date.now(),
+        planner
+      };
+      savedId = created.id;
+      return [created, ...prev].slice(0, 50);
+    });
+    setActivePlannerSnapshotId(savedId || null);
+    setPlannerNotice(overwriteId ? `기존 플랜 덮어쓰기 완료: ${name}` : `플랜 저장 완료: ${name}`);
+    setPlannerLocked(true);
+  };
+
+  const saveCashflowPlannerSnapshot = () => {
+    const name = plannerSnapshotName.trim();
+    if (!name) {
+      setPlannerNotice("플랜명을 입력해 주세요.");
+      return;
+    }
+    const normalizedName = name.toLowerCase();
+    const existing = cashflowPlannerSnapshots.find((item) => item.name.trim().toLowerCase() === normalizedName);
+    if (existing) {
+      setPlannerOverwriteTargetId(existing.id);
+      setPlannerOverwriteTargetName(existing.name);
+      setPlannerOverwriteConfirmOpen(true);
+      return;
+    }
+    persistCashflowPlannerSnapshot(name);
+  };
+
+  const loadCashflowPlannerSnapshot = (snapshot: CashflowPlannerSnapshot, editable: boolean) => {
+    setCashflowPlanner(normalizeCashflowPlannerState(snapshot.planner));
+    setPlannerSnapshotName(snapshot.name);
+    setActivePlannerSnapshotId(snapshot.id);
+    setPlannerLocked(!editable);
+    setPlannerNotice(null);
+  };
+
+  const deleteCashflowPlannerSnapshot = (snapshotId: string) => {
+    setCashflowPlannerSnapshots((prev) => prev.filter((item) => item.id !== snapshotId));
+    if (activePlannerSnapshotId === snapshotId) {
+      setActivePlannerSnapshotId(null);
+      setPlannerSnapshotName("");
+      setPlannerLocked(false);
+    }
+    setPlannerNotice(null);
+  };
+
+  const applyClosedExpenseAverage = () => {
+    const entries = loadState<ExpenseLedgerEntry[]>(EXPENSE_LEDGER_KEY, []);
+    const currentMonthKey = monthNow();
+    const monthlyExpenseTotals = new Map<string, { total: number; fixed: number; variable: number }>();
+    const looksFixedCategory = (categoryRaw: string) => {
+      const category = categoryRaw.trim().toLowerCase();
+      if (!category) return false;
+      return (
+        category.includes("housing") ||
+        category.includes("rent") ||
+        category.includes("subscription") ||
+        category.includes("insurance") ||
+        category.includes("loan") ||
+        category.includes("utility") ||
+        category.includes("mortgage") ||
+        category.includes("주거") ||
+        category.includes("월세") ||
+        category.includes("전세") ||
+        category.includes("구독") ||
+        category.includes("보험") ||
+        category.includes("대출") ||
+        category.includes("공과금") ||
+        category.includes("통신")
+      );
+    };
+    entries.forEach((entry) => {
+      if (!entry || typeof entry.date !== "string" || typeof entry.amount !== "number") return;
+      if ((entry.kind ?? "expense") !== "expense") return;
+      const monthKey = entry.date.slice(0, 7);
+      if (!/^\d{4}-\d{2}$/.test(monthKey)) return;
+      if (monthKey >= currentMonthKey) return;
+      const prev = monthlyExpenseTotals.get(monthKey) ?? { total: 0, fixed: 0, variable: 0 };
+      const isFixed = looksFixedCategory(entry.category ?? "");
+      monthlyExpenseTotals.set(monthKey, {
+        total: prev.total + entry.amount,
+        fixed: prev.fixed + (isFixed ? entry.amount : 0),
+        variable: prev.variable + (isFixed ? 0 : entry.amount)
+      });
+    });
+    const validMonths = [...monthlyExpenseTotals.entries()]
+      .filter(([, total]) => total.total > 0)
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .slice(0, 3);
+    if (!validMonths.length) {
+      setPlannerNotice("마감월 기준 유효한 지출 데이터가 없습니다.");
+      return;
+    }
+    const hasFixedSignal = validMonths.some(([, totals]) => totals.fixed > 0);
+    const avgFixed = hasFixedSignal
+      ? Math.round(validMonths.reduce((sum, [, totals]) => sum + totals.fixed, 0) / validMonths.length)
+      : 0;
+    const avgVariable = hasFixedSignal
+      ? Math.round(validMonths.reduce((sum, [, totals]) => sum + totals.variable, 0) / validMonths.length)
+      : Math.round(validMonths.reduce((sum, [, totals]) => sum + totals.total, 0) / validMonths.length);
+    setCashflowPlanner((prev) => ({
+      ...prev,
+      fixedExpense: avgFixed,
+      variableExpense: avgVariable
+    }));
+    const monthsLabel = validMonths.map(([monthKey]) => monthKey).sort((a, b) => a.localeCompare(b)).join(", ");
+    setExpenseAverageHint(
+      validMonths.length === 1 ? `Avg from: ${monthsLabel} (only)` : `Avg from: ${monthsLabel}`
+    );
+    setPlannerNotice(null);
+  };
+
+  const syncCurrentLiquidFromSnapshot = () => {
+    const snapshot = latestSnapshotForPlanner;
+    if (!snapshot) {
+      setPlannerNotice("동기화할 스냅샷이 없습니다.");
+      return;
+    }
+    const synced = snapshot.items.reduce((sum, item) => {
+      const group = categoryGroupById.get(item.categoryId) ?? "PHYSICAL";
+      if (group !== "CASH") return sum;
+      return sum + Math.max(0, item.amountKRW);
+    }, 0);
+    setCashflowPlanner((prev) => ({ ...prev, currentLiquidOverride: synced }));
+    setLiquidSyncHint(`from ${snapshot.month} snapshot (${new Date(snapshot.updatedAt).toLocaleString()})`);
+    setPlannerNotice(null);
+  };
+
   const growthInsights = useMemo(() => {
     const valid = [...sortedSnapshots].filter((snapshot) => snapshot.items.length > 0).sort((a, b) => a.month.localeCompare(b.month));
     if (!valid.length) return { enough: false as const };
@@ -1242,6 +1687,12 @@ export default function FinanceAssetPage() {
             <h1 className="text-3xl">Asset</h1>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              className="rounded-full border border-emerald-400/45 bg-emerald-500/15 px-3 py-1 text-xs text-emerald-200"
+              onClick={() => setCashflowPlannerOpen(true)}
+            >
+              Cashflow Planner
+            </button>
             <button className="rounded-full border border-white/10 px-3 py-1 text-xs text-[var(--ink-1)]" onClick={() => setHistoryModalOpen(true)}>
               Asset History
             </button>
@@ -1483,6 +1934,357 @@ export default function FinanceAssetPage() {
           </div>
         </section>
       </div>
+
+      <Modal
+        open={cashflowPlannerOpen}
+        title="Cashflow Planner"
+        onClose={() => setCashflowPlannerOpen(false)}
+        panelClassName="!w-[96vw] !max-w-[1200px] min-h-[62vh]"
+        actions={
+          <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setCashflowPlannerOpen(false)}>
+            Close
+          </button>
+        }
+      >
+        <div className="space-y-4">
+          <div className="rounded-xl border border-white/10 bg-black/20 p-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                className="min-w-[220px] flex-1 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
+                placeholder="Plan Name"
+                value={plannerSnapshotName}
+                onChange={(event) => setPlannerSnapshotName(event.target.value)}
+              />
+              <button type="button" className="rounded-full border border-emerald-500/45 px-3 py-2 text-xs text-emerald-200" onClick={saveCashflowPlannerSnapshot}>
+                Save
+              </button>
+              <button
+                type="button"
+                className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/90"
+                onClick={() => setPlannerLocked(false)}
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/90"
+                onClick={() => {
+                  setActivePlannerSnapshotId(null);
+                  setPlannerSnapshotName("");
+                  setPlannerLocked(false);
+                }}
+              >
+                New
+              </button>
+            </div>
+            <div className="mt-2 text-xs text-[var(--ink-1)]">
+              Mode: <span className={plannerLocked ? "text-yellow-300" : "text-emerald-300"}>{plannerLocked ? "View (Uneditable)" : "Edit"}</span>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-white/10 bg-black/20 p-4">
+            <div className="mb-2 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Saved Plans</div>
+            {cashflowPlannerSnapshots.length ? (
+              <div className="grid gap-2 md:grid-cols-2">
+                {cashflowPlannerSnapshots.map((snapshot) => (
+                  <div
+                    key={snapshot.id}
+                    className={`rounded-lg border px-3 py-3 ${activePlannerSnapshotId === snapshot.id ? "border-[var(--accent-1)] bg-[rgba(90,214,208,0.08)]" : "border-white/10 bg-black/20"}`}
+                  >
+                    <div className="text-sm font-semibold text-white">{snapshot.name}</div>
+                    <div className="mt-1 text-xs text-[var(--ink-1)]">
+                      {snapshot.startMonth} ~ {snapshot.endMonth}
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        className="rounded-full border border-white/15 px-2 py-1 text-[11px] text-white/90"
+                        onClick={() => loadCashflowPlannerSnapshot(snapshot, false)}
+                      >
+                        View
+                      </button>
+                      <button
+                        type="button"
+                        className="rounded-full border border-[var(--accent-1)]/45 px-2 py-1 text-[11px] text-[var(--accent-1)]"
+                        onClick={() => loadCashflowPlannerSnapshot(snapshot, true)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="rounded-full border border-rose-500/45 px-2 py-1 text-[11px] text-rose-200"
+                        onClick={() => deleteCashflowPlannerSnapshot(snapshot.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-xs text-[var(--ink-1)]">저장된 플랜이 없습니다.</div>
+            )}
+          </div>
+
+          <fieldset className="space-y-4" disabled={plannerLocked}>
+          <div className={`rounded-xl border border-white/10 bg-black/20 p-4 ${plannerLocked ? "opacity-80" : ""}`}>
+            <div className="mb-2 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Income Input</div>
+            <div className="mb-3 flex items-center gap-2 text-xs text-[var(--ink-1)]">
+              <span>Projection Period</span>
+              <select
+                className="lifnux-select rounded-lg border border-white/10 bg-black/20 px-2 py-1 text-xs text-white"
+                style={DARK_SELECT_STYLE}
+                value={String(plannerProjectionMonths)}
+                onChange={(event) =>
+                  setCashflowPlanner((prev) => ({
+                    ...prev,
+                    projectionMonths: Math.max(1, Math.min(12, Number(event.target.value) || 3))
+                  }))
+                }
+              >
+                {Array.from({ length: 12 }, (_, idx) => idx + 1).map((monthCount) => (
+                  <option key={monthCount} value={monthCount}>
+                    {monthCount}개월
+                  </option>
+                ))}
+              </select>
+              <span>(최대 1년)</span>
+            </div>
+            <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+              <button
+                type="button"
+                className={`rounded-full border px-3 py-1 ${cashflowPlanner.incomeMode === "FIXED" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+                onClick={() => setCashflowPlanner((prev) => ({ ...prev, incomeMode: "FIXED" }))}
+              >
+                Fixed Salary
+              </button>
+              <button
+                type="button"
+                className={`rounded-full border px-3 py-1 ${cashflowPlanner.incomeMode === "MANUAL" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+                onClick={() => setCashflowPlanner((prev) => ({ ...prev, incomeMode: "MANUAL" }))}
+              >
+                Manual Per Month
+              </button>
+            </div>
+            {cashflowPlanner.incomeMode === "FIXED" ? (
+              <label className="text-xs text-[var(--ink-1)]">
+                Fixed Salary (next 3 months auto)
+                <input
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
+                  value={formatAmountWithComma(String(Math.max(0, cashflowPlanner.fixedSalary)))}
+                  onChange={(event) => updatePlannerNumber("fixedSalary", event.target.value)}
+                />
+              </label>
+            ) : (
+              <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-4">
+                {plannerProjectionMonthKeys.map((monthKey, index) => (
+                  <label key={index} className="text-xs text-[var(--ink-1)]">
+                    {monthKey} Income
+                    <input
+                      className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
+                      value={formatAmountWithComma(String(Math.max(0, cashflowPlanner.manualIncome[index] ?? 0)))}
+                      onChange={(event) => updateManualIncome(index, event.target.value)}
+                    />
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className={`grid gap-3 rounded-xl border border-white/10 bg-black/20 p-4 md:grid-cols-3 ${plannerLocked ? "opacity-80" : ""}`}>
+            <div className="md:col-span-3 flex flex-wrap items-center gap-2 text-xs text-[var(--ink-1)]">
+              <button
+                type="button"
+                className="rounded-full border border-white/15 px-3 py-1 text-white/90"
+                onClick={applyClosedExpenseAverage}
+              >
+                Use last-closed 3 months average
+              </button>
+              <span
+                title="Last-closed months are strictly before current month. Zero-total months are treated as NO DATA and excluded."
+                className="rounded-full border border-white/15 px-2 py-[2px] text-[10px] text-white/80"
+              >
+                i
+              </span>
+              <span>{expenseAverageHint || "Avg from: -"}</span>
+            </div>
+            <label className="text-xs text-[var(--ink-1)]">
+              Fixed Expense
+              <input
+                className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
+                value={formatAmountWithComma(String(Math.max(0, cashflowPlanner.fixedExpense)))}
+                onChange={(event) => updatePlannerNumber("fixedExpense", event.target.value)}
+              />
+            </label>
+            <label className="text-xs text-[var(--ink-1)]">
+              Variable Expense
+              <input
+                className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
+                value={formatAmountWithComma(String(Math.max(0, cashflowPlanner.variableExpense)))}
+                onChange={(event) => updatePlannerNumber("variableExpense", event.target.value)}
+              />
+            </label>
+            <label className="text-xs text-[var(--ink-1)]">
+              Current Liquid (editable)
+              <input
+                className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
+                value={formatAmountWithComma(String(Math.max(0, cashflowPlanner.currentLiquidOverride)))}
+                onChange={(event) => updatePlannerNumber("currentLiquidOverride", event.target.value)}
+              />
+            </label>
+            <div className="md:col-span-3 flex flex-wrap items-center gap-2 text-xs text-[var(--ink-1)]">
+              <button type="button" className="rounded-full border border-white/15 px-3 py-1 text-white/90" onClick={syncCurrentLiquidFromSnapshot}>
+                Sync current liquid
+              </button>
+              <span>{liquidSyncHint || `from ${latestSnapshotForPlanner?.month ?? "-"} snapshot`}</span>
+              <span className="rounded-full border border-white/10 px-2 py-[2px] text-[10px]">
+                CASH only: {formatKrw(latestSnapshotLiquid)}
+              </span>
+            </div>
+          </div>
+
+          <div className={`rounded-xl border border-white/10 bg-black/20 p-4 ${plannerLocked ? "opacity-80" : ""}`}>
+            <div className="mb-2 flex items-center justify-between">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Allocation Plan (FIXED AMOUNT)</div>
+              <button type="button" className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/90" onClick={addAllocationItem}>
+                + Add Item
+              </button>
+            </div>
+            <div className="space-y-2">
+              {cashflowPlanner.allocations.map((item) => (
+                <div key={item.id} className="grid gap-2 rounded-lg border border-white/10 bg-black/20 p-2 md:grid-cols-[2fr_1fr_1fr_1fr_auto]">
+                  <input
+                    className="rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
+                    value={item.name}
+                    onChange={(event) => updateAllocationItem(item.id, { name: event.target.value })}
+                  />
+                  <select
+                    className="lifnux-select rounded-lg border border-white/10 bg-black/20 px-2 py-2 text-sm text-white"
+                    style={DARK_SELECT_STYLE}
+                    value={item.group}
+                    onChange={(event) => updateAllocationItem(item.id, { group: event.target.value as PlannerAllocationGroup })}
+                  >
+                    <option value="Emergency">Emergency</option>
+                    <option value="Investing">Investing</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Debt">Debt</option>
+                    <option value="Expense">Expense</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <select
+                    className="lifnux-select rounded-lg border border-white/10 bg-black/20 px-2 py-2 text-sm text-white"
+                    style={DARK_SELECT_STYLE}
+                    value={item.schedule}
+                    onChange={(event) => updateAllocationItem(item.id, { schedule: event.target.value as "ALL_MONTHS" | "PER_MONTH" })}
+                  >
+                    <option value="ALL_MONTHS">공통 금액</option>
+                    <option value="PER_MONTH">월별 금액</option>
+                  </select>
+                  <input
+                    className={`rounded-lg border border-white/10 px-3 py-2 text-sm text-white ${
+                      item.schedule === "PER_MONTH" ? "bg-black/10 text-white/40" : "bg-black/20"
+                    }`}
+                    value={formatAmountWithComma(String(Math.max(0, item.amount)))}
+                    disabled={item.schedule === "PER_MONTH"}
+                    onChange={(event) =>
+                      updateAllocationItem(item.id, {
+                        amount: Number.isFinite(Number(event.target.value.replace(/[^0-9.-]/g, "")))
+                          ? Number(event.target.value.replace(/[^0-9.-]/g, ""))
+                          : 0
+                      })
+                    }
+                  />
+                  <button
+                    type="button"
+                    className="rounded-full border border-rose-500/45 px-3 py-1 text-xs text-rose-200"
+                    onClick={() => removeAllocationItem(item.id)}
+                  >
+                    삭제
+                  </button>
+                  {item.schedule === "PER_MONTH" ? (
+                    <div className="md:col-span-5 flex justify-end">
+                      <button
+                        type="button"
+                        className="rounded-full border border-white/15 px-3 py-1 text-[11px] text-white/85"
+                        onClick={() =>
+                          setPlannerAllocationExpanded((prev) => ({
+                            ...prev,
+                            [item.id]: !(prev[item.id] ?? true)
+                          }))
+                        }
+                      >
+                        {plannerAllocationExpanded[item.id] ?? true ? "월별 입력 접기" : "월별 입력 펼치기"}
+                      </button>
+                    </div>
+                  ) : null}
+                  {item.schedule === "PER_MONTH" && (plannerAllocationExpanded[item.id] ?? true) ? (
+                    <div className="md:col-span-5 grid gap-2 md:grid-cols-3 lg:grid-cols-4">
+                      {plannerProjectionMonthKeys.map((monthKey, index) => (
+                        <label key={index} className="text-[11px] text-[var(--ink-1)]">
+                          {monthKey}
+                          <input
+                            className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-2 py-2 text-sm text-white"
+                            value={formatAmountWithComma(String(Math.max(0, item.perMonth[index] ?? 0)))}
+                            onChange={(event) => updateAllocationPerMonth(item.id, index, event.target.value)}
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <div className="mt-2 text-xs text-[var(--ink-1)]">
+              Total Allocation Amount: <span className="text-white">{formatKrw(plannerAllocationTotal)}</span>
+            </div>
+          </div>
+          </fieldset>
+
+          <div className="rounded-xl border border-white/10 bg-black/20 p-4">
+            <div className="mb-2 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{plannerProjectionMonths}-Month Projection</div>
+            <div className="overflow-auto lifnux-scroll">
+              <table className="min-w-[980px] w-full text-xs">
+                <thead className="bg-black/30 text-[var(--ink-1)]">
+                  <tr>
+                    <th className="px-2 py-2 text-left">Month</th>
+                    <th className="px-2 py-2 text-right">Opening Liquid</th>
+                    <th className="px-2 py-2 text-right">Income</th>
+                    <th className="px-2 py-2 text-right">Fixed</th>
+                    <th className="px-2 py-2 text-right">Variable</th>
+                    <th className="px-2 py-2 text-right">Net</th>
+                    <th className="px-2 py-2 text-left">Allocations</th>
+                    <th className="px-2 py-2 text-right">Cash Flow</th>
+                    <th className="px-2 py-2 text-right">Closing Liquid</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {plannerProjectionRows.map((row) => (
+                    <tr key={row.month} className="border-t border-white/10">
+                      <td className="px-2 py-2 text-left text-white/90">{row.month}</td>
+                      <td className="px-2 py-2 text-right text-white/90">{formatKrw(row.openingLiquid)}</td>
+                      <td className="px-2 py-2 text-right text-white/90">{formatKrw(row.income)}</td>
+                      <td className="px-2 py-2 text-right text-white/80">{formatKrw(row.fixed)}</td>
+                      <td className="px-2 py-2 text-right text-white/80">{formatKrw(row.variable)}</td>
+                      <td className={`px-2 py-2 text-right font-semibold ${row.net >= 0 ? "text-emerald-300" : "text-rose-300"}`}>{formatKrw(row.net)}</td>
+                      <td
+                        className="max-w-[180px] px-2 py-2 text-left text-[11px] text-white/85 truncate"
+                        title={row.allocations.map((entry) => `${entry.name} ${formatKrw(entry.amount)}`).join(" · ")}
+                      >
+                        {row.allocations.length
+                          ? `${row.allocations.length} items · ${formatKrw(row.allocatedTotal)}`
+                          : "-"}
+                      </td>
+                      <td className={`px-2 py-2 text-right font-semibold ${row.monthlyDelta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>{formatKrw(row.monthlyDelta)}</td>
+                      <td className={`px-2 py-2 text-right font-semibold ${row.closingLiquid >= 0 ? "text-white" : "text-rose-300"}`}>{formatKrw(row.closingLiquid)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {plannerNotice ? <div className="rounded-lg border border-rose-400/35 bg-rose-500/10 px-3 py-2 text-xs text-rose-200">{plannerNotice}</div> : null}
+        </div>
+      </Modal>
 
       <Modal
         open={categoryModalOpen}
@@ -2028,6 +2830,32 @@ export default function FinanceAssetPage() {
           saveSnapshotNow();
         }}
         onCancel={() => setOverwriteOpen(false)}
+      />
+      <ConfirmModal
+        open={plannerOverwriteConfirmOpen}
+        title="Overwrite Plan"
+        description="동일한 플랜명이 이미 존재합니다."
+        detail={`"${plannerOverwriteTargetName || plannerSnapshotName.trim()}" 플랜을 덮어쓸까요?`}
+        confirmLabel="Overwrite"
+        cancelLabel="Cancel"
+        onConfirm={() => {
+          const name = plannerSnapshotName.trim();
+          if (!name || !plannerOverwriteTargetId) {
+            setPlannerOverwriteConfirmOpen(false);
+            setPlannerOverwriteTargetId(null);
+            setPlannerOverwriteTargetName("");
+            return;
+          }
+          persistCashflowPlannerSnapshot(name, plannerOverwriteTargetId);
+          setPlannerOverwriteConfirmOpen(false);
+          setPlannerOverwriteTargetId(null);
+          setPlannerOverwriteTargetName("");
+        }}
+        onCancel={() => {
+          setPlannerOverwriteConfirmOpen(false);
+          setPlannerOverwriteTargetId(null);
+          setPlannerOverwriteTargetName("");
+        }}
       />
       <ConfirmModal
         open={editApplyConfirmOpen}

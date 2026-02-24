@@ -37,6 +37,26 @@ type PortfolioHistoryPoint = {
   totalKrw: number;
 };
 
+type AnalyzePeriodKey = "1W" | "2W" | "1M" | "3M" | "6M" | "1Y";
+type AnalyzeResult = {
+  requestedInput: string;
+  resolvedSymbol: string;
+  resolvedName: string | null;
+  asOf: string;
+  asOfClose: number;
+  points: Array<{ date: string; close: number }>;
+  returns: Record<AnalyzePeriodKey, number | null>;
+};
+
+const ANALYZE_PERIODS: Array<{ key: AnalyzePeriodKey; label: string; days: number }> = [
+  { key: "1W", label: "1W", days: 7 },
+  { key: "2W", label: "2W", days: 14 },
+  { key: "1M", label: "1M", days: 30 },
+  { key: "3M", label: "3M", days: 90 },
+  { key: "6M", label: "6M", days: 180 },
+  { key: "1Y", label: "1Y", days: 365 }
+];
+
 const isLikelySeededTwoYearHistory = (history: PortfolioHistoryPoint[]) => {
   if (history.length !== 730) return false;
   const sorted = [...history].sort((a, b) => a.date.localeCompare(b.date));
@@ -111,6 +131,11 @@ export default function PortfolioPage() {
   const [realizedDetailOpen, setRealizedDetailOpen] = useState(false);
   const [realizedDetailSortKey, setRealizedDetailSortKey] = useState<"price" | "time">("time");
   const [realizedDetailSortDir, setRealizedDetailSortDir] = useState<"asc" | "desc">("desc");
+  const [analyzeOpen, setAnalyzeOpen] = useState(false);
+  const [analyzeInput, setAnalyzeInput] = useState("");
+  const [analyzeLoading, setAnalyzeLoading] = useState(false);
+  const [analyzeError, setAnalyzeError] = useState<string | null>(null);
+  const [analyzeResult, setAnalyzeResult] = useState<AnalyzeResult | null>(null);
   const [ledgerFilters, setLedgerFilters] = useState({
     accountId: "ALL",
     type: "ALL" as "ALL" | "TRADE" | "CASHFLOW",
@@ -565,6 +590,94 @@ export default function PortfolioPage() {
     const stock = stocks.find((item) => normalizeSymbol(item.symbol) === normalized);
     const name = stock?.label?.trim() || stock?.name?.trim();
     return name ? `${name} (${symbol})` : symbol;
+  };
+
+  const shiftDate = (dateKey: string, deltaDays: number) => {
+    const date = new Date(`${dateKey}T00:00:00`);
+    date.setDate(date.getDate() + deltaDays);
+    return date.toISOString().slice(0, 10);
+  };
+
+  const findCloseOnOrBefore = (points: Array<{ date: string; close: number }>, targetDate: string) => {
+    for (let i = points.length - 1; i >= 0; i -= 1) {
+      if (points[i].date <= targetDate) return points[i].close;
+    }
+    return null;
+  };
+
+  const resolveAnalyzeSymbol = (input: string) => {
+    const trimmed = input.trim();
+    if (!trimmed) return { symbol: "", name: null as string | null };
+    const normalizedInput = normalizeSymbol(trimmed);
+    const found = stocks.find((item) => {
+      const bySymbol = normalizeSymbol(item.symbol) === normalizedInput;
+      const byLabel = (item.label ?? "").toLowerCase().includes(trimmed.toLowerCase());
+      const byName = (item.name ?? "").toLowerCase().includes(trimmed.toLowerCase());
+      return bySymbol || byLabel || byName;
+    });
+    if (found) return { symbol: getQuoteSymbol(found), name: found.label ?? found.name ?? null };
+    return { symbol: trimmed.toUpperCase(), name: null as string | null };
+  };
+
+  const runSymbolAnalyze = async () => {
+    const resolved = resolveAnalyzeSymbol(analyzeInput);
+    if (!resolved.symbol) {
+      setAnalyzeError("종목명을 입력해 주세요.");
+      setAnalyzeResult(null);
+      return;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    const start = shiftDate(today, -420);
+    setAnalyzeLoading(true);
+    setAnalyzeError(null);
+    try {
+      const response = await fetch(
+        `/api/history?symbols=${encodeURIComponent(resolved.symbol)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(today)}`,
+        { cache: "no-store" }
+      );
+      if (!response.ok) throw new Error("history fetch failed");
+      const data = (await response.json()) as {
+        series?: Array<{ symbol?: string; points?: Array<{ date?: string; close?: number }> }>;
+      };
+      const series = data.series?.[0];
+      const rawPoints = series?.points ?? [];
+      const points = rawPoints
+        .filter((item): item is { date: string; close: number } => typeof item?.date === "string" && typeof item?.close === "number")
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      if (!points.length) {
+        setAnalyzeResult(null);
+        setAnalyzeError("해당 종목의 기간 데이터를 찾을 수 없습니다.");
+        return;
+      }
+
+      const latest = points[points.length - 1];
+      const computed = ANALYZE_PERIODS.reduce(
+        (acc, period) => {
+          const baseDate = shiftDate(latest.date, -period.days);
+          const baseClose = findCloseOnOrBefore(points, baseDate);
+          acc[period.key] = baseClose && baseClose > 0 ? ((latest.close - baseClose) / baseClose) * 100 : null;
+          return acc;
+        },
+        { "1W": null, "2W": null, "1M": null, "3M": null, "6M": null, "1Y": null } as Record<AnalyzePeriodKey, number | null>
+      );
+
+      setAnalyzeResult({
+        requestedInput: analyzeInput.trim(),
+        resolvedSymbol: resolved.symbol,
+        resolvedName: resolved.name,
+        asOf: latest.date,
+        asOfClose: latest.close,
+        points,
+        returns: computed
+      });
+    } catch {
+      setAnalyzeResult(null);
+      setAnalyzeError("기간 수익률 조회 중 오류가 발생했습니다.");
+    } finally {
+      setAnalyzeLoading(false);
+    }
   };
 
   const resolveAccountCurrency = (accountId: string) => {
@@ -1227,6 +1340,9 @@ export default function PortfolioPage() {
               </button>
               <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setHistoryOpen(true)}>
                 Asset History
+              </button>
+              <button className="rounded-full border border-emerald-400/40 px-3 py-1 text-emerald-200" onClick={() => setAnalyzeOpen(true)}>
+                Analyze
               </button>
               <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setLedgerOpen(true)}>
                 History
@@ -1939,6 +2055,80 @@ export default function PortfolioPage() {
       </Modal>
 
       <Modal
+        open={analyzeOpen}
+        title="Symbol Analyze"
+        onClose={() => setAnalyzeOpen(false)}
+        panelClassName="!w-[92vw] !max-w-[900px] min-h-[40vh] pt-8"
+        titleClassName="text-3xl font-semibold tracking-tight"
+        contentClassName="text-base md:text-lg"
+        closeButtonClassName="p-2 text-base text-white/80 hover:text-white"
+        actions={
+          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setAnalyzeOpen(false)}>
+            Close
+          </button>
+        }
+      >
+        <div className="space-y-4">
+          <div className="grid gap-2 md:grid-cols-[1fr_auto]">
+            <input
+              className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-base text-white outline-none"
+              placeholder="종목명 또는 심볼 입력 (예: AAPL, 005930, 삼성전자)"
+              value={analyzeInput}
+              onChange={(event) => setAnalyzeInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !analyzeLoading) {
+                  event.preventDefault();
+                  void runSymbolAnalyze();
+                }
+              }}
+            />
+            <button
+              className="rounded-xl border border-emerald-400/40 bg-emerald-500/15 px-4 py-3 text-sm font-semibold text-emerald-200 disabled:opacity-60"
+              onClick={() => void runSymbolAnalyze()}
+              disabled={analyzeLoading}
+            >
+              {analyzeLoading ? "분석 중..." : "분석 실행"}
+            </button>
+          </div>
+
+          {analyzeError ? <div className="rounded-xl border border-rose-400/35 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">{analyzeError}</div> : null}
+
+          {analyzeResult ? (
+            <div className="space-y-3">
+              <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/85">
+                <span className="font-semibold text-white">
+                  {analyzeResult.resolvedName ? `${analyzeResult.resolvedName} (${analyzeResult.resolvedSymbol})` : analyzeResult.resolvedSymbol}
+                </span>
+                {" · "}
+                기준일 {analyzeResult.asOf} · 종가 {analyzeResult.asOfClose.toLocaleString()}
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-4">
+                <div className="mb-2 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Price Chart</div>
+                <AnalyzePriceChart points={analyzeResult.points} />
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-4">
+                <div className="mb-3 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Period Returns</div>
+                <div className="grid gap-3 md:grid-cols-3">
+                  {ANALYZE_PERIODS.map((period) => {
+                    const value = analyzeResult.returns[period.key];
+                    const positive = typeof value === "number" && value >= 0;
+                    return (
+                      <div key={period.key} className="rounded-xl border border-white/10 bg-black/25 px-4 py-3">
+                        <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{period.label}</div>
+                        <div className={`mt-2 text-2xl font-semibold ${value === null ? "text-white/50" : positive ? "text-emerald-300" : "text-rose-300"}`}>
+                          {value === null ? "-" : `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </Modal>
+
+      <Modal
         open={historyOpen}
         title="Asset History"
         onClose={() => setHistoryOpen(false)}
@@ -2208,6 +2398,144 @@ export default function PortfolioPage() {
         }}
       />
     </AppShell>
+  );
+}
+
+function AnalyzePriceChart({ points }: { points: Array<{ date: string; close: number }> }) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [showMa20, setShowMa20] = useState(true);
+  const [showMa60, setShowMa60] = useState(true);
+  const [showMa120, setShowMa120] = useState(false);
+
+  if (!points.length) {
+    return <div className="text-sm text-[var(--ink-1)]">No chart data.</div>;
+  }
+
+  const sorted = [...points].sort((a, b) => a.date.localeCompare(b.date));
+  const width = 860;
+  const height = 220;
+  const padX = 20;
+  const padY = 20;
+  const plotW = width - padX * 2;
+  const plotH = height - padY * 2;
+  const computeMa = (period: number) =>
+    sorted.map((_, index) => {
+      if (index < period - 1) return null;
+      let sum = 0;
+      for (let i = index - period + 1; i <= index; i += 1) sum += sorted[i].close;
+      return sum / period;
+    });
+  const ma20 = computeMa(20);
+  const ma60 = computeMa(60);
+  const ma120 = computeMa(120);
+
+  const values = sorted.map((item) => item.close);
+  if (showMa20) ma20.forEach((value) => (typeof value === "number" ? values.push(value) : null));
+  if (showMa60) ma60.forEach((value) => (typeof value === "number" ? values.push(value) : null));
+  if (showMa120) ma120.forEach((value) => (typeof value === "number" ? values.push(value) : null));
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = Math.max(1, max - min);
+  const xForIndex = (index: number) => padX + (sorted.length === 1 ? 0 : (index / (sorted.length - 1)) * plotW);
+  const yForValue = (value: number) => padY + ((max - value) / span) * plotH;
+
+  const path = sorted
+    .map((point, index) => {
+      const x = xForIndex(index);
+      const y = yForValue(point.close);
+      return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
+    })
+    .join(" ");
+
+  const maPath = (series: Array<number | null>) => {
+    let started = false;
+    return series
+      .map((value, index) => {
+        if (typeof value !== "number") return "";
+        const x = xForIndex(index);
+        const y = yForValue(value);
+        if (!started) {
+          started = true;
+          return `M ${x.toFixed(2)} ${y.toFixed(2)}`;
+        }
+        return `L ${x.toFixed(2)} ${y.toFixed(2)}`;
+      })
+      .filter(Boolean)
+      .join(" ");
+  };
+
+  const latest = sorted[sorted.length - 1];
+  const first = sorted[0];
+  const trendUp = latest.close >= first.close;
+  const stroke = trendUp ? "#34d399" : "#fb7185";
+  const hoverPoint = hoveredIndex === null ? null : sorted[hoveredIndex];
+  const hoverX = hoveredIndex === null ? null : xForIndex(hoveredIndex);
+  const hoverY = hoveredIndex === null ? null : yForValue(sorted[hoveredIndex].close);
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center gap-2 text-[11px] text-[var(--ink-1)]">
+        <label className="flex items-center gap-1">
+          <input type="checkbox" checked={showMa20} onChange={(event) => setShowMa20(event.target.checked)} />
+          MA20
+        </label>
+        <label className="flex items-center gap-1">
+          <input type="checkbox" checked={showMa60} onChange={(event) => setShowMa60(event.target.checked)} />
+          MA60
+        </label>
+        <label className="flex items-center gap-1">
+          <input type="checkbox" checked={showMa120} onChange={(event) => setShowMa120(event.target.checked)} />
+          MA120
+        </label>
+      </div>
+      <div className="relative">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-[220px] w-full rounded-lg border border-white/10 bg-black/25"
+          onMouseMove={(event) => {
+            const rect = event.currentTarget.getBoundingClientRect();
+            if (!rect.width) return;
+            const ratio = (event.clientX - rect.left) / rect.width;
+            const svgX = Math.max(padX, Math.min(width - padX, ratio * width));
+            const base = sorted.length === 1 ? 0 : ((svgX - padX) / plotW) * (sorted.length - 1);
+            const idx = Math.max(0, Math.min(sorted.length - 1, Math.round(base)));
+            setHoveredIndex(idx);
+          }}
+          onMouseLeave={() => setHoveredIndex(null)}
+        >
+          <line x1={padX} y1={padY} x2={padX} y2={height - padY} stroke="rgba(255,255,255,0.14)" />
+          <line x1={padX} y1={height - padY} x2={width - padX} y2={height - padY} stroke="rgba(255,255,255,0.14)" />
+          <path d={path} fill="none" stroke={stroke} strokeWidth="2.5" />
+          {showMa20 ? <path d={maPath(ma20)} fill="none" stroke="#60a5fa" strokeWidth="1.6" strokeOpacity="0.9" /> : null}
+          {showMa60 ? <path d={maPath(ma60)} fill="none" stroke="#f59e0b" strokeWidth="1.6" strokeOpacity="0.9" /> : null}
+          {showMa120 ? <path d={maPath(ma120)} fill="none" stroke="#a78bfa" strokeWidth="1.6" strokeOpacity="0.9" /> : null}
+          {hoverPoint && hoverX !== null && hoverY !== null ? (
+            <>
+              <line x1={hoverX} y1={padY} x2={hoverX} y2={height - padY} stroke="rgba(255,255,255,0.26)" strokeDasharray="4 4" />
+              <circle cx={hoverX} cy={hoverY} r="3.5" fill={stroke} />
+            </>
+          ) : null}
+        </svg>
+        {hoverPoint && hoverX !== null ? (
+          <div
+            className="pointer-events-none absolute -top-1 rounded-lg border border-white/15 bg-black/85 px-2 py-1 text-[11px] text-white"
+            style={{
+              left: `${Math.max(0, Math.min(100, ((hoverX - padX) / plotW) * 100))}%`,
+              transform: "translateX(-50%)"
+            }}
+          >
+            {hoverPoint.date} · {hoverPoint.close.toLocaleString()}
+          </div>
+        ) : null}
+      </div>
+      <div className="flex items-center justify-between text-xs text-[var(--ink-1)]">
+        <span>{first.date}</span>
+        <span>
+          {latest.date} · 종가 {latest.close.toLocaleString()}
+        </span>
+      </div>
+    </div>
   );
 }
 
@@ -2743,10 +3071,5 @@ function PortfolioHistoryChart({
     </div>
   );
 }
-
-
-
-
-
 
 

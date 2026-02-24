@@ -94,7 +94,7 @@ export function Modal({
         >
           <motion.div
             ref={containerRef}
-            className={`w-full max-w-2xl max-h-[88vh] overflow-y-auto rounded-2xl lifnux-glass p-7 ${panelClassName ?? ""}`}
+            className={`w-full max-w-2xl max-h-[88vh] overflow-y-auto lifnux-scroll rounded-2xl lifnux-glass p-7 ${panelClassName ?? ""}`}
             initial={{ y: 20, scale: 0.96, opacity: 0 }}
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: 10, scale: 0.98, opacity: 0 }}
