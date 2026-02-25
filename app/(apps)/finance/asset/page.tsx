@@ -121,6 +121,7 @@ type PlannerAllocationItem = {
   perMonth: number[];
 };
 type CashflowPlannerState = {
+  startMonth: string;
   projectionMonths: number;
   incomeMode: PlannerIncomeMode;
   fixedSalary: number;
@@ -147,8 +148,14 @@ const formatKrw = (v: number) => {
   return `${sign}₩${Math.abs(rounded).toLocaleString("ko-KR")}`;
 };
 const formatPct = (v: number) => `${v >= 0 ? "+" : ""}${v.toFixed(2)}%`;
+const MONTH_KEY_PATTERN = /^\d{4}-\d{2}$/;
 const monthNow = () => new Date().toISOString().slice(0, 7);
 const clampAssetMonth = (month: string) => (month < ASSET_MIN_MONTH ? ASSET_MIN_MONTH : month);
+const normalizeMonthKey = (value: unknown, fallback?: string) => {
+  const fallbackMonth = typeof fallback === "string" && MONTH_KEY_PATTERN.test(fallback) ? fallback : monthNow();
+  if (typeof value !== "string" || !MONTH_KEY_PATTERN.test(value)) return clampAssetMonth(fallbackMonth);
+  return clampAssetMonth(value);
+};
 const shiftMonth = (m: string, d: number) => {
   const [y, mm] = m.split("-").map(Number);
   const dt = new Date(y, mm - 1 + d, 1);
@@ -176,6 +183,7 @@ const formatAmountWithComma = (raw: string) => {
 };
 const sumItems = (items: AssetItem[]) => items.reduce((sum, item) => sum + item.amountKRW, 0);
 const createDefaultCashflowPlannerState = (): CashflowPlannerState => ({
+  startMonth: monthNow(),
   projectionMonths: 3,
   incomeMode: "FIXED",
   fixedSalary: 0,
@@ -224,6 +232,7 @@ const normalizeCashflowPlannerState = (stored: Partial<CashflowPlannerState> | n
         }))
       : defaultPlan.allocations;
   return {
+    startMonth: normalizeMonthKey(stored?.startMonth, defaultPlan.startMonth),
     projectionMonths:
       Number.isFinite(Number(stored?.projectionMonths)) && Number(stored?.projectionMonths) >= 1 && Number(stored?.projectionMonths) <= 12
         ? Number(stored?.projectionMonths)
@@ -586,6 +595,8 @@ export default function FinanceAssetPage() {
   const [plannerNotice, setPlannerNotice] = useState<string | null>(null);
   const [cashflowPlanner, setCashflowPlanner] = useState<CashflowPlannerState>(createDefaultCashflowPlannerState);
   const [cashflowPlannerSnapshots, setCashflowPlannerSnapshots] = useState<CashflowPlannerSnapshot[]>([]);
+  const [cashflowPlannerHydrated, setCashflowPlannerHydrated] = useState(false);
+  const [cashflowPlannerSnapshotsHydrated, setCashflowPlannerSnapshotsHydrated] = useState(false);
   const [plannerSnapshotName, setPlannerSnapshotName] = useState("");
   const [activePlannerSnapshotId, setActivePlannerSnapshotId] = useState<string | null>(null);
   const [plannerLocked, setPlannerLocked] = useState(false);
@@ -612,16 +623,19 @@ export default function FinanceAssetPage() {
   useEffect(() => {
     const stored = loadState<Partial<CashflowPlannerState> | null>(CASHFLOW_PLANNER_KEY, null);
     setCashflowPlanner(normalizeCashflowPlannerState(stored));
+    setCashflowPlannerHydrated(true);
   }, []);
 
   useEffect(() => {
+    if (!cashflowPlannerHydrated) return;
     saveState(CASHFLOW_PLANNER_KEY, cashflowPlanner);
-  }, [cashflowPlanner]);
+  }, [cashflowPlanner, cashflowPlannerHydrated]);
 
   useEffect(() => {
     const stored = loadState<CashflowPlannerSnapshot[]>(CASHFLOW_PLANNER_SNAPSHOTS_KEY, []);
     if (!Array.isArray(stored)) {
       setCashflowPlannerSnapshots([]);
+      setCashflowPlannerSnapshotsHydrated(true);
       return;
     }
     const normalized = stored
@@ -629,18 +643,23 @@ export default function FinanceAssetPage() {
       .map((item) => ({
         id: item.id,
         name: item.name.trim() || "Unnamed Plan",
-        startMonth: typeof item.startMonth === "string" ? item.startMonth : monthNow(),
-        endMonth: typeof item.endMonth === "string" ? item.endMonth : monthNow(),
+        startMonth: normalizeMonthKey(item.startMonth),
+        endMonth: normalizeMonthKey(item.endMonth, item.startMonth),
         createdAt: Number.isFinite(Number(item.createdAt)) ? Number(item.createdAt) : Date.now(),
-        planner: normalizeCashflowPlannerState(item.planner)
+        planner: normalizeCashflowPlannerState({
+          ...(item.planner ?? {}),
+          startMonth: (item.planner as Partial<CashflowPlannerState> | undefined)?.startMonth ?? item.startMonth
+        })
       }))
       .sort((a, b) => b.createdAt - a.createdAt);
     setCashflowPlannerSnapshots(normalized);
+    setCashflowPlannerSnapshotsHydrated(true);
   }, []);
 
   useEffect(() => {
+    if (!cashflowPlannerSnapshotsHydrated) return;
     saveState(CASHFLOW_PLANNER_SNAPSHOTS_KEY, cashflowPlannerSnapshots);
-  }, [cashflowPlannerSnapshots]);
+  }, [cashflowPlannerSnapshots, cashflowPlannerSnapshotsHydrated]);
 
   useEffect(() => {
     if (month < ASSET_MIN_MONTH) setMonth(ASSET_MIN_MONTH);
@@ -938,7 +957,7 @@ export default function FinanceAssetPage() {
       closingLiquid: number;
     }> = [];
     const baseOpeningLiquid = Math.max(0, cashflowPlanner.currentLiquidOverride);
-    const startMonth = monthNow();
+    const startMonth = normalizeMonthKey(cashflowPlanner.startMonth);
     const projectionMonths = Math.max(1, Math.min(12, Math.round(cashflowPlanner.projectionMonths || 3)));
     for (let i = 0; i < projectionMonths; i += 1) {
       const openingLiquid = i === 0 ? baseOpeningLiquid : rows[i - 1].closingLiquid;
@@ -976,11 +995,11 @@ export default function FinanceAssetPage() {
       });
     }
     return rows;
-  }, [cashflowPlanner.allocations, cashflowPlanner.currentLiquidOverride, cashflowPlanner.fixedExpense, cashflowPlanner.fixedSalary, cashflowPlanner.incomeMode, cashflowPlanner.manualIncome, cashflowPlanner.projectionMonths, cashflowPlanner.variableExpense]);
+  }, [cashflowPlanner.allocations, cashflowPlanner.currentLiquidOverride, cashflowPlanner.fixedExpense, cashflowPlanner.fixedSalary, cashflowPlanner.incomeMode, cashflowPlanner.manualIncome, cashflowPlanner.projectionMonths, cashflowPlanner.startMonth, cashflowPlanner.variableExpense]);
   const plannerProjectionMonths = Math.max(1, Math.min(12, Math.round(cashflowPlanner.projectionMonths || 3)));
   const plannerProjectionMonthKeys = useMemo(
-    () => Array.from({ length: plannerProjectionMonths }, (_, index) => shiftMonth(monthNow(), index)),
-    [plannerProjectionMonths]
+    () => Array.from({ length: plannerProjectionMonths }, (_, index) => shiftMonth(normalizeMonthKey(cashflowPlanner.startMonth), index)),
+    [cashflowPlanner.startMonth, plannerProjectionMonths]
   );
 
   const updatePlannerNumber = (
@@ -1048,7 +1067,7 @@ export default function FinanceAssetPage() {
   const persistCashflowPlannerSnapshot = (name: string, overwriteId?: string) => {
     const snapshotMonths = Array.from(
       { length: Math.max(1, Math.min(12, Math.round(cashflowPlanner.projectionMonths || 3))) },
-      (_, index) => shiftMonth(monthNow(), index)
+      (_, index) => shiftMonth(normalizeMonthKey(cashflowPlanner.startMonth), index)
     );
     const startMonth = snapshotMonths[0];
     const endMonth = snapshotMonths[snapshotMonths.length - 1];
@@ -2030,6 +2049,19 @@ export default function FinanceAssetPage() {
           <div className={`rounded-xl border border-white/10 bg-black/20 p-4 ${plannerLocked ? "opacity-80" : ""}`}>
             <div className="mb-2 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Income Input</div>
             <div className="mb-3 flex items-center gap-2 text-xs text-[var(--ink-1)]">
+              <span>Start Month</span>
+              <input
+                type="month"
+                min={ASSET_MIN_MONTH}
+                className="rounded-lg border border-white/10 bg-black/20 px-2 py-1 text-xs text-white"
+                value={normalizeMonthKey(cashflowPlanner.startMonth)}
+                onChange={(event) =>
+                  setCashflowPlanner((prev) => ({
+                    ...prev,
+                    startMonth: normalizeMonthKey(event.target.value, prev.startMonth)
+                  }))
+                }
+              />
               <span>Projection Period</span>
               <select
                 className="lifnux-select rounded-lg border border-white/10 bg-black/20 px-2 py-1 text-xs text-white"
@@ -2068,7 +2100,7 @@ export default function FinanceAssetPage() {
             </div>
             {cashflowPlanner.incomeMode === "FIXED" ? (
               <label className="text-xs text-[var(--ink-1)]">
-                Fixed Salary (next 3 months auto)
+                Fixed Salary (applies to selected period)
                 <input
                   className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
                   value={formatAmountWithComma(String(Math.max(0, cashflowPlanner.fixedSalary)))}

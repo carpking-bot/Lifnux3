@@ -64,10 +64,35 @@ type HealthActivityLog = {
   loggedForDate?: string;
 };
 
+type GuitarAttendance = {
+  dateKey?: string;
+};
+
 function getHealthSwimmingSessionsByYear(year: number) {
   const logs = readStorageJson<HealthActivityLog[]>(HEALTH_ACTIVITY_LOGS_KEY, []);
   const yearPrefix = `${year}-`;
   return logs.filter((log) => log.typeId === "swimming" && typeof log.loggedForDate === "string" && log.loggedForDate.startsWith(yearPrefix)).length;
+}
+
+const GUITAR_ATTENDANCE_KEY = "lifnux:guitar:attendance";
+
+function getGuitarPracticeSessionsByYear(year: number) {
+  const attendance = readStorageJson<GuitarAttendance[]>(GUITAR_ATTENDANCE_KEY, []);
+  const yearPrefix = `${year}-`;
+  return attendance.filter((entry) => typeof entry.dateKey === "string" && entry.dateKey.startsWith(yearPrefix)).length;
+}
+
+function resolveLinkedYear(linkedSource: LinkedSource) {
+  const yearFromParam = Number(linkedSource.params?.year);
+  if (Number.isInteger(yearFromParam) && yearFromParam >= 1900 && yearFromParam <= 9999) return yearFromParam;
+
+  const yearFromMetric = linkedSource.sourceMetric.match(/(\d{4})$/)?.[1];
+  if (yearFromMetric) {
+    const parsed = Number(yearFromMetric);
+    if (Number.isInteger(parsed)) return parsed;
+  }
+
+  return new Date().getFullYear();
 }
 
 function normalizeCategoryName(value: string) {
@@ -258,6 +283,15 @@ export function getLinkedMetricValue(linkedSource?: LinkedSource): LinkedMetricR
     case "CAREER:studyHoursWeek": {
       const value = Math.round(deterministicNumber(seed, 3, 15));
       return { value, unit: "hours" };
+    }
+    case "GUITAR:practiceSessionsByYear": {
+      const year = resolveLinkedYear(linkedSource);
+      const value = getGuitarPracticeSessionsByYear(year);
+      return { value, unit: "sessions", summary: `Guitar practice sessions in ${year}` };
+    }
+    case "GUITAR:practiceSessions2026": {
+      const value = getGuitarPracticeSessionsByYear(2026);
+      return { value, unit: "sessions", summary: "Guitar practice sessions in 2026" };
     }
     default:
       return { value: "N/A" };

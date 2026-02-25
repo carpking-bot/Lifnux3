@@ -8,7 +8,7 @@ export type GoalDisplayMode = "TARGET" | "TRACKER";
 export type LinkedDisplayMode = "VALUE_ONLY" | "VALUE_AND_PROGRESS" | "CHECKLIST_HINT";
 
 export type LinkedSource = {
-  sourceApp: "HEALTH" | "ASSET" | "INVESTING" | "CAREER";
+  sourceApp: "HEALTH" | "ASSET" | "INVESTING" | "CAREER" | "GUITAR";
   sourceMetric: string;
   params?: Record<string, string | number | boolean>;
   displayMode: LinkedDisplayMode;

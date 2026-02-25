@@ -36,15 +36,16 @@ const GOAL_TYPE_OPTIONS: GoalType[] = ["VALUE", "COUNT", "CHECKLIST"];
 const TRACKING_MODE_OPTIONS: TrackingMode[] = ["MANUAL", "LINKED"];
 const DISPLAY_MODE_OPTIONS: GoalDisplayMode[] = ["TARGET", "TRACKER"];
 
-const SOURCE_APP_OPTIONS: Array<"HEALTH" | "ASSET" | "INVESTING" | "CAREER"> = ["HEALTH", "ASSET", "INVESTING", "CAREER"];
-const SOURCE_METRIC_OPTIONS: Record<"HEALTH" | "ASSET" | "INVESTING" | "CAREER", string[]> = {
+const SOURCE_APP_OPTIONS: Array<"HEALTH" | "ASSET" | "INVESTING" | "CAREER" | "GUITAR"> = ["HEALTH", "ASSET", "INVESTING", "CAREER", "GUITAR"];
+const SOURCE_METRIC_OPTIONS: Record<"HEALTH" | "ASSET" | "INVESTING" | "CAREER" | "GUITAR", string[]> = {
   HEALTH: ["swimmingSessions2026", "swimAttendanceThisMonth", "stepsAvg"],
   ASSET: ["netWorth"],
   INVESTING: ["monthlyContribution", "annualReturnRate"],
-  CAREER: ["studyHoursWeek"]
+  CAREER: ["studyHoursWeek"],
+  GUITAR: ["practiceSessionsByYear"]
 };
 
-function defaultLinkedSource(app: "HEALTH" | "ASSET" | "INVESTING" | "CAREER") {
+function defaultLinkedSource(app: "HEALTH" | "ASSET" | "INVESTING" | "CAREER" | "GUITAR") {
   return { sourceApp: app, sourceMetric: SOURCE_METRIC_OPTIONS[app][0], displayMode: "VALUE_ONLY" as const };
 }
 
@@ -294,7 +295,7 @@ export function GoalEditModal({
               <select
                 value={draft.linkedSource?.sourceApp ?? "HEALTH"}
                 onChange={(event) => {
-                  const app = event.target.value as "HEALTH" | "ASSET" | "INVESTING" | "CAREER";
+                  const app = event.target.value as "HEALTH" | "ASSET" | "INVESTING" | "CAREER" | "GUITAR";
                   setDraft((prev) => (prev ? { ...prev, linkedSource: defaultLinkedSource(app) } : prev));
                 }}
                 className="lifnux-select mt-1 w-full rounded-lg border border-white/15 bg-black/25 px-3 py-2 text-sm text-white"

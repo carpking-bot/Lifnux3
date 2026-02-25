@@ -3,9 +3,10 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { BookOpen, FolderLock, Wand2, Guitar, X } from "lucide-react";
+import { BookOpen, FolderLock, Wand2, Guitar, Newspaper, X } from "lucide-react";
 
 const extraApps = [
+  { id: "news", name: "News", href: "/news", icon: Newspaper },
   { id: "guitar", name: "Guitar Practice", href: "/guitar", icon: Guitar },
   { id: "notes", name: "NOTES", href: "/notes", icon: BookOpen },
   { id: "vault", name: "VAULT", href: "/vault", icon: FolderLock },
