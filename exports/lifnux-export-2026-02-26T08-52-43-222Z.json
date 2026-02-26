@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-02-24T15:35:26.182Z"
+    "exportedAt": "2026-02-26T08:52:43.218Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "KpM6xNAgRoI",
+        "trackId": "IPnUVZEyzdI",
         "volume": 80,
         "position": 0
       }
@@ -3064,6 +3064,26 @@
           "durationMin": 50,
           "memo": "수영 15회차\n평형 배우기 시작. 난 역대급 노재능인듯.",
           "createdAt": "2026-02-24T15:35:19.332Z"
+        },
+        {
+          "id": "2894fbe8-f535-43f6-b02a-fa874bf2028d",
+          "typeId": "walking",
+          "loggedForDate": "2026-02-25",
+          "durationMin": 30,
+          "memo": "점심시간 걷기",
+          "createdAt": "2026-02-25T04:38:43.221Z",
+          "distanceKm": 2.11,
+          "calorieOverride": 97
+        },
+        {
+          "id": "090076e8-e93e-4607-b4d3-9821a2b51f73",
+          "typeId": "walking",
+          "loggedForDate": "2026-02-26",
+          "durationMin": 32,
+          "memo": "점심 산책",
+          "createdAt": "2026-02-26T05:27:59.994Z",
+          "distanceKm": 2.52,
+          "calorieOverride": 119
         }
       ]
     },
@@ -3129,6 +3149,14 @@
         {
           "date": "2026-02-24",
           "totalKrw": 29345411.524
+        },
+        {
+          "date": "2026-02-25",
+          "totalKrw": 31336875.978200004
+        },
+        {
+          "date": "2026-02-26",
+          "totalKrw": 31558775.42
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -3205,17 +3233,17 @@
       ],
       "lifnux.finance.asset.cashflowPlanner.snapshots.v1": [
         {
-          "id": "2e169d9f-283b-4deb-bbc5-4bf5468d9972",
+          "id": "4a3df54b-7c2e-46d1-8d76-d00f5c3f97f6",
           "name": "생존 계획",
-          "startMonth": "2026-02",
-          "endMonth": "2026-08",
-          "createdAt": 1771915699440,
+          "startMonth": "2026-03",
+          "endMonth": "2026-09",
+          "createdAt": 1772000156325,
           "planner": {
+            "startMonth": "2026-03",
             "projectionMonths": 7,
             "incomeMode": "MANUAL",
             "fixedSalary": 0,
             "manualIncome": [
-              3116600,
               1829000,
               0,
               1800000,
@@ -3226,49 +3254,28 @@
               0,
               0,
               0,
+              0,
               0
             ],
             "fixedExpense": 0,
             "variableExpense": 0,
-            "currentLiquidOverride": 164639,
+            "currentLiquidOverride": 1056799,
             "allocations": [
               {
-                "id": "8728ce01-31c6-4c0b-a95b-d90e229ed969",
-                "name": "연금 저축 펀드",
-                "group": "Investing",
+                "id": "10d6423c-6d3a-4c19-82c0-42348a6309f1",
+                "name": "청년도약계좌 + 주택청약",
+                "group": "Savings",
                 "mode": "FIXED",
                 "amount": 300000,
                 "schedule": "PER_MONTH",
                 "perMonth": [
-                  500000,
-                  500000,
-                  0,
-                  500000,
-                  500000,
-                  500000,
-                  500000,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "id": "6f65a839-cae9-4a47-810c-ab888658d462",
-                "name": "청년도약계좌 + 주택청약저축",
-                "group": "Savings",
-                "mode": "FIXED",
-                "amount": 170000,
-                "schedule": "ALL_MONTHS",
-                "perMonth": [
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
+                  320000,
+                  170000,
+                  170000,
+                  170000,
+                  170000,
+                  170000,
+                  170000,
                   0,
                   0,
                   0,
@@ -3277,37 +3284,15 @@
                 ]
               },
               {
-                "id": "f524cac1-70df-4de5-9288-405b469496ac",
-                "name": "생활비",
-                "group": "Expense",
-                "mode": "FIXED",
-                "amount": 400000,
-                "schedule": "ALL_MONTHS",
-                "perMonth": [
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "id": "b7a0d3e2-c65d-4d86-82b9-fab22cfaed7f",
+                "id": "523a07ff-7937-4b1c-8a41-a5479d23425e",
                 "name": "카드값",
                 "group": "Debt",
                 "mode": "FIXED",
-                "amount": 0,
+                "amount": 500000,
                 "schedule": "PER_MONTH",
                 "perMonth": [
-                  247375,
-                  0,
+                  131875,
+                  125585,
                   0,
                   0,
                   0,
@@ -3321,42 +3306,64 @@
                 ]
               },
               {
-                "id": "b93f15e3-e3ef-44ae-9faf-22b3a8e10dcb",
-                "name": "오인페 + 헤드셋",
-                "group": "Expense",
-                "mode": "FIXED",
-                "amount": 0,
-                "schedule": "PER_MONTH",
-                "perMonth": [
-                  0,
-                  541440,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0
-                ]
-              },
-              {
-                "id": "f07dfb6f-0054-4c21-bfdd-64dd7c61c777",
-                "name": "주식 투자",
+                "id": "31a20f52-5d9c-48fb-97da-8fb5e0032f5a",
+                "name": "연금저축펀드",
                 "group": "Investing",
                 "mode": "FIXED",
-                "amount": 0,
+                "amount": 500000,
                 "schedule": "PER_MONTH",
                 "perMonth": [
-                  1500000,
+                  500000,
+                  0,
+                  500000,
+                  500000,
+                  500000,
+                  500000,
                   500000,
                   0,
                   0,
-                  300000,
-                  300000,
-                  300000,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "id": "042f3dfc-52ee-4020-ac39-846fd0d4f3d4",
+                "name": "생활비(E)",
+                "group": "Expense",
+                "mode": "FIXED",
+                "amount": 350000,
+                "schedule": "PER_MONTH",
+                "perMonth": [
+                  568000,
+                  558000,
+                  488000,
+                  500000,
+                  400000,
+                  500000,
+                  400000,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "id": "86f15e60-1966-4db3-bd2c-bedc2fcda0bc",
+                "name": "여분 주식 투자",
+                "group": "Other",
+                "mode": "FIXED",
+                "amount": 200000,
+                "schedule": "ALL_MONTHS",
+                "perMonth": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
                   0,
                   0,
                   0,
@@ -8096,7 +8103,6 @@
         "Interest",
         "Dividends"
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -8111,6 +8117,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "us-aapl",
@@ -8528,14 +8535,46 @@
           "mktCapRank": 9999,
           "notes": "",
           "watchlisted": true
+        },
+        {
+          "id": "kr-stock-016360",
+          "label": "삼성증권",
+          "symbol": "016360",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1771985434752,
+          "last": 121224,
+          "changePct": 1.24,
+          "changeAbs": 1503.1776,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "kr-stock-466920",
+          "label": "SOL 조선TOP3플러스",
+          "symbol": "466920",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1771985597850,
+          "last": 101075,
+          "changePct": -2.25,
+          "changeAbs": -2274.1875,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
+        "startMonth": "2026-03",
         "projectionMonths": 7,
         "incomeMode": "MANUAL",
         "fixedSalary": 0,
         "manualIncome": [
-          3116600,
           1829000,
           0,
           1800000,
@@ -8546,49 +8585,28 @@
           0,
           0,
           0,
+          0,
           0
         ],
         "fixedExpense": 0,
         "variableExpense": 0,
-        "currentLiquidOverride": 164639,
+        "currentLiquidOverride": 1056799,
         "allocations": [
           {
-            "id": "8728ce01-31c6-4c0b-a95b-d90e229ed969",
-            "name": "연금 저축 펀드",
-            "group": "Investing",
+            "id": "10d6423c-6d3a-4c19-82c0-42348a6309f1",
+            "name": "청년도약계좌 + 주택청약",
+            "group": "Savings",
             "mode": "FIXED",
             "amount": 300000,
             "schedule": "PER_MONTH",
             "perMonth": [
-              500000,
-              500000,
-              0,
-              500000,
-              500000,
-              500000,
-              500000,
-              0,
-              0,
-              0,
-              0,
-              0
-            ]
-          },
-          {
-            "id": "6f65a839-cae9-4a47-810c-ab888658d462",
-            "name": "청년도약계좌 + 주택청약저축",
-            "group": "Savings",
-            "mode": "FIXED",
-            "amount": 170000,
-            "schedule": "ALL_MONTHS",
-            "perMonth": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
+              320000,
+              170000,
+              170000,
+              170000,
+              170000,
+              170000,
+              170000,
               0,
               0,
               0,
@@ -8597,37 +8615,15 @@
             ]
           },
           {
-            "id": "f524cac1-70df-4de5-9288-405b469496ac",
-            "name": "생활비",
-            "group": "Expense",
-            "mode": "FIXED",
-            "amount": 400000,
-            "schedule": "ALL_MONTHS",
-            "perMonth": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ]
-          },
-          {
-            "id": "b7a0d3e2-c65d-4d86-82b9-fab22cfaed7f",
+            "id": "523a07ff-7937-4b1c-8a41-a5479d23425e",
             "name": "카드값",
             "group": "Debt",
             "mode": "FIXED",
-            "amount": 0,
+            "amount": 500000,
             "schedule": "PER_MONTH",
             "perMonth": [
-              247375,
-              0,
+              131875,
+              125585,
               0,
               0,
               0,
@@ -8641,42 +8637,64 @@
             ]
           },
           {
-            "id": "b93f15e3-e3ef-44ae-9faf-22b3a8e10dcb",
-            "name": "오인페 + 헤드셋",
-            "group": "Expense",
-            "mode": "FIXED",
-            "amount": 0,
-            "schedule": "PER_MONTH",
-            "perMonth": [
-              0,
-              541440,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ]
-          },
-          {
-            "id": "f07dfb6f-0054-4c21-bfdd-64dd7c61c777",
-            "name": "주식 투자",
+            "id": "31a20f52-5d9c-48fb-97da-8fb5e0032f5a",
+            "name": "연금저축펀드",
             "group": "Investing",
             "mode": "FIXED",
-            "amount": 0,
+            "amount": 500000,
             "schedule": "PER_MONTH",
             "perMonth": [
-              1500000,
+              500000,
+              0,
+              500000,
+              500000,
+              500000,
+              500000,
               500000,
               0,
               0,
-              300000,
-              300000,
-              300000,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "id": "042f3dfc-52ee-4020-ac39-846fd0d4f3d4",
+            "name": "생활비(E)",
+            "group": "Expense",
+            "mode": "FIXED",
+            "amount": 350000,
+            "schedule": "PER_MONTH",
+            "perMonth": [
+              568000,
+              558000,
+              488000,
+              500000,
+              400000,
+              500000,
+              400000,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "id": "86f15e60-1966-4db3-bd2c-bedc2fcda0bc",
+            "name": "여분 주식 투자",
+            "group": "Other",
+            "mode": "FIXED",
+            "amount": 200000,
+            "schedule": "ALL_MONTHS",
+            "perMonth": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
               0,
               0,
               0,
@@ -8778,8 +8796,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:amzn",
           "symbolKey": "NAS:AMZN",
-          "avgPrice": 206.96095,
-          "qty": 10,
+          "avgPrice": 207.34904545454546,
+          "qty": 11,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Big Tech"
@@ -8811,8 +8829,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:googl",
           "symbolKey": "NAS:GOOGL",
-          "avgPrice": 302.536,
-          "qty": 5,
+          "avgPrice": 304.0733333333333,
+          "qty": 6,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Big Tech"
@@ -8833,8 +8851,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-379800",
           "symbolKey": "379800",
-          "avgPrice": 20661,
-          "qty": 104,
+          "avgPrice": 20763.49090909091,
+          "qty": 110,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorLabel": "Index"
@@ -8844,8 +8862,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-379810",
           "symbolKey": "379810",
-          "avgPrice": 22133,
-          "qty": 139,
+          "avgPrice": 22278.192052980132,
+          "qty": 151,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorLabel": "Index"
@@ -8933,8 +8951,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-stock-0072r0",
           "symbolKey": "0072R0",
-          "avgPrice": 15902.531914893618,
-          "qty": 47,
+          "avgPrice": 15917.192307692309,
+          "qty": 52,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Alternative Asset"
@@ -8944,22 +8962,33 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-000660",
           "symbolKey": "000660",
-          "avgPrice": 888000,
-          "qty": 1,
+          "avgPrice": 962250,
+          "qty": 2,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor"
         },
         {
-          "id": "65e54c5f-ee0a-4722-8047-01a65ee6dff6",
+          "id": "e117e8d6-94da-4235-8e68-56500848e3e9",
           "accountId": "acc-kr-1",
-          "stockId": "kr-etf-371160",
-          "symbolKey": "371160",
-          "avgPrice": 8591,
-          "qty": 85,
+          "stockId": "kr-stock-016360",
+          "symbolKey": "016360",
+          "avgPrice": 110300,
+          "qty": 3,
           "currency": "KRW",
-          "countryLabel": "CN",
-          "sectorLabel": "Index"
+          "countryLabel": "KR",
+          "sectorLabel": "Financials"
+        },
+        {
+          "id": "3a00a9ae-1617-4fbf-8045-822e97acfe5d",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-466920",
+          "symbolKey": "466920",
+          "avgPrice": 38575,
+          "qty": 5,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorLabel": "Shipbuilding"
         }
       ],
       "lifnux.finance.hub.reveal.v1": false,
@@ -9538,6 +9567,72 @@
           "title": "축구 구장비",
           "amount": 2500,
           "kind": "expense"
+        },
+        {
+          "id": "5ce0b60f-ae90-4356-8604-21050b9f31d6",
+          "createdAt": 1771984201918,
+          "date": "2026-02-24",
+          "category": "Snacks & Coffee",
+          "title": "편의점",
+          "amount": 7200,
+          "kind": "expense"
+        },
+        {
+          "id": "2f4fdbb4-e05e-4534-9137-8f64f0cfdd16",
+          "createdAt": 1771984346881,
+          "date": "2026-02-24",
+          "category": "Other",
+          "title": "연말정잔 세액공제",
+          "amount": 416600,
+          "kind": "income"
+        },
+        {
+          "id": "1c875678-ab1c-40cb-a19d-2d96d14a9061",
+          "createdAt": 1771984448722,
+          "date": "2026-02-24",
+          "category": "Wage",
+          "title": "2월 급여",
+          "amount": 2692560,
+          "kind": "income"
+        },
+        {
+          "id": "fd1c16bd-a987-452a-9c0d-a82930ebafc1",
+          "createdAt": 1771988877897,
+          "date": "2026-02-25",
+          "category": "Shopping",
+          "title": "오디오 테크니카 ATH M50X",
+          "amount": 125585,
+          "kind": "expense",
+          "memo": "모니터링용 헤드폰"
+        },
+        {
+          "id": "2e136f33-7e09-47a4-97f5-806a5db63047",
+          "createdAt": 1772069199599,
+          "date": "2026-02-25",
+          "category": "Snacks & Coffee",
+          "title": "빽다방",
+          "amount": 4300,
+          "kind": "expense",
+          "memo": "말차크림라떼(ICE)"
+        },
+        {
+          "id": "1c81c31d-0022-4984-a25d-6ee1aaed1e34",
+          "createdAt": 1772071978930,
+          "date": "2026-02-26",
+          "category": "Shopping",
+          "title": "Topping e2x2 OTG",
+          "amount": 227930,
+          "kind": "expense",
+          "memo": "무이자 3개월"
+        },
+        {
+          "id": "66a25460-d3a1-4382-86ec-a6ab29ea7211",
+          "createdAt": 1772074901067,
+          "date": "2026-02-26",
+          "category": "Subscription",
+          "title": "네이버MYBOX",
+          "amount": 1144,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -9651,10 +9746,6 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -9703,6 +9794,10 @@
           "createdAt": 1769952552228
         }
       ],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -9773,6 +9868,10 @@
         {
           "dateKey": "2026-02-24",
           "createdAt": 1771943314152
+        },
+        {
+          "dateKey": "2026-02-25",
+          "createdAt": 1772028564791
         }
       ],
       "lifnux:guitar:videos": [
@@ -9916,15 +10015,46 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 29345411.524,
-        "unrealizedPnlKrw": 3943481.0555999987,
-        "realizedPnlYtdKrw": 1245253.4275999998,
-        "updatedAt": 1771924653096
+        "totalValueKrw": 31558775.42,
+        "unrealizedPnlKrw": 4291854.457999997,
+        "realizedPnlYtdKrw": 1222814.318,
+        "updatedAt": 1772069143179
       }
     },
     "personalGrowth": {
       "lifnux.personalGrowth.weeklyChecklist.v1": [],
       "lifnux.personalGrowth.goals.v2": [
+        {
+          "id": "f828f530-b269-4bce-b392-8a48c38dc6df",
+          "scope": "LIFETIME",
+          "domainId": "b458e63f-286e-4ec7-9f86-c5714c9ad267",
+          "title": "자산 20억 달성",
+          "details": "",
+          "notes": "",
+          "links": [],
+          "importance": "MIDDLE",
+          "status": "PROGRESSING",
+          "goalType": "VALUE",
+          "trackingMode": "LINKED",
+          "displayMode": "TARGET",
+          "metric": {
+            "unit": "KRW",
+            "targetValue": 2000000000
+          },
+          "countMetric": {
+            "countTarget": 1,
+            "period": "MONTH",
+            "unitLabel": "times"
+          },
+          "checklistItems": [],
+          "isArchived": false,
+          "linkedSource": {
+            "sourceApp": "ASSET",
+            "sourceMetric": "netWorth",
+            "displayMode": "VALUE_ONLY"
+          },
+          "startDate": "2026-02-25"
+        },
         {
           "id": "4a284731-b03d-4d4e-9222-bb4bf865a385",
           "scope": "YEARLY",
@@ -10043,7 +10173,7 @@
           "scope": "YEARLY",
           "domainId": "db1ab12f-7f42-438d-be32-9786fed20c48",
           "title": "수영 배우기",
-          "details": "[목표] : 자유형 가능",
+          "details": "목표 : 자유형 가능",
           "notes": "",
           "links": [],
           "importance": "MIDDLE",
@@ -10072,12 +10202,17 @@
           "importance": "LOW",
           "status": "PROGRESSING",
           "goalType": "CHECKLIST",
-          "trackingMode": "MANUAL",
+          "trackingMode": "LINKED",
           "displayMode": "TARGET",
           "checklistItems": [],
           "isArchived": false,
           "startDate": "2026-01-01",
-          "deadline": "2026-12-31"
+          "deadline": "2026-12-31",
+          "linkedSource": {
+            "sourceApp": "GUITAR",
+            "sourceMetric": "practiceSessionsByYear",
+            "displayMode": "VALUE_ONLY"
+          }
         },
         {
           "id": "4c7e7f40-163f-4d94-a9a3-9352a3974f08",
@@ -10261,13 +10396,6 @@
           "importance": "LOW",
           "price": 1392800,
           "memo": ""
-        },
-        {
-          "id": "1f2e7484-0748-459d-a053-d14c69c57298",
-          "name": "스칼렛 4세대 2i2",
-          "importance": "MIDDLE",
-          "price": 319310,
-          "memo": "오인페"
         }
       ],
       "lifnux.calendar.recurring.v100": [
@@ -10440,6 +10568,18 @@
           "importance": "HIGH",
           "labelId": "20f08160-d6eb-49ec-aed7-043408872d67",
           "location": "문정 블루힐즈 스튜디오",
+          "memo": ""
+        },
+        {
+          "id": "ef893276-1ab5-4863-9e24-9a51200980fd",
+          "title": "일렉기타 레슨",
+          "date": "2026-02-28",
+          "type": "TIMED",
+          "startTime": "13:00",
+          "endTime": "13:50",
+          "importance": "LOW",
+          "labelId": "20f08160-d6eb-49ec-aed7-043408872d67",
+          "location": "문정역 블루힐즈스튜디오",
           "memo": ""
         }
       ],
@@ -15418,19 +15558,101 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "a47666ad-dfd2-45ec-b75b-333ed9902c38",
+          "postingId": "4de4bbac-90a6-4c6e-b540-9f6d4baa0896",
+          "appliedAt": "2026-02-25",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "f319da14-4588-4ee8-9b69-4cd77d8fe80c",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-02-25",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "f489634e-1303-40da-a017-7e4c1176584a",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "34f19ffe-975b-4d45-8207-f87d7a6469c2",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "7812596b-0acd-423b-9ecf-caafe8dc6db5",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "0d34eac2-4486-43ff-9dd0-d4a59891d8c1",
+          "postingId": "b2c2afac-05a5-439c-be50-850edb39d098",
+          "appliedAt": "2026-02-25",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "d4a80a52-1e05-44cb-8766-f9ea14e1811a",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-02-25",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "446766e0-5a69-42d4-9b26-bcc6c91c585d",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "d2c00fce-2f8d-4006-82bc-82d8b61583ea",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "0e7e29d3-e222-440c-8afd-126f2896950a",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "20ff64f9-e343-45bb-ba2b-80f188fe625e",
           "postingId": "ede33c08-8de5-47ed-80c0-b2911dfb5680",
           "appliedAt": "2026-02-23",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "db09f7e4-d132-440a-91aa-e3721227b7c6",
               "type": "DOCUMENT",
               "submittedAt": "2026-02-23",
-              "resultAt": null,
-              "result": "PENDING",
-              "notes": "걍 에라- 모르겠다 느낌의 지원이긴함."
+              "resultAt": "2026-02-26",
+              "result": "FAIL",
+              "notes": "빠르게 탈락. 이거 경력직 공고긴했음 (자기위로)"
             },
             {
               "stageId": "b83de01b-102c-42b0-9cc9-20fba429d2bb",
@@ -15717,7 +15939,7 @@
               "submittedAt": "2026-02-19",
               "resultAt": "2026-02-20",
               "result": "FAIL",
-              "notes": ""
+              "notes": "하루컷 개 레전드..."
             },
             {
               "stageId": "90447e8c-12f6-475e-b35e-902189d647fa",
@@ -15749,16 +15971,16 @@
           "applicationId": "8c727ef0-d642-483b-bbb2-c4a1414af0af",
           "postingId": "08de1264-39e6-4b2d-ba17-4a2ae1a7a877",
           "appliedAt": "2026-02-10",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "de42d299-3640-41d4-a8d3-97e1239f115e",
               "type": "DOCUMENT",
               "submittedAt": "2026-02-10",
-              "resultAt": null,
-              "result": "PENDING",
-              "notes": ""
+              "resultAt": "2026-02-25",
+              "result": "FAIL",
+              "notes": "솔-직히 서류는 붙을줄.."
             },
             {
               "stageId": "f603219d-3dc1-4975-8526-c077cfae3a2d",
@@ -15930,6 +16152,90 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "ddc19f57-6a07-480f-90dc-9c77d4699fdd",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "슈퍼센트",
+          "postingTitle": "게임 리서처",
+          "role": "사업개발",
+          "contractType": "정규직",
+          "departmentInfo": "슈퍼센트가 수억 다운로드를 만들어온 힘은 데이터 이면의 '재미'를 읽어내는 통찰력에 있습니다. \n게임 리서처는 전 세계 마켓의 수 많은 게임을 탐구하며, 무엇이 유저를 움직이는지 분석하고, 그 결과를 사내에 전파하는 '나침반' 역할을 수행합니다. \n본인의 분석이 글로벌 히트작의 기준이 되고, 슈퍼센트의 게임 퀄리티를 한 단계 끌어올리는 짜릿한 경험을 함께할 동료를 기다립니다.",
+          "responsibilities": "글로벌 모바일 마켓(Top Charts 및 라이징 게임)의 주요 게임들을 플레이하고 분석합니다.\n게임의 코어 루프, BM, UX/UI, 유저 심리 등을 분석하여 대내외용 인사이트 보고서를 작성합니다.\n시장 트렌드 변화를 상시 모니터링하고, 성공 가능성이 높은 유망 장르 및 컨셉을 발굴하여 제안합니다.\n퍼블리싱 검토 단계의 게임들을 플레이하며, 게임성 및 퀄리티를 객관적으로 평가하고 개선 방향을 제시합니다.\n사내 세미나 및 공유 채널을 통해 최신 게임 트렌드와 분석 인사이트를 전파합니다.",
+          "requirements": "게임 기획 또는 서비스 운영 경험이 있거나, 리서처 혹은 전문 리뷰어로서 게임 분석 경험이 있으신 분\n특정 장르에 치우지지 않고 하이퍼캐주얼부터 하이브리드, 미드코어까지 폭넓게 플레이하고 분석할 수 있으신 분\n현상(Data) 뒤에 숨겨진 재미의 본질(Why)을 논리적으로 설명하고 문서로 정리할 수 있으신 분\n주관적인 느낌이 아닌, 객관적인 지표와 기준에 근거하여 게임의 퀄리티를 평가할 수 있으신 분\n능동적으로 정보를 수집하고, 분석한 내용을 타 직군이 이해하기 쉽게 전달할 수 있으신 분",
+          "neededSkills": "게임 분석 및 역기획서 작성 역량\n데이터 분석 툴 활용 능력(Sensor Tower, data.ai 등 사용 경험 우대)\n문서 작성 및 프리젠테이션 스킬(Notion, PPT 등)",
+          "preferred": "글로벌 마켓에 대한 이해도가 높고, 해외 최신 트렌드 매체를 꾸준히 구독하며 인사이트로 연결하시는 분\n게임 제작 과정 전반(기획/개발 등)에 대한 이해를 바탕으로 실무에 적용 가능한 피드백을 제시할 수 있으신 분\nAI 도구(ChatGPT 등)를 활용해 방대한 리서치 데이터를 효율적으로 요약·정리할 수 있으신 분\n직접 게임 프로젝트를 런칭한 경험이 있거나, 핵심 지표를 개선한 경험이 있으신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://supercent.career.greetinghr.com/ko/o/202463",
+          "createdAt": "2026-02-26T05:07:23.233Z",
+          "updatedAt": "2026-02-26T05:07:25.329Z"
+        },
+        {
+          "postingId": "66df825a-b400-4455-96de-bcbec0b0c76f",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "드리모",
+          "postingTitle": "[글로벌 캐주얼 프로젝트] 경영관리 인턴",
+          "role": "사업관리",
+          "contractType": "인턴",
+          "departmentInfo": "본 포지션으로 합류하시게 된다면 드리모의 대표이기도 한 메인 기획자와 긴밀하게 협업하며 글로벌 서비스, 마케팅, 사업 전략 수립 및 수행, 팀 운영 관리 등 스타트업의 성공에 반드시 필요한 업무 전반을 경험하고, 훌륭한 팀원들과 함께 폭발적인 성장을 경험하는 소중한 기회가 될 것입니다",
+          "responsibilities": "경영, 사업, 전략 업무 수행 지원\n글로벌 시장 리서치\n사업계획서 작성\n데이터 분석, 보고서 작성\n인사, 총무 지원\n게임 서비스 운영 지원\n글로벌 마케팅",
+          "requirements": "경력 무관\n학사 졸업예정자 혹은 기졸업자\n배움과 성장 그 자체에서 즐거움을 느끼는 분\n도전을 즐기는 분\n논리적인 사고를 바탕으로 뛰어난 문제해결 능력을 갖춘 분\n포기하지 않고 목표를 향해 나아가는 분\n행동으로 보여주는 능동적인 분",
+          "neededSkills": "",
+          "preferred": "IT 기술, 게임에 대한 많은 관심과 경험\n영어 독해, 작문 능력을 바탕으로 한 커뮤니케이션 능력\n글로벌 게임 시장에 대한 관심과 이해도가 높으신 분\n프로그래밍 지식 또는 경험 (파이썬, SQL 등)\n데이터 관리, 분석에 대한 지식 또는 경험",
+          "memo": "연락처 : 전화번호, 이메일\n이력서 (LinkedIn으로 대체 가능)\n개발 포트폴리오\n*지원 서류 제출과 함께 반드시 사전 질문에 대한 응답을 함께 제출해주세요.(필수)\n\n근무 기간: 3개월\n근무 형태: 정규직 전환형 인턴",
+          "comment": "",
+          "deadline": null,
+          "importance": 5,
+          "isFavorite": false,
+          "link": "https://www.gamejob.co.kr/Recruit/GI_Read/View?GI_No=276341",
+          "createdAt": "2026-02-25T15:21:13.926Z",
+          "updatedAt": "2026-02-25T15:21:13.926Z"
+        },
+        {
+          "postingId": "b2c2afac-05a5-439c-be50-850edb39d098",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "넥슨게임즈",
+          "postingTitle": "[블루아카이브] 어시스턴트 PM",
+          "role": "개발PM",
+          "contractType": "계약직",
+          "departmentInfo": "한국, 일본 및 글로벌에서 서비스 중인 “블루아카이브”를 개발하고 있는 스튜디오입니다.\n김용하 PD를 비롯해 업계 최고 베테랑들과 함께할 인재를 모집합니다.\n",
+          "responsibilities": "- 스튜디오 운영 관련 업무 담당\n- 스튜디오 구성원의 인프라 및 라이선스 관리\n- PM 업무(개발관리 및 서비스관리) 지원",
+          "requirements": "- 신입 / 경력(최대 2년차) 무관\n- 높은 책임감을 바탕으로 성실하고 꼼꼼하게 업무를 수행하는 분\n- 유연한 사고로 문제를 해결할 수 있으며, 긍정적인 태도로 협업할 수 있으신 분\n- 자신의 생각을 간결하고 명확하게 전달하는 능력이 있으신 분\n- Project Manager로서의 이론적 지식이 있으신 분",
+          "neededSkills": "",
+          "preferred": "- 게임업계 PM으로서 경력을 쌓고 배우길 희망하시는 분\n- 평소 서브컬쳐 및 블루아카이브에 대한 관심이 많으신 분\n- 프로젝트 관리 도구(Jira, Confluence, Redmine 등)에 대한 지식과 관심이 있으신 분\n- 원어민 수준의 일본어 능력을 갖추신 분",
+          "memo": "해당 공고는 계약직 채용이며, 예상 근무 기간은 채용시점 ~ 27년 8월 입니다.\n",
+          "comment": "자기소개서\n1. 자유롭게 본인을 소개해주시고 지원하신 분야에 적합하다고 생각하는 이유를 말씀해주세요.\n2. 게임업계에서의 PM의 의미와 그 역할에 대해서 논리적으로 설명해주세요.\n3. (포트폴리오가 없을 경우) 본인이 PM이 되기 위해서 준비하거나 노력한 것을 자유롭게 설명해주세요.\n★ 기존 포트폴리오를 재가공\n1. 개발/퍼블리싱 부서에서의 실무 경험: 커뮤니케이션 및 Jira 등 사용 경험\n2. 문제 해결 능력\n3. 게임 플레이 경험 (수집형/서브컬처 중심으로)",
+          "deadline": null,
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://careers.nexon.com/recruit/9485",
+          "createdAt": "2026-02-25T03:33:23.610Z",
+          "updatedAt": "2026-02-25T07:12:59.663Z"
+        },
+        {
+          "postingId": "4de4bbac-90a6-4c6e-b540-9f6d4baa0896",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "NC소프트",
+          "postingTitle": "[리니지] 사업 PM",
+          "role": "사업PM",
+          "contractType": "계약직",
+          "departmentInfo": "1998년 이래 장기적인 서비스를 이어오고 있는 리니지(PC) IP의 컨텐츠/서비스 품질 향상을 목표로 합니다.\n게임 인사이트를 통한 사업 전략/목표 수립 및 실행하고, 유관 부서와의 유기적인 협업으로 안정적인 라이브 서비스를 이끌 분을 찾고 있습니다.",
+          "responsibilities": "1. 라이브 서비스 전략 수립/관리\n- 서비스 방향을 도출하고 서비스 제반 준비를 위한 전략 수립 및 관리\n\n2. 라이브 서비스 운영 관리\n- 컨텐츠 가이드 작성 및 웹 페이지 제작 등 인게임 컨텐츠/이벤트를 전반적으로 관리\n- 라이브 서비스 중 발생하는 이슈 대응 및 개선\n\n3. 데이터 기반 분석 및 제안\n- 컨텐츠 및 BM 분석을 통한 현 서비스 문제점 파악 및 해결방안 도출\n- 핵심 지표 기반 보고서 작성 및 개선 방향 제안\n\n4. 사업 활동 기획 및 실행\n- IP에 대한 이해도와 핵심 지표 분석을 바탕으로 분기별 사업 활동 계획 수립 및 실행\n\n5. 보고 문서 작성\n- 사업 계획을 기반으로 한 전략적이고 설득력 있는 보고서 작성\n- 파워포인트, 워드, 엑셀 등 문서 작업능력을 토대로 체계적으로 시각화한 보고 자료 작업\n\n6. 커뮤니케이션 및 협업\n- 공동의 목표를 위해 팀 내/외 협업을 통한 원활한 커뮤니케이션 및 업무 조율",
+          "requirements": "- MMORPG 장르에 대한 기본적인 이해도와 서비스 경험을 보유하신 분\n- IP PLC 개선을 위해 컨텐츠 및 BM에 대한 데이터 기반 분석 및 설득력 있는 개선안 작성이 가능하신 분\n- 파워포인트, 워드, 엑셀 등을 활용한 문서 작성 능력이 있으신 분",
+          "neededSkills": "",
+          "preferred": "- 1년 이상의 라이브 서비스 PM 경험자\n- 리니지 IP에 대한 이해도가 높은 분\n- 효율적이고 효과적인 스케줄 관리 능력이 있으신 분\n- 팀워크에 능하고 원활한 커뮤니케이션 능력이 있으신 분\n- 엑셀 함수 활용 및 매크로(VBA) 제작 가능하신 분\n- 다양한 장르의 게임 플레이를 좋아하는 분",
+          "memo": "경력기술서(필수)\n\n포트폴리오(선택사항)",
+          "comment": "<필요 서류> \n경력 기술서\n자기소개 - 지원동기\n★ 기존 자기소개/경력 포트폴리오 재가공하여\n1. 기획/운영에서의 실무 경험 : 원활한 커뮤니케이션 가능\n2. 문제 해결 능력 : AI 활용 역량 등...\n3. 다양한 장르의 게임 플레이 경험 : MMORPG + @로 어필",
+          "deadline": "2026-03-23",
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://careers.ncsoft.com/apply/view/100365?companyId=NCH",
+          "createdAt": "2026-02-25T02:47:47.883Z",
+          "updatedAt": "2026-02-25T06:41:51.962Z"
+        },
+        {
           "postingId": "00be8f82-730d-45ef-ba84-6d4af327af2c",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "쿡앱스",
@@ -15986,11 +16292,11 @@
           "memo": "",
           "comment": "서류 지원 + 소은님에게 말하면 서류 전형은 PASS",
           "deadline": null,
-          "importance": 5,
+          "importance": 6,
           "isFavorite": false,
           "link": "https://bitmango.ninehire.site/job_posting/8cqdMM1s",
           "createdAt": "2026-02-23T15:46:03.927Z",
-          "updatedAt": "2026-02-23T15:47:50.616Z"
+          "updatedAt": "2026-02-25T07:15:27.312Z"
         },
         {
           "postingId": "7bda97d0-4ab5-4f7b-bc0a-34f2d3393039",
@@ -16033,27 +16339,6 @@
           "link": "https://loadcomplete.career.greetinghr.com/ko/o/198273",
           "createdAt": "2026-02-23T15:42:03.777Z",
           "updatedAt": "2026-02-23T15:42:03.777Z"
-        },
-        {
-          "postingId": "7502540c-ed02-402e-8a9d-2bcd97c6bb79",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "펄어비스",
-          "postingTitle": "[인턴십] 게임분석 인턴",
-          "role": "사업/운영",
-          "contractType": "인턴",
-          "departmentInfo": "",
-          "responsibilities": "PC/콘솔/모바일 플랫폼의 AAA, 인디, 라이브 서비스 등 다양한 장르의 게임들 플레이 후 다양한 주제들에 관한 분석\n국내 및 해외 게임 산업 전반의 트렌드 조사\n개발 및 사업 업무 수행을 위한 게임 분석 자료 수집 및 제작",
-          "requirements": "다양한 장르와 플랫폼의 게임플레이를 많이 하고 경험이 풍부하신 분\n게임 플레이어 관점에서 사고할 수 있는 태도를 가지신 분\n원활한 커뮤니케이션이 가능하신 분",
-          "neededSkills": "",
-          "preferred": "여러 게임의 엔딩과 엔드게임 콘텐츠를 경험해 보신 분\n문서작업에 능숙하신 분 (Word, Excel, PowerPoint 등)\n영어로 원활한 커뮤니케이션이 가능하신 분",
-          "memo": "",
-          "comment": "",
-          "deadline": "2026-02-27",
-          "importance": 6,
-          "isFavorite": false,
-          "link": "https://www.pearlabyss.com/ko-KR/Company/Careers/detail?_jobOpeningNo=727",
-          "createdAt": "2026-02-23T15:40:45.088Z",
-          "updatedAt": "2026-02-23T15:40:45.088Z"
         },
         {
           "postingId": "a3a48cd3-74c2-4d63-8e4e-a5248b61ba7a",
@@ -16260,10 +16545,10 @@
           "comment": "",
           "deadline": "2026-03-27",
           "importance": 7,
-          "isFavorite": false,
+          "isFavorite": true,
           "link": "https://com2us.recruiter.co.kr/career/jobs/97049",
           "createdAt": "2026-02-23T07:11:19.715Z",
-          "updatedAt": "2026-02-23T07:41:54.362Z"
+          "updatedAt": "2026-02-25T02:49:50.388Z"
         },
         {
           "postingId": "08de1264-39e6-4b2d-ba17-4a2ae1a7a877",
@@ -16364,11 +16649,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "KpM6xNAgRoI",
-        "queueIndex": 3,
+        "videoId": "IPnUVZEyzdI",
+        "queueIndex": 22,
         "currentTime": 0,
         "repeatMode": "all",
-        "shuffle": false
+        "shuffle": true
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -16503,9 +16788,57 @@
             "videoId": "aZtZNW6P97E",
             "title": "《이 별에 필요한 - Lost in Starlight》 메인 OST 'Bon Voyage'와 함께하는 감성 뮤직비디오(MV) 🎶｜KT x 넷플릭스",
             "url": "https://youtu.be/aZtZNW6P97E?si=OIwsP3o3tuWYUXPz"
+          },
+          {
+            "id": "aa9ab9a9-204a-43b0-9303-98b2985545e3",
+            "videoId": "IPnUVZEyzdI",
+            "title": "[자막] 녹황색사회(緑黄色社会) - Mela! 라이브 live",
+            "url": "https://youtu.be/IPnUVZEyzdI?si=dWMmNvCDLmLl1LVq"
+          },
+          {
+            "id": "e9460a61-08cf-49d1-8fad-b8bdecee3a0c",
+            "videoId": "oyXx7MDqZ-Q",
+            "title": "ZICO, Crush - 'Yin and Yang (FANXY CHILD Ver.)(Feat. DEAN, PENOMECO)' Visualizer",
+            "url": "https://youtu.be/oyXx7MDqZ-Q?si=x9NgZgPJZjQdxgpT"
+          },
+          {
+            "id": "21ecd60a-9429-47ec-9e7b-fc76455a36dc",
+            "videoId": "LmZD-TU96q4",
+            "title": "米津玄師  Kenshi Yonezu - IRIS OUT",
+            "url": "https://youtu.be/LmZD-TU96q4?si=U1SPgyyB1Uvk75Jh"
+          },
+          {
+            "id": "c1958699-d7f6-4b40-986b-478f2350bb4a",
+            "videoId": "-tKVN2mAKRI",
+            "title": "DAOKO × 米津玄師『打上花火』MUSIC VIDEO",
+            "url": "https://youtu.be/-tKVN2mAKRI?si=BVfJXf-PDjp41zPR"
+          },
+          {
+            "id": "056b8f8f-3433-492b-ba96-8001ae16aaab",
+            "videoId": "rMWUpRGtSo4",
+            "title": "아이묭 (Aimyon, あいみょん) – 3636 가사 번역 뮤직비디오",
+            "url": "https://youtu.be/rMWUpRGtSo4?si=erWFJRhJfrvPooOp"
+          },
+          {
+            "id": "1cb64fab-1b70-4185-8216-c28adfb68b5a",
+            "videoId": "tq9Y62uJUfU",
+            "title": "아이묭 (Aimyon, あいみょん) - Marigold (マリーゴールド) 가사 번역 뮤직비디오",
+            "url": "https://youtu.be/tq9Y62uJUfU?si=xoL6PlkWmdfo9uS_"
+          },
+          {
+            "id": "2637c533-0342-406e-936b-0e823a403cd1",
+            "videoId": "aLTtvgXMZyA",
+            "title": "아이묭 (Aimyon, あいみょん) - 사랑을 전하고 싶다든가 (愛を伝えたいだとか) 가사 번역 뮤직비디오",
+            "url": "https://youtu.be/aLTtvgXMZyA?si=sVpYnZsmIreQZf_S"
+          },
+          {
+            "id": "2fbc86fb-926d-42c7-a1d5-7ed7663c3999",
+            "videoId": "_0f5FjEQzsg",
+            "title": "Hebi - '늘 (EVER)' Official MV",
+            "url": "https://youtu.be/_0f5FjEQzsg?si=w9xIsRmKGmD0lHpk"
           }
         ],
-        "currentIndex": 16,
+        "currentIndex": 22,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -16665,17 +16998,17 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 9300
+          "balance": 8859
         },
         {
           "accountId": "acc-us-1",
           "currency": "KRW",
-          "balance": 4901
+          "balance": 1866
         },
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 21.620000000000005
+          "balance": 12.230000000000047
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -17316,6 +17649,141 @@
           "side": "BUY",
           "qty": 1,
           "price": 306.27,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "50863801-08db-46e8-97c2-5151cb851f65",
+          "ts": 1771984572108,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 500000
+        },
+        {
+          "id": "8f0ca331-3374-4f5d-9aac-904e025fa01b",
+          "ts": 1771984763361,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0072R0",
+          "side": "BUY",
+          "qty": 5,
+          "price": 16055,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "3c1b59e6-f94b-4a1d-ace7-aa2ef760be4d",
+          "ts": 1771984782112,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "379800",
+          "side": "BUY",
+          "qty": 6,
+          "price": 22540,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "9a71a106-8822-412a-ac83-388365b4cea0",
+          "ts": 1771984797184,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "379810",
+          "side": "BUY",
+          "qty": 12,
+          "price": 23960,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "3d87e354-c11e-485c-ab8a-cce70289d2cf",
+          "ts": 1771985001524,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 513.6
+        },
+        {
+          "id": "e84fd600-5d90-4977-9fc4-8ef64d9cc498",
+          "ts": 1771985132487,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "371160",
+          "side": "SELL",
+          "qty": 85,
+          "price": 8375,
+          "realizedPnl": -18360,
+          "realizedPnlPercent": -2.5142591083692234,
+          "costBasis": 730235
+        },
+        {
+          "id": "3e29cf07-21a1-47d1-8e07-9c7d631ef673",
+          "ts": 1771985202167,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 700000
+        },
+        {
+          "id": "216408db-5895-4e35-9002-f3b9af723352",
+          "ts": 1771985213623,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "000660",
+          "side": "BUY",
+          "qty": 1,
+          "price": 1036500,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "7feaf0a5-ca08-4843-a870-1d4cbbd40853",
+          "ts": 1771985719479,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 375816,
+          "memo": "삼증 + 조선ETF 매수"
+        },
+        {
+          "id": "e0ae03c8-83f0-4361-9b72-2e9ec8e0cb09",
+          "ts": 1772032020471,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:GOOGL",
+          "side": "BUY",
+          "qty": 1,
+          "price": 311.76,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "f10419c2-b11a-42a7-a7e0-3a85c689a745",
+          "ts": 1772032034207,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:AMZN",
+          "side": "BUY",
+          "qty": 1,
+          "price": 211.23,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null

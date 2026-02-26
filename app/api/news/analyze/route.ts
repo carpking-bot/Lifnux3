@@ -75,7 +75,7 @@ function normalizeFilter(raw: unknown, articles: ArticleInput[]): LlmFilterResul
 }
 
 export async function POST(request: Request) {
-  let body: { domain?: "STOCK" | "GAME" | "GENERAL"; candidates?: ArticleInput[] } = {};
+  let body: { domain?: "STOCK" | "GAME" | "GENERAL"; candidates?: ArticleInput[]; instruction?: string } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -84,6 +84,7 @@ export async function POST(request: Request) {
 
   const domain = body.domain === "GAME" || body.domain === "STOCK" ? body.domain : "GENERAL";
   const candidates = Array.isArray(body.candidates) ? body.candidates.slice(0, 60) : [];
+  const userInstruction = String(body.instruction ?? "").trim().slice(0, 1200);
   if (!candidates.length) {
     return NextResponse.json({ keep: [], drop: [], model: "fallback", fallback: true });
   }
@@ -107,6 +108,7 @@ export async function POST(request: Request) {
       "GENERAL still keep substantial events and drop shallow noise.",
       "Use only provided candidate fields. Do not invent."
     ],
+    user_instruction: userInstruction || undefined,
     candidates: candidates.map((item, idx) => ({
       id: String(item.id ?? `item_${idx}`),
       title: item.title ?? "",

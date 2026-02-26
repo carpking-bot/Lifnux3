@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import https from "node:https";
 
 export const runtime = "nodejs";
 
@@ -19,6 +20,69 @@ type NormalizedCandidate = {
   pubDate: string;
   source: string;
 };
+
+const TRACKING_PARAMS = new Set([
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_term",
+  "utm_content",
+  "utm_id",
+  "utm_name",
+  "utm_cid",
+  "utm_reader",
+  "utm_referrer",
+  "utm_viz_id",
+  "gclid",
+  "fbclid",
+  "igshid",
+  "mc_cid",
+  "mc_eid"
+]);
+
+async function fetchNaverWithHttps(url: URL, headers: Record<string, string>, rejectUnauthorized: boolean) {
+  return new Promise<{ status: number; body: string }>((resolve, reject) => {
+    const req = https.request(
+      url,
+      {
+        method: "GET",
+        headers,
+        rejectUnauthorized,
+        timeout: 10_000
+      },
+      (res) => {
+        const chunks: Buffer[] = [];
+        res.on("data", (chunk) => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)));
+        res.on("end", () => {
+          resolve({
+            status: res.statusCode ?? 0,
+            body: Buffer.concat(chunks).toString("utf8")
+          });
+        });
+      }
+    );
+    req.on("timeout", () => req.destroy(new Error("request timeout")));
+    req.on("error", reject);
+    req.end();
+  });
+}
+
+function extractErrorDetail(error: unknown) {
+  if (error instanceof Error) {
+    const anyErr = error as Error & { cause?: unknown };
+    const cause =
+      anyErr.cause && typeof anyErr.cause === "object"
+        ? anyErr.cause as { code?: string; errno?: number | string; message?: string }
+        : null;
+    const causeParts = [
+      cause?.code ? `code=${cause.code}` : "",
+      cause?.errno !== undefined ? `errno=${String(cause.errno)}` : "",
+      cause?.message ? `cause=${cause.message}` : ""
+    ].filter(Boolean);
+    return causeParts.length ? `${error.message} (${causeParts.join(", ")})` : error.message;
+  }
+  return String(error);
+}
 
 function stripTags(value: string) {
   return value.replace(/<[^>]+>/g, "");
@@ -51,6 +115,39 @@ function parseSource(urlRaw: string) {
   } catch {
     return "";
   }
+}
+
+function normalizeArticleUrl(urlRaw: string) {
+  const raw = urlRaw.trim();
+  if (!raw) return "";
+  try {
+    const url = new URL(raw);
+    const nextParams = new URLSearchParams();
+    url.searchParams.forEach((value, key) => {
+      if (TRACKING_PARAMS.has(key.toLowerCase())) return;
+      nextParams.append(key, value);
+    });
+    const search = nextParams.toString();
+    url.search = search ? `?${search}` : "";
+    url.hash = "";
+    return url.toString();
+  } catch {
+    return raw;
+  }
+}
+
+function dedupeByExactLinks(items: NormalizedCandidate[]) {
+  const seenOrigin = new Set<string>();
+  const seenLink = new Set<string>();
+  return items.filter((item) => {
+    const normalizedOrigin = normalizeArticleUrl(item.originallink);
+    const normalizedLink = normalizeArticleUrl(item.link);
+    if (normalizedOrigin && seenOrigin.has(normalizedOrigin)) return false;
+    if (normalizedLink && seenLink.has(normalizedLink)) return false;
+    if (normalizedOrigin) seenOrigin.add(normalizedOrigin);
+    if (normalizedLink) seenLink.add(normalizedLink);
+    return true;
+  });
 }
 
 function toIsoDate(pubDateRaw: string) {
@@ -101,6 +198,7 @@ export async function GET(request: Request) {
 
   const clientId = process.env.NAVER_CLIENT_ID?.trim();
   const clientSecret = process.env.NAVER_CLIENT_SECRET?.trim();
+  const allowInsecureTls = ["1", "true", "yes"].includes((process.env.NAVER_ALLOW_INSECURE_TLS ?? "").trim().toLowerCase());
   if (!clientId || !clientSecret) {
     return NextResponse.json(
       { error: "missing-naver-credentials", message: "NAVER_CLIENT_ID / NAVER_CLIENT_SECRET not configured." },
@@ -121,28 +219,47 @@ export async function GET(request: Request) {
   upstream.searchParams.set("sort", sort);
 
   try {
-    const response = await fetch(upstream, {
-      headers: {
-        "X-Naver-Client-Id": clientId,
-        "X-Naver-Client-Secret": clientSecret
-      },
-      cache: "no-store"
-    });
+    const headers = {
+      "X-Naver-Client-Id": clientId,
+      "X-Naver-Client-Secret": clientSecret
+    };
+    let status = 0;
+    let rawBody = "";
+    if (allowInsecureTls) {
+      const result = await fetchNaverWithHttps(upstream, headers, false);
+      status = result.status;
+      rawBody = result.body;
+    } else {
+      const response = await fetch(upstream, {
+        headers,
+        signal: AbortSignal.timeout(10_000),
+        cache: "no-store"
+      });
+      status = response.status;
+      rawBody = await response.text();
+    }
 
-    if (!response.ok) {
-      const body = await response.text();
+    if (status < 200 || status >= 300) {
       return NextResponse.json(
-        { error: "naver-upstream-error", status: response.status, detail: body.slice(0, 500) },
+        { error: "naver-upstream-error", status, detail: rawBody.slice(0, 500) },
         { status: 502 }
       );
     }
 
-    const payload = (await response.json()) as { total?: number; items?: NaverNewsItem[] };
+    let payload: { total?: number; items?: NaverNewsItem[] } = {};
+    try {
+      payload = JSON.parse(rawBody) as { total?: number; items?: NaverNewsItem[] };
+    } catch {
+      return NextResponse.json(
+        { error: "naver-upstream-invalid-json", detail: rawBody.slice(0, 500) },
+        { status: 502 }
+      );
+    }
     const normalized = (payload.items ?? []).map((item): NormalizedCandidate => {
       const title = sanitizeText(item.title ?? "");
       const snippet = sanitizeText(item.description ?? "");
-      const link = (item.link ?? "").trim();
-      const originallink = (item.originallink ?? "").trim();
+      const link = normalizeArticleUrl(item.link ?? "");
+      const originallink = normalizeArticleUrl(item.originallink ?? "");
       const source = parseSource(originallink || link);
       const pubDate = toIsoDate((item.pubDate ?? "").trim());
       return {
@@ -155,7 +272,7 @@ export async function GET(request: Request) {
         source
       };
     });
-    const items =
+    const dateFiltered =
       fromDate || toDate
         ? normalized.filter((item) => {
             if (!item.pubDate) return false;
@@ -166,6 +283,7 @@ export async function GET(request: Request) {
             return true;
           })
         : normalized;
+    const items = dedupeByExactLinks(dateFiltered);
 
     return NextResponse.json({
       keyword,
@@ -173,7 +291,8 @@ export async function GET(request: Request) {
       items
     });
   } catch (error) {
-    console.error("[NEWS SEARCH ERROR]", error);
-    return NextResponse.json({ error: "news-search-unavailable" }, { status: 503 });
+    const detail = extractErrorDetail(error);
+    console.error("[NEWS SEARCH ERROR]", detail);
+    return NextResponse.json({ error: "news-search-unavailable", detail }, { status: 503 });
   }
 }
