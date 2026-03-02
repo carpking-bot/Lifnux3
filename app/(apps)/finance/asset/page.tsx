@@ -149,7 +149,10 @@ const formatKrw = (v: number) => {
 };
 const formatPct = (v: number) => `${v >= 0 ? "+" : ""}${v.toFixed(2)}%`;
 const MONTH_KEY_PATTERN = /^\d{4}-\d{2}$/;
-const monthNow = () => new Date().toISOString().slice(0, 7);
+const monthNow = () => {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+};
 const clampAssetMonth = (month: string) => (month < ASSET_MIN_MONTH ? ASSET_MIN_MONTH : month);
 const normalizeMonthKey = (value: unknown, fallback?: string) => {
   const fallbackMonth = typeof fallback === "string" && MONTH_KEY_PATTERN.test(fallback) ? fallback : monthNow();
@@ -684,7 +687,11 @@ export default function FinanceAssetPage() {
       saveState(ASSET_MONTHLY_SNAPSHOTS_KEY, migrated);
     }
     const alreadyImported = loadState<boolean>(ASSET_DATASET_IMPORTED_KEY, false);
-    if (!alreadyImported) {
+    const hasUserAssetData =
+      Object.keys(migrated).length > 0 ||
+      (Array.isArray(loadedLogs) && loadedLogs.length > 0) ||
+      (Array.isArray(loadedCategories) && loadedCategories.length > 0);
+    if (!alreadyImported && !hasUserAssetData) {
       const imported = buildSnapshotSeedFromDataset();
       if (imported) {
         loadedCategories = imported.categories;
@@ -700,6 +707,9 @@ export default function FinanceAssetPage() {
         saveState(ASSET_DATASET_IMPORTED_KEY, true);
         setMonth(clampAssetMonth(imported.latestMonth));
       }
+    } else if (!alreadyImported && hasUserAssetData) {
+      // Existing data is present: mark import as completed so manual snapshots are never overwritten.
+      saveState(ASSET_DATASET_IMPORTED_KEY, true);
     }
     if (!alreadyImported) {
       const filteredLogs = loadedLogs.filter((log) => log.month >= ASSET_MIN_MONTH);
@@ -723,14 +733,14 @@ export default function FinanceAssetPage() {
   useEffect(() => {
     const s = snapshots[month];
     const drafts = loadState<Record<string, AssetItem[]>>(ASSET_EDITOR_DRAFTS_KEY, {});
-    if (Object.prototype.hasOwnProperty.call(drafts, month)) {
-      const monthDraft = (drafts[month] ?? []).map((item) => migrateItem(item));
-      setEditorItems(monthDraft);
+    if (s) {
+      setEditorItems(s.items.map((item) => ({ ...item })));
       hydratedEditorMonthRef.current = month;
       return;
     }
-    if (s) {
-      setEditorItems(s.items.map((item) => ({ ...item })));
+    if (Object.prototype.hasOwnProperty.call(drafts, month)) {
+      const monthDraft = (drafts[month] ?? []).map((item) => migrateItem(item));
+      setEditorItems(monthDraft);
       hydratedEditorMonthRef.current = month;
       return;
     }
@@ -873,20 +883,28 @@ export default function FinanceAssetPage() {
     [categoryCards]
   );
 
-  const historyMonths = useMemo(() => sortedSnapshots.map((s) => s.month), [sortedSnapshots]);
+  const nonZeroSnapshots = useMemo(
+    () =>
+      sortedSnapshots.filter((snapshot) => {
+        if (!Array.isArray(snapshot.items) || snapshot.items.length === 0) return false;
+        return signedSnapshotTotal(snapshot.items) !== 0;
+      }),
+    [sortedSnapshots]
+  );
+  const historyMonths = useMemo(() => nonZeroSnapshots.map((s) => s.month), [nonZeroSnapshots]);
   const runtimeCurrentMonth = monthNow();
-  const effectiveLatest = useMemo(() => getEffectiveLatestSnapshot(sortedSnapshots, runtimeCurrentMonth), [sortedSnapshots, runtimeCurrentMonth]);
+  const effectiveLatest = useMemo(() => getEffectiveLatestSnapshot(nonZeroSnapshots, runtimeCurrentMonth), [nonZeroSnapshots, runtimeCurrentMonth]);
   const effectiveLatestMonth = effectiveLatest.effectiveLatest?.month ?? null;
   const historySeries = useMemo(() => {
     const lines: HistorySeries[] = [
-      { key: "total", label: "Total Asset", color: "#7FE9CF", values: sortedSnapshots.map((s) => signedSnapshotTotal(s.items)) }
+      { key: "total", label: "Total Asset", color: "#7FE9CF", values: nonZeroSnapshots.map((s) => signedSnapshotTotal(s.items)) }
     ];
     categoryCards.forEach((card) => {
       lines.push({
         key: card.id,
         label: card.name,
         color: card.color,
-        values: sortedSnapshots.map((s) =>
+        values: nonZeroSnapshots.map((s) =>
           s.items
             .filter((item) => (categoryMap.has(item.categoryId) ? item.categoryId === card.id : card.id === UNCATEGORIZED_ID))
             .reduce((sum, item) => sum + signedAmountByCategory(card.id, item.amountKRW), 0)
@@ -894,9 +912,12 @@ export default function FinanceAssetPage() {
       });
     });
     return lines;
-  }, [sortedSnapshots, categoryCards, categoryMap]);
+  }, [nonZeroSnapshots, categoryCards, categoryMap]);
   const activeTooltipMonth = historyPinnedMonth ?? historyHoverMonth ?? effectiveLatestMonth;
-  const hoverSummary = useMemo(() => getHoverSummary(sortedSnapshots, activeTooltipMonth, (snapshot) => signedSnapshotTotal(snapshot.items)), [activeTooltipMonth, sortedSnapshots]);
+  const hoverSummary = useMemo(
+    () => getHoverSummary(nonZeroSnapshots, activeTooltipMonth, (snapshot) => signedSnapshotTotal(snapshot.items)),
+    [activeTooltipMonth, nonZeroSnapshots]
+  );
   const categoryGroupById = useMemo(() => {
     const map = new Map<string, "CASH" | "SAVING" | "INVESTING" | "PHYSICAL" | "DEBT">();
     categories.forEach((category) => {
@@ -925,7 +946,9 @@ export default function FinanceAssetPage() {
   }, [categories]);
 
   const latestSnapshotForPlanner = useMemo(() => {
-    const sorted = [...sortedSnapshots].filter((snapshot) => snapshot.items.length > 0).sort((a, b) => a.month.localeCompare(b.month));
+    const sorted = [...sortedSnapshots]
+      .filter((snapshot) => snapshot.items.length > 0 && signedSnapshotTotal(snapshot.items) !== 0)
+      .sort((a, b) => a.month.localeCompare(b.month));
     return sorted.length ? sorted[sorted.length - 1] : null;
   }, [sortedSnapshots]);
 
@@ -1222,7 +1245,9 @@ export default function FinanceAssetPage() {
   };
 
   const growthInsights = useMemo(() => {
-    const valid = [...sortedSnapshots].filter((snapshot) => snapshot.items.length > 0).sort((a, b) => a.month.localeCompare(b.month));
+    const valid = [...sortedSnapshots]
+      .filter((snapshot) => snapshot.items.length > 0 && signedSnapshotTotal(snapshot.items) !== 0)
+      .sort((a, b) => a.month.localeCompare(b.month));
     if (!valid.length) return { enough: false as const };
     const endAnchor = growthEndMonth || effectiveLatestMonth || valid[valid.length - 1].month;
     const startAnchor = growthStartMonth || shiftMonth(endAnchor, -6);
@@ -1401,9 +1426,30 @@ export default function FinanceAssetPage() {
   const saveSnapshotNow = () => {
     const cleaned = editorItems.map((it) => ({ ...it, name: it.name.trim(), note: it.note?.trim() })).filter((it) => it.name || it.amountKRW !== 0 || it.note);
     const overwriting = !!snapshots[month];
-    const nextSnapshots: SnapshotMap = { ...snapshots, [month]: { month, items: cleaned, updatedAt: Date.now(), source: "manual" } };
+    const storedRaw = loadState<any>(ASSET_MONTHLY_SNAPSHOTS_KEY, {});
+    const storedSnapshots: SnapshotMap = {};
+    Object.entries(storedRaw ?? {}).forEach(([key, value]) => {
+      const entry = value as any;
+      if (!entry || typeof entry !== "object") return;
+      const m = typeof entry.month === "string" ? entry.month : key;
+      if (m < ASSET_MIN_MONTH) return;
+      const items = Array.isArray(entry.items) ? entry.items.map((it: any) => migrateItem(it)) : [];
+      storedSnapshots[m] = { month: m, items, updatedAt: typeof entry.updatedAt === "number" ? entry.updatedAt : Date.now(), source: entry.source === "seed" ? "seed" : "manual" };
+    });
+    // Merge latest persisted snapshots to avoid dropping months when in-memory state is stale.
+    const nextSnapshots: SnapshotMap = { ...storedSnapshots, ...snapshots, [month]: { month, items: cleaned, updatedAt: Date.now(), source: "manual" } };
+    const snapshotPersisted = saveState(ASSET_MONTHLY_SNAPSHOTS_KEY, nextSnapshots);
+    if (!snapshotPersisted) {
+      setEditAlertMessage("Snapshot 저장 실패: 브라우저 저장공간이 부족할 수 있습니다. Export 후 오래된 로그/백업 정리 후 다시 시도하세요.");
+      return;
+    }
+    const persistedCheck = loadState<SnapshotMap>(ASSET_MONTHLY_SNAPSHOTS_KEY, {});
+    if (!persistedCheck?.[month]) {
+      setEditAlertMessage(`Snapshot 저장 확인 실패: ${month} 데이터가 보이지 않습니다. 다시 시도해주세요.`);
+      return;
+    }
     setSnapshots(nextSnapshots);
-    saveState(ASSET_MONTHLY_SNAPSHOTS_KEY, nextSnapshots);
+    setEditAlertMessage(`Snapshot 저장 완료: ${month}`);
     const template = cleaned.filter((it) => it.source !== "investing").map((it) => ({ ...it, id: crypto.randomUUID() }));
     saveState(ASSET_ITEMS_TEMPLATE_KEY, template);
     const drafts = loadState<Record<string, AssetItem[]>>(ASSET_EDITOR_DRAFTS_KEY, {});
@@ -1424,7 +1470,7 @@ export default function FinanceAssetPage() {
     saveState(ASSET_SNAPSHOT_LOGS_KEY, nextLogs);
   };
 
-  const saveSnapshot = () => (snapshots[month] ? setOverwriteOpen(true) : saveSnapshotNow());
+  const saveSnapshot = () => saveSnapshotNow();
 
   const seedAssetSnapshots = (
     range: { start: string; end: string },
@@ -3096,7 +3142,7 @@ function HistoryChart({
 function AssetHistoryTooltip({ summary }: { summary: HoverSummary }) {
   if (!summary) return null;
   return (
-    <div className="absolute right-3 top-3 z-10 rounded-lg border border-white/15 bg-[#0b0f1a]/90 px-3 py-2 text-[11px] backdrop-blur">
+    <div className="absolute bottom-4 right-3 z-10 rounded-lg border border-white/15 bg-[#0b0f1a]/90 px-3 py-2 text-[11px] backdrop-blur">
       <div className="text-[var(--ink-1)]">Month: <span className="text-white/90">{summary.month}</span></div>
       <div className="text-[var(--ink-1)]">Total: <span className="text-white/90">{formatKrw(summary.total)}</span></div>
       <div className="text-[var(--ink-1)]">

@@ -15,7 +15,30 @@ export function loadState(key, fallback) {
 }
 export function saveState(key, value) {
     if (typeof window === "undefined")
-        return;
-    window.localStorage.setItem(key, JSON.stringify(value));
-    updateAutoBackup();
+        return false;
+    const serialized = JSON.stringify(value);
+    try {
+        window.localStorage.setItem(key, serialized);
+    }
+    catch {
+        try {
+            if (key !== "lifnux:backup" && window.localStorage.getItem("lifnux:backup") !== null) {
+                window.localStorage.removeItem("lifnux:backup");
+                window.localStorage.setItem(key, serialized);
+            }
+            else {
+                return false;
+            }
+        }
+        catch {
+            return false;
+        }
+    }
+    try {
+        updateAutoBackup();
+    }
+    catch {
+        // Ignore backup failures to avoid blocking primary app writes.
+    }
+    return true;
 }

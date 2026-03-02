@@ -13,16 +13,28 @@ export function loadState<T>(key: string, fallback: T): T {
   }
 }
 
-export function saveState<T>(key: string, value: T) {
-  if (typeof window === "undefined") return;
+export function saveState<T>(key: string, value: T): boolean {
+  if (typeof window === "undefined") return false;
+  const serialized = JSON.stringify(value);
   try {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    window.localStorage.setItem(key, serialized);
   } catch {
-    return;
+    try {
+      // If storage is full, remove backup payload and retry once.
+      if (key !== "lifnux:backup" && window.localStorage.getItem("lifnux:backup") !== null) {
+        window.localStorage.removeItem("lifnux:backup");
+        window.localStorage.setItem(key, serialized);
+      } else {
+        return false;
+      }
+    } catch {
+      return false;
+    }
   }
   try {
     updateAutoBackup();
   } catch {
     // Ignore backup failures to avoid blocking primary app writes.
   }
+  return true;
 }

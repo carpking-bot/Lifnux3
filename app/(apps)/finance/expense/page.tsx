@@ -23,6 +23,11 @@ const parseNumberInput = (value: string) => Number(value.replace(/[^\d]/g, ""));
 const normalizeEntryKind = (entry: ExpenseEntry): "expense" | "income" => (entry.kind === "income" ? "income" : "expense");
 const dayKeyFromDate = (date: Date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+const currentMonthKey = () => {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+};
+const todayDateKey = () => dayKeyFromDate(new Date());
 
 type ExpenseEntry = {
   id: string;
@@ -114,14 +119,14 @@ export default function FinanceExpensePage() {
   const [budgetByMonth, setBudgetByMonth] = useState<Record<string, number>>({});
   const [reviewByMonth, setReviewByMonth] = useState<MonthlyReviewStore>({});
 
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(todayDateKey());
   const [category, setCategory] = useState("Food");
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [memo, setMemo] = useState("");
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+  const [selectedMonth, setSelectedMonth] = useState(currentMonthKey());
   const [budgetInput, setBudgetInput] = useState("");
   const [reviewWriteOpen, setReviewWriteOpen] = useState(false);
   const [reviewListOpen, setReviewListOpen] = useState(false);
@@ -353,7 +358,7 @@ export default function FinanceExpensePage() {
 
   const monthlyHistoryWindow = useMemo(() => {
     const byMonth = new Map(monthlyHistory.map((row) => [row.month, row]));
-    const latest = monthlyHistory.length ? monthlyHistory[monthlyHistory.length - 1].month : new Date().toISOString().slice(0, 7);
+    const latest = monthlyHistory.length ? monthlyHistory[monthlyHistory.length - 1].month : currentMonthKey();
     const start = shiftMonthKey(latest, -23);
     const rows: { month: string; total: number; budget: number }[] = [];
     const [startYear, startMon] = start.split("-").map(Number);
@@ -391,7 +396,7 @@ export default function FinanceExpensePage() {
     setTitle("");
     setAmount("");
     setMemo("");
-    setDate(new Date().toISOString().slice(0, 10));
+    setDate(todayDateKey());
   };
 
   const openCreate = (dateOverride?: string) => {
@@ -414,7 +419,7 @@ export default function FinanceExpensePage() {
   };
 
   const goToCurrentMonth = () => {
-    setSelectedMonth(new Date().toISOString().slice(0, 7));
+    setSelectedMonth(currentMonthKey());
     setViewMode("monthly");
   };
 
@@ -922,7 +927,7 @@ export default function FinanceExpensePage() {
       monthlyHistory.forEach((point) => totalByMonth.set(point.month, point.total));
       const latestMonth = monthlyHistory.length
         ? monthlyHistory[monthlyHistory.length - 1].month
-        : new Date().toISOString().slice(0, 7);
+        : currentMonthKey();
       const [latestYear, latestMon] = latestMonth.split("-").map(Number);
       const end = new Date(latestYear, latestMon - 1, 1);
       const start = new Date(latestYear, latestMon - 24 + 1, 1);

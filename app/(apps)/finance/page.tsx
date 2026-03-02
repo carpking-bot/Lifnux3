@@ -10,18 +10,14 @@ import { useQuotes } from "../../../src/lib/quotes/useQuotes";
 import type { Holding, StockItem } from "../../(shared)/types/finance";
 
 const HUB_REVEAL_KEY = "lifnux.finance.hub.reveal.v1";
-const ASSET_MONTHLY_KEY = "lifnux.finance.asset.monthly.v1";
+const ASSET_MONTHLY_SNAPSHOTS_KEY = "asset_monthly_snapshots";
+const ASSET_CATEGORY_SCHEMA_KEY = "lifnux.finance.asset.category.schema.v1";
 const EXPENSE_LEDGER_KEY = "lifnux.finance.expense.ledger.v1";
 
-type AssetMonthlySnapshot = {
-  month: string;
-  cash: number;
-  other: number;
-  debt: number;
-  investing?: number;
-  total?: number;
-  updatedAt: number;
-};
+type AssetCategory = { id: string; name: string };
+type AssetItem = { categoryId?: string; amountKRW?: number };
+type AssetSnapshot = { month?: string; items?: AssetItem[]; updatedAt?: number };
+type AssetSnapshotMap = Record<string, AssetSnapshot>;
 
 type ExpenseEntry = {
   id: string;
@@ -41,7 +37,8 @@ export default function FinancePage() {
   const [revealed, setRevealed] = useState(false);
   const [ready, setReady] = useState(false);
 
-  const [assetSnapshots, setAssetSnapshots] = useState<AssetMonthlySnapshot[]>([]);
+  const [assetSnapshots, setAssetSnapshots] = useState<AssetSnapshotMap>({});
+  const [assetCategories, setAssetCategories] = useState<AssetCategory[]>([]);
   const [expenseEntries, setExpenseEntries] = useState<ExpenseEntry[]>([]);
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [stocks, setStocks] = useState<StockItem[]>([]);
@@ -50,7 +47,8 @@ export default function FinancePage() {
 
   useEffect(() => {
     setRevealed(loadState<boolean>(HUB_REVEAL_KEY, false));
-    setAssetSnapshots(loadState<AssetMonthlySnapshot[]>(ASSET_MONTHLY_KEY, []));
+    setAssetSnapshots(loadState<AssetSnapshotMap>(ASSET_MONTHLY_SNAPSHOTS_KEY, {}));
+    setAssetCategories(loadState<AssetCategory[]>(ASSET_CATEGORY_SCHEMA_KEY, []));
     setExpenseEntries(loadState<ExpenseEntry[]>(EXPENSE_LEDGER_KEY, []));
 
     const data = loadFinanceState();
@@ -136,35 +134,68 @@ export default function FinancePage() {
     };
   }, [activeHoldings, fxRate, heldQuotes, stocks, useFx]);
 
-  const sortedAssetSnapshots = useMemo(
-    () => [...assetSnapshots].sort((a, b) => a.month.localeCompare(b.month)),
-    [assetSnapshots]
-  );
-
   const assetSummary = useMemo(() => {
-    const latest = sortedAssetSnapshots[sortedAssetSnapshots.length - 1];
-    const previous = sortedAssetSnapshots.length > 1 ? sortedAssetSnapshots[sortedAssetSnapshots.length - 2] : null;
-    if (!latest) return null;
+    const debtCategoryIds = new Set(
+      assetCategories
+        .filter((category) => {
+          const normalized = category.name.toUpperCase();
+          return normalized.includes("DEBT") || category.name.includes("부채");
+        })
+        .map((category) => category.id)
+    );
+    const signedTotal = (snapshot: AssetSnapshot) =>
+      Math.round(
+        (snapshot.items ?? []).reduce((sum, item) => {
+          const amount = typeof item.amountKRW === "number" ? item.amountKRW : 0;
+          const categoryId = item.categoryId ?? "";
+          if (debtCategoryIds.has(categoryId)) return sum - Math.abs(amount);
+          return sum + amount;
+        }, 0)
+      );
 
-    const latestInvesting = latest.investing ?? investingSummary.totalKrw;
-    const latestTotal = latest.total ?? Math.round((latest.cash || 0) + (latest.other || 0) + latestInvesting - (latest.debt || 0));
+    const currentMonth = new Date().toISOString().slice(0, 7);
+    const rows = Object.entries(assetSnapshots)
+      .map(([key, value]) => ({
+        month: typeof value?.month === "string" ? value.month : key,
+        updatedAt: typeof value?.updatedAt === "number" ? value.updatedAt : 0,
+        total: signedTotal(value ?? {}),
+        itemCount: Array.isArray(value?.items) ? value.items.length : 0
+      }))
+      .filter((row) => /^\d{4}-\d{2}$/.test(row.month) && row.month <= currentMonth && row.itemCount > 0)
+      .sort((a, b) => a.month.localeCompare(b.month));
 
-    const previousTotal = previous
-      ? (previous.total ??
-          Math.round((previous.cash || 0) + (previous.other || 0) + (previous.investing ?? latestInvesting) - (previous.debt || 0)))
-      : null;
+    // Treat zero-total snapshots as "not entered" to avoid fake monthly changes.
+    const nonZeroRows = rows.filter((row) => row.total !== 0);
+    if (!nonZeroRows.length) return null;
 
-    const momDiff = previousTotal !== null ? latestTotal - previousTotal : 0;
-    const momPct = previousTotal && previousTotal !== 0 ? (momDiff / previousTotal) * 100 : 0;
+    const current = nonZeroRows.find((row) => row.month === currentMonth) ?? null;
+    if (current) {
+      const previous = [...nonZeroRows].reverse().find((row) => row.month < current.month) ?? null;
+      const momDiff = previous ? current.total - previous.total : null;
+      const momPct = previous && previous.total !== 0 && momDiff !== null ? (momDiff / previous.total) * 100 : null;
+      return {
+        total: current.total,
+        momDiff,
+        momPct,
+        updatedAt: current.updatedAt,
+        month: current.month,
+        isMirrored: false,
+        mirroredFrom: null as string | null
+      };
+    }
 
+    const previous = [...nonZeroRows].reverse().find((row) => row.month < currentMonth) ?? null;
+    if (!previous) return null;
     return {
-      total: latestTotal,
-      momDiff,
-      momPct,
-      updatedAt: latest.updatedAt,
-      month: latest.month
+      total: previous.total,
+      momDiff: null as number | null,
+      momPct: null as number | null,
+      updatedAt: previous.updatedAt,
+      month: currentMonth,
+      isMirrored: true,
+      mirroredFrom: previous.month
     };
-  }, [investingSummary.totalKrw, sortedAssetSnapshots]);
+  }, [assetCategories, assetSnapshots]);
 
   const expenseSummary = useMemo(() => {
     const monthKey = new Date().toISOString().slice(0, 7);
@@ -205,13 +236,21 @@ export default function FinancePage() {
             <div className={`mt-3 text-2xl font-semibold tabular-nums ${sensitiveClass}`}>
               {assetSummary ? formatKrw(assetSummary.total) : "-"}
             </div>
-            <div className={`mt-2 text-sm tabular-nums ${sensitiveClass} ${(assetSummary?.momDiff ?? 0) >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
+            <div
+              className={`mt-2 text-sm tabular-nums ${sensitiveClass} ${
+                !assetSummary || assetSummary.momDiff === null ? "text-[var(--ink-1)]" : assetSummary.momDiff >= 0 ? "text-emerald-300" : "text-rose-300"
+              }`}
+            >
               {assetSummary
-                ? `${assetSummary.momDiff >= 0 ? "+" : "-"}${formatKrw(Math.abs(assetSummary.momDiff))} (${formatPct(assetSummary.momPct)})`
+                ? assetSummary.momDiff === null || assetSummary.momPct === null
+                  ? "MoM -"
+                  : `${assetSummary.momDiff >= 0 ? "+" : "-"}${formatKrw(Math.abs(assetSummary.momDiff))} (${formatPct(assetSummary.momPct)})`
                 : "MoM -"}
             </div>
             <div className="mt-2 text-xs text-[var(--ink-1)]">
-              {assetSummary ? `${assetSummary.month} / ${new Date(assetSummary.updatedAt).toLocaleDateString()}` : "No monthly update yet"}
+              {assetSummary
+                ? `${assetSummary.month}${assetSummary.isMirrored ? ` (mirrored from ${assetSummary.mirroredFrom ?? "-"})` : ""} / ${new Date(assetSummary.updatedAt).toLocaleDateString()}`
+                : "No monthly update yet"}
             </div>
           </Link>
 
