@@ -13,6 +13,7 @@ type Props = {
   onClose: () => void;
   onSave: (next: Application) => void;
   onReopen: (applicationId: string) => void;
+  onViewPosting?: (posting: JobPosting) => void;
 };
 
 const TYPE_OPTIONS: StageType[] = ["DOCUMENT", "INTERVIEW_1", "INTERVIEW_2", "FINAL", "CUSTOM"];
@@ -42,7 +43,7 @@ function finalResultLabel(result: Application["finalResult"]) {
   return "-";
 }
 
-export function ApplicationModal({ open, application, posting, readOnly, onClose, onSave, onReopen }: Props) {
+export function ApplicationModal({ open, application, posting, readOnly, onClose, onSave, onReopen, onViewPosting }: Props) {
   const [draft, setDraft] = useState<Application | null>(null);
   const [newCustomLabel, setNewCustomLabel] = useState("");
   const [pendingRemoveStageId, setPendingRemoveStageId] = useState<string | null>(null);
@@ -94,6 +95,16 @@ export function ApplicationModal({ open, application, posting, readOnly, onClose
             <button className="rounded-full border border-white/20 px-5 py-2.5 text-sm" onClick={onClose}>닫기</button>
             {readOnly ? (
               <>
+                <button
+                  className="rounded-full border border-white/20 px-5 py-2.5 text-sm disabled:opacity-50"
+                  onClick={() => {
+                    if (!posting || !onViewPosting) return;
+                    onViewPosting(posting);
+                  }}
+                  disabled={!posting || !onViewPosting}
+                >
+                  공고 보기
+                </button>
                 <button className="rounded-full border border-cyan-300/50 px-5 py-2.5 text-sm text-cyan-300" onClick={() => onSave(draft)}>메모 저장</button>
                 <button className="rounded-full border border-cyan-300/50 px-5 py-2.5 text-sm text-cyan-300" onClick={() => onReopen(draft.applicationId)}>다시 진행</button>
               </>

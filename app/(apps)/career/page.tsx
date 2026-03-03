@@ -14,7 +14,6 @@ import { IndustryManagerModal } from "./components/IndustryManagerModal";
 import { InProgressView } from "./components/InProgressView";
 import { JobPostingEditorDrawer } from "./components/JobPostingEditorDrawer";
 import { JobPostingsView } from "./components/JobPostingsView";
-import { generateCareerSeedData } from "./lib/seed";
 import { loadCareerState, saveCareerState } from "./lib/storage";
 import { autoDoneOnFinal, createDefaultStageTemplate, latestStageResultDate, updatedAtForApplication } from "./lib/stageHelpers";
 import type { Application, CareerState, Employment, EmploymentChange, JobPosting, JobPostingContractType } from "./types";
@@ -242,8 +241,6 @@ export default function CareerPage() {
     avgBusinessDays: null,
     leadTimeDetails: []
   });
-
-  const [seedConfirmOpen, setSeedConfirmOpen] = useState(false);
 
   useEffect(() => {
     setState(loadCareerState());
@@ -483,9 +480,6 @@ export default function CareerPage() {
           <div>
             <h1 className="text-3xl">Career</h1>
           </div>
-          <button className="rounded-full border border-amber-300/50 px-4 py-2 text-xs text-amber-300" onClick={() => setSeedConfirmOpen(true)}>
-            Generate Test Data
-          </button>
         </div>
 
         <div className="space-y-4">
@@ -711,6 +705,14 @@ export default function CareerPage() {
           setApplicationModalOpen(false);
           setSelectedApplicationId(null);
         }}
+        onViewPosting={(posting) => {
+          setApplicationModalOpen(false);
+          setSelectedApplicationId(null);
+          setEditingPostingId(posting.postingId);
+          setPostingDrawerMode("view");
+          setPostingDraft(posting);
+          setPostingEditorOpen(true);
+        }}
       />
 
       <ApplicationAnalysisModal
@@ -741,22 +743,6 @@ export default function CareerPage() {
         }}
       />
 
-      <ConfirmModal
-        open={seedConfirmOpen}
-        title="테스트 데이터 생성"
-        description="현재 커리어 데이터를 테스트 데이터로 교체할까요?"
-        detail="경력/변경 이력/카테고리/공고/지원 데이터가 모두 덮어써집니다."
-        confirmLabel="생성"
-        cancelLabel="취소"
-        variant="default"
-        onCancel={() => setSeedConfirmOpen(false)}
-        onConfirm={() => {
-          setState(generateCareerSeedData());
-          setViewMode("JOB_POSTINGS");
-          setSortMode("updatedAt");
-          setSeedConfirmOpen(false);
-        }}
-      />
     </AppShell>
   );
 }

@@ -127,6 +127,7 @@ export default function PortfolioPage() {
   });
   const [sortKey, setSortKey] = useState<"weight" | "pnl" | "value" | "cost" | "account" | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const [portfolioAccountFilter, setPortfolioAccountFilter] = useState<string>("ALL");
   const [realizedRange, setRealizedRange] = useState<"MTD" | "YTD" | "ALL">("MTD");
   const [realizedDetailOpen, setRealizedDetailOpen] = useState(false);
   const [realizedDetailSortKey, setRealizedDetailSortKey] = useState<"price" | "time">("time");
@@ -365,7 +366,20 @@ export default function PortfolioPage() {
     });
   }, [accounts, cashByAccount, fxRate, useFx]);
 
-  const totals = useMemo(() => {
+  const filteredDerivedHoldings = useMemo(() => {
+    if (portfolioAccountFilter === "ALL") return derivedHoldings;
+    return derivedHoldings.filter((entry) => entry.holding.accountId === portfolioAccountFilter);
+  }, [derivedHoldings, portfolioAccountFilter]);
+
+  const filteredCashRows = useMemo(() => {
+    if (portfolioAccountFilter === "ALL") return cashRows;
+    return cashRows.filter((entry) => entry.account.id === portfolioAccountFilter);
+  }, [cashRows, portfolioAccountFilter]);
+
+  const summarizeTotals = (
+    holdingEntries: typeof derivedHoldings,
+    cashEntries: typeof cashRows
+  ) => {
     let holdingsKrw = 0;
     let holdingsUsd = 0;
     let cashKrw = 0;
@@ -373,7 +387,7 @@ export default function PortfolioPage() {
     let costBasisKrwPartial = 0;
     let holdingsMarketValueKrwPartial = 0;
     let hasUsdHoldings = false;
-    derivedHoldings.forEach((entry) => {
+    holdingEntries.forEach((entry) => {
       if (entry.holding.currency === "KRW") {
         holdingsKrw += entry.marketValue;
         holdingsMarketValueKrwPartial += entry.marketValue;
@@ -385,7 +399,7 @@ export default function PortfolioPage() {
         if (entry.costBasisKrw !== null) costBasisKrwPartial += entry.costBasisKrw;
       }
     });
-    cashRows.forEach((entry) => {
+    cashEntries.forEach((entry) => {
       if (entry.currency === "KRW") {
         cashKrw += entry.balance;
       } else {
@@ -416,7 +430,11 @@ export default function PortfolioPage() {
       unrealizedPnlKrw,
       unrealizedPnlPct
     };
-  }, [cashRows, derivedHoldings, fxRate, useFx]);
+  };
+
+  const overallTotals = useMemo(() => summarizeTotals(derivedHoldings, cashRows), [cashRows, derivedHoldings, fxRate, useFx]);
+
+  const totals = useMemo(() => summarizeTotals(filteredDerivedHoldings, filteredCashRows), [filteredCashRows, filteredDerivedHoldings, fxRate, useFx]);
 
   const realizedSummary = useMemo(() => {
     const now = new Date();
@@ -511,12 +529,12 @@ export default function PortfolioPage() {
   }, [realizedDetailSortDir, realizedDetailSortKey, realizedSummary.records]);
 
   useEffect(() => {
-    if (!ready || totals.totalKrw === null || totals.totalKrw <= 0) return;
+    if (!ready || overallTotals.totalKrw === null || overallTotals.totalKrw <= 0) return;
     const today = new Date().toISOString().slice(0, 10);
     setHistory((prev) => {
       const next = [...prev];
       const index = next.findIndex((item) => item.date === today);
-      const point: PortfolioHistoryPoint = { date: today, totalKrw: totals.totalKrw as number };
+      const point: PortfolioHistoryPoint = { date: today, totalKrw: overallTotals.totalKrw as number };
       if (index >= 0) {
         next[index] = point;
       } else {
@@ -525,17 +543,17 @@ export default function PortfolioPage() {
       next.sort((a, b) => a.date.localeCompare(b.date));
       return next;
     });
-  }, [ready, totals.totalKrw]);
+  }, [overallTotals.totalKrw, ready]);
 
   useEffect(() => {
     if (!ready) return;
     saveState(PORTFOLIO_PERFORMANCE_KEY, {
-      totalValueKrw: totals.totalKrw,
-      unrealizedPnlKrw: totals.unrealizedPnlKrw,
+      totalValueKrw: overallTotals.totalKrw,
+      unrealizedPnlKrw: overallTotals.unrealizedPnlKrw,
       realizedPnlYtdKrw: realizedYtdTotalKrw,
       updatedAt: Date.now()
     });
-  }, [ready, realizedYtdTotalKrw, totals.totalKrw, totals.unrealizedPnlKrw]);
+  }, [overallTotals.totalKrw, overallTotals.unrealizedPnlKrw, ready, realizedYtdTotalKrw]);
 
   const blurClass = settings.blurSensitiveNumbers ? "blur-sm select-none" : "";
 
@@ -707,6 +725,10 @@ export default function PortfolioPage() {
     () => [{ value: "ALL", label: "All Accounts" }, ...accountOptions],
     [accountOptions]
   );
+  const portfolioAccountOptions = useMemo(
+    () => [{ value: "ALL", label: "All Accounts" }, ...accountOptions],
+    [accountOptions]
+  );
   const stockOptions = useMemo(
     () => stocks.map((item) => ({ value: item.id, label: `${item.label ?? item.symbol} (${item.symbol})` })),
     [stocks]
@@ -738,6 +760,13 @@ export default function PortfolioPage() {
       .map((item) => ({ value: item.id, label: `${item.label ?? item.symbol} (${item.symbol})` }));
   }, [stocks, tradeForm.accountId, stockOptions]);
   const tradeStockOptions = tradeForm.side === "SELL" ? sellableStockOptions : buyableStockOptions;
+
+  useEffect(() => {
+    if (portfolioAccountFilter === "ALL") return;
+    if (!accounts.some((account) => account.id === portfolioAccountFilter)) {
+      setPortfolioAccountFilter("ALL");
+    }
+  }, [accounts, portfolioAccountFilter]);
 
   const tradeCurrency = useMemo(() => {
     const stock = stocks.find((item) => item.id === tradeForm.stockId);
@@ -866,9 +895,9 @@ export default function PortfolioPage() {
   };
 
   const portfolioRows = useMemo(() => {
-    const holdingRows = derivedHoldings.map((entry) => ({ kind: "holding" as const, ...entry }));
-    return [...holdingRows, ...cashRows];
-  }, [cashRows, derivedHoldings]);
+    const holdingRows = filteredDerivedHoldings.map((entry) => ({ kind: "holding" as const, ...entry }));
+    return [...holdingRows, ...filteredCashRows];
+  }, [filteredCashRows, filteredDerivedHoldings]);
 
   const sortedHoldings = useMemo(() => {
     const rows = [...portfolioRows];
@@ -905,7 +934,7 @@ export default function PortfolioPage() {
 
   const buildBuckets = (key: "sectorLabel" | "countryLabel") => {
     const buckets = new Map<string, number>();
-    derivedHoldings.forEach((entry) => {
+    filteredDerivedHoldings.forEach((entry) => {
       const label = entry.holding[key]?.trim() || "Unlabeled";
       buckets.set(label, (buckets.get(label) ?? 0) + (entry.marketValueKrw ?? 0));
     });
@@ -916,7 +945,7 @@ export default function PortfolioPage() {
 
   const sectorDetails = useMemo(() => {
     const map: Record<string, { name: string; value: number }[]> = {};
-    derivedHoldings.forEach((entry) => {
+    filteredDerivedHoldings.forEach((entry) => {
       const label = entry.holding.sectorLabel?.trim() || "Unlabeled";
       const value = entry.marketValueKrw ?? 0;
       if (value <= 0) return;
@@ -924,9 +953,9 @@ export default function PortfolioPage() {
       if (!map[label]) map[label] = [];
       map[label].push({ name: stockLabel, value });
     });
-    const cashTotal = cashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
+    const cashTotal = filteredCashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
     if (cashTotal > 0) {
-      map.Cash = cashRows
+      map.Cash = filteredCashRows
         .filter((entry) => entry.valueKrw > 0)
         .map((entry) => ({
           name: `${formatAccountName(entry.account)} Cash (${entry.currency})`,
@@ -935,18 +964,18 @@ export default function PortfolioPage() {
     }
     Object.values(map).forEach((items) => items.sort((a, b) => b.value - a.value));
     return map;
-  }, [cashRows, derivedHoldings]);
+  }, [filteredCashRows, filteredDerivedHoldings]);
 
   const sectorData = useMemo(() => {
     const base = buildBuckets("sectorLabel");
-    const cashTotal = cashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
+    const cashTotal = filteredCashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
     if (cashTotal > 0) base.push({ label: "Cash", value: cashTotal });
     return base.sort((a, b) => b.value - a.value);
-  }, [cashRows, derivedHoldings]);
+  }, [filteredCashRows, filteredDerivedHoldings]);
 
   const countryDetails = useMemo(() => {
     const map: Record<string, { name: string; value: number }[]> = {};
-    derivedHoldings.forEach((entry) => {
+    filteredDerivedHoldings.forEach((entry) => {
       const label = entry.holding.countryLabel?.trim() || "Unlabeled";
       const value = entry.marketValueKrw ?? 0;
       if (value <= 0) return;
@@ -954,9 +983,9 @@ export default function PortfolioPage() {
       if (!map[label]) map[label] = [];
       map[label].push({ name: stockLabel, value });
     });
-    const cashTotal = cashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
+    const cashTotal = filteredCashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
     if (cashTotal > 0) {
-      map.Cash = cashRows
+      map.Cash = filteredCashRows
         .filter((entry) => entry.valueKrw > 0)
         .map((entry) => ({
           name: `${formatAccountName(entry.account)} Cash (${entry.currency})`,
@@ -965,14 +994,14 @@ export default function PortfolioPage() {
     }
     Object.values(map).forEach((items) => items.sort((a, b) => b.value - a.value));
     return map;
-  }, [cashRows, derivedHoldings]);
+  }, [filteredCashRows, filteredDerivedHoldings]);
 
   const countryData = useMemo(() => {
     const base = buildBuckets("countryLabel");
-    const cashTotal = cashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
+    const cashTotal = filteredCashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
     if (cashTotal > 0) base.push({ label: "Cash", value: cashTotal });
     return base;
-  }, [cashRows, derivedHoldings]);
+  }, [filteredCashRows, filteredDerivedHoldings]);
   const editingHolding = useMemo(
     () => (editingId ? holdings.find((entry) => entry.id === editingId) ?? null : null),
     [editingId, holdings]
@@ -1327,7 +1356,15 @@ export default function PortfolioPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Holdings</div>
+            <div className="flex items-center gap-3">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Holdings</div>
+              <Select
+                className="min-w-[210px]"
+                value={portfolioAccountFilter}
+                options={portfolioAccountOptions}
+                onChange={setPortfolioAccountFilter}
+              />
+            </div>
             <div className="flex items-center gap-3 text-xs text-[var(--ink-1)]">
               <button className="rounded-full border border-white/10 px-3 py-1" onClick={openTrade}>
                 Trade
@@ -1566,7 +1603,7 @@ export default function PortfolioPage() {
                   </div>
                 );
               })}
-              {activeHoldings.length === 0 && cashRows.length === 0 ? (
+              {filteredDerivedHoldings.length === 0 && filteredCashRows.length === 0 ? (
                 <div className="text-sm text-[var(--ink-1)]">No holdings yet.</div>
               ) : null}
             </div>
@@ -3071,5 +3108,3 @@ function PortfolioHistoryChart({
     </div>
   );
 }
-
-

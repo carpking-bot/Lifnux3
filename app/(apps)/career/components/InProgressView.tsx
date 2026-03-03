@@ -23,6 +23,7 @@ export function InProgressView({ applications, postingMap, industryNameMap, onOp
         applications.map((app) => {
           const posting = postingMap.get(app.postingId);
           const current = deriveCurrentStage(app);
+          const firstPending = app.stages.find((stage) => stage.result === "PENDING");
           const importance = posting?.importance ?? 1;
           const industryName = posting?.industryId ? industryNameMap.get(posting.industryId) ?? "미분류" : "미분류";
 
@@ -44,7 +45,7 @@ export function InProgressView({ applications, postingMap, industryNameMap, onOp
                     <span className="rounded-lg border border-white/20 px-3 py-1 text-sm text-[var(--ink-1)]">지원일 {app.appliedAt}</span>
                   </div>
                 </div>
-                <div className="shrink-0 rounded-full border border-cyan-300/40 px-3 py-1.5 text-sm text-cyan-300">{current ? stageLabel(current) : "-"}</div>
+                <div className="shrink-0 rounded-full border border-amber-300/60 bg-amber-300/10 px-3 py-1.5 text-sm text-amber-300">{current ? stageLabel(current) : "-"}</div>
               </div>
 
               <div className="mt-3 flex flex-wrap gap-2">
@@ -52,8 +53,10 @@ export function InProgressView({ applications, postingMap, industryNameMap, onOp
                   <span
                     key={stage.stageId}
                     className={`rounded-full border px-3.5 py-1.5 text-sm ${
-                      stage.result === "PENDING"
-                        ? "border-white/20 text-[var(--ink-1)]"
+                      stage.result === "PENDING" && stage.stageId === firstPending?.stageId
+                        ? "border-amber-300/60 bg-amber-300/10 text-amber-300"
+                        : stage.result === "PENDING"
+                          ? "border-white/20 text-[var(--ink-1)]"
                         : stage.result === "PASS"
                           ? "border-emerald-300/50 text-emerald-300"
                           : "border-rose-400/50 text-rose-300"
