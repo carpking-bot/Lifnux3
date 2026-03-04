@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-02-26T08:52:43.218Z"
+    "exportedAt": "2026-03-04T09:14:49.794Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "IPnUVZEyzdI",
+        "trackId": "Aq_gsctWHtQ",
         "volume": 80,
-        "position": 0
+        "position": 79.67814482261657
       }
     },
     "health": {
@@ -18,11 +18,11 @@
           "id": "running",
           "name": "Running",
           "icon": "🏃",
-          "planMode": "weekly",
+          "planMode": "unplanned",
           "weeklyTargetCount": 0,
           "monthlyTargetCount": 0,
           "createdAt": "2026-02-13T01:22:15.453Z",
-          "updatedAt": "2026-02-13T01:32:33.790Z"
+          "updatedAt": "2026-03-03T08:58:17.479Z"
         },
         {
           "id": "swimming",
@@ -3084,6 +3084,24 @@
           "createdAt": "2026-02-26T05:27:59.994Z",
           "distanceKm": 2.52,
           "calorieOverride": 119
+        },
+        {
+          "id": "1ce1dfff-fd9c-4de4-be59-85c857d93752",
+          "typeId": "swimming",
+          "loggedForDate": "2026-02-27",
+          "durationMin": 50,
+          "memo": "수영 16회차\n월말 자유수영. 목감기때문인가 자꾸 코에 물이 들어감..",
+          "createdAt": "2026-02-27T13:59:00.162Z"
+        },
+        {
+          "id": "c892856e-3e64-476f-b2f2-2b63d33d707e",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-03",
+          "durationMin": 28,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-03T08:57:16.798Z",
+          "distanceKm": 2.13,
+          "calorieOverride": 110
         }
       ]
     },
@@ -3157,6 +3175,18 @@
         {
           "date": "2026-02-26",
           "totalKrw": 31558775.42
+        },
+        {
+          "date": "2026-02-28",
+          "totalKrw": 31978906.559999995
+        },
+        {
+          "date": "2026-03-03",
+          "totalKrw": 31124338.82
+        },
+        {
+          "date": "2026-03-04",
+          "totalKrw": 30224635.809999995
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -3183,6 +3213,10 @@
             {
               "id": "dataset-sub-cash-3",
               "name": "플랫폼/페이머니"
+            },
+            {
+              "id": "d8b07685-7281-48c6-a453-cbb8d3a8b3d0",
+              "name": "기타"
             }
           ]
         },
@@ -3216,7 +3250,7 @@
             },
             {
               "id": "dataset-sub-saving-1",
-              "name": "청약"
+              "name": "저축"
             }
           ]
         },
@@ -3259,7 +3293,7 @@
             ],
             "fixedExpense": 0,
             "variableExpense": 0,
-            "currentLiquidOverride": 1056799,
+            "currentLiquidOverride": 861799,
             "allocations": [
               {
                 "id": "10d6423c-6d3a-4c19-82c0-42348a6309f1",
@@ -3269,7 +3303,7 @@
                 "amount": 300000,
                 "schedule": "PER_MONTH",
                 "perMonth": [
-                  320000,
+                  170000,
                   170000,
                   170000,
                   170000,
@@ -3291,9 +3325,9 @@
                 "amount": 500000,
                 "schedule": "PER_MONTH",
                 "perMonth": [
-                  131875,
-                  125585,
-                  0,
+                  361151,
+                  75976,
+                  75976,
                   0,
                   0,
                   0,
@@ -3335,13 +3369,13 @@
                 "amount": 350000,
                 "schedule": "PER_MONTH",
                 "perMonth": [
-                  568000,
-                  558000,
-                  488000,
-                  500000,
-                  400000,
-                  500000,
-                  400000,
+                  472000,
+                  467000,
+                  397000,
+                  485000,
+                  385000,
+                  485000,
+                  485000,
                   0,
                   0,
                   0,
@@ -3377,7 +3411,6 @@
       ],
       "lifnux.finance.asset.dataset.imported.v5": true,
       "lifnux.finance.asset.editor.drafts.v1": {
-        "2026-02": [],
         "2026-01": [
           {
             "id": "fea561b2-65a4-4fd2-b4f5-25d541cb4a65",
@@ -8023,7 +8056,155 @@
             "amountKRW": -395582,
             "source": "manual"
           }
-        ]
+        ],
+        "2026-02": [
+          {
+            "id": "7a2ff9a2-a7c1-41a1-b3dd-9edc74490747",
+            "name": "우리SUPER주거래통장",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-0",
+            "amountKRW": 94066,
+            "source": "manual"
+          },
+          {
+            "id": "4e7829b3-0164-4a5a-8987-bf65d2a789bd",
+            "name": "KB나라사랑우대통장",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-0",
+            "amountKRW": 230145,
+            "source": "manual"
+          },
+          {
+            "id": "75417708-5f67-449e-ba9f-d545b721e7b6",
+            "name": "현금",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-1",
+            "amountKRW": 25000,
+            "source": "manual"
+          },
+          {
+            "id": "433e88ae-7802-4b5e-887d-90a18c18c0df",
+            "name": "업비트(코인)",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-2",
+            "amountKRW": 0,
+            "source": "manual"
+          },
+          {
+            "id": "19cc0f97-ed42-4490-9202-cd4087f288e3",
+            "name": "네이버페이 머니",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-3",
+            "amountKRW": 6831,
+            "source": "manual"
+          },
+          {
+            "id": "2fcc7f55-6182-4dff-ac98-57a431b2fc7c",
+            "name": "카카오페이 머니",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-3",
+            "amountKRW": 0,
+            "source": "manual"
+          },
+          {
+            "id": "3c501b72-c84b-460c-afb1-e9b0c697459d",
+            "name": "토스페이 머니",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-3",
+            "amountKRW": 12163,
+            "source": "manual"
+          },
+          {
+            "id": "ad1dd4ad-ae81-49ee-a929-5c1b3faabec1",
+            "name": "주택청약종합저축(농협)",
+            "categoryId": "dataset-cat-saving",
+            "subcategoryId": "dataset-sub-saving-0",
+            "amountKRW": 5900000,
+            "source": "manual"
+          },
+          {
+            "id": "11fa6cd3-6928-407a-9b97-e345991639f2",
+            "name": "KB청년도약계좌",
+            "categoryId": "dataset-cat-saving",
+            "subcategoryId": "dataset-sub-saving-1",
+            "amountKRW": 750000,
+            "note": "만기 2030.11.03",
+            "source": "manual"
+          },
+          {
+            "id": "af7daeab-4670-4ba2-a191-cbc00a65a3e8",
+            "name": "카드값 (우리)",
+            "categoryId": "dataset-cat-debt",
+            "subcategoryId": "dataset-sub-debt-0",
+            "amountKRW": 10793,
+            "source": "manual"
+          },
+          {
+            "id": "c91bb72e-8f9f-4487-9dca-de0ad2300bf9",
+            "name": "카드값 (KB)",
+            "categoryId": "dataset-cat-debt",
+            "subcategoryId": "dataset-sub-debt-0",
+            "amountKRW": 350358,
+            "source": "manual"
+          },
+          {
+            "id": "0be55c24-e652-4004-bb1d-992c984495b6",
+            "name": "나라사랑 하나통장",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-0",
+            "amountKRW": 112110,
+            "source": "manual"
+          },
+          {
+            "id": "d3c7877e-55d4-42f6-bdd3-88ab8462ccca",
+            "name": "메리츠 (synced)",
+            "categoryId": "dataset-cat-investing",
+            "subcategoryId": "dataset-sub-investing-0",
+            "amountKRW": 11706281,
+            "note": "Investing Portfolio mirror",
+            "source": "investing",
+            "investingAccountId": "eebd4146-6541-4507-9242-ff316f3ac721"
+          },
+          {
+            "id": "c085487e-87ba-4ea0-804f-c33072094835",
+            "name": "TOSS (synced)",
+            "categoryId": "dataset-cat-investing",
+            "subcategoryId": "dataset-sub-investing-0",
+            "amountKRW": 286308,
+            "note": "Investing Portfolio mirror",
+            "source": "investing",
+            "investingAccountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a"
+          },
+          {
+            "id": "46416d3f-ee9d-4622-8a71-7ec89fddaa48",
+            "name": "NH증권 (synced)",
+            "categoryId": "dataset-cat-investing",
+            "subcategoryId": "dataset-sub-investing-0",
+            "amountKRW": 11012810,
+            "note": "Investing Portfolio mirror",
+            "source": "investing",
+            "investingAccountId": "acc-kr-1"
+          },
+          {
+            "id": "91f447ad-f917-48af-802f-17cc703c3d0d",
+            "name": "메리츠 (synced)",
+            "categoryId": "dataset-cat-investing",
+            "subcategoryId": "dataset-sub-investing-0",
+            "amountKRW": 8935740,
+            "note": "Investing Portfolio mirror",
+            "source": "investing",
+            "investingAccountId": "acc-us-1"
+          },
+          {
+            "id": "5c0033a9-c89c-480c-a7e6-a3e8b87335a4",
+            "name": "미수금",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "d8b07685-7281-48c6-a453-cbb8d3a8b3d0",
+            "amountKRW": 400000,
+            "source": "manual"
+          }
+        ],
+        "2026-03": []
       },
       "lifnux.finance.expense.budget.v1": {
         "2026-02": 700000
@@ -8062,6 +8243,46 @@
         "2010-09": {
           "grade": "C",
           "note": "TEST"
+        },
+        "2026-02": {
+          "month": "2026-02",
+          "overallRating": "Soso",
+          "overallComment": "오인페 + 헤드셋 35만원을 빼면 월 45만원으로 엄-청 절제 잘했음.\n오인페는 사긴 했어야됐으니.. 다만 간식/음료수 부분은 좀 줄여야할듯",
+          "categoryReviews": {
+            "Shopping": {
+              "rating": "Soso",
+              "comment": "오인페 + 헤드셋 35만원이 사실상 메인"
+            },
+            "Transport": {
+              "rating": "Good",
+              "comment": "냉정하게 더 줄일 수가 없는"
+            },
+            "Food": {
+              "rating": "Good",
+              "comment": "막 그렇게 많이, 억지로 쓴건 없으니.."
+            },
+            "Snacks & Coffee": {
+              "rating": "Bad",
+              "comment": "너무 많이 씀.."
+            },
+            "Other": {
+              "rating": "Soso",
+              "comment": "1회성 비용이 좀 있어서 뻥튀기"
+            },
+            "Subscription": {
+              "rating": "Good",
+              "comment": "GPT 1개월 무료로 쌀먹햄서 그나마 나음"
+            },
+            "Entertainment": {
+              "rating": "Good",
+              "comment": "영화 티켓 뺴면 뭐"
+            },
+            "Game": {
+              "rating": "Great",
+              "comment": "절제 GOOD"
+            }
+          },
+          "updatedAt": 1772296229220
         }
       },
       "lifnux.finance.portfolio.labels.v100": {
@@ -8069,6 +8290,12 @@
           "KR",
           "US",
           "CN"
+        ],
+        "sectorMajors": [
+          "AI",
+          "Non AI",
+          "Defensive Assets",
+          "Index"
         ],
         "sectors": [
           "AI Software",
@@ -8085,7 +8312,19 @@
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
-      "lifnux.finance.trades.v100": [],
+      "lifnux.finance.trades.v100": [
+        {
+          "id": "697c4b8b-1975-49c7-a1cb-6ad66f499062",
+          "accountId": "acc-kr-1",
+          "stockId": "auto-kr-138080",
+          "side": "SELL",
+          "price": 17730,
+          "qty": 10,
+          "executedAt": 1772593556730,
+          "realizedPnl": 18150,
+          "realizedPnlPercent": 11.404335532516493
+        }
+      ],
       "lifnux.finance.expense.categories.v1": [
         "Food",
         "Transport",
@@ -8103,6 +8342,7 @@
         "Interest",
         "Dividends"
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -8117,7 +8357,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "us-aapl",
@@ -8590,7 +8829,7 @@
         ],
         "fixedExpense": 0,
         "variableExpense": 0,
-        "currentLiquidOverride": 1056799,
+        "currentLiquidOverride": 861799,
         "allocations": [
           {
             "id": "10d6423c-6d3a-4c19-82c0-42348a6309f1",
@@ -8600,7 +8839,7 @@
             "amount": 300000,
             "schedule": "PER_MONTH",
             "perMonth": [
-              320000,
+              170000,
               170000,
               170000,
               170000,
@@ -8622,9 +8861,9 @@
             "amount": 500000,
             "schedule": "PER_MONTH",
             "perMonth": [
-              131875,
-              125585,
-              0,
+              361151,
+              75976,
+              75976,
               0,
               0,
               0,
@@ -8666,13 +8905,13 @@
             "amount": 350000,
             "schedule": "PER_MONTH",
             "perMonth": [
-              568000,
-              558000,
-              488000,
-              500000,
-              400000,
-              500000,
-              400000,
+              472000,
+              467000,
+              397000,
+              485000,
+              385000,
+              485000,
+              485000,
               0,
               0,
               0,
@@ -8723,7 +8962,8 @@
           "currency": "USD",
           "symbolKey": "NAS:CRWD",
           "countryLabel": "US",
-          "sectorLabel": "AI Software"
+          "sectorLabel": "AI Software",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "5b708659-2536-4498-9725-a1523dd83cf3",
@@ -8734,29 +8974,8 @@
           "qty": 33,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "Photonics"
-        },
-        {
-          "id": "2f82b0f1-a8c8-4a08-866b-0e2eac2b1ca8",
-          "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
-          "stockId": "us-nys:nine",
-          "symbolKey": "NYS:NINE",
-          "avgPrice": 1.65,
-          "qty": 70,
-          "currency": "USD",
-          "countryLabel": "US",
-          "sectorLabel": "Traditional Energy"
-        },
-        {
-          "id": "fa9827a7-8f03-472f-9ad4-f608d51d083b",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-138080",
-          "symbolKey": "138080",
-          "avgPrice": 15915,
-          "qty": 10,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Photonics"
+          "sectorLabel": "Photonics",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "c1da26b2-ec2a-4394-a8f5-d0c592a6c285",
@@ -8767,7 +8986,8 @@
           "qty": 3,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Financials"
+          "sectorLabel": "Financials",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "eceea89b-95c4-4a90-ad35-7b181be8f63c",
@@ -8775,21 +8995,23 @@
           "stockId": "kr-005930",
           "symbolKey": "005930",
           "avgPrice": 109612.65217391304,
-          "qty": 23,
+          "qty": 20,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Semiconductor"
+          "sectorLabel": "Semiconductor",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "53b5a17e-dacf-43d9-a789-75db9e71b4d6",
           "accountId": "acc-kr-1",
           "stockId": "kr-102970",
           "symbolKey": "102970",
-          "avgPrice": 18261.65,
-          "qty": 40,
+          "avgPrice": 18704,
+          "qty": 31,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Financials"
+          "sectorLabel": "Financials",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "75db1e4d-4229-4bde-9ddc-ae38fd240d6d",
@@ -8800,7 +9022,8 @@
           "qty": 11,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "Big Tech"
+          "sectorLabel": "Big Tech",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "4c4ce012-97e4-43a6-b2c2-51ce8448e5b3",
@@ -8808,10 +9031,11 @@
           "stockId": "us-nas:pltr",
           "symbolKey": "NAS:PLTR",
           "avgPrice": 112.80687499999999,
-          "qty": 12,
+          "qty": 10,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "AI Software"
+          "sectorLabel": "AI Software",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "8ebeb99d-77d7-45b2-a639-bd5d1e430306",
@@ -8822,7 +9046,8 @@
           "qty": 20,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "Energy/Grid"
+          "sectorLabel": "Energy/Grid",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "83005467-9880-400e-893d-1c1dc55bc1d8",
@@ -8833,7 +9058,8 @@
           "qty": 6,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "Big Tech"
+          "sectorLabel": "Big Tech",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "c41e5c7f-0709-421c-9377-30283ef8f9ab",
@@ -8844,7 +9070,8 @@
           "qty": 5,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "AI Software"
+          "sectorLabel": "AI Software",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "e39f52e9-8faa-407a-97fd-58d6dd4b39ff",
@@ -8855,7 +9082,8 @@
           "qty": 110,
           "currency": "KRW",
           "countryLabel": "US",
-          "sectorLabel": "Index"
+          "sectorLabel": "Index",
+          "sectorMajorLabel": "Index"
         },
         {
           "id": "219b8923-43f1-498b-9a72-5d5dcadcee1a",
@@ -8866,7 +9094,8 @@
           "qty": 151,
           "currency": "KRW",
           "countryLabel": "US",
-          "sectorLabel": "Index"
+          "sectorLabel": "Index",
+          "sectorMajorLabel": "Index"
         },
         {
           "id": "ccd55130-8ba3-4282-934d-9bd705cd6599",
@@ -8877,7 +9106,8 @@
           "qty": 25,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Index"
+          "sectorLabel": "Index",
+          "sectorMajorLabel": "Index"
         },
         {
           "id": "7238d303-944b-495e-9c07-916db959d74b",
@@ -8888,7 +9118,8 @@
           "qty": 48,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Biotech"
+          "sectorLabel": "Biotech",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "3650ecf5-f89c-47be-afce-9c26d91d60e5",
@@ -8944,7 +9175,8 @@
           "qty": 2,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Shipbuilding"
+          "sectorLabel": "Shipbuilding",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "344bba56-bd1e-477f-9e8b-e8e2849e0640",
@@ -8955,7 +9187,8 @@
           "qty": 52,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Alternative Asset"
+          "sectorLabel": "Alternative Asset",
+          "sectorMajorLabel": "Defensive Assets"
         },
         {
           "id": "8baaf7ea-560f-46ff-9ba4-b39a5ea1ca4c",
@@ -8966,7 +9199,8 @@
           "qty": 2,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Semiconductor"
+          "sectorLabel": "Semiconductor",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "e117e8d6-94da-4235-8e68-56500848e3e9",
@@ -8977,7 +9211,8 @@
           "qty": 3,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Financials"
+          "sectorLabel": "Financials",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "3a00a9ae-1617-4fbf-8045-822e97acfe5d",
@@ -8988,11 +9223,206 @@
           "qty": 5,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Shipbuilding"
+          "sectorLabel": "Shipbuilding",
+          "sectorMajorLabel": "Non AI"
+        },
+        {
+          "id": "0e68e6b9-a49b-403f-9dc0-f9ba10f07f87",
+          "accountId": "acc-us-1",
+          "stockId": "auto-kr-102970",
+          "symbolKey": "102970",
+          "avgPrice": 16738,
+          "qty": 9,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorLabel": "Financials",
+          "sectorMajorLabel": "Non AI"
         }
       ],
       "lifnux.finance.hub.reveal.v1": false,
       "lifnux.finance.asset.snapshot.logs.v1": [
+        {
+          "id": "36c719f7-d1a7-48f4-a21a-4cb5e86a1db0",
+          "month": "2026-03",
+          "type": "OVERWRITE",
+          "at": 1772295531964,
+          "source": "manual"
+        },
+        {
+          "id": "e94dc71f-76e9-4184-9ad3-2a9d614219f8",
+          "month": "2026-03",
+          "type": "SAVED",
+          "at": 1772295483628,
+          "source": "manual"
+        },
+        {
+          "id": "ffae339a-0aec-4950-aaf1-9dfb91879b30",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772295271415,
+          "source": "manual"
+        },
+        {
+          "id": "6e2600bc-f796-4d13-9346-77bb273239c2",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772295267312,
+          "source": "manual"
+        },
+        {
+          "id": "a2619e10-690d-4053-8272-fe9a9be7cfbc",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294973517,
+          "source": "manual"
+        },
+        {
+          "id": "17a83658-c4f8-424e-9791-e692f5167681",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294973341,
+          "source": "manual"
+        },
+        {
+          "id": "ba7eb1c8-61dd-4bca-a2e4-ee645f762e71",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294972701,
+          "source": "manual"
+        },
+        {
+          "id": "19764cb3-54c0-48c8-8442-530c1d9a8469",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294972406,
+          "source": "manual"
+        },
+        {
+          "id": "f98c4590-7d0c-4d22-91ce-ba371b72f4d2",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294869302,
+          "source": "manual"
+        },
+        {
+          "id": "97f7180a-e0d4-4813-b36f-7e8796afbb48",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294869118,
+          "source": "manual"
+        },
+        {
+          "id": "58f7957a-bbfd-4440-b2d7-ecc06d67a770",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294868959,
+          "source": "manual"
+        },
+        {
+          "id": "7b229367-d0ca-406e-806b-93b9ec6d24f2",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294868798,
+          "source": "manual"
+        },
+        {
+          "id": "801e3186-0dbd-45e1-86d4-e39ced5fc5fc",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294868622,
+          "source": "manual"
+        },
+        {
+          "id": "e3ff15dc-374e-4672-8771-2c4a3e9e1e8c",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294868030,
+          "source": "manual"
+        },
+        {
+          "id": "9e5e019a-fa89-4f77-ad2c-4788883e4a8a",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294865542,
+          "source": "manual"
+        },
+        {
+          "id": "d249f04d-9b85-4a8a-a58c-9a648d53d3cd",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294864854,
+          "source": "manual"
+        },
+        {
+          "id": "0284f20c-3711-4327-b65e-a9cb8ad70275",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294860022,
+          "source": "manual"
+        },
+        {
+          "id": "605eabac-8595-42cf-ab5e-e6f7db8089ed",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294856422,
+          "source": "manual"
+        },
+        {
+          "id": "71d61e4b-a1a5-492e-8e21-405dcceab1f4",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294786217,
+          "source": "manual"
+        },
+        {
+          "id": "64fd459c-4ca7-4004-8538-f55bda897855",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294657987,
+          "source": "manual"
+        },
+        {
+          "id": "331c37d9-12d6-47f4-af61-6bf410784cce",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294646260,
+          "source": "manual"
+        },
+        {
+          "id": "a602b873-c3f1-4859-bb7a-67c7f5b14003",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294561907,
+          "source": "manual"
+        },
+        {
+          "id": "9b7b059f-df37-47a6-bb05-ae31983d1388",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294550651,
+          "source": "manual"
+        },
+        {
+          "id": "aeeb4ea6-313f-4a5c-87ac-048814a350b3",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772294539739,
+          "source": "manual"
+        },
+        {
+          "id": "bc2800f5-5baa-44bc-95c7-6dba0c1775ca",
+          "month": "2026-02",
+          "type": "OVERWRITE",
+          "at": 1772293655794,
+          "source": "manual"
+        },
+        {
+          "id": "29219cf9-8cda-489f-b395-a43deaebf07c",
+          "month": "2026-02",
+          "type": "SAVED",
+          "at": 1772293650874,
+          "source": "manual"
+        },
         {
           "id": "aba67870-d28d-4bdb-95e4-51f1e379374f",
           "month": "2024-11",
@@ -9633,6 +10063,80 @@
           "title": "네이버MYBOX",
           "amount": 1144,
           "kind": "expense"
+        },
+        {
+          "id": "f8cfbb6d-c6ce-4710-939b-2544b147a03d",
+          "createdAt": 1772200580568,
+          "date": "2026-02-25",
+          "category": "Other",
+          "title": "오픈AI API",
+          "amount": 15867,
+          "kind": "expense"
+        },
+        {
+          "id": "4011028e-d750-4d81-97d2-f18ad38221aa",
+          "createdAt": 1772200598824,
+          "date": "2026-02-27",
+          "category": "Other",
+          "title": "Fun&Fun 회비",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "1cbd7ad6-a41c-441b-b7ee-c2e659021d88",
+          "createdAt": 1772200607112,
+          "date": "2026-02-27",
+          "category": "Subscription",
+          "title": "유튜브 프리미엄",
+          "amount": 14900,
+          "kind": "expense"
+        },
+        {
+          "id": "c920570c-2d35-42af-be21-2cc45da3040e",
+          "createdAt": 1772292869502,
+          "date": "2026-02-28",
+          "category": "Food",
+          "title": "이빠네마 그릴 홍대점",
+          "amount": 45900,
+          "kind": "expense"
+        },
+        {
+          "id": "09759940-b1f9-4eab-ae38-eebe5754e92e",
+          "createdAt": 1772292988134,
+          "date": "2026-02-28",
+          "category": "Snacks & Coffee",
+          "title": "편의점",
+          "amount": 1800,
+          "kind": "expense"
+        },
+        {
+          "id": "9fb42ff4-898f-468f-94fd-d65fc55b735e",
+          "createdAt": 1772296669253,
+          "date": "2026-02-27",
+          "category": "Other",
+          "title": "생일 선물",
+          "amount": 13900,
+          "kind": "expense",
+          "memo": "강소은"
+        },
+        {
+          "id": "8916c999-fad6-42ab-8b63-8516778f0eaf",
+          "createdAt": 1772507914255,
+          "date": "2026-03-02",
+          "category": "Game",
+          "title": "카제나 월정액 + 패스",
+          "amount": 17900,
+          "kind": "expense"
+        },
+        {
+          "id": "ca6fc9c6-9cf1-45e7-aed7-09f767754828",
+          "createdAt": 1772602116532,
+          "date": "2026-03-04",
+          "category": "Dividends",
+          "title": "분배금",
+          "amount": 3700,
+          "kind": "income",
+          "memo": "Korea플러스배당액티브"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -9678,7 +10182,7 @@
         "loopEnabled": true,
         "speed": 1,
         "shadowing": false,
-        "attendanceCursor": "2026-01-31T15:00:00.000Z"
+        "attendanceCursor": "2026-02-28T15:00:00.000Z"
       },
       "lifnux:guitar:segments": [
         {
@@ -9746,6 +10250,10 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -9794,10 +10302,6 @@
           "createdAt": 1769952552228
         }
       ],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -9872,6 +10376,22 @@
         {
           "dateKey": "2026-02-25",
           "createdAt": 1772028564791
+        },
+        {
+          "dateKey": "2026-02-27",
+          "createdAt": 1772203551600
+        },
+        {
+          "dateKey": "2026-03-01",
+          "createdAt": 1772376157850
+        },
+        {
+          "dateKey": "2026-03-02",
+          "createdAt": 1772461019351
+        },
+        {
+          "dateKey": "2026-03-03",
+          "createdAt": 1772546925654
         }
       ],
       "lifnux:guitar:videos": [
@@ -10015,10 +10535,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31558775.42,
-        "unrealizedPnlKrw": 4291854.457999997,
-        "realizedPnlYtdKrw": 1222814.318,
-        "updatedAt": 1772069143179
+        "totalValueKrw": 30224635.809999995,
+        "unrealizedPnlKrw": 2236369.0411717407,
+        "realizedPnlYtdKrw": 1592014.4746282606,
+        "updatedAt": 1772602077246
       }
     },
     "personalGrowth": {
@@ -10340,6 +10860,13 @@
           "loggedForDate": "2026-02-24",
           "summary": "6개 기능 및 Guitar Practice 앱 구현 완료",
           "createdAt": "2026-02-24T07:04:00.481Z"
+        },
+        {
+          "id": "5c5ecb3d-eb00-4fc2-b6a2-aa93766ef776",
+          "goalId": "d050d7bd-564f-481a-b2cc-f6e892cb692b",
+          "loggedForDate": "2026-02-28",
+          "summary": "3~12월 매월 +209만원씩 증가",
+          "createdAt": "2026-02-28T16:43:10.909Z"
         }
       ],
       "lifnux.personalGrowth.seeded.v1": true,
@@ -10577,9 +11104,33 @@
           "type": "TIMED",
           "startTime": "13:00",
           "endTime": "13:50",
-          "importance": "LOW",
+          "importance": "HIGH",
           "labelId": "20f08160-d6eb-49ec-aed7-043408872d67",
           "location": "문정역 블루힐즈스튜디오",
+          "memo": ""
+        },
+        {
+          "id": "bb0f5956-112d-43e6-bdd0-1e82e885817b",
+          "title": "저녁 약속",
+          "date": "2026-02-28",
+          "type": "TIMED",
+          "startTime": "18:30",
+          "endTime": "21:00",
+          "importance": "HIGH",
+          "labelId": "f9d034cb-f271-47c0-b853-6b3e554151b9",
+          "location": "홍대 이빠네마 그릴",
+          "memo": ""
+        },
+        {
+          "id": "201118e0-cbe7-4932-bf15-8b965d85d25c",
+          "title": "FUN&FUN",
+          "date": "2026-03-01",
+          "type": "TIMED",
+          "startTime": "10:30",
+          "endTime": "12:00",
+          "importance": "LOW",
+          "labelId": "20f08160-d6eb-49ec-aed7-043408872d67",
+          "location": "메가커피 석촌한솔점",
           "memo": ""
         }
       ],
@@ -12897,8 +13448,7 @@
               "source": "manual"
             }
           ],
-          "updatedAt": 1770797154712,
-          "source": "manual"
+          "updatedAt": 1770797154712
         },
         "2024-07": {
           "month": "2024-07",
@@ -13025,8 +13575,7 @@
               "source": "manual"
             }
           ],
-          "updatedAt": 1770797183608,
-          "source": "manual"
+          "updatedAt": 1770797183608
         },
         "2024-08": {
           "month": "2024-08",
@@ -13153,8 +13702,7 @@
               "source": "manual"
             }
           ],
-          "updatedAt": 1770797210098,
-          "source": "manual"
+          "updatedAt": 1770797210098
         },
         "2024-09": {
           "month": "2024-09",
@@ -13281,8 +13829,7 @@
               "source": "manual"
             }
           ],
-          "updatedAt": 1770797223458,
-          "source": "manual"
+          "updatedAt": 1770797223458
         },
         "2024-10": {
           "month": "2024-10",
@@ -13409,8 +13956,7 @@
               "source": "manual"
             }
           ],
-          "updatedAt": 1770797239146,
-          "source": "manual"
+          "updatedAt": 1770797239146
         },
         "2024-11": {
           "month": "2024-11",
@@ -13545,8 +14091,7 @@
               "source": "manual"
             }
           ],
-          "updatedAt": 1770797250930,
-          "source": "manual"
+          "updatedAt": 1770797250930
         },
         "2024-12": {
           "month": "2024-12",
@@ -15549,6 +16094,163 @@
             }
           ],
           "updatedAt": 1769913000000
+        },
+        "2026-02": {
+          "month": "2026-02",
+          "items": [
+            {
+              "id": "7a2ff9a2-a7c1-41a1-b3dd-9edc74490747",
+              "name": "우리SUPER주거래통장",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-0",
+              "amountKRW": 94066,
+              "source": "manual"
+            },
+            {
+              "id": "4e7829b3-0164-4a5a-8987-bf65d2a789bd",
+              "name": "KB나라사랑우대통장",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-0",
+              "amountKRW": 230145,
+              "source": "manual"
+            },
+            {
+              "id": "75417708-5f67-449e-ba9f-d545b721e7b6",
+              "name": "현금",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-1",
+              "amountKRW": 25000,
+              "source": "manual"
+            },
+            {
+              "id": "433e88ae-7802-4b5e-887d-90a18c18c0df",
+              "name": "업비트(코인)",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-2",
+              "amountKRW": 0,
+              "source": "manual"
+            },
+            {
+              "id": "19cc0f97-ed42-4490-9202-cd4087f288e3",
+              "name": "네이버페이 머니",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-3",
+              "amountKRW": 6831,
+              "source": "manual"
+            },
+            {
+              "id": "2fcc7f55-6182-4dff-ac98-57a431b2fc7c",
+              "name": "카카오페이 머니",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-3",
+              "amountKRW": 0,
+              "source": "manual"
+            },
+            {
+              "id": "3c501b72-c84b-460c-afb1-e9b0c697459d",
+              "name": "토스페이 머니",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-3",
+              "amountKRW": 12163,
+              "source": "manual"
+            },
+            {
+              "id": "ad1dd4ad-ae81-49ee-a929-5c1b3faabec1",
+              "name": "주택청약종합저축(농협)",
+              "categoryId": "dataset-cat-saving",
+              "subcategoryId": "dataset-sub-saving-0",
+              "amountKRW": 5900000,
+              "source": "manual"
+            },
+            {
+              "id": "11fa6cd3-6928-407a-9b97-e345991639f2",
+              "name": "KB청년도약계좌",
+              "categoryId": "dataset-cat-saving",
+              "subcategoryId": "dataset-sub-saving-1",
+              "amountKRW": 750000,
+              "note": "만기 2030.11.03",
+              "source": "manual"
+            },
+            {
+              "id": "af7daeab-4670-4ba2-a191-cbc00a65a3e8",
+              "name": "카드값 (우리)",
+              "categoryId": "dataset-cat-debt",
+              "subcategoryId": "dataset-sub-debt-0",
+              "amountKRW": 10793,
+              "source": "manual"
+            },
+            {
+              "id": "c91bb72e-8f9f-4487-9dca-de0ad2300bf9",
+              "name": "카드값 (KB)",
+              "categoryId": "dataset-cat-debt",
+              "subcategoryId": "dataset-sub-debt-0",
+              "amountKRW": 350358,
+              "source": "manual"
+            },
+            {
+              "id": "0be55c24-e652-4004-bb1d-992c984495b6",
+              "name": "나라사랑 하나통장",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-0",
+              "amountKRW": 112110,
+              "source": "manual"
+            },
+            {
+              "id": "d3c7877e-55d4-42f6-bdd3-88ab8462ccca",
+              "name": "메리츠 (synced)",
+              "categoryId": "dataset-cat-investing",
+              "subcategoryId": "dataset-sub-investing-0",
+              "amountKRW": 11706281,
+              "note": "Investing Portfolio mirror",
+              "source": "investing",
+              "investingAccountId": "eebd4146-6541-4507-9242-ff316f3ac721"
+            },
+            {
+              "id": "c085487e-87ba-4ea0-804f-c33072094835",
+              "name": "TOSS (synced)",
+              "categoryId": "dataset-cat-investing",
+              "subcategoryId": "dataset-sub-investing-0",
+              "amountKRW": 286308,
+              "note": "Investing Portfolio mirror",
+              "source": "investing",
+              "investingAccountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a"
+            },
+            {
+              "id": "46416d3f-ee9d-4622-8a71-7ec89fddaa48",
+              "name": "NH증권 (synced)",
+              "categoryId": "dataset-cat-investing",
+              "subcategoryId": "dataset-sub-investing-0",
+              "amountKRW": 11012810,
+              "note": "Investing Portfolio mirror",
+              "source": "investing",
+              "investingAccountId": "acc-kr-1"
+            },
+            {
+              "id": "91f447ad-f917-48af-802f-17cc703c3d0d",
+              "name": "메리츠 (synced)",
+              "categoryId": "dataset-cat-investing",
+              "subcategoryId": "dataset-sub-investing-0",
+              "amountKRW": 8935740,
+              "note": "Investing Portfolio mirror",
+              "source": "investing",
+              "investingAccountId": "acc-us-1"
+            },
+            {
+              "id": "5c0033a9-c89c-480c-a7e6-a3e8b87335a4",
+              "name": "미수금",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "d8b07685-7281-48c6-a453-cbb8d3a8b3d0",
+              "amountKRW": 400000,
+              "source": "manual"
+            }
+          ],
+          "updatedAt": 1772295271413
+        },
+        "2026-03": {
+          "month": "2026-03",
+          "items": [],
+          "updatedAt": 1772295531962,
+          "source": "manual"
         }
       }
     },
@@ -15557,6 +16259,39 @@
     },
     "career": {
       "career_applications": [
+        {
+          "applicationId": "4cf7a9fb-8b38-4186-8ca4-158147b2c00c",
+          "postingId": "9c97a8f7-01bf-4add-88ab-b4cb2eece4eb",
+          "appliedAt": "2026-03-02",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "8f349e1d-44c8-4856-a512-4006abd7d52e",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-03-02",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "ff2d5764-e25a-47c7-863c-ecb7c31d38b9",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "d768b155-e8e2-4721-88a4-95c2641a9270",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
         {
           "applicationId": "a47666ad-dfd2-45ec-b75b-333ed9902c38",
           "postingId": "4de4bbac-90a6-4c6e-b540-9f6d4baa0896",
@@ -15691,21 +16426,22 @@
               "stageId": "38b91cb4-e939-40ef-9531-c7246a822e47",
               "type": "DOCUMENT",
               "submittedAt": "2026-02-23",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-03-03",
+              "result": "PASS",
               "notes": ""
             },
             {
-              "stageId": "64ea347b-cf21-436e-b9f6-6b208708b2fb",
-              "type": "INTERVIEW_1",
-              "submittedAt": null,
+              "stageId": "c11d6b17-86a8-4ea8-8143-37b2e5eeeb62",
+              "type": "CUSTOM",
+              "customLabel": "과제 전형",
+              "submittedAt": "2026-03-03",
               "resultAt": null,
               "result": "PENDING",
               "notes": ""
             },
             {
               "stageId": "1d33cdd3-ffa5-47f6-9758-7339c16a40d6",
-              "type": "INTERVIEW_2",
+              "type": "INTERVIEW_1",
               "submittedAt": null,
               "resultAt": null,
               "result": "PENDING",
@@ -16104,6 +16840,10 @@
         {
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "name": "Gaming"
+        },
+        {
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "name": "IT"
         }
       ],
       "career_employments": [
@@ -16152,6 +16892,69 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "06090d63-fbb6-483f-92d0-426b261e5426",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "펄어비스",
+          "postingTitle": "검은사막 모바일 운영 담당자",
+          "role": "운영",
+          "contractType": "계약직",
+          "departmentInfo": "",
+          "responsibilities": "안정적인 게임서비스를 위한 점검 진행 및 관련 사전 준비 업무\n유저에게 전달해야 할 다양한 공지사항 등 작성\n운영툴을 사용하여 이벤트, 명령어 등 운영 필요사항 세팅 및 로그 확인\n장애 및 이슈에 대해 빠르게 확인하여 공유/논의/대응 후 정상화 진행\n게임 내외의 동향을 확인하여 게임이 개선될 수 있도록 진행\n게임서비스 전반에 걸쳐 문제가 될만한 요소를 사전에 파악하고 대응\n상대방에 대한 이해와 존중, 공감을 바탕으로 유관부서와의 커뮤니케이션 진행",
+          "requirements": "하나의 게임을 휴식기 없이 오랜 시간 플레이하신 분 (패키지 게임의 경우 엔딩을 보신 분)\n현재도 매일 2시간 이상 플레이하는 게임이 있으신 분\n실시간으로 변화하는 라이브 서비스 환경의 흐름에 맞춰 함께 협업할 수 있으신 분\n새로운 배움에 주저함이 없으신 분",
+          "neededSkills": "",
+          "preferred": "어떤 일이든 크로스 체크를 기본으로 하는 꼼꼼함을 갖추신 분\n문장력이 뛰어나 전달하고자 하는 내용을 글로 잘 표현하시는 분\n트렌드를 놓치지 않으며 센스와 감각을 보유하신 분",
+          "memo": "근무형태 : 계약직 12개월 (계약기간 종료 후 평가를 통해 정규직 전환 / 계약 연장 / 계약 종료가 검토되며, 계약기간 동안 연봉 및 복리후생은 정규직과 동일하게 적용됩니다.) ",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": null,
+          "createdAt": "2026-02-27T14:35:22.914Z",
+          "updatedAt": "2026-02-27T14:35:38.729Z"
+        },
+        {
+          "postingId": "9c97a8f7-01bf-4add-88ab-b4cb2eece4eb",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "네이버웹툰",
+          "postingTitle": "네이버웹툰 그로스 마케터",
+          "role": "6",
+          "contractType": "인턴",
+          "departmentInfo": "네이버웹툰 서비스 유저 퍼널 분석 및 CRM 운영 지원",
+          "responsibilities": "- 웹툰/웹소설 콘텐츠를 좋아하고, 관련 콘텐츠 서비스 사용 경험이 풍부하신 분\n- 데이터를 기반으로 현상을 파악하고, 논리적인 사고를 통해 아이디어를 제안하실 수 있는 분\n- 엑셀 활용(피벗 테이블, 함수 등)에 거부감이 없고 기초적인 활용이 가능하신 분\n- 최소 3개월 동안 full-time 근무 가능하신 분 (근무 기간은 3~6개월로 협의 가능)",
+          "requirements": "",
+          "neededSkills": "- 그로스/데이터 분석 관련 프로젝트나 교육을 경험해 보신 분\n- 콘텐츠 서비스 사용 경험을 바탕으로 사용자에 대한 인사이트를 제시할 수 있는 분\n- SQL, R, Python 등의 데이터 분석 툴을 다뤄본 경험이 있으신 분 (기본적인 문법 등 기초 수준 가능)\n- 호기심을 가지고 지표를 관찰하는 일을 좋아하는 분\n- 가설을 설계하고 바로 실험하는 실행력이 있으신 분\n- 새로운 시각으로 문제를 바라보고 도전하는 것을 즐기시는 분\n- 빠른 의사결정과 수평적인 조직문화를 직접 경험하며 성장하고 싶으신 분",
+          "preferred": "",
+          "memo": "",
+          "comment": "",
+          "deadline": "2026-03-04",
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://recruit.navercorp.com/rcrt/view.do?annoId=30004610&lang=ko",
+          "createdAt": "2026-02-27T14:23:09.527Z",
+          "updatedAt": "2026-02-27T14:23:12.232Z"
+        },
+        {
+          "postingId": "96a9a89d-c80b-4a93-8bee-f59ba325fe75",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "라인게임즈",
+          "postingTitle": "라이브서비스 운영팀 담당자",
+          "role": "운영",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "• 라이브 게임 운영 정책 수립 및 실행\n• 운영 이벤트 기획 및 운영\n• 업데이트 콘텐츠 운영 세팅 및 검수\n• 운영 지표 모니터링 및 데이터 기반 개선안 도출\n• 유관 부서(개발/사업/마케팅/CS 등)와의 협업 및 일정 관리\n• 이슈 대응 및 긴급 상황 커뮤니케이션",
+          "requirements": "• 2년 이상의 유관 경력을 보유하신 분",
+          "neededSkills": "",
+          "preferred": "• 모바일/온라인 게임 라이브 운영 경험\n• 영어/일본어/중국어 가능자\n• 라이브 이슈 대응 및 정책 수립 경험\n• 다양한 장르의 게임 플레이 경험 및 높은 이해도",
+          "memo": "입사지원 및 서류전형 > 1차 인터뷰 > 처우협의 > 최종합격\n\n",
+          "comment": "",
+          "deadline": "2026-03-13",
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://recruit.line.games/notice/425",
+          "createdAt": "2026-02-27T14:04:09.404Z",
+          "updatedAt": "2026-02-27T14:22:10.271Z"
+        },
+        {
           "postingId": "ddc19f57-6a07-480f-90dc-9c77d4699fdd",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "슈퍼센트",
@@ -16167,10 +16970,10 @@
           "comment": "",
           "deadline": null,
           "importance": 7,
-          "isFavorite": true,
+          "isFavorite": false,
           "link": "https://supercent.career.greetinghr.com/ko/o/202463",
           "createdAt": "2026-02-26T05:07:23.233Z",
-          "updatedAt": "2026-02-26T05:07:25.329Z"
+          "updatedAt": "2026-03-03T03:24:03.098Z"
         },
         {
           "postingId": "66df825a-b400-4455-96de-bcbec0b0c76f",
@@ -16297,27 +17100,6 @@
           "link": "https://bitmango.ninehire.site/job_posting/8cqdMM1s",
           "createdAt": "2026-02-23T15:46:03.927Z",
           "updatedAt": "2026-02-25T07:15:27.312Z"
-        },
-        {
-          "postingId": "7bda97d0-4ab5-4f7b-bc0a-34f2d3393039",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "엔픽셀",
-          "postingTitle": "[GSI프로젝트] 사업PM",
-          "role": "사업PM",
-          "contractType": "정규직",
-          "departmentInfo": "[프로젝트 소개]\n누적 매출 3000억을 기록한 ‘그랑사가’를 글로벌 운영하고 있는 엔픽셀에서 제작 중인 신규 모바일 2D 캐주얼 게임 프로젝트입니다.\n대중성을 가진 앞단의 캐주얼 요소와 깊이감있는 성장과 소셜 요소를 결합하여 유저들에게 신선한 재미와 지속적으로 플레이할 동기를 제공하는 목표를 가지고 있습니다.\n\n[팀 소개]\n사업팀은 '그랑사가' 시리즈의 라이브 운영 경험을 기반으로, 동아시아와 글로벌 시장 양쪽에 통할 신규 사업 모델과 성장 전략을\n설계, 실행하는 조직입니다.\n개발·기획과 긴밀하게 협업하며, 데이터와 시장 관점에서 게임의 방향을 정의하고 실질적인 성과로 이어지는 의사결정을 주도합니다.\n게임의 성공을 넘어 프로세스를 만들고, 게임업계의 새로운 기준을 만드는 과정을 함께할 분을 기다립니다.",
-          "responsibilities": "■핵심 지표 수립 및 관리\n- 프로젝트 단계별 핵심 KPI(유저 행동, 리텐션, 수익 지표 등)를 정의 및 관리합니다.\n- 데이터 분석을 통해 지표 변동의 근본 원인(Root Cause)을 도출하고 개선 전략을 수립합니다.\n■데이터 기반 문제 정의 및 태스크 설계\n- 인게임 데이터, 빌드 테스트, 레퍼런스 분석을 통해 개선 목표를 설정합니다.\n- 기획·개발과 협업하여 실행 가능한 태스크로 구조화하고 우선순위를 조정합니다.\n■Live Ops 및 LTV 최적화\n- 이벤트, 보상 구조, 성장 곡선 등에 대한 테스트를 기획·실행합니다.\n- Live 환경에서 발생하는 이슈를 지표 기반으로 정의하고 개선 사이클을 운영합니다.",
-          "requirements": "게임에 대한 관심과 열정을 가지신 분\n담당 프로젝트에 대한 관심을 바탕으로 적극적으로 의견을 내고 업무화하여 실행하실 분\n게임 테스트 데이터를 수집, 분석하여 결과를 전달할 수 있는 능력을 가지신 분\n데이터에 대한 이해도가 높으신 분(통계, Sql, AI 활용도 등)",
-          "neededSkills": "",
-          "preferred": "데이터 분석에 기반하여 문제를 도출하고 해결해본 경험이 있으신 분\n게임을 제작 또는 운영한 경험이 있으신 분\n가파른 러닝커브를 가지신 분",
-          "memo": "[제출 서류]\n이력서\n경력기술서\n포트폴리오\n게임 분석자료 (권장)",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": false,
-          "link": "https://npixel.ninehire.site/job_posting/mPqnpuga",
-          "createdAt": "2026-02-23T15:44:28.238Z",
-          "updatedAt": "2026-02-23T15:44:28.238Z"
         },
         {
           "postingId": "f97b1494-aafb-41cc-8cf4-40754911659a",
@@ -16530,27 +17312,6 @@
           "updatedAt": "2026-02-23T07:46:54.032Z"
         },
         {
-          "postingId": "6aa00c06-151f-425d-9fa9-cd17a92b890f",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "컴투스",
-          "postingTitle": "컴투스프로야구V26 사업PM",
-          "role": "사업PM",
-          "contractType": "정규직",
-          "departmentInfo": "",
-          "responsibilities": "- 데이터 기반의 사업&운영 전략 수립\n- 지표 개선을 위한 데이터 분석\n- 이벤트 프로모션 기획 및 운영\n- 커뮤니티 운영 및 관리\n- 유관부서 협업 및 커뮤니케이션",
-          "requirements": "- 경력 무관\n- 모바일/PC 게임에 대한 높은 이해도를 가지신 분\n- 야구를 포함한 스포츠에 대한 관심이 있으신 분\n- 병역필 또는 면제자로 해외 출장에 결격 사유가 없으신 분",
-          "neededSkills": "",
-          "preferred": "- 모바일 게임 사업&운영 경력을 보유하신 분\n- 문서 및 데이터 관리 활용에 능숙하신 분",
-          "memo": "",
-          "comment": "",
-          "deadline": "2026-03-27",
-          "importance": 7,
-          "isFavorite": true,
-          "link": "https://com2us.recruiter.co.kr/career/jobs/97049",
-          "createdAt": "2026-02-23T07:11:19.715Z",
-          "updatedAt": "2026-02-25T02:49:50.388Z"
-        },
-        {
           "postingId": "08de1264-39e6-4b2d-ba17-4a2ae1a7a877",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "컴투스홀딩스",
@@ -16649,11 +17410,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "IPnUVZEyzdI",
-        "queueIndex": 22,
-        "currentTime": 0,
+        "videoId": "Aq_gsctWHtQ",
+        "queueIndex": 39,
+        "currentTime": 79.67814482261657,
         "repeatMode": "all",
-        "shuffle": true
+        "shuffle": false
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -16836,11 +17597,71 @@
             "videoId": "_0f5FjEQzsg",
             "title": "Hebi - '늘 (EVER)' Official MV",
             "url": "https://youtu.be/_0f5FjEQzsg?si=w9xIsRmKGmD0lHpk"
+          },
+          {
+            "id": "a96cc448-cd2d-4fbd-99a9-d38df5ebc151",
+            "videoId": "FCsLikmxhV0",
+            "title": "Epik High (에픽하이) - Rosario ft. CL, ZICO Official MV",
+            "url": "https://youtu.be/FCsLikmxhV0?si=ajRHKi8nGTp1gdur"
+          },
+          {
+            "id": "cadcaabb-5728-416f-951a-a258b1624f76",
+            "videoId": "lOrU0MH0bMk",
+            "title": "창모 (CHANGMO) - METEOR [Official Music Video] (ENG/JPN)",
+            "url": "https://youtu.be/lOrU0MH0bMk?si=nulneR7Bd8KpP45u"
+          },
+          {
+            "id": "d077f2dd-746b-45e5-a37d-7debfeab4b32",
+            "videoId": "QIlzgNozXKw",
+            "title": "창모 (CHANGMO) - 빌었어 [Boyhood]ㅣLyrics/가사",
+            "url": "https://youtu.be/QIlzgNozXKw?si=ujfJtGYMf3mXxKUf"
+          },
+          {
+            "id": "faa4aada-c38b-4b15-b667-d24f15e7186b",
+            "videoId": "z2DASn4UHqE",
+            "title": "Effie - MAKGEOLLI BANGER (Official Audio)",
+            "url": "https://youtu.be/z2DASn4UHqE?si=kBGPHtG6oJDnsZez"
+          },
+          {
+            "id": "b5eeccad-f4f8-47c5-bd72-3c4ba525a368",
+            "videoId": "m3DZsBw5bnE",
+            "title": "AKMU - '어떻게 이별까지 사랑하겠어, 널 사랑하는 거지(How can I love the heartbreak, you`re the one I love)' M/V",
+            "url": "https://youtu.be/m3DZsBw5bnE?si=39jhAFRopnJWta2F"
+          },
+          {
+            "id": "068b775d-e1ec-4bf2-8c76-8bc3ae60c532",
+            "videoId": "56XiKr44a9U",
+            "title": "지코(ZICO) - BERMUDA TRIANGLE (Feat. Crush, DEAN) Official Music Video",
+            "url": "https://youtu.be/56XiKr44a9U?si=D1YnxCKngdlBUvrN"
+          },
+          {
+            "id": "1c7ec1e6-f630-4a13-914d-87c8a48b8a72",
+            "videoId": "AOGhUcAdTKk",
+            "title": "[Bugs-ker] 최유리 - 숲 [Live]",
+            "url": "https://youtu.be/AOGhUcAdTKk?si=sV2c67E2ZbeWq35u"
+          },
+          {
+            "id": "527d72c0-99b8-405e-96ae-a50fbeba2759",
+            "videoId": "Z2tv0GyQdL8",
+            "title": "[M/V] Choi Yu Ree(최유리) - 잘 지내자, 우리",
+            "url": "https://youtu.be/Z2tv0GyQdL8?si=2MY-G7-tG3HyrIM6"
+          },
+          {
+            "id": "17580d67-30b4-4a78-9ad7-3aaa871de34c",
+            "videoId": "74_yqNBhQbA",
+            "title": "백예린 (Yerin Baek) 'Antifreeze' Lyric Video",
+            "url": "https://youtu.be/74_yqNBhQbA?si=cP5wjVq1ZhXpZH0J"
+          },
+          {
+            "id": "a9a608bd-2a60-47d9-9f84-f0890ea49e0f",
+            "videoId": "Aq_gsctWHtQ",
+            "title": "[MV] 검정치마(The Black Skirts) - 'EVERYTHING'",
+            "url": "https://youtu.be/Aq_gsctWHtQ?si=XDdhOCuEx7Bw0Oi4"
           }
         ],
-        "currentIndex": 22,
+        "currentIndex": 39,
         "isPlaying": true,
-        "shuffle": true,
+        "shuffle": false,
         "repeatMode": "all",
         "presets": [
           {
@@ -16984,10 +17805,28 @@
               }
             ],
             "isRatingPreset": false
+          },
+          {
+            "id": "87198512-2683-4d08-8283-7ebf59a743ef",
+            "name": "★★★★★",
+            "urls": [
+              "https://youtu.be/sZxLJLj9o38?si=OTLBE39_5-1zKvzf"
+            ],
+            "tracks": [
+              {
+                "id": "4eaaebaf-a3e1-4d60-a48b-16ad0367252e",
+                "videoId": "sZxLJLj9o38",
+                "title": "Effie - MAKGEOLLI BANGER (Official Video)",
+                "url": "https://youtu.be/sZxLJLj9o38?si=OTLBE39_5-1zKvzf"
+              }
+            ],
+            "isRatingPreset": true
           }
         ],
         "selectedPresetId": null,
-        "ratings": {}
+        "ratings": {
+          "sZxLJLj9o38": 5
+        }
       }
     },
     "shoppingList": {
@@ -16998,17 +17837,17 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 8859
+          "balance": 764559
         },
         {
           "accountId": "acc-us-1",
           "currency": "KRW",
-          "balance": 1866
+          "balance": 11224
         },
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 12.230000000000047
+          "balance": 299.37
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -17194,137 +18033,7 @@
       }
     },
     "items_template": {
-      "asset_items_template": [
-        {
-          "id": "5a9654f0-9392-493a-8015-b16471d8001f",
-          "name": "우리SUPER주거래통장",
-          "categoryId": "dataset-cat-cash",
-          "subcategoryId": "dataset-sub-cash-0",
-          "amountKRW": 162786,
-          "source": "manual"
-        },
-        {
-          "id": "ebb21874-205d-4f9e-af94-91b2a3a413e8",
-          "name": "KB나라사랑우대통장",
-          "categoryId": "dataset-cat-cash",
-          "subcategoryId": "dataset-sub-cash-0",
-          "amountKRW": 828885,
-          "source": "manual"
-        },
-        {
-          "id": "90a7b65b-0396-4659-954c-0b29aede611c",
-          "name": "현금",
-          "categoryId": "dataset-cat-cash",
-          "subcategoryId": "dataset-sub-cash-1",
-          "amountKRW": 200000,
-          "source": "manual"
-        },
-        {
-          "id": "e383fccd-5d83-419a-b498-0678365c598d",
-          "name": "키움증권(국내)",
-          "categoryId": "dataset-cat-investing",
-          "subcategoryId": "dataset-sub-investing-0",
-          "amountKRW": 3096768,
-          "source": "manual"
-        },
-        {
-          "id": "462abb7a-3e81-4099-aa98-49916c8343ae",
-          "name": "키움증권(해외)",
-          "categoryId": "dataset-cat-investing",
-          "subcategoryId": "dataset-sub-investing-0",
-          "amountKRW": 1095835,
-          "source": "manual"
-        },
-        {
-          "id": "f98423cd-cbf7-44bc-ae8a-577d07ee2215",
-          "name": "메리츠증권(Super365)",
-          "categoryId": "dataset-cat-investing",
-          "subcategoryId": "dataset-sub-investing-0",
-          "amountKRW": 1095835,
-          "source": "manual"
-        },
-        {
-          "id": "91485f40-77fe-47c8-9628-87da8ed45c3d",
-          "name": "메리츠증권(연금저축펀드)",
-          "categoryId": "dataset-cat-investing",
-          "subcategoryId": "dataset-sub-investing-2",
-          "amountKRW": 2243273,
-          "source": "manual"
-        },
-        {
-          "id": "3bc0ef61-8e7d-41e3-ab4f-1a94b6a32fd3",
-          "name": "토스증권(해외)",
-          "categoryId": "dataset-cat-investing",
-          "subcategoryId": "dataset-sub-investing-0",
-          "amountKRW": 0,
-          "source": "manual"
-        },
-        {
-          "id": "85ef4a5a-b15f-4566-9edc-7481592870ef",
-          "name": "업비트(코인)",
-          "categoryId": "dataset-cat-cash",
-          "subcategoryId": "dataset-sub-cash-2",
-          "amountKRW": 0,
-          "source": "manual"
-        },
-        {
-          "id": "1d8d5fbb-68b6-4164-b887-59ade2e7413d",
-          "name": "네이버페이 머니",
-          "categoryId": "dataset-cat-cash",
-          "subcategoryId": "dataset-sub-cash-3",
-          "amountKRW": 428,
-          "source": "manual"
-        },
-        {
-          "id": "f12d71f4-7b9d-4617-a58d-7862bed694bc",
-          "name": "카카오페이 머니",
-          "categoryId": "dataset-cat-cash",
-          "subcategoryId": "dataset-sub-cash-3",
-          "amountKRW": 0,
-          "source": "manual"
-        },
-        {
-          "id": "771b8ad8-143a-40b3-b6ee-2a81b3ba3eda",
-          "name": "토스페이 머니",
-          "categoryId": "dataset-cat-cash",
-          "subcategoryId": "dataset-sub-cash-3",
-          "amountKRW": 0,
-          "source": "manual"
-        },
-        {
-          "id": "a4ee284d-b26d-48ad-987b-852f9491d562",
-          "name": "주택청약종합저축(농협)",
-          "categoryId": "dataset-cat-saving",
-          "subcategoryId": "dataset-sub-saving-0",
-          "amountKRW": 0,
-          "source": "manual"
-        },
-        {
-          "id": "11e9fba6-3f71-4670-b54f-b286a41e493b",
-          "name": "KB청년도약계좌",
-          "categoryId": "dataset-cat-saving",
-          "subcategoryId": "dataset-sub-saving-1",
-          "amountKRW": 0,
-          "note": "만기 2030.11.03",
-          "source": "manual"
-        },
-        {
-          "id": "d09384cb-2fc2-418e-94cc-7b971dc41e95",
-          "name": "카드값 (우리)",
-          "categoryId": "dataset-cat-debt",
-          "subcategoryId": "dataset-sub-debt-0",
-          "amountKRW": -7900,
-          "source": "manual"
-        },
-        {
-          "id": "acfd6b2b-0d9f-449b-9833-658124a9e231",
-          "name": "카드값 (KB)",
-          "categoryId": "dataset-cat-debt",
-          "subcategoryId": "dataset-sub-debt-0",
-          "amountKRW": 438318,
-          "source": "manual"
-        }
-      ]
+      "asset_items_template": []
     },
     "ing_ledger_records": {
       "investing_ledger_records": [
@@ -17787,6 +18496,71 @@
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
+        },
+        {
+          "id": "5898b471-c3ad-46ca-879c-8a44ac008e02",
+          "ts": 1772293907322,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 160000
+        },
+        {
+          "id": "64530f8a-e212-49e2-8147-e27cc533c741",
+          "ts": 1772293922763,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "102970",
+          "side": "BUY",
+          "qty": 9,
+          "price": 16738,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "4d463199-b6eb-4a42-8c40-c72a1b949310",
+          "ts": 1772527716172,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "005930",
+          "side": "SELL",
+          "qty": 3,
+          "price": 192800,
+          "realizedPnl": 249562.04347826086,
+          "realizedPnlPercent": 75.89210385503736,
+          "costBasis": 328837.95652173914
+        },
+        {
+          "id": "53397074-f076-4054-8f63-186054b0248e",
+          "ts": 1772587897659,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:PLTR",
+          "side": "SELL",
+          "qty": 2,
+          "price": 143.57,
+          "realizedPnl": 61.526250000000005,
+          "realizedPnlPercent": 27.270611831060833,
+          "costBasis": 225.61374999999998
+        },
+        {
+          "id": "006c2a78-0f21-4653-8f00-2dc2031849ce",
+          "ts": 1772593556730,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "138080",
+          "side": "SELL",
+          "qty": 10,
+          "price": 17730,
+          "realizedPnl": 18150,
+          "realizedPnlPercent": 11.404335532516493,
+          "costBasis": 159150
         }
       ]
     },

@@ -46,6 +46,14 @@ function countByTypeInMonth(logs, monthKey) {
     }
     return counts;
 }
+function countByTypeInYear(logs, yearKey) {
+    const counts = emptyCountRecord();
+    for (const log of logs) {
+        if (log.loggedForDate.slice(0, 4) === yearKey)
+            counts[log.typeId] += 1;
+    }
+    return counts;
+}
 export default function HealthPage() {
     const router = useRouter();
     const today = todayDateKey();
@@ -77,17 +85,19 @@ export default function HealthPage() {
     const currentMonthKey = monthKeyFromDateKey(today);
     const selectedWeekKey = weekKeyFromDateKey(selectedDateKey);
     const selectedMonthKey = monthKeyFromDateKey(selectedDateKey);
+    const selectedYearKey = selectedDateKey.slice(0, 4);
     const weeklyCountsSelected = useMemo(() => countByTypeInWeek(logs, selectedWeekKey), [logs, selectedWeekKey]);
     const monthlyCountsSelected = useMemo(() => countByTypeInMonth(logs, selectedMonthKey), [logs, selectedMonthKey]);
+    const yearlyCountsSelected = useMemo(() => countByTypeInYear(logs, selectedYearKey), [logs, selectedYearKey]);
     const weeklyTotal = useMemo(() => logs.filter((item) => isInWeek(item.loggedForDate, currentWeekKey)).length, [logs, currentWeekKey]);
     const monthlyTotal = useMemo(() => logs.filter((item) => isInMonth(item.loggedForDate, currentMonthKey)).length, [logs, currentMonthKey]);
-    const selectedDistanceWeeklyKm = useMemo(() => {
+    const selectedDistanceYearlyKm = useMemo(() => {
         return logs
             .filter((item) => (item.typeId === "running" || item.typeId === "walking" || item.typeId === "bicycle") &&
             item.typeId === selectedTypeId &&
-            isInWeek(item.loggedForDate, selectedWeekKey))
+            item.loggedForDate.slice(0, 4) === selectedYearKey)
             .reduce((sum, item) => sum + (item.distanceKm ?? 0), 0);
-    }, [logs, selectedTypeId, selectedWeekKey]);
+    }, [logs, selectedTypeId, selectedYearKey]);
     const selectedDistanceMonthlyKm = useMemo(() => {
         return logs
             .filter((item) => (item.typeId === "running" || item.typeId === "walking" || item.typeId === "bicycle") &&
@@ -104,6 +114,7 @@ export default function HealthPage() {
     }, [selectedType, selectedWeekKey, weeklyTargets]);
     const selectedWeeklyCount = selectedType ? weeklyCountsSelected[selectedType.id] : 0;
     const selectedMonthlyCount = selectedType ? monthlyCountsSelected[selectedType.id] : 0;
+    const selectedYearlyCount = selectedType ? yearlyCountsSelected[selectedType.id] : 0;
     const recentLogs = useMemo(() => {
         if (!selectedType)
             return [];
@@ -220,7 +231,7 @@ export default function HealthPage() {
 
             <ActivityIconRow types={types} selectedTypeId={selectedTypeId} onSelect={setSelectedTypeId}/>
 
-            <ActivityInfoPanel selectedType={selectedType} selectedDateKey={selectedDateKey} calendarMonthKey={calendarMonthKey} markedDateCounts={markedDateCounts} weeklyCount={selectedWeeklyCount} weeklyTarget={selectedWeeklyTarget} monthlyCount={selectedMonthlyCount} runningWeeklyKm={selectedDistanceWeeklyKm} runningMonthlyKm={selectedDistanceMonthlyKm} recentLogs={recentLogs} onAddLog={() => {
+            <ActivityInfoPanel selectedType={selectedType} selectedDateKey={selectedDateKey} calendarMonthKey={calendarMonthKey} markedDateCounts={markedDateCounts} weeklyCount={selectedWeeklyCount} weeklyTarget={selectedWeeklyTarget} monthlyCount={selectedMonthlyCount} yearlyCount={selectedYearlyCount} runningYearlyKm={selectedDistanceYearlyKm} runningMonthlyKm={selectedDistanceMonthlyKm} recentLogs={recentLogs} onAddLog={() => {
                 setEditingLog(null);
                 setLogModalOpen(true);
             }} onEditTarget={() => setTargetModalOpen(true)} onChangePlanMode={handleChangePlanMode} onCalendarMonthChange={(offset) => setCalendarMonthKey((prev) => shiftMonthKey(prev, offset))} onCalendarDateSelect={(dateKey) => {

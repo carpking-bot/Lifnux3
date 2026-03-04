@@ -11,7 +11,7 @@ function logMeta(log) {
         items.push(`pace ${log.paceText}`);
     return items.join(" / ");
 }
-export function ActivityInfoPanel({ selectedType, selectedDateKey, calendarMonthKey, markedDateCounts, weeklyCount, weeklyTarget, monthlyCount, runningWeeklyKm, runningMonthlyKm, recentLogs, onAddLog, onEditTarget, onChangePlanMode, onCalendarMonthChange, onCalendarDateSelect, onOpenRunningGame, onEditLog, onDeleteLog }) {
+export function ActivityInfoPanel({ selectedType, selectedDateKey, calendarMonthKey, markedDateCounts, weeklyCount, weeklyTarget, monthlyCount, yearlyCount, runningYearlyKm, runningMonthlyKm, recentLogs, onAddLog, onEditTarget, onChangePlanMode, onCalendarMonthChange, onCalendarDateSelect, onOpenRunningGame, onEditLog, onDeleteLog }) {
     const summaryItems = [];
     if (selectedType.planMode === "weekly") {
         summaryItems.push(`Weekly progress: ${weeklyCount}/${weeklyTarget}`);
@@ -19,10 +19,10 @@ export function ActivityInfoPanel({ selectedType, selectedDateKey, calendarMonth
     else if (selectedType.planMode === "monthly") {
         summaryItems.push(`Monthly progress: ${monthlyCount}/${selectedType.monthlyTargetCount}`);
     }
-    summaryItems.push(`Monthly sessions: ${monthlyCount}`);
+    summaryItems.push(`Yearly sessions: ${yearlyCount}`);
     if (selectedType.id === "running" || selectedType.id === "walking" || selectedType.id === "bicycle") {
-        summaryItems.push(`Weekly distance: ${runningWeeklyKm.toFixed(1)} km`);
         summaryItems.push(`Monthly distance: ${runningMonthlyKm.toFixed(1)} km`);
+        summaryItems.push(`Yearly distance: ${runningYearlyKm.toFixed(1)} km`);
     }
     return (<section className="rounded-2xl border border-white/10 bg-[#111823] p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -84,4 +84,3 @@ export function ActivityInfoPanel({ selectedType, selectedDateKey, calendarMonth
       </div>
     </section>);
 }
-

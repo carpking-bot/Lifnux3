@@ -256,7 +256,10 @@ export function loadFinanceState() {
     const symbol = holding.symbolKey || stock?.symbol || "";
     return {
       ...holding,
-      symbolKey: normalizeSymbol(symbol)
+      symbolKey: normalizeSymbol(symbol),
+      countryLabel: holding.countryLabel?.trim() || undefined,
+      sectorMajorLabel: holding.sectorMajorLabel?.trim() || undefined,
+      sectorLabel: holding.sectorLabel?.trim() || undefined
     };
   });
   const stocksBySymbol = new Map(stocks.map((item) => [normalizeSymbol(item.symbol), item]));
@@ -329,7 +332,10 @@ export function saveAccounts(items: BrokerAccount[]) {
 export function saveHoldings(items: Holding[]) {
   const cleaned = items.map((holding) => ({
     ...holding,
-    symbolKey: normalizeSymbol(holding.symbolKey || "")
+    symbolKey: normalizeSymbol(holding.symbolKey || ""),
+    countryLabel: holding.countryLabel?.trim() || undefined,
+    sectorMajorLabel: holding.sectorMajorLabel?.trim() || undefined,
+    sectorLabel: holding.sectorLabel?.trim() || undefined
   }));
   saveState(PORTFOLIO_POSITIONS_KEY, cleaned);
   console.log("[PORTFOLIO SAVE] key=", PORTFOLIO_POSITIONS_KEY, "count=", cleaned.length);

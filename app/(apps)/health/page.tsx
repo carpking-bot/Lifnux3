@@ -127,6 +127,14 @@ function countByTypeInMonth(logs: ActivityLog[], monthKey: string) {
   return counts;
 }
 
+function countByTypeInYear(logs: ActivityLog[], yearKey: string) {
+  const counts = emptyCountRecord();
+  for (const log of logs) {
+    if (log.loggedForDate.slice(0, 4) === yearKey) counts[log.typeId] += 1;
+  }
+  return counts;
+}
+
 export default function HealthPage() {
   const router = useRouter();
   const todayKey = todayDateKey();
@@ -216,23 +224,25 @@ export default function HealthPage() {
   const currentMonthKey = monthKeyFromDateKey(todayKey);
   const selectedWeekKey = weekKeyFromDateKey(selectedDateKey);
   const selectedMonthKey = monthKeyFromDateKey(selectedDateKey);
+  const selectedYearKey = selectedDateKey.slice(0, 4);
 
   const weeklyCountsSelected = useMemo(() => countByTypeInWeek(effectiveLogs, selectedWeekKey), [effectiveLogs, selectedWeekKey]);
   const monthlyCountsSelected = useMemo(() => countByTypeInMonth(effectiveLogs, selectedMonthKey), [effectiveLogs, selectedMonthKey]);
+  const yearlyCountsSelected = useMemo(() => countByTypeInYear(effectiveLogs, selectedYearKey), [effectiveLogs, selectedYearKey]);
 
   const weeklyTotal = useMemo(() => effectiveLogs.filter((item) => isInWeek(item.loggedForDate, currentWeekKey)).length, [effectiveLogs, currentWeekKey]);
   const monthlyTotal = useMemo(() => effectiveLogs.filter((item) => isInMonth(item.loggedForDate, currentMonthKey)).length, [effectiveLogs, currentMonthKey]);
 
-  const selectedDistanceWeeklyKm = useMemo(() => {
+  const selectedDistanceYearlyKm = useMemo(() => {
     return effectiveLogs
       .filter(
         (item) =>
           (item.typeId === "running" || item.typeId === "walking" || item.typeId === "bicycle") &&
           item.typeId === selectedTypeId &&
-          isInWeek(item.loggedForDate, selectedWeekKey)
+          item.loggedForDate.slice(0, 4) === selectedYearKey
       )
       .reduce((sum, item) => sum + (item.distanceKm ?? 0), 0);
-  }, [effectiveLogs, selectedTypeId, selectedWeekKey]);
+  }, [effectiveLogs, selectedTypeId, selectedYearKey]);
 
   const selectedDistanceMonthlyKm = useMemo(() => {
     return effectiveLogs
@@ -255,6 +265,7 @@ export default function HealthPage() {
 
   const selectedWeeklyCount = selectedType ? weeklyCountsSelected[selectedType.id] : 0;
   const selectedMonthlyCount = selectedType ? monthlyCountsSelected[selectedType.id] : 0;
+  const selectedYearlyCount = selectedType ? yearlyCountsSelected[selectedType.id] : 0;
   const isSelectedDistanceType = selectedType ? selectedType.id === "running" || selectedType.id === "walking" || selectedType.id === "bicycle" : false;
 
   const recentLogs = useMemo(() => {
@@ -588,7 +599,8 @@ export default function HealthPage() {
               weeklyCount={selectedWeeklyCount}
               weeklyTarget={selectedWeeklyTarget}
               monthlyCount={selectedMonthlyCount}
-              runningWeeklyKm={selectedDistanceWeeklyKm}
+              yearlyCount={selectedYearlyCount}
+              runningYearlyKm={selectedDistanceYearlyKm}
               runningMonthlyKm={selectedDistanceMonthlyKm}
               recentLogs={recentLogs}
               onAddLog={() => {

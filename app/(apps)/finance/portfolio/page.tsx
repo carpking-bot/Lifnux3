@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { AppShell } from "../../../(shared)/components/AppShell";
 import { Modal } from "../../../(shared)/components/Modal";
 import { ConfirmModal } from "../../../(shared)/components/ConfirmModal";
@@ -29,6 +30,7 @@ const PORTFOLIO_PERFORMANCE_KEY = "investing.portfolio.performance.v1";
 
 type PortfolioLabelOptions = {
   countries: string[];
+  sectorMajors: string[];
   sectors: string[];
 };
 
@@ -89,12 +91,14 @@ export default function PortfolioPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [labelOptions, setLabelOptions] = useState<PortfolioLabelOptions>({ countries: ["KR", "US"], sectors: [] });
+  const [labelOptions, setLabelOptions] = useState<PortfolioLabelOptions>({ countries: ["KR", "US"], sectorMajors: [], sectors: [] });
   const [history, setHistory] = useState<PortfolioHistoryPoint[]>([]);
   const [newCountryLabel, setNewCountryLabel] = useState("");
+  const [newSectorMajorLabel, setNewSectorMajorLabel] = useState("");
   const [newSectorLabel, setNewSectorLabel] = useState("");
-  const [labelEdits, setLabelEdits] = useState<{ country: Record<string, string>; sector: Record<string, string> }>({
+  const [labelEdits, setLabelEdits] = useState<{ country: Record<string, string>; sectorMajor: Record<string, string>; sector: Record<string, string> }>({
     country: {},
+    sectorMajor: {},
     sector: {}
   });
   const [drafts, setDrafts] = useState<
@@ -106,6 +110,7 @@ export default function PortfolioPage() {
         avgPrice: string;
         qty: string;
         countryLabel: string;
+        sectorMajorLabel: string;
         sectorLabel: string;
       }
     >
@@ -128,6 +133,7 @@ export default function PortfolioPage() {
   const [sortKey, setSortKey] = useState<"weight" | "pnl" | "value" | "cost" | "account" | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [portfolioAccountFilter, setPortfolioAccountFilter] = useState<string>("ALL");
+  const [sectorViewMode, setSectorViewMode] = useState<"major" | "minor">("minor");
   const [realizedRange, setRealizedRange] = useState<"MTD" | "YTD" | "ALL">("MTD");
   const [realizedDetailOpen, setRealizedDetailOpen] = useState(false);
   const [realizedDetailSortKey, setRealizedDetailSortKey] = useState<"price" | "time">("time");
@@ -192,16 +198,20 @@ export default function PortfolioPage() {
         : loadedLedger;
     const persistedOptions = loadState<PortfolioLabelOptions>(PORTFOLIO_LABEL_OPTIONS_KEY, {
       countries: ["KR", "US"],
+      sectorMajors: [],
       sectors: []
     });
     const countrySet = new Set(persistedOptions.countries.map((entry) => entry.trim()).filter(Boolean));
+    const sectorMajorSet = new Set((persistedOptions.sectorMajors ?? []).map((entry) => entry.trim()).filter(Boolean));
     const sectorSet = new Set(persistedOptions.sectors.map((entry) => entry.trim()).filter(Boolean));
     data.holdings.forEach((holding) => {
       if (holding.countryLabel?.trim()) countrySet.add(holding.countryLabel.trim());
+      if (holding.sectorMajorLabel?.trim()) sectorMajorSet.add(holding.sectorMajorLabel.trim());
       if (holding.sectorLabel?.trim()) sectorSet.add(holding.sectorLabel.trim());
     });
     setLabelOptions({
       countries: Array.from(countrySet),
+      sectorMajors: Array.from(sectorMajorSet),
       sectors: Array.from(sectorSet)
     });
     const loadedHistory = loadState<PortfolioHistoryPoint[]>(PORTFOLIO_HISTORY_KEY, []);
@@ -807,6 +817,13 @@ export default function PortfolioPage() {
         .map((entry) => ({ value: entry, label: entry })),
     [labelOptions.countries]
   );
+  const sectorMajorLabelOptions = useMemo(
+    () =>
+      labelOptions.sectorMajors
+        .filter((entry) => entry.trim().length > 0)
+        .map((entry) => ({ value: entry, label: entry })),
+    [labelOptions.sectorMajors]
+  );
   const sectorLabelOptions = useMemo(
     () =>
       labelOptions.sectors
@@ -847,42 +864,78 @@ export default function PortfolioPage() {
     setNewSectorLabel("");
   };
 
-  const updateLabelEdits = (type: "country" | "sector", key: string, nextValue: string) => {
+  const addSectorMajorLabelOption = () => {
+    const value = newSectorMajorLabel.trim();
+    if (!value) return;
+    setLabelOptions((prev) => ({
+      ...prev,
+      sectorMajors: prev.sectorMajors.includes(value) ? prev.sectorMajors : [...prev.sectorMajors, value]
+    }));
+    if (editingId) {
+      setDrafts((prev) => ({
+        ...prev,
+        [editingId]: { ...prev[editingId], sectorMajorLabel: value }
+      }));
+    }
+    setNewSectorMajorLabel("");
+  };
+
+  const updateLabelEdits = (type: "country" | "sectorMajor" | "sector", key: string, nextValue: string) => {
     setLabelEdits((prev) => ({
       ...prev,
       [type]: { ...prev[type], [key]: nextValue }
     }));
   };
 
-  const commitLabelRename = (type: "country" | "sector", original: string) => {
+  const commitLabelRename = (type: "country" | "sectorMajor" | "sector", original: string) => {
     const nextValue = labelEdits[type][original]?.trim();
     if (!nextValue || nextValue === original) return;
     setLabelOptions((prev) => {
-      const list = type === "country" ? prev.countries : prev.sectors;
+      const list =
+        type === "country"
+          ? prev.countries
+          : type === "sectorMajor"
+            ? prev.sectorMajors
+            : prev.sectors;
       const updated = list.map((entry) => (entry === original ? nextValue : entry));
       const unique = Array.from(new Set(updated));
-      return type === "country" ? { ...prev, countries: unique } : { ...prev, sectors: unique };
+      if (type === "country") return { ...prev, countries: unique };
+      if (type === "sectorMajor") return { ...prev, sectorMajors: unique };
+      return { ...prev, sectors: unique };
     });
     setHoldings((prev) =>
       prev.map((holding) => {
         if (type === "country") {
           return holding.countryLabel === original ? { ...holding, countryLabel: nextValue } : holding;
         }
+        if (type === "sectorMajor") {
+          return holding.sectorMajorLabel === original ? { ...holding, sectorMajorLabel: nextValue } : holding;
+        }
         return holding.sectorLabel === original ? { ...holding, sectorLabel: nextValue } : holding;
       })
     );
   };
 
-  const deleteLabelOption = (type: "country" | "sector", target: string) => {
+  const deleteLabelOption = (type: "country" | "sectorMajor" | "sector", target: string) => {
     setLabelOptions((prev) => {
-      const list = type === "country" ? prev.countries : prev.sectors;
+      const list =
+        type === "country"
+          ? prev.countries
+          : type === "sectorMajor"
+            ? prev.sectorMajors
+            : prev.sectors;
       const updated = list.filter((entry) => entry !== target);
-      return type === "country" ? { ...prev, countries: updated } : { ...prev, sectors: updated };
+      if (type === "country") return { ...prev, countries: updated };
+      if (type === "sectorMajor") return { ...prev, sectorMajors: updated };
+      return { ...prev, sectors: updated };
     });
     setHoldings((prev) =>
       prev.map((holding) => {
         if (type === "country") {
           return holding.countryLabel === target ? { ...holding, countryLabel: undefined } : holding;
+        }
+        if (type === "sectorMajor") {
+          return holding.sectorMajorLabel === target ? { ...holding, sectorMajorLabel: undefined } : holding;
         }
         return holding.sectorLabel === target ? { ...holding, sectorLabel: undefined } : holding;
       })
@@ -932,9 +985,30 @@ export default function PortfolioPage() {
 
   const totalWeightBaseKrw = totals.totalKrw;
 
-  const buildBuckets = (key: "sectorLabel" | "countryLabel") => {
+  const sectorExcludedIndexSummary = useMemo(() => {
+    if (sectorViewMode !== "major") return { amountKrw: 0, count: 0 };
+    return filteredDerivedHoldings.reduce(
+      (acc, entry) => {
+        const label = entry.holding.sectorMajorLabel?.trim().toLowerCase();
+        if (label !== "index") return acc;
+        return {
+          amountKrw: acc.amountKrw + (entry.marketValueKrw ?? 0),
+          count: acc.count + 1
+        };
+      },
+      { amountKrw: 0, count: 0 }
+    );
+  }, [filteredDerivedHoldings, sectorViewMode]);
+
+  const sectorHoldingsForChart = useMemo(() => {
+    if (sectorViewMode !== "major") return filteredDerivedHoldings;
+    return filteredDerivedHoldings.filter((entry) => entry.holding.sectorMajorLabel?.trim().toLowerCase() !== "index");
+  }, [filteredDerivedHoldings, sectorViewMode]);
+
+  const buildBuckets = (key: "sectorMajorLabel" | "sectorLabel" | "countryLabel") => {
     const buckets = new Map<string, number>();
-    filteredDerivedHoldings.forEach((entry) => {
+    const source = key === "countryLabel" ? filteredDerivedHoldings : sectorHoldingsForChart;
+    source.forEach((entry) => {
       const label = entry.holding[key]?.trim() || "Unlabeled";
       buckets.set(label, (buckets.get(label) ?? 0) + (entry.marketValueKrw ?? 0));
     });
@@ -944,9 +1018,10 @@ export default function PortfolioPage() {
   };
 
   const sectorDetails = useMemo(() => {
+    const sectorKey = sectorViewMode === "major" ? "sectorMajorLabel" : "sectorLabel";
     const map: Record<string, { name: string; value: number }[]> = {};
-    filteredDerivedHoldings.forEach((entry) => {
-      const label = entry.holding.sectorLabel?.trim() || "Unlabeled";
+    sectorHoldingsForChart.forEach((entry) => {
+      const label = entry.holding[sectorKey]?.trim() || "Unlabeled";
       const value = entry.marketValueKrw ?? 0;
       if (value <= 0) return;
       const stockLabel = entry.stock?.label ?? entry.stock?.symbol ?? entry.holding.symbolKey ?? "Unknown";
@@ -964,14 +1039,14 @@ export default function PortfolioPage() {
     }
     Object.values(map).forEach((items) => items.sort((a, b) => b.value - a.value));
     return map;
-  }, [filteredCashRows, filteredDerivedHoldings]);
+  }, [filteredCashRows, sectorHoldingsForChart, sectorViewMode]);
 
   const sectorData = useMemo(() => {
-    const base = buildBuckets("sectorLabel");
+    const base = buildBuckets(sectorViewMode === "major" ? "sectorMajorLabel" : "sectorLabel");
     const cashTotal = filteredCashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
     if (cashTotal > 0) base.push({ label: "Cash", value: cashTotal });
     return base.sort((a, b) => b.value - a.value);
-  }, [filteredCashRows, filteredDerivedHoldings]);
+  }, [filteredCashRows, filteredDerivedHoldings, sectorViewMode, sectorHoldingsForChart]);
 
   const countryDetails = useMemo(() => {
     const map: Record<string, { name: string; value: number }[]> = {};
@@ -1044,10 +1119,12 @@ export default function PortfolioPage() {
         avgPrice: String(holding.avgPrice),
         qty: String(holding.qty),
         countryLabel: holding.countryLabel ?? "",
+        sectorMajorLabel: holding.sectorMajorLabel ?? "",
         sectorLabel: holding.sectorLabel ?? ""
       }
     }));
     setNewCountryLabel("");
+    setNewSectorMajorLabel("");
     setNewSectorLabel("");
     setEditModalOpen(true);
   };
@@ -1073,12 +1150,14 @@ export default function PortfolioPage() {
               avgPrice: nextAvg,
               qty: nextQty,
               countryLabel: nextDraft.countryLabel?.trim() || undefined,
+              sectorMajorLabel: nextDraft.sectorMajorLabel?.trim() || undefined,
               sectorLabel: nextDraft.sectorLabel?.trim() || undefined
             }
           : entry
       )
     );
     const normalizedCountry = nextDraft.countryLabel?.trim();
+    const normalizedSectorMajor = nextDraft.sectorMajorLabel?.trim();
     const normalizedSector = nextDraft.sectorLabel?.trim();
     if (normalizedCountry) {
       setLabelOptions((prev) => ({
@@ -1090,6 +1169,12 @@ export default function PortfolioPage() {
       setLabelOptions((prev) => ({
         ...prev,
         sectors: prev.sectors.includes(normalizedSector) ? prev.sectors : [...prev.sectors, normalizedSector]
+      }));
+    }
+    if (normalizedSectorMajor) {
+      setLabelOptions((prev) => ({
+        ...prev,
+        sectorMajors: prev.sectorMajors.includes(normalizedSectorMajor) ? prev.sectorMajors : [...prev.sectorMajors, normalizedSectorMajor]
       }));
     }
     setEditModalOpen(false);
@@ -1555,7 +1640,10 @@ export default function PortfolioPage() {
                           {holding.countryLabel || "—"}
                         </span>
                         <span className="rounded-full border border-white/10 px-2 py-[1px]">
-                          {holding.sectorLabel || "—"}
+                          대:{holding.sectorMajorLabel || "—"}
+                        </span>
+                        <span className="rounded-full border border-white/10 px-2 py-[1px]">
+                          소:{holding.sectorLabel || "—"}
                         </span>
                       </div>
                     </div>
@@ -1610,7 +1698,34 @@ export default function PortfolioPage() {
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-[1.35fr_0.85fr]">
-            <DonutCard title="Sector Weight (KRW)" data={sectorData} detailsByLabel={sectorDetails} />
+            <DonutCard
+              title="Sector Weight (KRW)"
+              data={sectorData}
+              detailsByLabel={sectorDetails}
+              infoText={
+                sectorViewMode === "major" && sectorExcludedIndexSummary.count > 0
+                  ? `Index 제외 ${sectorExcludedIndexSummary.count}건 · ₩${Math.round(sectorExcludedIndexSummary.amountKrw).toLocaleString("ko-KR")}`
+                  : undefined
+              }
+              headerRight={(
+                <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 text-[10px]">
+                  <button
+                    className={`rounded-full px-2 py-1 ${sectorViewMode === "major" ? "bg-cyan-300/20 text-cyan-200" : "text-[var(--ink-1)]"}`}
+                    onClick={() => setSectorViewMode("major")}
+                    type="button"
+                  >
+                    대분류
+                  </button>
+                  <button
+                    className={`rounded-full px-2 py-1 ${sectorViewMode === "minor" ? "bg-cyan-300/20 text-cyan-200" : "text-[var(--ink-1)]"}`}
+                    onClick={() => setSectorViewMode("minor")}
+                    type="button"
+                  >
+                    소분류
+                  </button>
+                </div>
+              )}
+            />
             <DonutCard title="Country Exposure (KRW)" data={countryData} detailsByLabel={countryDetails} />
           </div>
         </div>
@@ -1725,7 +1840,35 @@ export default function PortfolioPage() {
               </div>
             </label>
           <label className="block text-xs uppercase tracking-wide">
-            Sector Label
+            Sector Major Label
+              <Select
+                className="mt-1"
+                value={editingDraft.sectorMajorLabel}
+                options={sectorMajorLabelOptions}
+                onChange={(value) =>
+                  setDrafts((prev) => ({
+                    ...prev,
+                    [editingHolding.id]: { ...prev[editingHolding.id], sectorMajorLabel: value }
+                  }))
+                }
+                placeholder="Select sector major label"
+                enableSearch
+                maxVisibleItems={8}
+              />
+              <div className="mt-2 flex items-center gap-2">
+                <input
+                  className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                  value={newSectorMajorLabel}
+                  placeholder="Add new sector major label"
+                  onChange={(event) => setNewSectorMajorLabel(event.target.value)}
+                />
+                <button className="rounded-full border border-white/10 px-3 py-2 text-xs" onClick={addSectorMajorLabelOption}>
+                  Add
+                </button>
+              </div>
+            </label>
+          <label className="block text-xs uppercase tracking-wide">
+            Sector Sub Label
               <Select
                 className="mt-1"
                 value={editingDraft.sectorLabel}
@@ -1736,7 +1879,7 @@ export default function PortfolioPage() {
                     [editingHolding.id]: { ...prev[editingHolding.id], sectorLabel: value }
                   }))
                 }
-                placeholder="Select sector label"
+                placeholder="Select sector sub label"
                 enableSearch
                 maxVisibleItems={8}
               />
@@ -1744,7 +1887,7 @@ export default function PortfolioPage() {
                 <input
                   className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
                   value={newSectorLabel}
-                  placeholder="Add new sector label"
+                  placeholder="Add new sector sub label"
                   onChange={(event) => setNewSectorLabel(event.target.value)}
                 />
                 <button className="rounded-full border border-white/10 px-3 py-2 text-xs" onClick={addSectorLabelOption}>
@@ -1785,7 +1928,39 @@ export default function PortfolioPage() {
               </div>
             </div>
             <div className="space-y-3">
-              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Manage Sector Labels</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Manage Sector Major Labels</div>
+              <div className="max-h-48 space-y-2 overflow-y-auto pr-1">
+                {labelOptions.sectorMajors.length ? (
+                  labelOptions.sectorMajors.map((label) => (
+                    <div key={label} className="flex items-center gap-2">
+                      <input
+                        className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                        value={labelEdits.sectorMajor[label] ?? label}
+                        onChange={(event) => updateLabelEdits("sectorMajor", label, event.target.value)}
+                      />
+                      <button
+                        className="rounded-full border border-white/10 px-3 py-2 text-xs"
+                        type="button"
+                        onClick={() => commitLabelRename("sectorMajor", label)}
+                      >
+                        Rename
+                      </button>
+                      <button
+                        className="rounded-full border border-rose-500/40 px-3 py-2 text-xs text-rose-200"
+                        type="button"
+                        onClick={() => deleteLabelOption("sectorMajor", label)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-xs text-[var(--ink-1)]">No sector major labels.</div>
+                )}
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Manage Sector Sub Labels</div>
               <div className="max-h-48 space-y-2 overflow-y-auto pr-1">
                 {labelOptions.sectors.length ? (
                   labelOptions.sectors.map((label) => (
@@ -2589,11 +2764,15 @@ type DonutDetailItem = {
 function DonutCard({
   title,
   data,
-  detailsByLabel
+  detailsByLabel,
+  infoText,
+  headerRight
 }: {
   title: string;
   data: DonutDatum[];
   detailsByLabel?: Record<string, DonutDetailItem[]>;
+  infoText?: string;
+  headerRight?: ReactNode;
 }) {
   const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
   const [pinnedLabel, setPinnedLabel] = useState<string | null>(null);
@@ -2629,7 +2808,11 @@ function DonutCard({
   const legendCols = legendTwoCol ? [data.slice(0, splitIndex), data.slice(splitIndex)] : [data];
   return (
     <div className="rounded-2xl border border-white/10 bg-black/20 p-4 min-h-[480px]">
-      <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{title}</div>
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{title}</div>
+        {headerRight ?? null}
+      </div>
+      {infoText ? <div className="mt-1 text-[11px] text-[var(--ink-1)]">{infoText}</div> : null}
       <div className="mt-3 flex items-center gap-4">
         <DonutChart
           data={data}

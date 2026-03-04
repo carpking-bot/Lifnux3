@@ -10,7 +10,8 @@ type ActivityInfoPanelProps = {
   weeklyCount: number;
   weeklyTarget: number;
   monthlyCount: number;
-  runningWeeklyKm: number;
+  yearlyCount: number;
+  runningYearlyKm: number;
   runningMonthlyKm: number;
   recentLogs: ActivityLog[];
   onAddLog: () => void;
@@ -41,7 +42,8 @@ export function ActivityInfoPanel({
   weeklyCount,
   weeklyTarget,
   monthlyCount,
-  runningWeeklyKm,
+  yearlyCount,
+  runningYearlyKm,
   runningMonthlyKm,
   recentLogs,
   onAddLog,
@@ -59,10 +61,10 @@ export function ActivityInfoPanel({
   } else if (selectedType.planMode === "monthly") {
     summaryItems.push(`Monthly progress: ${monthlyCount}/${selectedType.monthlyTargetCount}`);
   }
-  summaryItems.push(`Monthly sessions: ${monthlyCount}`);
+  summaryItems.push(`Yearly sessions: ${yearlyCount}`);
   if (selectedType.id === "running" || selectedType.id === "walking" || selectedType.id === "bicycle") {
-    summaryItems.push(`Weekly distance: ${runningWeeklyKm.toFixed(1)} km`);
     summaryItems.push(`Monthly distance: ${runningMonthlyKm.toFixed(1)} km`);
+    summaryItems.push(`Yearly distance: ${runningYearlyKm.toFixed(1)} km`);
   }
 
   return (

@@ -52,6 +52,7 @@ export type Holding = {
   currency: "KRW" | "USD";
   notes?: string;
   countryLabel?: string;
+  sectorMajorLabel?: string;
   sectorLabel?: string;
 };
 
