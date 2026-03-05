@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-03T09:14:00.514Z"
+    "exportedAt": "2026-03-05T08:54:11.572Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "QIlzgNozXKw",
+        "trackId": "tKERw3_ked0",
         "volume": 80,
-        "position": 54.71715921934509
+        "position": 214.70270988746643
       }
     },
     "health": {
@@ -3102,6 +3102,16 @@
           "createdAt": "2026-03-03T08:57:16.798Z",
           "distanceKm": 2.13,
           "calorieOverride": 110
+        },
+        {
+          "id": "8345ba01-2f5e-463f-b915-768b0951ec67",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-05",
+          "durationMin": 25,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-05T04:34:34.552Z",
+          "distanceKm": 2.04,
+          "calorieOverride": 100
         }
       ]
     },
@@ -3182,7 +3192,15 @@
         },
         {
           "date": "2026-03-03",
-          "totalKrw": 31412659.5
+          "totalKrw": 31124338.82
+        },
+        {
+          "date": "2026-03-04",
+          "totalKrw": 30224635.809999995
+        },
+        {
+          "date": "2026-03-05",
+          "totalKrw": 31545679.279999997
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -8287,6 +8305,13 @@
           "US",
           "CN"
         ],
+        "sectorMajors": [
+          "AI",
+          "Non AI",
+          "Defensive Assets",
+          "Index",
+          "Risky Assets"
+        ],
         "sectors": [
           "AI Software",
           "Photonics",
@@ -8784,6 +8809,22 @@
           "mktCapRank": 9999,
           "notes": "",
           "watchlisted": true
+        },
+        {
+          "id": "us-stock-ams:koru",
+          "label": "KORU",
+          "symbol": "AMS:KORU",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1772671493741,
+          "last": 267,
+          "changePct": -0.06,
+          "changeAbs": -0.1602,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -8940,7 +8981,8 @@
           "currency": "USD",
           "symbolKey": "NAS:CRWD",
           "countryLabel": "US",
-          "sectorLabel": "AI Software"
+          "sectorLabel": "AI Software",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "5b708659-2536-4498-9725-a1523dd83cf3",
@@ -8951,18 +8993,8 @@
           "qty": 33,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "Photonics"
-        },
-        {
-          "id": "fa9827a7-8f03-472f-9ad4-f608d51d083b",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-138080",
-          "symbolKey": "138080",
-          "avgPrice": 15915,
-          "qty": 10,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Photonics"
+          "sectorLabel": "Photonics",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "c1da26b2-ec2a-4394-a8f5-d0c592a6c285",
@@ -8973,7 +9005,8 @@
           "qty": 3,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Financials"
+          "sectorLabel": "Financials",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "eceea89b-95c4-4a90-ad35-7b181be8f63c",
@@ -8984,7 +9017,8 @@
           "qty": 20,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Semiconductor"
+          "sectorLabel": "Semiconductor",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "53b5a17e-dacf-43d9-a789-75db9e71b4d6",
@@ -8995,7 +9029,8 @@
           "qty": 31,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Financials"
+          "sectorLabel": "Financials",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "75db1e4d-4229-4bde-9ddc-ae38fd240d6d",
@@ -9006,18 +9041,20 @@
           "qty": 11,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "Big Tech"
+          "sectorLabel": "Big Tech",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "4c4ce012-97e4-43a6-b2c2-51ce8448e5b3",
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:pltr",
           "symbolKey": "NAS:PLTR",
-          "avgPrice": 112.80687499999999,
-          "qty": 12,
+          "avgPrice": 112.809,
+          "qty": 10,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "AI Software"
+          "sectorLabel": "AI Software",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "8ebeb99d-77d7-45b2-a639-bd5d1e430306",
@@ -9025,10 +9062,11 @@
           "stockId": "us-nas:flnc",
           "symbolKey": "NAS:FLNC",
           "avgPrice": 26.06696,
-          "qty": 20,
+          "qty": 14,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "Energy/Grid"
+          "sectorLabel": "Energy/Grid",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "83005467-9880-400e-893d-1c1dc55bc1d8",
@@ -9039,7 +9077,8 @@
           "qty": 6,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "Big Tech"
+          "sectorLabel": "Big Tech",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "c41e5c7f-0709-421c-9377-30283ef8f9ab",
@@ -9050,7 +9089,8 @@
           "qty": 5,
           "currency": "USD",
           "countryLabel": "US",
-          "sectorLabel": "AI Software"
+          "sectorLabel": "AI Software",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "e39f52e9-8faa-407a-97fd-58d6dd4b39ff",
@@ -9061,7 +9101,8 @@
           "qty": 110,
           "currency": "KRW",
           "countryLabel": "US",
-          "sectorLabel": "Index"
+          "sectorLabel": "Index",
+          "sectorMajorLabel": "Index"
         },
         {
           "id": "219b8923-43f1-498b-9a72-5d5dcadcee1a",
@@ -9072,7 +9113,8 @@
           "qty": 151,
           "currency": "KRW",
           "countryLabel": "US",
-          "sectorLabel": "Index"
+          "sectorLabel": "Index",
+          "sectorMajorLabel": "Index"
         },
         {
           "id": "ccd55130-8ba3-4282-934d-9bd705cd6599",
@@ -9083,7 +9125,8 @@
           "qty": 25,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Index"
+          "sectorLabel": "Index",
+          "sectorMajorLabel": "Index"
         },
         {
           "id": "7238d303-944b-495e-9c07-916db959d74b",
@@ -9094,7 +9137,8 @@
           "qty": 48,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Biotech"
+          "sectorLabel": "Biotech",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "3650ecf5-f89c-47be-afce-9c26d91d60e5",
@@ -9150,7 +9194,8 @@
           "qty": 2,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Shipbuilding"
+          "sectorLabel": "Shipbuilding",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "344bba56-bd1e-477f-9e8b-e8e2849e0640",
@@ -9161,7 +9206,8 @@
           "qty": 52,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Alternative Asset"
+          "sectorLabel": "Alternative Asset",
+          "sectorMajorLabel": "Defensive Assets"
         },
         {
           "id": "8baaf7ea-560f-46ff-9ba4-b39a5ea1ca4c",
@@ -9172,7 +9218,8 @@
           "qty": 2,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Semiconductor"
+          "sectorLabel": "Semiconductor",
+          "sectorMajorLabel": "AI"
         },
         {
           "id": "e117e8d6-94da-4235-8e68-56500848e3e9",
@@ -9183,7 +9230,8 @@
           "qty": 3,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Financials"
+          "sectorLabel": "Financials",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "3a00a9ae-1617-4fbf-8045-822e97acfe5d",
@@ -9194,7 +9242,8 @@
           "qty": 5,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Shipbuilding"
+          "sectorLabel": "Shipbuilding",
+          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "0e68e6b9-a49b-403f-9dc0-f9ba10f07f87",
@@ -9205,10 +9254,23 @@
           "qty": 9,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorLabel": "Financials"
+          "sectorLabel": "Financials",
+          "sectorMajorLabel": "Non AI"
+        },
+        {
+          "id": "e815e5be-0216-423c-b589-508c2ac56a22",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-ams:koru",
+          "symbolKey": "AMS:KORU",
+          "avgPrice": 383.59,
+          "qty": 1,
+          "currency": "USD",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Index"
         }
       ],
-      "lifnux.finance.hub.reveal.v1": true,
+      "lifnux.finance.hub.reveal.v1": false,
       "lifnux.finance.asset.snapshot.logs.v1": [
         {
           "id": "36c719f7-d1a7-48f4-a21a-4cb5e86a1db0",
@@ -10096,6 +10158,16 @@
           "title": "카제나 월정액 + 패스",
           "amount": 17900,
           "kind": "expense"
+        },
+        {
+          "id": "ca6fc9c6-9cf1-45e7-aed7-09f767754828",
+          "createdAt": 1772602116532,
+          "date": "2026-03-04",
+          "category": "Dividends",
+          "title": "분배금",
+          "amount": 3700,
+          "kind": "income",
+          "memo": "Korea플러스배당액티브"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -10347,6 +10419,10 @@
         {
           "dateKey": "2026-03-02",
           "createdAt": 1772461019351
+        },
+        {
+          "dateKey": "2026-03-03",
+          "createdAt": 1772546925654
         }
       ],
       "lifnux:guitar:videos": [
@@ -10490,10 +10566,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31412659.5,
-        "unrealizedPnlKrw": 3584531.8340217397,
-        "realizedPnlYtdKrw": 1481724.3209782606,
-        "updatedAt": 1772527826377
+        "totalValueKrw": 31545679.279999997,
+        "unrealizedPnlKrw": 3761852.1954017356,
+        "realizedPnlYtdKrw": 1587132.6669982607,
+        "updatedAt": 1772700467077
       }
     },
     "personalGrowth": {
@@ -11087,6 +11163,15 @@
           "labelId": "20f08160-d6eb-49ec-aed7-043408872d67",
           "location": "메가커피 석촌한솔점",
           "memo": ""
+        },
+        {
+          "id": "3f3b8ba3-3247-4e88-9176-311716b3f0dc",
+          "title": "Untitled",
+          "date": "2026-03-10",
+          "type": "DATE",
+          "importance": "LOW",
+          "location": "",
+          "memo": ""
         }
       ],
       "lifnux.calendar.holidays.v100": [
@@ -11123,6 +11208,13 @@
           "title": "대체공휴일",
           "date": "2026-03-02",
           "createdAt": 1769485888338,
+          "kind": "HOLIDAY"
+        },
+        {
+          "id": "0fb1d6d9-0e86-4589-b077-34b6e4d1a5fd",
+          "title": "연차",
+          "date": "2026-03-09",
+          "createdAt": 1772674345500,
           "kind": "HOLIDAY"
         }
       ],
@@ -16813,7 +16905,7 @@
           "level": "인턴",
           "salaryKRW": 37000000,
           "isCurrent": true,
-          "remainingPTO": 2.75,
+          "remainingPTO": 1.75,
           "notes": ""
         },
         {
@@ -16846,6 +16938,27 @@
         }
       ],
       "career_job_postings": [
+        {
+          "postingId": "ad28e05a-f3b1-4ba4-8891-64d16e055893",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "코멧소프트",
+          "postingTitle": "PC/콘솔게임 퍼블리싱 어시스턴트",
+          "role": "사업지원",
+          "contractType": "계약직",
+          "departmentInfo": "",
+          "responsibilities": "• PC/콘솔 타이틀 퍼블리싱 사업 관리 보조\n• PC/콘솔 타이틀 관련 마케팅 업무 보조 (이미지 편집, 관리 등)\n• 플랫폼 등록, 운영 전반 및 모니터링 관리\n• 플랫폼 별 세일즈 데이터 정리 및 보고\n• 그 외 기타 전반적인 업무 보조",
+          "requirements": "• PC/콘솔 게임을 좋아하고 다양한 게임 플레이 경험이 많으신 분\n• Adobe 디자인 툴 (Photoshop, AI 등) 사용이 가능하신 분 (중급)\n• PC, Excel 등 Window 및 MS 오피스의 원활한 사용이 가능하신 분",
+          "neededSkills": "",
+          "preferred": "• Nintendo Switch, PlayStation, Steam 등 PC/콘솔 플랫폼에 대한 이해도가 있으신 분\n• 대내외 원활한 커뮤니케이션을 통해 협업이 가능하신 분\n• 아이디어와 계획을 문서로 가시화하여 정확히 표현하실 수 있는 분\n• 관련 업계 경험이 있으신 분\n• 일본어, 영어 가능자 우대",
+          "memo": "6개월 계약직 후 정규직 전환 검토",
+          "comment": "",
+          "deadline": "2026-03-25",
+          "importance": 5,
+          "isFavorite": false,
+          "link": "https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=53141113&view_type=list",
+          "createdAt": "2026-03-05T03:23:39.264Z",
+          "updatedAt": "2026-03-05T03:23:39.264Z"
+        },
         {
           "postingId": "06090d63-fbb6-483f-92d0-426b261e5426",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
@@ -17365,9 +17478,9 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "QIlzgNozXKw",
-        "queueIndex": 32,
-        "currentTime": 54.71715921934509,
+        "videoId": "tKERw3_ked0",
+        "queueIndex": 9,
+        "currentTime": 214.70270988746643,
         "repeatMode": "all",
         "shuffle": true
       },
@@ -17576,9 +17689,45 @@
             "videoId": "z2DASn4UHqE",
             "title": "Effie - MAKGEOLLI BANGER (Official Audio)",
             "url": "https://youtu.be/z2DASn4UHqE?si=kBGPHtG6oJDnsZez"
+          },
+          {
+            "id": "b5eeccad-f4f8-47c5-bd72-3c4ba525a368",
+            "videoId": "m3DZsBw5bnE",
+            "title": "AKMU - '어떻게 이별까지 사랑하겠어, 널 사랑하는 거지(How can I love the heartbreak, you`re the one I love)' M/V",
+            "url": "https://youtu.be/m3DZsBw5bnE?si=39jhAFRopnJWta2F"
+          },
+          {
+            "id": "068b775d-e1ec-4bf2-8c76-8bc3ae60c532",
+            "videoId": "56XiKr44a9U",
+            "title": "지코(ZICO) - BERMUDA TRIANGLE (Feat. Crush, DEAN) Official Music Video",
+            "url": "https://youtu.be/56XiKr44a9U?si=D1YnxCKngdlBUvrN"
+          },
+          {
+            "id": "1c7ec1e6-f630-4a13-914d-87c8a48b8a72",
+            "videoId": "AOGhUcAdTKk",
+            "title": "[Bugs-ker] 최유리 - 숲 [Live]",
+            "url": "https://youtu.be/AOGhUcAdTKk?si=sV2c67E2ZbeWq35u"
+          },
+          {
+            "id": "527d72c0-99b8-405e-96ae-a50fbeba2759",
+            "videoId": "Z2tv0GyQdL8",
+            "title": "[M/V] Choi Yu Ree(최유리) - 잘 지내자, 우리",
+            "url": "https://youtu.be/Z2tv0GyQdL8?si=2MY-G7-tG3HyrIM6"
+          },
+          {
+            "id": "17580d67-30b4-4a78-9ad7-3aaa871de34c",
+            "videoId": "74_yqNBhQbA",
+            "title": "백예린 (Yerin Baek) 'Antifreeze' Lyric Video",
+            "url": "https://youtu.be/74_yqNBhQbA?si=cP5wjVq1ZhXpZH0J"
+          },
+          {
+            "id": "a9a608bd-2a60-47d9-9f84-f0890ea49e0f",
+            "videoId": "Aq_gsctWHtQ",
+            "title": "[MV] 검정치마(The Black Skirts) - 'EVERYTHING'",
+            "url": "https://youtu.be/Aq_gsctWHtQ?si=XDdhOCuEx7Bw0Oi4"
           }
         ],
-        "currentIndex": 32,
+        "currentIndex": 9,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -17756,7 +17905,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 587259
+          "balance": 764559
         },
         {
           "accountId": "acc-us-1",
@@ -17766,7 +17915,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 12.230000000000047
+          "balance": 8.520000000000039
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -18452,6 +18601,85 @@
           "realizedPnl": 249562.04347826086,
           "realizedPnlPercent": 75.89210385503736,
           "costBasis": 328837.95652173914
+        },
+        {
+          "id": "53397074-f076-4054-8f63-186054b0248e",
+          "ts": 1772587897659,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:PLTR",
+          "side": "SELL",
+          "qty": 2,
+          "price": 143.57,
+          "realizedPnl": 61.526250000000005,
+          "realizedPnlPercent": 27.270611831060833,
+          "costBasis": 225.61374999999998
+        },
+        {
+          "id": "006c2a78-0f21-4653-8f00-2dc2031849ce",
+          "ts": 1772593556730,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "138080",
+          "side": "SELL",
+          "qty": 10,
+          "price": 17730,
+          "realizedPnl": 18150,
+          "realizedPnlPercent": 11.404335532516493,
+          "costBasis": 159150
+        },
+        {
+          "id": "664b71df-4c52-4121-b0d0-c4b1e70da734",
+          "ts": 1772671456743,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:PLTR",
+          "side": "SELL",
+          "qty": 2,
+          "price": 143.57,
+          "realizedPnl": 61.526250000000005,
+          "realizedPnlPercent": 27.270611831060833,
+          "costBasis": 225.61374999999998
+        },
+        {
+          "id": "177c863c-8985-4e87-b30f-aadf314362bb",
+          "ts": 1772671475631,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "SELL",
+          "qty": 6,
+          "price": 15.6,
+          "realizedPnl": -62.801760000000016,
+          "realizedPnlPercent": -40.154126142826016,
+          "costBasis": 156.40176000000002
+        },
+        {
+          "id": "692695b6-eccb-48ec-880f-4e34f97c278f",
+          "ts": 1772671525729,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:KORU",
+          "side": "BUY",
+          "qty": 1,
+          "price": 383.59,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "2f146226-c714-4485-8850-2d1b879fa3dc",
+          "ts": 1772671797351,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "WITHDRAW",
+          "amount": 288
         }
       ]
     },

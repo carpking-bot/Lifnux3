@@ -1019,24 +1019,29 @@ export default function PortfolioPage() {
 
   const sectorDetails = useMemo(() => {
     const sectorKey = sectorViewMode === "major" ? "sectorMajorLabel" : "sectorLabel";
-    const map: Record<string, { name: string; value: number }[]> = {};
+    const detailMap: Record<string, Map<string, number>> = {};
     sectorHoldingsForChart.forEach((entry) => {
       const label = entry.holding[sectorKey]?.trim() || "Unlabeled";
       const value = entry.marketValueKrw ?? 0;
       if (value <= 0) return;
       const stockLabel = entry.stock?.label ?? entry.stock?.symbol ?? entry.holding.symbolKey ?? "Unknown";
-      if (!map[label]) map[label] = [];
-      map[label].push({ name: stockLabel, value });
+      if (!detailMap[label]) detailMap[label] = new Map<string, number>();
+      detailMap[label].set(stockLabel, (detailMap[label].get(stockLabel) ?? 0) + value);
     });
     const cashTotal = filteredCashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
     if (cashTotal > 0) {
-      map.Cash = filteredCashRows
-        .filter((entry) => entry.valueKrw > 0)
-        .map((entry) => ({
-          name: `${formatAccountName(entry.account)} Cash (${entry.currency})`,
-          value: entry.valueKrw
-        }));
+      detailMap.Cash = new Map(
+        filteredCashRows
+          .filter((entry) => entry.valueKrw > 0)
+          .map((entry) => [`${formatAccountName(entry.account)} Cash (${entry.currency})`, entry.valueKrw] as const)
+      );
     }
+    const map: Record<string, { name: string; value: number }[]> = {};
+    Object.entries(detailMap).forEach(([label, values]) => {
+      map[label] = Array.from(values.entries())
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value);
+    });
     Object.values(map).forEach((items) => items.sort((a, b) => b.value - a.value));
     return map;
   }, [filteredCashRows, sectorHoldingsForChart, sectorViewMode]);
@@ -1049,24 +1054,29 @@ export default function PortfolioPage() {
   }, [filteredCashRows, filteredDerivedHoldings, sectorViewMode, sectorHoldingsForChart]);
 
   const countryDetails = useMemo(() => {
-    const map: Record<string, { name: string; value: number }[]> = {};
+    const detailMap: Record<string, Map<string, number>> = {};
     filteredDerivedHoldings.forEach((entry) => {
       const label = entry.holding.countryLabel?.trim() || "Unlabeled";
       const value = entry.marketValueKrw ?? 0;
       if (value <= 0) return;
       const stockLabel = entry.stock?.label ?? entry.stock?.symbol ?? entry.holding.symbolKey ?? "Unknown";
-      if (!map[label]) map[label] = [];
-      map[label].push({ name: stockLabel, value });
+      if (!detailMap[label]) detailMap[label] = new Map<string, number>();
+      detailMap[label].set(stockLabel, (detailMap[label].get(stockLabel) ?? 0) + value);
     });
     const cashTotal = filteredCashRows.reduce((sum, entry) => sum + entry.valueKrw, 0);
     if (cashTotal > 0) {
-      map.Cash = filteredCashRows
+      detailMap.Cash = new Map(
+        filteredCashRows
         .filter((entry) => entry.valueKrw > 0)
-        .map((entry) => ({
-          name: `${formatAccountName(entry.account)} Cash (${entry.currency})`,
-          value: entry.valueKrw
-        }));
+          .map((entry) => [`${formatAccountName(entry.account)} Cash (${entry.currency})`, entry.valueKrw] as const)
+      );
     }
+    const map: Record<string, { name: string; value: number }[]> = {};
+    Object.entries(detailMap).forEach(([label, values]) => {
+      map[label] = Array.from(values.entries())
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value);
+    });
     Object.values(map).forEach((items) => items.sort((a, b) => b.value - a.value));
     return map;
   }, [filteredCashRows, filteredDerivedHoldings]);
@@ -2800,7 +2810,7 @@ function DonutCard({
   ];
   const total = data.reduce((sum, item) => sum + item.value, 0);
   const formatKrw = (value: number) => `₩${Math.round(value).toLocaleString("ko-KR")}`;
-  const activeLabel = pinnedLabel ?? hoveredLabel;
+  const activeLabel = hoveredLabel ?? pinnedLabel;
   const activeDetails = activeLabel ? detailsByLabel?.[activeLabel] ?? null : null;
   const activeTotal = activeDetails?.reduce((sum, item) => sum + item.value, 0) ?? null;
   const legendTwoCol = data.length >= 8;
@@ -2818,7 +2828,7 @@ function DonutCard({
           data={data}
           palette={palette}
           onHover={(label) => {
-            if (!pinnedLabel) setHoveredLabel(label);
+            setHoveredLabel(label);
           }}
           onSelect={(label) => {
             setPinnedLabel((prev) => (prev === label ? null : label));
@@ -2836,10 +2846,10 @@ function DonutCard({
                       key={item.label}
                       className="flex w-full min-w-0 items-center gap-2 text-left"
                       onMouseEnter={() => {
-                        if (!pinnedLabel) setHoveredLabel(item.label);
+                        setHoveredLabel(item.label);
                       }}
                       onMouseLeave={() => {
-                        if (!pinnedLabel) setHoveredLabel(null);
+                        setHoveredLabel(null);
                       }}
                       onClick={() => {
                         setPinnedLabel((prev) => (prev === item.label ? null : item.label));
@@ -2882,8 +2892,8 @@ function DonutCard({
         </div>
         <div className="lifnux-scroll mt-2 h-[126px] overflow-y-auto space-y-1 text-xs">
           {activeLabel && activeDetails && activeDetails.length ? (
-            activeDetails.map((item) => (
-              <div key={`${activeLabel}-${item.name}`} className="flex items-center justify-between gap-3">
+            activeDetails.map((item, index) => (
+              <div key={`${activeLabel}-${item.name}-${index}`} className="flex items-center justify-between gap-3">
                 <span className="truncate text-white/80">{item.name}</span>
                 <span className="shrink-0 text-white/90">
                   {formatKrw(item.value)} {total > 0 ? `· ${(item.value / total * 100).toFixed(1)}%` : ""}

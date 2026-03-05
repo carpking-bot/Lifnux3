@@ -190,8 +190,8 @@ export default function SchedulerPage({ params }: { params: { date: string } }) 
     setViewEvent(null);
   };
   const saveEventFromHoliday = (event: CalendarEvent) => {
+    // Unmark holiday back to a normal day without creating a schedule entry.
     saveHolidays(holidays.filter((entry) => entry.id !== event.id));
-    upsertEvent(event);
     setEditorOpen(false);
     setEditMode(false);
     setViewEvent(null);
