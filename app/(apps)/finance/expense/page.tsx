@@ -95,6 +95,11 @@ const shiftMonthKey = (monthKey: string, delta: number) => {
   return `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}`;
 };
 
+const daysInMonth = (monthKey: string) => {
+  const [year, month] = monthKey.split("-").map(Number);
+  return new Date(year, month, 0).getDate();
+};
+
 const monthGrid = (monthKey: string) => {
   const [year, month] = monthKey.split("-").map(Number);
   const first = new Date(year, month - 1, 1);
@@ -184,6 +189,7 @@ export default function FinanceExpensePage() {
   const [ledgerKindTab, setLedgerKindTab] = useState<"expense" | "income">("expense");
   const [selectedLedgerDate, setSelectedLedgerDate] = useState<string | null>(null);
   const [ledgerUiMode, setLedgerUiMode] = useState<"calendar" | "ledger">("calendar");
+  const [expenseFlowCollapsed, setExpenseFlowCollapsed] = useState(false);
   const [pendingReviewDeleteMonth, setPendingReviewDeleteMonth] = useState<string | null>(null);
   const [inlineNotice, setInlineNotice] = useState<string | null>(null);
   const ledgerTabLabel = ledgerKindTab === "income" ? "Income" : "Expense";
@@ -337,6 +343,56 @@ export default function FinanceExpensePage() {
   }, [entries]);
   const budget = budgetByMonth[selectedMonth] ?? 0;
   const budgetPct = budget > 0 ? (monthTotal / budget) * 100 : 0;
+  const prevMonthKey = useMemo(() => getPrevMonthKey(selectedMonth), [selectedMonth]);
+  const dailyExpenseCompare = useMemo(() => {
+    const currentDays = daysInMonth(selectedMonth);
+    const prevDays = daysInMonth(prevMonthKey);
+    const maxDays = Math.max(currentDays, prevDays);
+    const currentDaily = Array.from({ length: currentDays }, () => 0);
+    const prevDaily = Array.from({ length: prevDays }, () => 0);
+
+    entries.forEach((entry) => {
+      if (normalizeEntryKind(entry) !== "expense") return;
+      const monthKey = entry.date.slice(0, 7);
+      const day = Number(entry.date.slice(8, 10));
+      if (!Number.isFinite(day) || day <= 0) return;
+      if (monthKey === selectedMonth && day <= currentDays) currentDaily[day - 1] += entry.amount;
+      if (monthKey === prevMonthKey && day <= prevDays) prevDaily[day - 1] += entry.amount;
+    });
+
+    let currentRunning = 0;
+    let prevRunning = 0;
+    const points = Array.from({ length: maxDays }, (_, index) => {
+      const day = index + 1;
+      currentRunning += currentDaily[index] ?? 0;
+      prevRunning += prevDaily[index] ?? 0;
+      return {
+        day,
+        current: currentRunning,
+        previous: prevRunning,
+        currentDaily: currentDaily[index] ?? 0,
+        previousDaily: prevDaily[index] ?? 0,
+        isCurrentMonthDay: day <= currentDays,
+        isPreviousMonthDay: day <= prevDays
+      };
+    });
+
+    const today = new Date();
+    const selectedIsCurrentMonth = selectedMonth === currentMonthKey();
+    const compareDay = selectedIsCurrentMonth ? Math.min(today.getDate(), currentDays, prevDays) : Math.min(currentDays, prevDays);
+    const currentAtCompareDay = compareDay > 0 ? points[compareDay - 1]?.current ?? 0 : 0;
+    const previousAtCompareDay = compareDay > 0 ? points[compareDay - 1]?.previous ?? 0 : 0;
+    return {
+      prevMonthKey,
+      currentDays,
+      prevDays,
+      compareDay,
+      currentAtCompareDay,
+      previousAtCompareDay,
+      delta: currentAtCompareDay - previousAtCompareDay,
+      points
+    };
+  }, [entries, prevMonthKey, selectedMonth]);
 
   const monthlyHistory = useMemo(() => {
     const byMonth = new Map<string, number>();
@@ -1008,7 +1064,7 @@ export default function FinanceExpensePage() {
           </Link>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.4fr_0.9fr]">
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_0.85fr]">
           <section className="lifnux-glass rounded-2xl p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Ledger</div>
@@ -1103,6 +1159,50 @@ export default function FinanceExpensePage() {
                 ) : null}
               </div>
             </div>
+            {viewMode === "monthly" && ledgerKindTab === "expense" ? (
+              <div className="mt-5 rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(125,211,252,0.18),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Daily Expense Flow</div>
+                    <div className="mt-2 flex items-end gap-2">
+                      <div className="text-3xl font-semibold">{formatKrw(monthTotal)}</div>
+                      <div className="pb-1 text-xs text-[var(--ink-1)]">{selectedMonth}</div>
+                    </div>
+                    <div className={`mt-2 text-sm ${dailyExpenseCompare.delta <= 0 ? "text-sky-300" : "text-rose-200"}`}>
+                      {dailyExpenseCompare.compareDay > 0
+                        ? `${dailyExpenseCompare.prevMonthKey} 대비 ${dailyExpenseCompare.delta > 0 ? "+" : "-"}${formatKrw(Math.abs(dailyExpenseCompare.delta))}`
+                        : "비교할 전월 데이터가 없습니다."}
+                    </div>
+                    <div className="mt-1 text-xs text-[var(--ink-1)]">
+                      {dailyExpenseCompare.compareDay > 0
+                        ? "오늘 기준 누적 소비 비교"
+                        : `전월 ${dailyExpenseCompare.prevMonthKey} / 이번 달 ${selectedMonth}`}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-[var(--ink-1)]">
+                      Current vs Prev
+                    </div>
+                    <button
+                      className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-[var(--ink-1)]"
+                      onClick={() => setExpenseFlowCollapsed((prev) => !prev)}
+                    >
+                      {expenseFlowCollapsed ? "Expand" : "Collapse"}
+                    </button>
+                  </div>
+                </div>
+                {!expenseFlowCollapsed ? (
+                  <div className="mt-4">
+                    <ExpenseDailyCompareChart
+                      currentMonth={selectedMonth}
+                      previousMonth={dailyExpenseCompare.prevMonthKey}
+                      points={dailyExpenseCompare.points}
+                      currentDay={dailyExpenseCompare.compareDay}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
               <button
                 className={`rounded-full border px-3 py-1 ${ledgerSort === "date" ? "border-white/30 text-white" : "border-white/10 text-[var(--ink-1)]"}`}
@@ -1213,7 +1313,7 @@ export default function FinanceExpensePage() {
                 </label>
               </div>
             ) : null}
-            <div className="mt-4 max-h-[520px] space-y-2 overflow-y-auto pr-1">
+            <div className="mt-5 max-h-[500px] space-y-2 overflow-y-auto pr-1">
               {viewMode === "monthly" || viewMode === "range" ? (
                 (viewMode === "monthly" ? (ledgerUiMode === "calendar" ? selectedDayLedgerEntries : sortedLedgerEntries) : sortedLedgerEntries).length ? (
                   (viewMode === "monthly" ? (ledgerUiMode === "calendar" ? selectedDayLedgerEntries : sortedLedgerEntries) : sortedLedgerEntries).map((entry) => (
@@ -1300,7 +1400,7 @@ export default function FinanceExpensePage() {
           </section>
 
           <div className="relative space-y-6">
-            <section className="lifnux-glass rounded-2xl p-6">
+            <section className="lifnux-glass rounded-2xl p-5">
               <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">
                 {viewMode === "monthly"
                   ? `${ledgerTabLabel} Monthly Summary (${selectedMonth})`
@@ -1346,7 +1446,7 @@ export default function FinanceExpensePage() {
                   </>
                 ) : null}
               </div>
-              <div className="mt-4">
+              <div className="mt-3">
                 <PieChart
                   data={groupedCategoryData.data}
                   activeLabel={selectedCategory}
@@ -1367,7 +1467,7 @@ export default function FinanceExpensePage() {
                   }}
                 />
               </div>
-              <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4 text-xs">
+              <div className="mt-3 rounded-xl border border-white/10 bg-black/20 p-4 text-xs">
                 <div className="flex items-center justify-between gap-2">
                   <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Insight</div>
                   {categoryPinned ? (
@@ -1501,12 +1601,13 @@ export default function FinanceExpensePage() {
               </div>
             ) : null}
 
-            <section className="lifnux-glass rounded-2xl p-6">
+            <section className="lifnux-glass rounded-2xl p-5">
               <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{ledgerTabLabel} History</div>
               <div className="mt-3">
                 <ExpenseHistoryChart
                   points={monthlyHistoryWindow}
                   onChartClick={() => setHistoryDetailOpen(true)}
+                  height={156}
                 />
               </div>
               <div className="mt-2 text-xs text-[var(--ink-1)]">Click a month point to drill down.</div>
@@ -2545,6 +2646,121 @@ function PieChart({
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+function ExpenseDailyCompareChart({
+  currentMonth,
+  previousMonth,
+  points,
+  currentDay,
+  height = 220
+}: {
+  currentMonth: string;
+  previousMonth: string;
+  points: {
+    day: number;
+    current: number;
+    previous: number;
+    currentDaily: number;
+    previousDaily: number;
+    isCurrentMonthDay: boolean;
+    isPreviousMonthDay: boolean;
+  }[];
+  currentDay: number;
+  height?: number;
+}) {
+  if (!points.length) return <div className="text-sm text-[var(--ink-1)]">No daily expense data.</div>;
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [chartWidth, setChartWidth] = useState(640);
+
+  useEffect(() => {
+    if (!containerRef.current || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver((entries) => {
+      const next = Math.max(300, Math.floor(entries[0]?.contentRect.width ?? 0));
+      if (next > 0) setChartWidth(next);
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const width = chartWidth;
+  const padTop = 18;
+  const padBottom = 48;
+  const padLeft = 16;
+  const padRight = 16;
+  const maxValue = Math.max(...points.flatMap((point) => [point.current, point.previous]), 0);
+  const chartMax = Math.max(10_000, maxValue * 1.12 || 1);
+  const range = chartMax || 1;
+  const step = points.length > 1 ? (width - padLeft - padRight) / (points.length - 1) : 0;
+  const toX = (index: number) => padLeft + step * index;
+  const toY = (value: number) => padTop + ((chartMax - value) / range) * (height - padTop - padBottom);
+  const currentLine = points.map((point, index) => `${toX(index)},${toY(point.current)}`).join(" ");
+  const previousLine = points.map((point, index) => `${toX(index)},${toY(point.previous)}`).join(" ");
+  const activeIndex = currentDay > 0 ? Math.min(currentDay - 1, points.length - 1) : -1;
+
+  return (
+    <div ref={containerRef} className="w-full">
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full overflow-visible">
+        <defs>
+          <filter id="dailyCompareGlow">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <line x1={padLeft} y1={toY(chartMax)} x2={width - padRight} y2={toY(chartMax)} stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+        <line
+          x1={padLeft}
+          y1={toY(chartMax / 2)}
+          x2={width - padRight}
+          y2={toY(chartMax / 2)}
+          stroke="rgba(255,255,255,0.05)"
+          strokeWidth="1"
+          strokeDasharray="4 5"
+        />
+        <line x1={padLeft} y1={toY(0)} x2={width - padRight} y2={toY(0)} stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+        <polyline points={previousLine} fill="none" stroke="#F59E0B" strokeOpacity="0.95" strokeWidth="2.5" strokeDasharray="4 7" />
+        <polyline points={currentLine} fill="none" stroke="#4DA3FF" strokeWidth="3" filter="url(#dailyCompareGlow)" />
+        {activeIndex >= 0 ? (
+          <>
+            <circle cx={toX(activeIndex)} cy={toY(points[activeIndex]?.current ?? 0)} r={18} fill="rgba(77,163,255,0.16)" />
+            <circle cx={toX(activeIndex)} cy={toY(points[activeIndex]?.current ?? 0)} r={7} fill="#4DA3FF" stroke="#D9EEFF" strokeWidth="2" />
+            <circle cx={toX(activeIndex)} cy={toY(points[activeIndex]?.previous ?? 0)} r={5.5} fill="#F59E0B" stroke="#FFE7B0" strokeWidth="1.5" />
+          </>
+        ) : null}
+        {points.map((point, index) => {
+          const isTick = index === 0 || index === points.length - 1 || point.day === currentDay || point.day % 5 === 0;
+          return isTick ? (
+            <g key={`tick-${point.day}`}>
+              <text x={toX(index)} y={height - 24} textAnchor="middle" className="fill-white/40 text-[10px]">
+                {point.day}
+              </text>
+              <text
+                x={toX(index)}
+                y={height - 9}
+                textAnchor="middle"
+                className={`text-[10px] ${point.currentDaily > 0 ? "fill-[#9CCBFF]" : "fill-white/22"}`}
+              >
+                {point.currentDaily > 0 ? `${Math.round(point.currentDaily / 1000)}k` : "-"}
+              </text>
+            </g>
+          ) : null;
+        })}
+      </svg>
+      <div className="mt-3 flex flex-wrap items-center gap-4 text-[11px] text-[var(--ink-1)]">
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#4DA3FF]" />
+          <span>{currentMonth} cumulative</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="h-[2px] w-3 bg-[#F59E0B]" />
+          <span>{previousMonth} cumulative</span>
+        </div>
+      </div>
     </div>
   );
 }

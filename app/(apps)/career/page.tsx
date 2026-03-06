@@ -599,6 +599,12 @@ export default function CareerPage() {
                   setApplicationReadOnly(false);
                   setApplicationModalOpen(true);
                 }}
+                onViewPosting={(posting) => {
+                  setEditingPostingId(posting.postingId);
+                  setPostingDrawerMode("view");
+                  setPostingDraft(posting);
+                  setPostingEditorOpen(true);
+                }}
               />
             ) : null}
 

@@ -6,6 +6,7 @@ type Props = {
   postingMap: Map<string, JobPosting>;
   industryNameMap: Map<string, string>;
   onOpen: (app: Application) => void;
+  onViewPosting: (posting: JobPosting) => void;
 };
 
 function importanceClass(importance: number) {
@@ -14,7 +15,7 @@ function importanceClass(importance: number) {
   return "border-cyan-300/50 text-cyan-300";
 }
 
-export function InProgressView({ applications, postingMap, industryNameMap, onOpen }: Props) {
+export function InProgressView({ applications, postingMap, industryNameMap, onOpen, onViewPosting }: Props) {
   return (
     <div className="space-y-2">
       {applications.length === 0 ? (
@@ -49,6 +50,17 @@ export function InProgressView({ applications, postingMap, industryNameMap, onOp
               </div>
 
               <div className="mt-3 flex flex-wrap gap-2">
+                {posting ? (
+                  <button
+                    className="rounded-full border border-cyan-300/50 px-3.5 py-1.5 text-sm text-cyan-300"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onViewPosting(posting);
+                    }}
+                  >
+                    공고 보기
+                  </button>
+                ) : null}
                 {app.stages.map((stage) => (
                   <span
                     key={stage.stageId}
