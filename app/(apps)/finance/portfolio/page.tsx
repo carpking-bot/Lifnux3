@@ -88,6 +88,8 @@ export default function PortfolioPage() {
   const [fxUpdatedAt, setFxUpdatedAt] = useState<number | null>(null);
   const [pendingDelete, setPendingDelete] = useState<Holding | null>(null);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [pendingLedgerDelete, setPendingLedgerDelete] = useState<LedgerRecord | null>(null);
+  const [ledgerDeleteConfirmOpen, setLedgerDeleteConfirmOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -1353,6 +1355,34 @@ export default function PortfolioPage() {
     setCashOpen(false);
   };
 
+  const requestLedgerDelete = (record: LedgerRecord) => {
+    setPendingLedgerDelete(record);
+    setLedgerDeleteConfirmOpen(true);
+  };
+
+  const confirmLedgerDelete = () => {
+    if (!pendingLedgerDelete) return;
+    const target = pendingLedgerDelete;
+    const targetSymbolKey = normalizeSymbol(target.symbol ?? "");
+    setLedgerRecords((prev) => prev.filter((entry) => entry.id !== target.id));
+    if (target.type === "TRADE") {
+      setTrades((prev) =>
+        prev.filter((trade) => {
+          if (trade.accountId !== target.accountId) return true;
+          if (trade.executedAt !== target.ts) return true;
+          if (trade.side !== target.side) return true;
+          if (trade.qty !== target.qty) return true;
+          if (trade.price !== target.price) return true;
+          if (!targetSymbolKey) return false;
+          const tradeStock = stocks.find((stock) => stock.id === trade.stockId);
+          return normalizeSymbol(tradeStock?.symbol ?? "") !== targetSymbolKey;
+        })
+      );
+    }
+    setPendingLedgerDelete(null);
+    setLedgerDeleteConfirmOpen(false);
+  };
+
   return (
     <AppShell showTitle={false}>
       <div className="mx-auto w-full max-w-[1200px] pb-20 pt-10">
@@ -2496,6 +2526,12 @@ export default function PortfolioPage() {
                             {formatCurrency(Math.abs(realizedKrw), "KRW")})
                           </div>
                         ) : null}
+                        <button
+                          className="mt-2 rounded-full border border-rose-400/40 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-rose-200 hover:border-rose-300/60 hover:text-rose-100"
+                          onClick={() => requestLedgerDelete(record)}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -2588,6 +2624,12 @@ export default function PortfolioPage() {
                         ) : (
                           <div className={`mt-1 text-[10px] text-[var(--ink-1)] ${blurClass}`}>KRW FX not ready</div>
                         )}
+                        <button
+                          className="mt-2 rounded-full border border-rose-400/40 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-rose-200 hover:border-rose-300/60 hover:text-rose-100"
+                          onClick={() => requestLedgerDelete(record)}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -2617,6 +2659,34 @@ export default function PortfolioPage() {
         onCancel={() => {
           setPendingDelete(null);
           setDeleteConfirmOpen(false);
+        }}
+      />
+
+      <ConfirmModal
+        open={ledgerDeleteConfirmOpen}
+        title="Delete History Record"
+        description={
+          pendingLedgerDelete
+            ? `${formatDateTime(pendingLedgerDelete.ts)} · ${
+                pendingLedgerDelete.type === "TRADE"
+                  ? `${pendingLedgerDelete.side ?? "TRADE"} ${findStockDisplay(pendingLedgerDelete.symbol)} x${formatNumber(
+                      pendingLedgerDelete.qty ?? 0,
+                      0
+                    )}`
+                  : `${pendingLedgerDelete.direction ?? "CASHFLOW"} ${formatCurrency(
+                      pendingLedgerDelete.amount ?? 0,
+                      pendingLedgerDelete.currency
+                    )}`
+              }`
+            : "Delete this history record?"
+        }
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={confirmLedgerDelete}
+        onCancel={() => {
+          setPendingLedgerDelete(null);
+          setLedgerDeleteConfirmOpen(false);
         }}
       />
     </AppShell>

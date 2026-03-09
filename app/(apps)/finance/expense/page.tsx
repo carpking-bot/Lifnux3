@@ -379,6 +379,7 @@ export default function FinanceExpensePage() {
 
     const today = new Date();
     const selectedIsCurrentMonth = selectedMonth === currentMonthKey();
+    const currentVisibleDay = selectedIsCurrentMonth ? Math.min(today.getDate(), currentDays) : currentDays;
     const compareDay = selectedIsCurrentMonth ? Math.min(today.getDate(), currentDays, prevDays) : Math.min(currentDays, prevDays);
     const currentAtCompareDay = compareDay > 0 ? points[compareDay - 1]?.current ?? 0 : 0;
     const previousAtCompareDay = compareDay > 0 ? points[compareDay - 1]?.previous ?? 0 : 0;
@@ -386,6 +387,7 @@ export default function FinanceExpensePage() {
       prevMonthKey,
       currentDays,
       prevDays,
+      currentVisibleDay,
       compareDay,
       currentAtCompareDay,
       previousAtCompareDay,
@@ -1197,6 +1199,7 @@ export default function FinanceExpensePage() {
                       currentMonth={selectedMonth}
                       previousMonth={dailyExpenseCompare.prevMonthKey}
                       points={dailyExpenseCompare.points}
+                      currentVisibleDay={dailyExpenseCompare.currentVisibleDay}
                       currentDay={dailyExpenseCompare.compareDay}
                     />
                   </div>
@@ -2654,6 +2657,7 @@ function ExpenseDailyCompareChart({
   currentMonth,
   previousMonth,
   points,
+  currentVisibleDay,
   currentDay,
   height = 220
 }: {
@@ -2668,6 +2672,7 @@ function ExpenseDailyCompareChart({
     isCurrentMonthDay: boolean;
     isPreviousMonthDay: boolean;
   }[];
+  currentVisibleDay: number;
   currentDay: number;
   height?: number;
 }) {
@@ -2696,9 +2701,13 @@ function ExpenseDailyCompareChart({
   const step = points.length > 1 ? (width - padLeft - padRight) / (points.length - 1) : 0;
   const toX = (index: number) => padLeft + step * index;
   const toY = (value: number) => padTop + ((chartMax - value) / range) * (height - padTop - padBottom);
-  const currentLine = points.map((point, index) => `${toX(index)},${toY(point.current)}`).join(" ");
+  const currentLine = points
+    .slice(0, Math.max(0, Math.min(currentVisibleDay, points.length)))
+    .map((point, index) => `${toX(index)},${toY(point.current)}`)
+    .join(" ");
   const previousLine = points.map((point, index) => `${toX(index)},${toY(point.previous)}`).join(" ");
-  const activeIndex = currentDay > 0 ? Math.min(currentDay - 1, points.length - 1) : -1;
+  const activeCurrentIndex = currentVisibleDay > 0 ? Math.min(currentVisibleDay - 1, points.length - 1) : -1;
+  const activePreviousIndex = currentDay > 0 ? Math.min(currentDay - 1, points.length - 1) : -1;
 
   return (
     <div ref={containerRef} className="w-full">
@@ -2725,11 +2734,32 @@ function ExpenseDailyCompareChart({
         <line x1={padLeft} y1={toY(0)} x2={width - padRight} y2={toY(0)} stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
         <polyline points={previousLine} fill="none" stroke="#F59E0B" strokeOpacity="0.95" strokeWidth="2.5" strokeDasharray="4 7" />
         <polyline points={currentLine} fill="none" stroke="#4DA3FF" strokeWidth="3" filter="url(#dailyCompareGlow)" />
-        {activeIndex >= 0 ? (
+        {activeCurrentIndex >= 0 ? (
           <>
-            <circle cx={toX(activeIndex)} cy={toY(points[activeIndex]?.current ?? 0)} r={18} fill="rgba(77,163,255,0.16)" />
-            <circle cx={toX(activeIndex)} cy={toY(points[activeIndex]?.current ?? 0)} r={7} fill="#4DA3FF" stroke="#D9EEFF" strokeWidth="2" />
-            <circle cx={toX(activeIndex)} cy={toY(points[activeIndex]?.previous ?? 0)} r={5.5} fill="#F59E0B" stroke="#FFE7B0" strokeWidth="1.5" />
+            <circle
+              cx={toX(activeCurrentIndex)}
+              cy={toY(points[activeCurrentIndex]?.current ?? 0)}
+              r={18}
+              fill="rgba(77,163,255,0.16)"
+            />
+            <circle
+              cx={toX(activeCurrentIndex)}
+              cy={toY(points[activeCurrentIndex]?.current ?? 0)}
+              r={7}
+              fill="#4DA3FF"
+              stroke="#D9EEFF"
+              strokeWidth="2"
+            />
+            {activePreviousIndex >= 0 ? (
+              <circle
+                cx={toX(activePreviousIndex)}
+                cy={toY(points[activePreviousIndex]?.previous ?? 0)}
+                r={5.5}
+                fill="#F59E0B"
+                stroke="#FFE7B0"
+                strokeWidth="1.5"
+              />
+            ) : null}
           </>
         ) : null}
         {points.map((point, index) => {
@@ -2745,7 +2775,7 @@ function ExpenseDailyCompareChart({
                 textAnchor="middle"
                 className={`text-[10px] ${point.currentDaily > 0 ? "fill-[#9CCBFF]" : "fill-white/22"}`}
               >
-                {point.currentDaily > 0 ? `${Math.round(point.currentDaily / 1000)}k` : "-"}
+                {point.currentDaily > 0 ? formatKrw(point.currentDaily) : "-"}
               </text>
             </g>
           ) : null;
@@ -2754,11 +2784,11 @@ function ExpenseDailyCompareChart({
       <div className="mt-3 flex flex-wrap items-center gap-4 text-[11px] text-[var(--ink-1)]">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-[#4DA3FF]" />
-          <span>{currentMonth} cumulative</span>
+          <span>{currentMonth}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="h-[2px] w-3 bg-[#F59E0B]" />
-          <span>{previousMonth} cumulative</span>
+          <span>{previousMonth}</span>
         </div>
       </div>
     </div>
