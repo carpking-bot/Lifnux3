@@ -8,6 +8,7 @@ export function AttendancePanel({
   attendance,
   onCheckIn,
   onUndo,
+  onToggleDate,
   cursor,
   onPrevMonth,
   onNextMonth
@@ -15,6 +16,7 @@ export function AttendancePanel({
   attendance: Attendance[];
   onCheckIn: () => void;
   onUndo: () => void;
+  onToggleDate: (dateKey: string) => void;
   cursor: Date;
   onPrevMonth: () => void;
   onNextMonth: () => void;
@@ -67,15 +69,24 @@ export function AttendancePanel({
           const isCurrentMonth = day.getMonth() === monthIndex;
           const isMarked = attendanceSet.has(key);
           const isToday = isSameDay(day, now);
+          const isFuture = key > todayKey;
+          const isClickable = !isFuture;
           return (
-            <div
+            <button
               key={key}
+              type="button"
+              onClick={() => {
+                if (!isClickable) return;
+                onToggleDate(key);
+              }}
+              disabled={!isClickable}
               className={`flex h-7 items-center justify-center rounded-md ${
                 isMarked ? "bg-[var(--accent-1)] text-black" : isCurrentMonth ? "text-[var(--ink-0)]" : "text-[var(--ink-1)]/50"
-              } ${isToday ? "border border-white/20" : ""}`}
+              } ${isToday ? "border border-white/20" : ""} ${isClickable ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+              aria-label={`${key} attendance ${isMarked ? "checked" : "unchecked"}`}
             >
               {day.getDate()}
-            </div>
+            </button>
           );
         })}
       </div>

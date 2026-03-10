@@ -228,6 +228,15 @@ export default function GuitarPage() {
     setAttendance([...attendance, { dateKey: key, createdAt: Date.now() }]);
   };
 
+  const handleToggleAttendanceDate = (dateKey: string) => {
+    const exists = attendance.some((entry) => entry.dateKey === dateKey);
+    if (exists) {
+      setAttendance(attendance.filter((entry) => entry.dateKey !== dateKey));
+      return;
+    }
+    setAttendance([...attendance, { dateKey, createdAt: Date.now() }]);
+  };
+
   const openConfirm = (title: string, message: string, action: () => void) => {
     setConfirmTitle(title);
     setConfirmMessage(message);
@@ -393,6 +402,7 @@ export default function GuitarPage() {
                   setAttendance(attendance.filter((entry) => entry.dateKey !== key));
                 });
               }}
+              onToggleDate={handleToggleAttendanceDate}
               cursor={attendanceCursor}
               onPrevMonth={() =>
                 setAttendanceCursor((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))
