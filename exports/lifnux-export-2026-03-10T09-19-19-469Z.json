@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-04T09:14:49.794Z"
+    "exportedAt": "2026-03-10T09:19:19.465Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "Aq_gsctWHtQ",
+        "trackId": "z2DASn4UHqE",
         "volume": 80,
-        "position": 79.67814482261657
+        "position": 102.69677609727478
       }
     },
     "health": {
@@ -3102,6 +3102,41 @@
           "createdAt": "2026-03-03T08:57:16.798Z",
           "distanceKm": 2.13,
           "calorieOverride": 110
+        },
+        {
+          "id": "8345ba01-2f5e-463f-b915-768b0951ec67",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-05",
+          "durationMin": 25,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-05T04:34:34.552Z",
+          "distanceKm": 2.04,
+          "calorieOverride": 100
+        },
+        {
+          "id": "7ad9d7cf-b82e-4531-a449-1d21960d5255",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-05",
+          "durationMin": 50,
+          "memo": "수영 17회차\n3월 초라 신규 회원들 많이있더라 8ㅅ8",
+          "createdAt": "2026-03-05T14:32:58.328Z"
+        },
+        {
+          "id": "3b760533-ae06-40e7-af50-da5387776bad",
+          "typeId": "home",
+          "loggedForDate": "2026-03-08",
+          "durationMin": 20,
+          "createdAt": "2026-03-09T06:52:41.115Z"
+        },
+        {
+          "id": "1ad01a2b-ef31-4a23-b699-345468f67e5b",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-06",
+          "durationMin": 34,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-09T06:53:17.973Z",
+          "distanceKm": 2.74,
+          "calorieOverride": 132
         }
       ]
     },
@@ -3187,6 +3222,18 @@
         {
           "date": "2026-03-04",
           "totalKrw": 30224635.809999995
+        },
+        {
+          "date": "2026-03-05",
+          "totalKrw": 31545679.279999997
+        },
+        {
+          "date": "2026-03-09",
+          "totalKrw": 30770542.075
+        },
+        {
+          "date": "2026-03-10",
+          "totalKrw": 31371227.849999998
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -3270,30 +3317,30 @@
           "id": "4a3df54b-7c2e-46d1-8d76-d00f5c3f97f6",
           "name": "생존 계획",
           "startMonth": "2026-03",
-          "endMonth": "2026-09",
+          "endMonth": "2026-12",
           "createdAt": 1772000156325,
           "planner": {
             "startMonth": "2026-03",
-            "projectionMonths": 7,
+            "projectionMonths": 10,
             "incomeMode": "MANUAL",
             "fixedSalary": 0,
             "manualIncome": [
-              1829000,
+              2690000,
+              2690000,
+              2690000,
+              1800000,
               0,
               1800000,
               1800000,
               1800000,
               1800000,
-              0,
-              0,
-              0,
               0,
               0,
               0
             ],
             "fixedExpense": 0,
             "variableExpense": 0,
-            "currentLiquidOverride": 861799,
+            "currentLiquidOverride": 425880,
             "allocations": [
               {
                 "id": "10d6423c-6d3a-4c19-82c0-42348a6309f1",
@@ -3310,9 +3357,9 @@
                   170000,
                   170000,
                   170000,
-                  0,
-                  0,
-                  0,
+                  170000,
+                  170000,
+                  170000,
                   0,
                   0
                 ]
@@ -3348,14 +3395,14 @@
                 "schedule": "PER_MONTH",
                 "perMonth": [
                   500000,
-                  0,
                   500000,
                   500000,
                   500000,
                   500000,
                   500000,
-                  0,
-                  0,
+                  500000,
+                  500000,
+                  500000,
                   0,
                   0,
                   0
@@ -3370,15 +3417,15 @@
                 "schedule": "PER_MONTH",
                 "perMonth": [
                   472000,
-                  467000,
-                  397000,
-                  485000,
-                  385000,
-                  485000,
-                  485000,
-                  0,
-                  0,
-                  0,
+                  700000,
+                  700000,
+                  700000,
+                  500000,
+                  500000,
+                  500000,
+                  500000,
+                  500000,
+                  500000,
                   0,
                   0
                 ]
@@ -3388,19 +3435,19 @@
                 "name": "여분 주식 투자",
                 "group": "Other",
                 "mode": "FIXED",
-                "amount": 200000,
-                "schedule": "ALL_MONTHS",
+                "amount": 0,
+                "schedule": "PER_MONTH",
                 "perMonth": [
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
+                  700000,
+                  1200000,
+                  1200000,
+                  700000,
+                  200000,
+                  200000,
+                  200000,
+                  200000,
+                  200000,
+                  200000,
                   0,
                   0
                 ]
@@ -8295,7 +8342,8 @@
           "AI",
           "Non AI",
           "Defensive Assets",
-          "Index"
+          "Index",
+          "Risky Assets"
         ],
         "sectors": [
           "AI Software",
@@ -8312,19 +8360,7 @@
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
-      "lifnux.finance.trades.v100": [
-        {
-          "id": "697c4b8b-1975-49c7-a1cb-6ad66f499062",
-          "accountId": "acc-kr-1",
-          "stockId": "auto-kr-138080",
-          "side": "SELL",
-          "price": 17730,
-          "qty": 10,
-          "executedAt": 1772593556730,
-          "realizedPnl": 18150,
-          "realizedPnlPercent": 11.404335532516493
-        }
-      ],
+      "lifnux.finance.trades.v100": [],
       "lifnux.finance.expense.categories.v1": [
         "Food",
         "Transport",
@@ -8806,30 +8842,94 @@
           "mktCapRank": 9999,
           "notes": "",
           "watchlisted": true
+        },
+        {
+          "id": "us-stock-ams:koru",
+          "label": "KORU",
+          "symbol": "AMS:KORU",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1772671493741,
+          "last": 267,
+          "changePct": -0.06,
+          "changeAbs": -0.1602,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "us-stock-nas:sqqq",
+          "label": "SQQQ",
+          "symbol": "NAS:SQQQ",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1773039700664,
+          "last": 412,
+          "changePct": 0.84,
+          "changeAbs": 3.4608,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "kr-stock-0162y0",
+          "label": "TIME 코스닥액티브",
+          "symbol": "0162Y0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1773123035598,
+          "last": 121348,
+          "changePct": 2.48,
+          "changeAbs": 3009.4303999999997,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "kr-stock-0163y0",
+          "label": "KoAct 코스닥액티브",
+          "symbol": "0163Y0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1773129034044,
+          "last": 122309,
+          "changePct": 0.09,
+          "changeAbs": 110.07809999999999,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
         "startMonth": "2026-03",
-        "projectionMonths": 7,
+        "projectionMonths": 10,
         "incomeMode": "MANUAL",
         "fixedSalary": 0,
         "manualIncome": [
-          1829000,
+          2690000,
+          2690000,
+          2690000,
+          1800000,
           0,
           1800000,
           1800000,
           1800000,
           1800000,
-          0,
-          0,
-          0,
           0,
           0,
           0
         ],
         "fixedExpense": 0,
         "variableExpense": 0,
-        "currentLiquidOverride": 861799,
+        "currentLiquidOverride": 425880,
         "allocations": [
           {
             "id": "10d6423c-6d3a-4c19-82c0-42348a6309f1",
@@ -8846,9 +8946,9 @@
               170000,
               170000,
               170000,
-              0,
-              0,
-              0,
+              170000,
+              170000,
+              170000,
               0,
               0
             ]
@@ -8884,14 +8984,14 @@
             "schedule": "PER_MONTH",
             "perMonth": [
               500000,
-              0,
               500000,
               500000,
               500000,
               500000,
               500000,
-              0,
-              0,
+              500000,
+              500000,
+              500000,
               0,
               0,
               0
@@ -8906,15 +9006,15 @@
             "schedule": "PER_MONTH",
             "perMonth": [
               472000,
-              467000,
-              397000,
-              485000,
-              385000,
-              485000,
-              485000,
-              0,
-              0,
-              0,
+              700000,
+              700000,
+              700000,
+              500000,
+              500000,
+              500000,
+              500000,
+              500000,
+              500000,
               0,
               0
             ]
@@ -8924,19 +9024,19 @@
             "name": "여분 주식 투자",
             "group": "Other",
             "mode": "FIXED",
-            "amount": 200000,
-            "schedule": "ALL_MONTHS",
+            "amount": 0,
+            "schedule": "PER_MONTH",
             "perMonth": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
+              700000,
+              1200000,
+              1200000,
+              700000,
+              200000,
+              200000,
+              200000,
+              200000,
+              200000,
+              200000,
               0,
               0
             ]
@@ -8978,18 +9078,6 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "c1da26b2-ec2a-4394-a8f5-d0c592a6c285",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-039490",
-          "symbolKey": "039490",
-          "avgPrice": 296500,
-          "qty": 3,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Financials",
-          "sectorMajorLabel": "Non AI"
-        },
-        {
           "id": "eceea89b-95c4-4a90-ad35-7b181be8f63c",
           "accountId": "acc-kr-1",
           "stockId": "kr-005930",
@@ -9000,18 +9088,6 @@
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
           "sectorMajorLabel": "AI"
-        },
-        {
-          "id": "53b5a17e-dacf-43d9-a789-75db9e71b4d6",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-102970",
-          "symbolKey": "102970",
-          "avgPrice": 18704,
-          "qty": 31,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Financials",
-          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "75db1e4d-4229-4bde-9ddc-ae38fd240d6d",
@@ -9030,7 +9106,7 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:pltr",
           "symbolKey": "NAS:PLTR",
-          "avgPrice": 112.80687499999999,
+          "avgPrice": 112.809,
           "qty": 10,
           "currency": "USD",
           "countryLabel": "US",
@@ -9043,7 +9119,7 @@
           "stockId": "us-nas:flnc",
           "symbolKey": "NAS:FLNC",
           "avgPrice": 26.06696,
-          "qty": 20,
+          "qty": 14,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Energy/Grid",
@@ -9203,24 +9279,12 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "e117e8d6-94da-4235-8e68-56500848e3e9",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-016360",
-          "symbolKey": "016360",
-          "avgPrice": 110300,
-          "qty": 3,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Financials",
-          "sectorMajorLabel": "Non AI"
-        },
-        {
           "id": "3a00a9ae-1617-4fbf-8045-822e97acfe5d",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-466920",
           "symbolKey": "466920",
-          "avgPrice": 38575,
-          "qty": 5,
+          "avgPrice": 36430,
+          "qty": 20,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Shipbuilding",
@@ -9237,6 +9301,30 @@
           "countryLabel": "KR",
           "sectorLabel": "Financials",
           "sectorMajorLabel": "Non AI"
+        },
+        {
+          "id": "0f7fd7f4-73d7-4bad-b081-61f9884c6c85",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-0072r0",
+          "symbolKey": "0072R0",
+          "avgPrice": 16110,
+          "qty": 65,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Defensive Assets",
+          "sectorLabel": "Alternative Asset"
+        },
+        {
+          "id": "6cfd693e-6569-4548-95a9-d43671e569da",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-0162y0",
+          "symbolKey": "0162Y0",
+          "avgPrice": 12170,
+          "qty": 30,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Index",
+          "sectorLabel": "Index"
         }
       ],
       "lifnux.finance.hub.reveal.v1": false,
@@ -10137,6 +10225,88 @@
           "amount": 3700,
           "kind": "income",
           "memo": "Korea플러스배당액티브"
+        },
+        {
+          "id": "34f35ed4-8ce0-4310-bafc-7d464bb91ddc",
+          "createdAt": 1773039234365,
+          "date": "2026-03-06",
+          "category": "Other",
+          "title": "Fun&Fun 회비",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "2eadcf82-29ec-4332-bf7b-59aec392752e",
+          "createdAt": 1773039248405,
+          "date": "2026-03-07",
+          "category": "Other",
+          "title": "일렉기타 레슨비",
+          "amount": 160000,
+          "kind": "expense"
+        },
+        {
+          "id": "a8e6bb10-bd97-4b4d-9018-915a6892057d",
+          "createdAt": 1773039266613,
+          "date": "2026-03-08",
+          "category": "Subscription",
+          "title": "카카오 이모티콘 플러스",
+          "amount": 3900,
+          "kind": "expense"
+        },
+        {
+          "id": "f7d7dfa2-51c4-4422-a4e6-87b5dd677974",
+          "createdAt": 1773039288312,
+          "date": "2026-03-08",
+          "category": "Snacks & Coffee",
+          "title": "레몬티 (메가커피)",
+          "amount": 3300,
+          "kind": "expense",
+          "memo": "Fun&Fun"
+        },
+        {
+          "id": "b7357eec-7617-40cf-9503-7ff3962cc770",
+          "createdAt": 1773039301936,
+          "date": "2026-03-08",
+          "category": "Shopping",
+          "title": "폰 케이스 (Castify)",
+          "amount": 89000,
+          "kind": "expense"
+        },
+        {
+          "id": "c969da32-4fe0-461c-8f76-c7c1b7c5ccc0",
+          "createdAt": 1773039313656,
+          "date": "2026-03-08",
+          "category": "Food",
+          "title": "롯데리아 (점심)",
+          "amount": 10000,
+          "kind": "expense"
+        },
+        {
+          "id": "278af759-1b75-431b-b416-e30b40e9dbe9",
+          "createdAt": 1773039329464,
+          "date": "2026-03-08",
+          "category": "Shopping",
+          "title": "폰 필름 + 그립톡",
+          "amount": 17000,
+          "kind": "expense"
+        },
+        {
+          "id": "84ef7e99-f7d6-4c90-8ff9-cd74beb18688",
+          "createdAt": 1773039358898,
+          "date": "2026-03-09",
+          "category": "Subscription",
+          "title": "쿠팡플레이",
+          "amount": 9900,
+          "kind": "expense"
+        },
+        {
+          "id": "c15e8c71-29fd-40fd-8c42-3c501c441007",
+          "createdAt": 1773104047598,
+          "date": "2026-03-10",
+          "category": "Wage",
+          "title": "2월 추가 급여",
+          "amount": 14870,
+          "kind": "income"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -10178,7 +10348,7 @@
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
         "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "e52d3f5c-2ea2-4165-8717-2622e2a9a8b6",
+        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
         "loopEnabled": true,
         "speed": 1,
         "shadowing": false,
@@ -10392,6 +10562,10 @@
         {
           "dateKey": "2026-03-03",
           "createdAt": 1772546925654
+        },
+        {
+          "dateKey": "2026-03-05",
+          "createdAt": 1772721482215
         }
       ],
       "lifnux:guitar:videos": [
@@ -10535,10 +10709,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 30224635.809999995,
-        "unrealizedPnlKrw": 2236369.0411717407,
-        "realizedPnlYtdKrw": 1592014.4746282606,
-        "updatedAt": 1772602077246
+        "totalValueKrw": 31371227.849999998,
+        "unrealizedPnlKrw": 3205448.7359217405,
+        "realizedPnlYtdKrw": 2093822.0760782606,
+        "updatedAt": 1773128943412
       }
     },
     "personalGrowth": {
@@ -11132,6 +11306,15 @@
           "labelId": "20f08160-d6eb-49ec-aed7-043408872d67",
           "location": "메가커피 석촌한솔점",
           "memo": ""
+        },
+        {
+          "id": "3f3b8ba3-3247-4e88-9176-311716b3f0dc",
+          "title": "Untitled",
+          "date": "2026-03-10",
+          "type": "DATE",
+          "importance": "LOW",
+          "location": "",
+          "memo": ""
         }
       ],
       "lifnux.calendar.holidays.v100": [
@@ -11168,6 +11351,13 @@
           "title": "대체공휴일",
           "date": "2026-03-02",
           "createdAt": 1769485888338,
+          "kind": "HOLIDAY"
+        },
+        {
+          "id": "0fb1d6d9-0e86-4589-b077-34b6e4d1a5fd",
+          "title": "연차",
+          "date": "2026-03-09",
+          "createdAt": 1772674345500,
           "kind": "HOLIDAY"
         }
       ],
@@ -16858,7 +17048,7 @@
           "level": "인턴",
           "salaryKRW": 37000000,
           "isCurrent": true,
-          "remainingPTO": 2.75,
+          "remainingPTO": 1.75,
           "notes": ""
         },
         {
@@ -16892,6 +17082,48 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "cf0db3bf-0473-4fff-af04-6c9740670170",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "슈퍼크리에이티브",
+          "postingTitle": "시장 및 경쟁 게임 분석 프로젝트 매니저",
+          "role": "PM",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "• 게임 시장 및 커뮤니티 리서치\n• 경쟁 서브컬쳐 게임 구조 및 BM 분석\n• 자사 게임 포지셔닝 전략 수립 및 인사이트 제안\n• 데이터 분석가 및 유관 조직과 협업하여 실행 가능한 인사이트 도출",
+          "requirements": "• 관련 경력 1년 이상\n\n• 라이브 서비스 게임 기획 또는 사업PM 경험이 있는 분\n\n• 서브컬쳐 장르 게임에 대한 이해도가 높은 분\n\n• 데이터 기반 사고 및 문제 해결 능력을 보유한 분\n• 논리적 문서화 및 구조화 능력을 보유한 분\n\n• 해외여행에 결격사유가 없는 분",
+          "neededSkills": "",
+          "preferred": "• 서브컬쳐 장르 헤비 유저 경험을 보유한 분\n• 데이터 설계 및 분석 요구사항 정의 경험을 보유한 분\n• SQL/Hive 등 로그 기반 데이터 구조에 대한 이해도가 높은 분\n• 사업PM 또는 라이브 프로젝트 리딩 경험이 있는 분\n• 다부서 협업을 통해 성과를 만든 경험이 있는 분\n• 에픽세븐 또는 카오스 제로 나이트메어 플레이 경험이 있는 분\n• 게임 커뮤니티에 자주 접속하는 분",
+          "memo": "본 포지션은 시장 해석 능력과 구조적 사고 역량을 중요하게 평가합니다.\n가능한 경우, 아래 과제 중 1개 이상을 선택하여 제출해 주세요. (미제출 하셔도 감점없으니 자유롭게 제출 바랍니다.)\n\n1. 서브컬쳐 시장 및 포지셔닝 분석\n• 특정 서브컬쳐 RPG 1개 이상을 선정하여 시장 내 포지션, 차별 요소, 경쟁 우위 구조를 분석해 주세요.\n\n2. 서브컬쳐 게임 구조 분석\n• 아래 게임 중 1개 이상을 선택하여 분석해 주세요. (예시 외 서브컬쳐 게임으로 진행하셔도 무방합니다.)\n(ex. 카제나, 에픽세븐, 명일방주, 원신, 붕괴:스타레일, 명조 등)\n• 분석 내용 예시\n: 코어 루프 구조, 성장 시스템 설계, 재화 순환 구조, BM 특징 등\n\n3. 개선 제안 과제\n• 대상 게임 : 카제나 또는 에픽세븐\n• 제안 방향 : \nLTV 및 PLC(제품 수명 주기) 증진을 위한 제품 개선안 또는 BM 강화 전략 제안\n\n\n ※ 단순 요약이 아닌 본인의 해석, 판단, 적용, 인사이트를 중요하게 평가합니다.\n    형식은 자유이며 기존 작성 자료 일부 발췌 제출도 가능합니다.",
+          "comment": "",
+          "deadline": null,
+          "importance": 8,
+          "isFavorite": true,
+          "link": "https://recruit.supercreative.kr/job_posting/bj4ABeJf",
+          "createdAt": "2026-03-05T14:16:29.676Z",
+          "updatedAt": "2026-03-05T14:16:34.597Z"
+        },
+        {
+          "postingId": "ad28e05a-f3b1-4ba4-8891-64d16e055893",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "코멧소프트",
+          "postingTitle": "PC/콘솔게임 퍼블리싱 어시스턴트",
+          "role": "사업지원",
+          "contractType": "계약직",
+          "departmentInfo": "",
+          "responsibilities": "• PC/콘솔 타이틀 퍼블리싱 사업 관리 보조\n• PC/콘솔 타이틀 관련 마케팅 업무 보조 (이미지 편집, 관리 등)\n• 플랫폼 등록, 운영 전반 및 모니터링 관리\n• 플랫폼 별 세일즈 데이터 정리 및 보고\n• 그 외 기타 전반적인 업무 보조",
+          "requirements": "• PC/콘솔 게임을 좋아하고 다양한 게임 플레이 경험이 많으신 분\n• Adobe 디자인 툴 (Photoshop, AI 등) 사용이 가능하신 분 (중급)\n• PC, Excel 등 Window 및 MS 오피스의 원활한 사용이 가능하신 분",
+          "neededSkills": "",
+          "preferred": "• Nintendo Switch, PlayStation, Steam 등 PC/콘솔 플랫폼에 대한 이해도가 있으신 분\n• 대내외 원활한 커뮤니케이션을 통해 협업이 가능하신 분\n• 아이디어와 계획을 문서로 가시화하여 정확히 표현하실 수 있는 분\n• 관련 업계 경험이 있으신 분\n• 일본어, 영어 가능자 우대",
+          "memo": "6개월 계약직 후 정규직 전환 검토",
+          "comment": "",
+          "deadline": "2026-03-25",
+          "importance": 5,
+          "isFavorite": false,
+          "link": "https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=53141113&view_type=list",
+          "createdAt": "2026-03-05T03:23:39.264Z",
+          "updatedAt": "2026-03-05T03:23:39.264Z"
+        },
+        {
           "postingId": "06090d63-fbb6-483f-92d0-426b261e5426",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "펄어비스",
@@ -16917,7 +17149,7 @@
           "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
           "companyName": "네이버웹툰",
           "postingTitle": "네이버웹툰 그로스 마케터",
-          "role": "6",
+          "role": "마케팅",
           "contractType": "인턴",
           "departmentInfo": "네이버웹툰 서비스 유저 퍼널 분석 및 CRM 운영 지원",
           "responsibilities": "- 웹툰/웹소설 콘텐츠를 좋아하고, 관련 콘텐츠 서비스 사용 경험이 풍부하신 분\n- 데이터를 기반으로 현상을 파악하고, 논리적인 사고를 통해 아이디어를 제안하실 수 있는 분\n- 엑셀 활용(피벗 테이블, 함수 등)에 거부감이 없고 기초적인 활용이 가능하신 분\n- 최소 3개월 동안 full-time 근무 가능하신 분 (근무 기간은 3~6개월로 협의 가능)",
@@ -16931,7 +17163,7 @@
           "isFavorite": true,
           "link": "https://recruit.navercorp.com/rcrt/view.do?annoId=30004610&lang=ko",
           "createdAt": "2026-02-27T14:23:09.527Z",
-          "updatedAt": "2026-02-27T14:23:12.232Z"
+          "updatedAt": "2026-03-10T02:50:09.349Z"
         },
         {
           "postingId": "96a9a89d-c80b-4a93-8bee-f59ba325fe75",
@@ -17410,11 +17642,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "Aq_gsctWHtQ",
-        "queueIndex": 39,
-        "currentTime": 79.67814482261657,
+        "videoId": "z2DASn4UHqE",
+        "queueIndex": 33,
+        "currentTime": 102.69677609727478,
         "repeatMode": "all",
-        "shuffle": false
+        "shuffle": true
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -17657,11 +17889,29 @@
             "videoId": "Aq_gsctWHtQ",
             "title": "[MV] 검정치마(The Black Skirts) - 'EVERYTHING'",
             "url": "https://youtu.be/Aq_gsctWHtQ?si=XDdhOCuEx7Bw0Oi4"
+          },
+          {
+            "id": "108e412a-d1be-4c0b-8cb7-7b3d8b701f52",
+            "videoId": "IpFX2vq8HKw",
+            "title": "yung kai - blue (official music video)",
+            "url": "https://youtu.be/IpFX2vq8HKw?si=35RalxHOqwUdPk5G"
+          },
+          {
+            "id": "8dfcc5a5-02aa-4219-a3a4-7f7b3ccca7dc",
+            "videoId": "IWYft_hOIgo",
+            "title": "실리카겔 (Silica Gel) - Desert Eagle [Performance Video]",
+            "url": "https://youtu.be/IWYft_hOIgo?si=-EQh6RnpiT2vtwXr"
+          },
+          {
+            "id": "0dc42e17-9bca-4ba7-b4f4-783c88c3f122",
+            "videoId": "NOXRroYA8Tc",
+            "title": "난 너만 사랑해서",
+            "url": "https://youtu.be/NOXRroYA8Tc?si=bGaOQ9mNOsKvvPw2"
           }
         ],
-        "currentIndex": 39,
+        "currentIndex": 33,
         "isPlaying": true,
-        "shuffle": false,
+        "shuffle": true,
         "repeatMode": "all",
         "presets": [
           {
@@ -17837,7 +18087,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 764559
+          "balance": 1067010
         },
         {
           "accountId": "acc-us-1",
@@ -17847,7 +18097,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 299.37
+          "balance": 362.88
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -18561,6 +18811,193 @@
           "realizedPnl": 18150,
           "realizedPnlPercent": 11.404335532516493,
           "costBasis": 159150
+        },
+        {
+          "id": "664b71df-4c52-4121-b0d0-c4b1e70da734",
+          "ts": 1772671456743,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:PLTR",
+          "side": "SELL",
+          "qty": 2,
+          "price": 143.57,
+          "realizedPnl": 61.526250000000005,
+          "realizedPnlPercent": 27.270611831060833,
+          "costBasis": 225.61374999999998
+        },
+        {
+          "id": "177c863c-8985-4e87-b30f-aadf314362bb",
+          "ts": 1772671475631,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "SELL",
+          "qty": 6,
+          "price": 15.6,
+          "realizedPnl": -62.801760000000016,
+          "realizedPnlPercent": -40.154126142826016,
+          "costBasis": 156.40176000000002
+        },
+        {
+          "id": "692695b6-eccb-48ec-880f-4e34f97c278f",
+          "ts": 1772671525729,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:KORU",
+          "side": "BUY",
+          "qty": 1,
+          "price": 383.59,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "2f146226-c714-4485-8850-2d1b879fa3dc",
+          "ts": 1772671797351,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "WITHDRAW",
+          "amount": 288
+        },
+        {
+          "id": "00681945-24c9-4c88-83df-7918d21a5324",
+          "ts": 1773039428334,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "016360",
+          "side": "SELL",
+          "qty": 3,
+          "price": 93900,
+          "realizedPnl": -49200,
+          "realizedPnlPercent": -14.86854034451496,
+          "costBasis": 330900
+        },
+        {
+          "id": "dda10e78-a1b8-4965-a7bc-f30e0acced15",
+          "ts": 1773039446910,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "039490",
+          "side": "SELL",
+          "qty": 3,
+          "price": 422500,
+          "realizedPnl": 378000,
+          "realizedPnlPercent": 42.49578414839797,
+          "costBasis": 889500
+        },
+        {
+          "id": "ec195613-3d17-4d1b-90af-41baf50bd5c3",
+          "ts": 1773039474071,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "102970",
+          "side": "SELL",
+          "qty": 31,
+          "price": 25846,
+          "realizedPnl": 221402,
+          "realizedPnlPercent": 38.18434559452524,
+          "costBasis": 579824
+        },
+        {
+          "id": "5779870c-e4e5-4796-917f-896ce718b3bc",
+          "ts": 1773039490118,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0072R0",
+          "side": "BUY",
+          "qty": 65,
+          "price": 16110,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "c1353599-043f-415a-be7c-ce10be02d734",
+          "ts": 1773039672569,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:KORU",
+          "side": "SELL",
+          "qty": 1,
+          "price": 342.08,
+          "realizedPnl": -41.50999999999999,
+          "realizedPnlPercent": -10.821449985661772,
+          "costBasis": 383.59
+        },
+        {
+          "id": "21c2f2d0-06e5-4698-bbda-1f07163d6ab5",
+          "ts": 1773039722633,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:SQQQ",
+          "side": "BUY",
+          "qty": 4,
+          "price": 70.43,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "0a3b4bec-83bf-4591-8b44-cf471df707ee",
+          "ts": 1773072476255,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:SQQQ",
+          "side": "SELL",
+          "qty": 4,
+          "price": 73.5,
+          "realizedPnl": 12.279999999999973,
+          "realizedPnlPercent": 4.358937952577016,
+          "costBasis": 281.72
+        },
+        {
+          "id": "d1c5c82a-d3f6-4cd4-a431-c16ffd8531ef",
+          "ts": 1773108383338,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "466920",
+          "side": "BUY",
+          "qty": 15,
+          "price": 35715,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "fe8faaec-dc0c-4b7d-80d2-e070ac67e6b8",
+          "ts": 1773117821319,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 100000,
+          "memo": "현금 확보"
+        },
+        {
+          "id": "d6f2ac3b-f6d9-4866-8a2a-93b6db4dba6d",
+          "ts": 1773123164051,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0162Y0",
+          "side": "BUY",
+          "qty": 30,
+          "price": 12170,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },
