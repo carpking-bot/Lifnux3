@@ -38,7 +38,7 @@ export function Playlist({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="lifnux-scroll mt-1 max-h-[52vh] space-y-2 overflow-y-auto overflow-x-hidden pr-1 lg:max-h-[480px]">
       {queue.map((item, index) => {
         const isEditing = editingId === item.id;
         const displayTitle = item.customTitle || item.title || item.videoId;

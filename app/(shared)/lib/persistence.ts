@@ -12,6 +12,7 @@ type LifnuxExport = {
 const EXPORT_VERSION = "1.0.0";
 const BACKUP_KEY = "lifnux:backup";
 const BACKUP_ENABLED_KEY = "lifnux:backup.enabled";
+const LOCAL_DATA_UPDATED_AT_KEY = "lifnux:data.lastUpdatedAt";
 const SYNC_EXACT_KEYS = new Set(["portfolio.positions", "investing.portfolio.performance.v1"]);
 const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music.", "career_"];
 
@@ -70,6 +71,14 @@ export function getBackupExport(): LifnuxExport | null {
   }
 }
 
+export function getLocalDataLastUpdatedAt(): string | null {
+  if (typeof window === "undefined") return null;
+  const backup = getBackupExport();
+  if (backup?.meta?.exportedAt) return backup.meta.exportedAt;
+  const direct = window.localStorage.getItem(LOCAL_DATA_UPDATED_AT_KEY);
+  return direct && direct.trim() ? direct : null;
+}
+
 export function downloadLifnuxExport({ useBackup = false }: { useBackup?: boolean } = {}) {
   if (typeof window === "undefined") return;
   const payload = useBackup && isAutoBackupEnabled() ? getBackupExport() ?? buildLifnuxExport() : buildLifnuxExport();
@@ -108,6 +117,12 @@ export function importLifnuxExport(payload: LifnuxExport) {
       }
     });
   });
+  const updatedAt = payload?.meta?.exportedAt ?? new Date().toISOString();
+  try {
+    window.localStorage.setItem(LOCAL_DATA_UPDATED_AT_KEY, updatedAt);
+  } catch {
+    // Ignore if local storage is blocked.
+  }
 }
 
 export function isAutoBackupEnabled() {
