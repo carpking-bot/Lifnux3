@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-05T15:27:54.093Z"
+    "exportedAt": "2026-03-11T09:08:02.384Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "KpM6xNAgRoI",
+        "trackId": "QIlzgNozXKw",
         "volume": 80,
-        "position": 0
+        "position": 156.56321418692016
       }
     },
     "health": {
@@ -3120,6 +3120,50 @@
           "durationMin": 50,
           "memo": "수영 17회차\n3월 초라 신규 회원들 많이있더라 8ㅅ8",
           "createdAt": "2026-03-05T14:32:58.328Z"
+        },
+        {
+          "id": "3b760533-ae06-40e7-af50-da5387776bad",
+          "typeId": "home",
+          "loggedForDate": "2026-03-08",
+          "durationMin": 20,
+          "createdAt": "2026-03-09T06:52:41.115Z"
+        },
+        {
+          "id": "1ad01a2b-ef31-4a23-b699-345468f67e5b",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-06",
+          "durationMin": 34,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-09T06:53:17.973Z",
+          "distanceKm": 2.74,
+          "calorieOverride": 132
+        },
+        {
+          "id": "e6a8cb4d-58a1-4b3f-9cd2-a69d42fabf30",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-10",
+          "durationMin": 33,
+          "createdAt": "2026-03-10T14:05:27.780Z",
+          "distanceKm": 2.83,
+          "calorieOverride": 111
+        },
+        {
+          "id": "cef54ca8-312d-463a-ae0d-431477ae4d4c",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-10",
+          "durationMin": 50,
+          "memo": "수영 18회차\n수영 발차기는 눌러주면서 차야한다.",
+          "createdAt": "2026-03-10T14:05:53.293Z"
+        },
+        {
+          "id": "3105eb05-f36b-4c59-b8a9-cd90622f0bb2",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-11",
+          "durationMin": 37,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-11T05:06:40.058Z",
+          "distanceKm": 3,
+          "calorieOverride": 119
         }
       ]
     },
@@ -3209,10 +3253,22 @@
         {
           "date": "2026-03-05",
           "totalKrw": 31545679.279999997
+        },
+        {
+          "date": "2026-03-09",
+          "totalKrw": 30770542.075
+        },
+        {
+          "date": "2026-03-10",
+          "totalKrw": 31388027.328
+        },
+        {
+          "date": "2026-03-11",
+          "totalKrw": 31535066.900000002
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -3292,30 +3348,30 @@
           "id": "4a3df54b-7c2e-46d1-8d76-d00f5c3f97f6",
           "name": "생존 계획",
           "startMonth": "2026-03",
-          "endMonth": "2026-09",
+          "endMonth": "2026-12",
           "createdAt": 1772000156325,
           "planner": {
             "startMonth": "2026-03",
-            "projectionMonths": 7,
+            "projectionMonths": 10,
             "incomeMode": "MANUAL",
             "fixedSalary": 0,
             "manualIncome": [
-              1829000,
+              2690000,
+              2690000,
+              2690000,
+              1800000,
               0,
               1800000,
               1800000,
               1800000,
               1800000,
-              0,
-              0,
-              0,
               0,
               0,
               0
             ],
             "fixedExpense": 0,
             "variableExpense": 0,
-            "currentLiquidOverride": 861799,
+            "currentLiquidOverride": 168132,
             "allocations": [
               {
                 "id": "10d6423c-6d3a-4c19-82c0-42348a6309f1",
@@ -3332,9 +3388,9 @@
                   170000,
                   170000,
                   170000,
-                  0,
-                  0,
-                  0,
+                  170000,
+                  170000,
+                  170000,
                   0,
                   0
                 ]
@@ -3347,7 +3403,7 @@
                 "amount": 500000,
                 "schedule": "PER_MONTH",
                 "perMonth": [
-                  361151,
+                  101493,
                   75976,
                   75976,
                   0,
@@ -3370,14 +3426,14 @@
                 "schedule": "PER_MONTH",
                 "perMonth": [
                   500000,
-                  0,
                   500000,
                   500000,
                   500000,
                   500000,
                   500000,
-                  0,
-                  0,
+                  500000,
+                  500000,
+                  500000,
                   0,
                   0,
                   0
@@ -3392,15 +3448,15 @@
                 "schedule": "PER_MONTH",
                 "perMonth": [
                   472000,
-                  467000,
-                  397000,
-                  485000,
-                  385000,
-                  485000,
-                  485000,
-                  0,
-                  0,
-                  0,
+                  700000,
+                  700000,
+                  700000,
+                  500000,
+                  500000,
+                  500000,
+                  500000,
+                  500000,
+                  500000,
                   0,
                   0
                 ]
@@ -3410,19 +3466,19 @@
                 "name": "여분 주식 투자",
                 "group": "Other",
                 "mode": "FIXED",
-                "amount": 200000,
-                "schedule": "ALL_MONTHS",
+                "amount": 0,
+                "schedule": "PER_MONTH",
                 "perMonth": [
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
+                  700000,
+                  1200000,
+                  1200000,
+                  700000,
+                  200000,
+                  200000,
+                  200000,
+                  200000,
+                  200000,
+                  200000,
                   0,
                   0
                 ]
@@ -8353,7 +8409,6 @@
         "Interest",
         "Dividends"
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -8368,6 +8423,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "us-aapl",
@@ -8833,30 +8889,78 @@
           "mktCapRank": 9999,
           "notes": "",
           "watchlisted": true
+        },
+        {
+          "id": "us-stock-nas:sqqq",
+          "label": "SQQQ",
+          "symbol": "NAS:SQQQ",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1773039700664,
+          "last": 412,
+          "changePct": 0.84,
+          "changeAbs": 3.4608,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "kr-stock-0162y0",
+          "label": "TIME 코스닥액티브",
+          "symbol": "0162Y0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1773123035598,
+          "last": 121348,
+          "changePct": 2.48,
+          "changeAbs": 3009.4303999999997,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "kr-stock-0163y0",
+          "label": "KoAct 코스닥액티브",
+          "symbol": "0163Y0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1773129034044,
+          "last": 122309,
+          "changePct": 0.09,
+          "changeAbs": 110.07809999999999,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
         "startMonth": "2026-03",
-        "projectionMonths": 7,
+        "projectionMonths": 10,
         "incomeMode": "MANUAL",
         "fixedSalary": 0,
         "manualIncome": [
-          1829000,
+          2690000,
+          2690000,
+          2690000,
+          1800000,
           0,
           1800000,
           1800000,
           1800000,
           1800000,
-          0,
-          0,
-          0,
           0,
           0,
           0
         ],
         "fixedExpense": 0,
         "variableExpense": 0,
-        "currentLiquidOverride": 861799,
+        "currentLiquidOverride": 168132,
         "allocations": [
           {
             "id": "10d6423c-6d3a-4c19-82c0-42348a6309f1",
@@ -8873,9 +8977,9 @@
               170000,
               170000,
               170000,
-              0,
-              0,
-              0,
+              170000,
+              170000,
+              170000,
               0,
               0
             ]
@@ -8888,7 +8992,7 @@
             "amount": 500000,
             "schedule": "PER_MONTH",
             "perMonth": [
-              361151,
+              101493,
               75976,
               75976,
               0,
@@ -8911,14 +9015,14 @@
             "schedule": "PER_MONTH",
             "perMonth": [
               500000,
-              0,
               500000,
               500000,
               500000,
               500000,
               500000,
-              0,
-              0,
+              500000,
+              500000,
+              500000,
               0,
               0,
               0
@@ -8933,15 +9037,15 @@
             "schedule": "PER_MONTH",
             "perMonth": [
               472000,
-              467000,
-              397000,
-              485000,
-              385000,
-              485000,
-              485000,
-              0,
-              0,
-              0,
+              700000,
+              700000,
+              700000,
+              500000,
+              500000,
+              500000,
+              500000,
+              500000,
+              500000,
               0,
               0
             ]
@@ -8951,19 +9055,19 @@
             "name": "여분 주식 투자",
             "group": "Other",
             "mode": "FIXED",
-            "amount": 200000,
-            "schedule": "ALL_MONTHS",
+            "amount": 0,
+            "schedule": "PER_MONTH",
             "perMonth": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
+              700000,
+              1200000,
+              1200000,
+              700000,
+              200000,
+              200000,
+              200000,
+              200000,
+              200000,
+              200000,
               0,
               0
             ]
@@ -9005,18 +9109,6 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "c1da26b2-ec2a-4394-a8f5-d0c592a6c285",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-039490",
-          "symbolKey": "039490",
-          "avgPrice": 296500,
-          "qty": 3,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Financials",
-          "sectorMajorLabel": "Non AI"
-        },
-        {
           "id": "eceea89b-95c4-4a90-ad35-7b181be8f63c",
           "accountId": "acc-kr-1",
           "stockId": "kr-005930",
@@ -9027,18 +9119,6 @@
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
           "sectorMajorLabel": "AI"
-        },
-        {
-          "id": "53b5a17e-dacf-43d9-a789-75db9e71b4d6",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-102970",
-          "symbolKey": "102970",
-          "avgPrice": 18704,
-          "qty": 31,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Financials",
-          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "75db1e4d-4229-4bde-9ddc-ae38fd240d6d",
@@ -9230,24 +9310,12 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "e117e8d6-94da-4235-8e68-56500848e3e9",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-016360",
-          "symbolKey": "016360",
-          "avgPrice": 110300,
-          "qty": 3,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Financials",
-          "sectorMajorLabel": "Non AI"
-        },
-        {
           "id": "3a00a9ae-1617-4fbf-8045-822e97acfe5d",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-466920",
           "symbolKey": "466920",
-          "avgPrice": 38575,
-          "qty": 5,
+          "avgPrice": 36430,
+          "qty": 20,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Shipbuilding",
@@ -9266,15 +9334,27 @@
           "sectorMajorLabel": "Non AI"
         },
         {
-          "id": "e815e5be-0216-423c-b589-508c2ac56a22",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-stock-ams:koru",
-          "symbolKey": "AMS:KORU",
-          "avgPrice": 383.59,
-          "qty": 1,
-          "currency": "USD",
+          "id": "0f7fd7f4-73d7-4bad-b081-61f9884c6c85",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-0072r0",
+          "symbolKey": "0072R0",
+          "avgPrice": 16110,
+          "qty": 65,
+          "currency": "KRW",
           "countryLabel": "KR",
-          "sectorMajorLabel": "Risky Assets",
+          "sectorMajorLabel": "Defensive Assets",
+          "sectorLabel": "Alternative Asset"
+        },
+        {
+          "id": "6cfd693e-6569-4548-95a9-d43671e569da",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-0162y0",
+          "symbolKey": "0162Y0",
+          "avgPrice": 12170,
+          "qty": 30,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Index",
           "sectorLabel": "Index"
         }
       ],
@@ -10176,6 +10256,133 @@
           "amount": 3700,
           "kind": "income",
           "memo": "Korea플러스배당액티브"
+        },
+        {
+          "id": "34f35ed4-8ce0-4310-bafc-7d464bb91ddc",
+          "createdAt": 1773039234365,
+          "date": "2026-03-06",
+          "category": "Other",
+          "title": "Fun&Fun 회비",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "2eadcf82-29ec-4332-bf7b-59aec392752e",
+          "createdAt": 1773039248405,
+          "date": "2026-03-07",
+          "category": "Other",
+          "title": "일렉기타 레슨비",
+          "amount": 160000,
+          "kind": "expense"
+        },
+        {
+          "id": "a8e6bb10-bd97-4b4d-9018-915a6892057d",
+          "createdAt": 1773039266613,
+          "date": "2026-03-08",
+          "category": "Subscription",
+          "title": "카카오 이모티콘 플러스",
+          "amount": 3900,
+          "kind": "expense"
+        },
+        {
+          "id": "f7d7dfa2-51c4-4422-a4e6-87b5dd677974",
+          "createdAt": 1773039288312,
+          "date": "2026-03-08",
+          "category": "Snacks & Coffee",
+          "title": "레몬티 (메가커피)",
+          "amount": 3300,
+          "kind": "expense",
+          "memo": "Fun&Fun"
+        },
+        {
+          "id": "b7357eec-7617-40cf-9503-7ff3962cc770",
+          "createdAt": 1773039301936,
+          "date": "2026-03-08",
+          "category": "Shopping",
+          "title": "폰 케이스 (Castify)",
+          "amount": 89000,
+          "kind": "expense"
+        },
+        {
+          "id": "c969da32-4fe0-461c-8f76-c7c1b7c5ccc0",
+          "createdAt": 1773039313656,
+          "date": "2026-03-08",
+          "category": "Food",
+          "title": "롯데리아 (점심)",
+          "amount": 10000,
+          "kind": "expense"
+        },
+        {
+          "id": "278af759-1b75-431b-b416-e30b40e9dbe9",
+          "createdAt": 1773039329464,
+          "date": "2026-03-08",
+          "category": "Shopping",
+          "title": "폰 필름 + 그립톡",
+          "amount": 17000,
+          "kind": "expense"
+        },
+        {
+          "id": "84ef7e99-f7d6-4c90-8ff9-cd74beb18688",
+          "createdAt": 1773039358898,
+          "date": "2026-03-09",
+          "category": "Subscription",
+          "title": "쿠팡플레이",
+          "amount": 9900,
+          "kind": "expense"
+        },
+        {
+          "id": "c15e8c71-29fd-40fd-8c42-3c501c441007",
+          "createdAt": 1773104047598,
+          "date": "2026-03-10",
+          "category": "Wage",
+          "title": "2월 추가 급여",
+          "amount": 14870,
+          "kind": "income"
+        },
+        {
+          "id": "ed8a3f15-2e0d-4c28-ad78-e614209de9e1",
+          "createdAt": 1773206435037,
+          "date": "2026-03-11",
+          "category": "Transport",
+          "title": "카카오바이크 패스",
+          "amount": 38900,
+          "kind": "expense"
+        },
+        {
+          "id": "58e0c808-4b69-45bc-aa3a-f6e71bc14406",
+          "createdAt": 1773206448661,
+          "date": "2026-03-11",
+          "category": "Transport",
+          "title": "2월 교통비",
+          "amount": 90700,
+          "kind": "expense"
+        },
+        {
+          "id": "34be3e0b-044b-40f6-88ba-718c9e27897c",
+          "createdAt": 1773206485045,
+          "date": "2026-03-11",
+          "category": "Other",
+          "title": "체크카드 환급",
+          "amount": 500,
+          "kind": "income"
+        },
+        {
+          "id": "7a31ce39-92a0-484e-bff5-66a0e2dd8d4e",
+          "createdAt": 1773206506629,
+          "date": "2026-03-10",
+          "category": "Subscription",
+          "title": "쿠팡와우",
+          "amount": 7890,
+          "kind": "expense"
+        },
+        {
+          "id": "adb4ba62-92a5-42b9-8cb1-05c74353856d",
+          "createdAt": 1773206551637,
+          "date": "2026-03-11",
+          "category": "Subscription",
+          "title": "스포티비",
+          "amount": 9900,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -10217,8 +10424,10 @@
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
         "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "e52d3f5c-2ea2-4165-8717-2622e2a9a8b6",
+        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
         "loopEnabled": true,
+        "aSec": 0,
+        "bSec": 76,
         "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-02-28T15:00:00.000Z"
@@ -10286,13 +10495,27 @@
           "endSec": 165,
           "speed": 0.75,
           "createdAt": 1771944165214
+        },
+        {
+          "id": "c40b271a-b097-481b-b175-6e3a218f6585",
+          "videoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
+          "name": "Part 6~7",
+          "startSec": 163,
+          "endSec": 200,
+          "speed": 0.85,
+          "createdAt": 1773156884129
+        },
+        {
+          "id": "c3034ab1-69bb-4a08-86bd-fa42f39b9d77",
+          "videoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+          "name": "Part 1",
+          "startSec": 0,
+          "endSec": 76,
+          "speed": 1,
+          "createdAt": 1773158259445
         }
       ],
       "lifnux.guitar.attendance.v100": [],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -10339,8 +10562,19 @@
           "artist": "Oasis",
           "difficulty": 2,
           "createdAt": 1769952552228
+        },
+        {
+          "id": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
+          "title": "Desert Eagle",
+          "artist": "실리카겔",
+          "difficulty": 4,
+          "createdAt": 1773157984491
         }
       ],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -10435,6 +10669,18 @@
         {
           "dateKey": "2026-03-05",
           "createdAt": 1772721482215
+        },
+        {
+          "dateKey": "2026-03-10",
+          "createdAt": 1773155423465
+        },
+        {
+          "dateKey": "2026-03-07",
+          "createdAt": 1773155425193
+        },
+        {
+          "dateKey": "2026-03-08",
+          "createdAt": 1773155425601
         }
       ],
       "lifnux:guitar:videos": [
@@ -10573,19 +10819,43 @@
           "kind": "TAB",
           "youtubeTitle": "[TAB] 리도어(Redoor) - 사랑의 미학 Guitar Cover 기타 커버 | 타브악보 | Score",
           "createdAt": 1770645675896
+        },
+        {
+          "id": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+          "songId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
+          "youtubeId": "SZvwGzl-tEE",
+          "kind": "TAB",
+          "customTitle": "[Tab] Desert Eagle",
+          "youtubeTitle": "Desert Eagle - 실리카겔 (Silica Gel) [Guitar Cover]",
+          "createdAt": 1773158011880
+        },
+        {
+          "id": "507132c5-fdb8-40b6-a4cf-f9416dc5c989",
+          "songId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
+          "youtubeId": "ZhJ-Qbbpd-4",
+          "kind": "BACKING",
+          "customTitle": "[Backing] Desert Eagle",
+          "youtubeTitle": "실리카겔 - 데저트이글 백킹트랙, 기타제거, 기타연습",
+          "createdAt": 1773158040055
         }
       ]
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31545679.279999997,
-        "unrealizedPnlKrw": 3761852.1954017356,
-        "realizedPnlYtdKrw": 1587132.6669982607,
-        "updatedAt": 1772700467077
+        "totalValueKrw": 31535066.900000002,
+        "unrealizedPnlKrw": 3469287.785921745,
+        "realizedPnlYtdKrw": 2093822.0760782606,
+        "updatedAt": 1773206285885
       }
     },
     "personalGrowth": {
-      "lifnux.personalGrowth.weeklyChecklist.v1": [],
+      "lifnux.personalGrowth.weeklyChecklist.v1": [
+        {
+          "goalId": "158993f3-1c09-4a59-b4ba-eba3a3e550bb",
+          "weekKey": "2026-03-09",
+          "checkedItemIds": []
+        }
+      ],
       "lifnux.personalGrowth.goals.v2": [
         {
           "id": "f828f530-b269-4bce-b392-8a48c38dc6df",
@@ -10667,7 +10937,7 @@
           "notes": "",
           "links": [],
           "importance": "LOW",
-          "status": "PROGRESSING",
+          "status": "DONE",
           "goalType": "CHECKLIST",
           "trackingMode": "MANUAL",
           "displayMode": "TARGET",
@@ -10910,6 +11180,20 @@
           "loggedForDate": "2026-02-28",
           "summary": "3~12월 매월 +209만원씩 증가",
           "createdAt": "2026-02-28T16:43:10.909Z"
+        },
+        {
+          "id": "0ebf737d-927b-4295-bf82-1692afe6b8e2",
+          "goalId": "158993f3-1c09-4a59-b4ba-eba3a3e550bb",
+          "loggedForDate": "2026-03-11",
+          "summary": "Status changed: PROGRESSING -> DONE",
+          "createdAt": "2026-03-11T05:28:16.015Z"
+        },
+        {
+          "id": "fbc4a389-0c05-423a-bdd0-f8fc651847fb",
+          "goalId": "158993f3-1c09-4a59-b4ba-eba3a3e550bb",
+          "loggedForDate": "2026-03-11",
+          "summary": "2026.01.14 ~ 2026.03.11 6개 기본 앱 및 2개 추가앱 구현 완료",
+          "createdAt": "2026-03-11T05:29:07.031Z"
         }
       ],
       "lifnux.personalGrowth.seeded.v1": true,
@@ -17018,7 +17302,7 @@
           "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
           "companyName": "네이버웹툰",
           "postingTitle": "네이버웹툰 그로스 마케터",
-          "role": "6",
+          "role": "마케팅",
           "contractType": "인턴",
           "departmentInfo": "네이버웹툰 서비스 유저 퍼널 분석 및 CRM 운영 지원",
           "responsibilities": "- 웹툰/웹소설 콘텐츠를 좋아하고, 관련 콘텐츠 서비스 사용 경험이 풍부하신 분\n- 데이터를 기반으로 현상을 파악하고, 논리적인 사고를 통해 아이디어를 제안하실 수 있는 분\n- 엑셀 활용(피벗 테이블, 함수 등)에 거부감이 없고 기초적인 활용이 가능하신 분\n- 최소 3개월 동안 full-time 근무 가능하신 분 (근무 기간은 3~6개월로 협의 가능)",
@@ -17032,7 +17316,7 @@
           "isFavorite": true,
           "link": "https://recruit.navercorp.com/rcrt/view.do?annoId=30004610&lang=ko",
           "createdAt": "2026-02-27T14:23:09.527Z",
-          "updatedAt": "2026-02-27T14:23:12.232Z"
+          "updatedAt": "2026-03-10T02:50:09.349Z"
         },
         {
           "postingId": "96a9a89d-c80b-4a93-8bee-f59ba325fe75",
@@ -17511,11 +17795,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "KpM6xNAgRoI",
-        "queueIndex": 3,
-        "currentTime": 0,
+        "videoId": "QIlzgNozXKw",
+        "queueIndex": 32,
+        "currentTime": 156.56321418692016,
         "repeatMode": "all",
-        "shuffle": false
+        "shuffle": true
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -17758,9 +18042,34 @@
             "videoId": "Aq_gsctWHtQ",
             "title": "[MV] 검정치마(The Black Skirts) - 'EVERYTHING'",
             "url": "https://youtu.be/Aq_gsctWHtQ?si=XDdhOCuEx7Bw0Oi4"
+          },
+          {
+            "id": "108e412a-d1be-4c0b-8cb7-7b3d8b701f52",
+            "videoId": "IpFX2vq8HKw",
+            "title": "yung kai - blue (official music video)",
+            "url": "https://youtu.be/IpFX2vq8HKw?si=35RalxHOqwUdPk5G"
+          },
+          {
+            "id": "8dfcc5a5-02aa-4219-a3a4-7f7b3ccca7dc",
+            "videoId": "IWYft_hOIgo",
+            "title": "실리카겔 (Silica Gel) - Desert Eagle [Performance Video]",
+            "url": "https://youtu.be/IWYft_hOIgo?si=-EQh6RnpiT2vtwXr"
+          },
+          {
+            "id": "0dc42e17-9bca-4ba7-b4f4-783c88c3f122",
+            "videoId": "NOXRroYA8Tc",
+            "title": "난 너만 사랑해서",
+            "url": "https://youtu.be/NOXRroYA8Tc?si=bGaOQ9mNOsKvvPw2",
+            "customTitle": "김결 - 난 너만 사랑해서"
+          },
+          {
+            "id": "6b150717-d364-4739-aa97-a22ae7c74715",
+            "videoId": "aF8OFSroHgg",
+            "title": "PUBLIC ENEMY (Feat. Roh Yun Ha, Wuuslime) (PUBLIC ENEMY (Feat. 노윤하, Wuuslime))",
+            "url": "https://youtu.be/aF8OFSroHgg?si=GIct5ktJ8p8zXr_k"
           }
         ],
-        "currentIndex": 9,
+        "currentIndex": 32,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -17787,7 +18096,32 @@
               "https://youtu.be/Kv-Aqwttwzo?si=wpyjrTj51Sfphht6",
               "https://youtu.be/7mjg-7ibaQA?si=c75zUeHZojKI7ikS",
               "https://youtu.be/0fN71Wtgoa8?si=GY7Pe5dCrcGTMJf8",
-              "https://youtu.be/9XttLI0oH0I?si=uOryePt9elLflXum"
+              "https://youtu.be/9XttLI0oH0I?si=uOryePt9elLflXum",
+              "https://youtu.be/1ZX1vEDTfY4?si=6YJq4Iz71SZf4p7u",
+              "https://youtu.be/_AAdae7diOU?si=dwrxJsc1D7G9LNBH",
+              "https://youtu.be/aZtZNW6P97E?si=OIwsP3o3tuWYUXPz",
+              "https://youtu.be/IPnUVZEyzdI?si=dWMmNvCDLmLl1LVq",
+              "https://youtu.be/oyXx7MDqZ-Q?si=x9NgZgPJZjQdxgpT",
+              "https://youtu.be/LmZD-TU96q4?si=U1SPgyyB1Uvk75Jh",
+              "https://youtu.be/-tKVN2mAKRI?si=BVfJXf-PDjp41zPR",
+              "https://youtu.be/rMWUpRGtSo4?si=erWFJRhJfrvPooOp",
+              "https://youtu.be/tq9Y62uJUfU?si=xoL6PlkWmdfo9uS_",
+              "https://youtu.be/aLTtvgXMZyA?si=sVpYnZsmIreQZf_S",
+              "https://youtu.be/_0f5FjEQzsg?si=w9xIsRmKGmD0lHpk",
+              "https://youtu.be/FCsLikmxhV0?si=ajRHKi8nGTp1gdur",
+              "https://youtu.be/lOrU0MH0bMk?si=nulneR7Bd8KpP45u",
+              "https://youtu.be/QIlzgNozXKw?si=ujfJtGYMf3mXxKUf",
+              "https://youtu.be/z2DASn4UHqE?si=kBGPHtG6oJDnsZez",
+              "https://youtu.be/m3DZsBw5bnE?si=39jhAFRopnJWta2F",
+              "https://youtu.be/56XiKr44a9U?si=D1YnxCKngdlBUvrN",
+              "https://youtu.be/AOGhUcAdTKk?si=sV2c67E2ZbeWq35u",
+              "https://youtu.be/Z2tv0GyQdL8?si=2MY-G7-tG3HyrIM6",
+              "https://youtu.be/74_yqNBhQbA?si=cP5wjVq1ZhXpZH0J",
+              "https://youtu.be/Aq_gsctWHtQ?si=XDdhOCuEx7Bw0Oi4",
+              "https://youtu.be/IpFX2vq8HKw?si=35RalxHOqwUdPk5G",
+              "https://youtu.be/IWYft_hOIgo?si=-EQh6RnpiT2vtwXr",
+              "https://youtu.be/NOXRroYA8Tc?si=bGaOQ9mNOsKvvPw2",
+              "https://youtu.be/aF8OFSroHgg?si=GIct5ktJ8p8zXr_k"
             ],
             "tracks": [
               {
@@ -17903,6 +18237,157 @@
                 "videoId": "9XttLI0oH0I",
                 "title": "RESCENE (리센느) ‘LOVE ATTACK’ Official M/V",
                 "url": "https://youtu.be/9XttLI0oH0I?si=uOryePt9elLflXum"
+              },
+              {
+                "id": "ed69c9e0-f994-4c73-bfa4-82ad0b5c06b1",
+                "videoId": "1ZX1vEDTfY4",
+                "title": "FIFTY FIFTY (피프티피프티) 'Pookie' Official MV",
+                "url": "https://youtu.be/1ZX1vEDTfY4?si=6YJq4Iz71SZf4p7u"
+              },
+              {
+                "id": "cf285b52-4763-4e82-984a-5b892cc68af1",
+                "videoId": "_AAdae7diOU",
+                "title": "I Really Want To Stay At Your House | EPIC EMOTIONAL COVER (feat. @lorien_lra)",
+                "url": "https://youtu.be/_AAdae7diOU?si=dwrxJsc1D7G9LNBH"
+              },
+              {
+                "id": "77959e30-9100-4405-9adc-6b352a149f67",
+                "videoId": "aZtZNW6P97E",
+                "title": "《이 별에 필요한 - Lost in Starlight》 메인 OST 'Bon Voyage'와 함께하는 감성 뮤직비디오(MV) 🎶｜KT x 넷플릭스",
+                "url": "https://youtu.be/aZtZNW6P97E?si=OIwsP3o3tuWYUXPz"
+              },
+              {
+                "id": "aa9ab9a9-204a-43b0-9303-98b2985545e3",
+                "videoId": "IPnUVZEyzdI",
+                "title": "[자막] 녹황색사회(緑黄色社会) - Mela! 라이브 live",
+                "url": "https://youtu.be/IPnUVZEyzdI?si=dWMmNvCDLmLl1LVq"
+              },
+              {
+                "id": "e9460a61-08cf-49d1-8fad-b8bdecee3a0c",
+                "videoId": "oyXx7MDqZ-Q",
+                "title": "ZICO, Crush - 'Yin and Yang (FANXY CHILD Ver.)(Feat. DEAN, PENOMECO)' Visualizer",
+                "url": "https://youtu.be/oyXx7MDqZ-Q?si=x9NgZgPJZjQdxgpT"
+              },
+              {
+                "id": "21ecd60a-9429-47ec-9e7b-fc76455a36dc",
+                "videoId": "LmZD-TU96q4",
+                "title": "米津玄師  Kenshi Yonezu - IRIS OUT",
+                "url": "https://youtu.be/LmZD-TU96q4?si=U1SPgyyB1Uvk75Jh"
+              },
+              {
+                "id": "c1958699-d7f6-4b40-986b-478f2350bb4a",
+                "videoId": "-tKVN2mAKRI",
+                "title": "DAOKO × 米津玄師『打上花火』MUSIC VIDEO",
+                "url": "https://youtu.be/-tKVN2mAKRI?si=BVfJXf-PDjp41zPR"
+              },
+              {
+                "id": "056b8f8f-3433-492b-ba96-8001ae16aaab",
+                "videoId": "rMWUpRGtSo4",
+                "title": "아이묭 (Aimyon, あいみょん) – 3636 가사 번역 뮤직비디오",
+                "url": "https://youtu.be/rMWUpRGtSo4?si=erWFJRhJfrvPooOp"
+              },
+              {
+                "id": "1cb64fab-1b70-4185-8216-c28adfb68b5a",
+                "videoId": "tq9Y62uJUfU",
+                "title": "아이묭 (Aimyon, あいみょん) - Marigold (マリーゴールド) 가사 번역 뮤직비디오",
+                "url": "https://youtu.be/tq9Y62uJUfU?si=xoL6PlkWmdfo9uS_"
+              },
+              {
+                "id": "2637c533-0342-406e-936b-0e823a403cd1",
+                "videoId": "aLTtvgXMZyA",
+                "title": "아이묭 (Aimyon, あいみょん) - 사랑을 전하고 싶다든가 (愛を伝えたいだとか) 가사 번역 뮤직비디오",
+                "url": "https://youtu.be/aLTtvgXMZyA?si=sVpYnZsmIreQZf_S"
+              },
+              {
+                "id": "2fbc86fb-926d-42c7-a1d5-7ed7663c3999",
+                "videoId": "_0f5FjEQzsg",
+                "title": "Hebi - '늘 (EVER)' Official MV",
+                "url": "https://youtu.be/_0f5FjEQzsg?si=w9xIsRmKGmD0lHpk"
+              },
+              {
+                "id": "a96cc448-cd2d-4fbd-99a9-d38df5ebc151",
+                "videoId": "FCsLikmxhV0",
+                "title": "Epik High (에픽하이) - Rosario ft. CL, ZICO Official MV",
+                "url": "https://youtu.be/FCsLikmxhV0?si=ajRHKi8nGTp1gdur"
+              },
+              {
+                "id": "cadcaabb-5728-416f-951a-a258b1624f76",
+                "videoId": "lOrU0MH0bMk",
+                "title": "창모 (CHANGMO) - METEOR [Official Music Video] (ENG/JPN)",
+                "url": "https://youtu.be/lOrU0MH0bMk?si=nulneR7Bd8KpP45u"
+              },
+              {
+                "id": "d077f2dd-746b-45e5-a37d-7debfeab4b32",
+                "videoId": "QIlzgNozXKw",
+                "title": "창모 (CHANGMO) - 빌었어 [Boyhood]ㅣLyrics/가사",
+                "url": "https://youtu.be/QIlzgNozXKw?si=ujfJtGYMf3mXxKUf"
+              },
+              {
+                "id": "faa4aada-c38b-4b15-b667-d24f15e7186b",
+                "videoId": "z2DASn4UHqE",
+                "title": "Effie - MAKGEOLLI BANGER (Official Audio)",
+                "url": "https://youtu.be/z2DASn4UHqE?si=kBGPHtG6oJDnsZez"
+              },
+              {
+                "id": "b5eeccad-f4f8-47c5-bd72-3c4ba525a368",
+                "videoId": "m3DZsBw5bnE",
+                "title": "AKMU - '어떻게 이별까지 사랑하겠어, 널 사랑하는 거지(How can I love the heartbreak, you`re the one I love)' M/V",
+                "url": "https://youtu.be/m3DZsBw5bnE?si=39jhAFRopnJWta2F"
+              },
+              {
+                "id": "068b775d-e1ec-4bf2-8c76-8bc3ae60c532",
+                "videoId": "56XiKr44a9U",
+                "title": "지코(ZICO) - BERMUDA TRIANGLE (Feat. Crush, DEAN) Official Music Video",
+                "url": "https://youtu.be/56XiKr44a9U?si=D1YnxCKngdlBUvrN"
+              },
+              {
+                "id": "1c7ec1e6-f630-4a13-914d-87c8a48b8a72",
+                "videoId": "AOGhUcAdTKk",
+                "title": "[Bugs-ker] 최유리 - 숲 [Live]",
+                "url": "https://youtu.be/AOGhUcAdTKk?si=sV2c67E2ZbeWq35u"
+              },
+              {
+                "id": "527d72c0-99b8-405e-96ae-a50fbeba2759",
+                "videoId": "Z2tv0GyQdL8",
+                "title": "[M/V] Choi Yu Ree(최유리) - 잘 지내자, 우리",
+                "url": "https://youtu.be/Z2tv0GyQdL8?si=2MY-G7-tG3HyrIM6"
+              },
+              {
+                "id": "17580d67-30b4-4a78-9ad7-3aaa871de34c",
+                "videoId": "74_yqNBhQbA",
+                "title": "백예린 (Yerin Baek) 'Antifreeze' Lyric Video",
+                "url": "https://youtu.be/74_yqNBhQbA?si=cP5wjVq1ZhXpZH0J"
+              },
+              {
+                "id": "a9a608bd-2a60-47d9-9f84-f0890ea49e0f",
+                "videoId": "Aq_gsctWHtQ",
+                "title": "[MV] 검정치마(The Black Skirts) - 'EVERYTHING'",
+                "url": "https://youtu.be/Aq_gsctWHtQ?si=XDdhOCuEx7Bw0Oi4"
+              },
+              {
+                "id": "108e412a-d1be-4c0b-8cb7-7b3d8b701f52",
+                "videoId": "IpFX2vq8HKw",
+                "title": "yung kai - blue (official music video)",
+                "url": "https://youtu.be/IpFX2vq8HKw?si=35RalxHOqwUdPk5G"
+              },
+              {
+                "id": "8dfcc5a5-02aa-4219-a3a4-7f7b3ccca7dc",
+                "videoId": "IWYft_hOIgo",
+                "title": "실리카겔 (Silica Gel) - Desert Eagle [Performance Video]",
+                "url": "https://youtu.be/IWYft_hOIgo?si=-EQh6RnpiT2vtwXr"
+              },
+              {
+                "id": "0dc42e17-9bca-4ba7-b4f4-783c88c3f122",
+                "videoId": "NOXRroYA8Tc",
+                "title": "난 너만 사랑해서",
+                "url": "https://youtu.be/NOXRroYA8Tc?si=bGaOQ9mNOsKvvPw2",
+                "customTitle": "김결 - 난 너만 사랑해서"
+              },
+              {
+                "id": "6b150717-d364-4739-aa97-a22ae7c74715",
+                "videoId": "aF8OFSroHgg",
+                "title": "PUBLIC ENEMY (Feat. Roh Yun Ha, Wuuslime) (PUBLIC ENEMY (Feat. 노윤하, Wuuslime))",
+                "url": "https://youtu.be/aF8OFSroHgg?si=GIct5ktJ8p8zXr_k"
               }
             ],
             "isRatingPreset": false
@@ -17911,7 +18396,8 @@
             "id": "87198512-2683-4d08-8283-7ebf59a743ef",
             "name": "★★★★★",
             "urls": [
-              "https://youtu.be/sZxLJLj9o38?si=OTLBE39_5-1zKvzf"
+              "https://youtu.be/sZxLJLj9o38?si=OTLBE39_5-1zKvzf",
+              "https://youtu.be/NOXRroYA8Tc?si=bGaOQ9mNOsKvvPw2"
             ],
             "tracks": [
               {
@@ -17919,14 +18405,22 @@
                 "videoId": "sZxLJLj9o38",
                 "title": "Effie - MAKGEOLLI BANGER (Official Video)",
                 "url": "https://youtu.be/sZxLJLj9o38?si=OTLBE39_5-1zKvzf"
+              },
+              {
+                "id": "7b0b8461-f54f-4b7b-a902-a72efbf039fe",
+                "videoId": "NOXRroYA8Tc",
+                "title": "난 너만 사랑해서",
+                "url": "https://youtu.be/NOXRroYA8Tc?si=bGaOQ9mNOsKvvPw2",
+                "customTitle": "김결 - 난 너만 사랑해서"
               }
             ],
             "isRatingPreset": true
           }
         ],
-        "selectedPresetId": null,
+        "selectedPresetId": "1dcabc53-c48d-479b-b449-746e0c328877",
         "ratings": {
-          "sZxLJLj9o38": 5
+          "sZxLJLj9o38": 5,
+          "NOXRroYA8Tc": 5
         }
       }
     },
@@ -17938,7 +18432,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 764559
+          "balance": 967010
         },
         {
           "accountId": "acc-us-1",
@@ -17948,7 +18442,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 8.520000000000039
+          "balance": 362.88
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -18713,6 +19207,152 @@
           "currency": "USD",
           "direction": "WITHDRAW",
           "amount": 288
+        },
+        {
+          "id": "00681945-24c9-4c88-83df-7918d21a5324",
+          "ts": 1773039428334,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "016360",
+          "side": "SELL",
+          "qty": 3,
+          "price": 93900,
+          "realizedPnl": -49200,
+          "realizedPnlPercent": -14.86854034451496,
+          "costBasis": 330900
+        },
+        {
+          "id": "dda10e78-a1b8-4965-a7bc-f30e0acced15",
+          "ts": 1773039446910,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "039490",
+          "side": "SELL",
+          "qty": 3,
+          "price": 422500,
+          "realizedPnl": 378000,
+          "realizedPnlPercent": 42.49578414839797,
+          "costBasis": 889500
+        },
+        {
+          "id": "ec195613-3d17-4d1b-90af-41baf50bd5c3",
+          "ts": 1773039474071,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "102970",
+          "side": "SELL",
+          "qty": 31,
+          "price": 25846,
+          "realizedPnl": 221402,
+          "realizedPnlPercent": 38.18434559452524,
+          "costBasis": 579824
+        },
+        {
+          "id": "5779870c-e4e5-4796-917f-896ce718b3bc",
+          "ts": 1773039490118,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0072R0",
+          "side": "BUY",
+          "qty": 65,
+          "price": 16110,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "c1353599-043f-415a-be7c-ce10be02d734",
+          "ts": 1773039672569,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:KORU",
+          "side": "SELL",
+          "qty": 1,
+          "price": 342.08,
+          "realizedPnl": -41.50999999999999,
+          "realizedPnlPercent": -10.821449985661772,
+          "costBasis": 383.59
+        },
+        {
+          "id": "21c2f2d0-06e5-4698-bbda-1f07163d6ab5",
+          "ts": 1773039722633,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:SQQQ",
+          "side": "BUY",
+          "qty": 4,
+          "price": 70.43,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "0a3b4bec-83bf-4591-8b44-cf471df707ee",
+          "ts": 1773072476255,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:SQQQ",
+          "side": "SELL",
+          "qty": 4,
+          "price": 73.5,
+          "realizedPnl": 12.279999999999973,
+          "realizedPnlPercent": 4.358937952577016,
+          "costBasis": 281.72
+        },
+        {
+          "id": "d1c5c82a-d3f6-4cd4-a431-c16ffd8531ef",
+          "ts": 1773108383338,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "466920",
+          "side": "BUY",
+          "qty": 15,
+          "price": 35715,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "fe8faaec-dc0c-4b7d-80d2-e070ac67e6b8",
+          "ts": 1773117821319,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 100000,
+          "memo": "현금 확보"
+        },
+        {
+          "id": "d6f2ac3b-f6d9-4866-8a2a-93b6db4dba6d",
+          "ts": 1773123164051,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0162Y0",
+          "side": "BUY",
+          "qty": 30,
+          "price": 12170,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "e1dc4cc1-e704-4c66-a817-97a387ce1dfc",
+          "ts": 1773206097707,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 100000,
+          "memo": "엄마가 달래서"
         }
       ]
     },
