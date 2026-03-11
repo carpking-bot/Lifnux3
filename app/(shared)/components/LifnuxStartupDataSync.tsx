@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
 import { getLocalDataLastUpdatedAt, importLifnuxExport, validateLifnuxExport } from "../lib/persistence";
@@ -62,3 +62,4 @@ export function LifnuxStartupDataSync() {
 
   return null;
 }
+
