@@ -1,6 +1,7 @@
 ﻿"use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ConfirmModal } from "./ConfirmModal";
 import { getLocalDataLastUpdatedAt, importLifnuxExport, validateLifnuxExport } from "../lib/persistence";
 
 type LatestExportResponse = {
@@ -23,7 +24,36 @@ function toTimestamp(value?: string) {
   return Number.isFinite(ts) ? ts : NaN;
 }
 
+function formatDate(value?: string) {
+  const ts = toTimestamp(value);
+  if (!Number.isFinite(ts)) return "-";
+  return new Date(ts).toLocaleString("ko-KR");
+}
+
+type StartupSyncPrompt = {
+  localUpdatedAt: string;
+  remoteUpdatedAt: string;
+  filename: string;
+};
+
 export function LifnuxStartupDataSync() {
+  const [prompt, setPrompt] = useState<StartupSyncPrompt | null>(null);
+
+  const applyLatestExport = async () => {
+    if (!prompt) return;
+    try {
+      const payloadRes = await fetch("/api/local-sync/latest-export?includePayload=true", { cache: "no-store" });
+      if (!payloadRes.ok) return;
+      const payloadEnvelope = (await payloadRes.json()) as LatestExportPayloadResponse;
+      const payload = payloadEnvelope?.payload;
+      if (!payload || !validateLifnuxExport(payload)) return;
+      importLifnuxExport(payload);
+      window.location.reload();
+    } finally {
+      setPrompt(null);
+    }
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (sessionStorage.getItem(AUTO_SYNC_CHECK_KEY) === "done") return;
@@ -44,22 +74,34 @@ export function LifnuxStartupDataSync() {
 
       const remoteTs = toTimestamp(latest.modifiedAt);
       if (!Number.isFinite(remoteTs) || remoteTs <= localTs) return;
-
-      const confirmed = window.confirm("최신 local data가 있습니다. 업데이트하시겠습니까?");
-      if (!confirmed) return;
-
-      const payloadRes = await fetch("/api/local-sync/latest-export?includePayload=true", { cache: "no-store" });
-      if (!payloadRes.ok) return;
-      const payloadEnvelope = (await payloadRes.json()) as LatestExportPayloadResponse;
-      const payload = payloadEnvelope?.payload;
-      if (!payload || !validateLifnuxExport(payload)) return;
-      importLifnuxExport(payload);
-      window.location.reload();
+      setPrompt({
+        localUpdatedAt: localUpdatedAt,
+        remoteUpdatedAt: latest.modifiedAt,
+        filename: latest.filename
+      });
     };
 
     void run();
   }, []);
 
-  return null;
+  return (
+    <ConfirmModal
+      open={Boolean(prompt)}
+      title="최신 local data 업데이트"
+      description="프로젝트 내 exports 폴더에 더 최신 local file가 있습니다. 지금 업데이트하시겠습니까?"
+      detail={
+        prompt
+          ? `${prompt.filename} | 기기 데이터: ${formatDate(prompt.localUpdatedAt)} | 파일 수정일: ${formatDate(prompt.remoteUpdatedAt)}`
+          : ""
+      }
+      confirmLabel="업데이트"
+      cancelLabel="나중에"
+      onConfirm={() => {
+        void applyLatestExport();
+      }}
+      onCancel={() => {
+        setPrompt(null);
+      }}
+    />
+  );
 }
-
