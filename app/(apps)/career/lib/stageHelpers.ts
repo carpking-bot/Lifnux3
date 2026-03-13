@@ -39,8 +39,9 @@ export function updatedAtForApplication(app: Application): string {
 export function autoDoneOnFinal(app: Application): Application {
   // Rule:
   // 1) Any failed stage means the process is done with FAIL.
-  // 2) If the last stage is PASS, the process is done with PASS.
-  // 3) Otherwise still in progress.
+  // 2) Any unannounced stage means the process is done with UNANNOUNCED.
+  // 3) If the last stage is PASS, the process is done with PASS.
+  // 4) Otherwise still in progress.
   const hasFail = app.stages.some((stage) => stage.result === "FAIL");
   if (hasFail) {
     return {
@@ -49,6 +50,16 @@ export function autoDoneOnFinal(app: Application): Application {
       finalResult: "FAIL"
     };
   }
+
+  const hasUnannounced = app.stages.some((stage) => stage.result === "UNANNOUNCED");
+  if (hasUnannounced) {
+    return {
+      ...app,
+      status: "DONE",
+      finalResult: "UNANNOUNCED"
+    };
+  }
+
   const lastStage = app.stages[app.stages.length - 1];
   if (!lastStage || lastStage.result !== "PASS") {
     return { ...app, status: "IN_PROGRESS", finalResult: null };

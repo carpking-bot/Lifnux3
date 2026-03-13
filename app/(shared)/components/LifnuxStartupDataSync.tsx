@@ -27,7 +27,11 @@ function toTimestamp(value?: string) {
 function formatDate(value?: string) {
   const ts = toTimestamp(value);
   if (!Number.isFinite(ts)) return "-";
-  return new Date(ts).toLocaleString("ko-KR");
+  return new Date(ts).toLocaleString("ko-KR", { hour12: false });
+}
+
+function isRemoteDataNewer(remoteTs: number, localTs: number) {
+  return Number.isFinite(remoteTs) && Number.isFinite(localTs) && remoteTs > localTs;
 }
 
 type StartupSyncPrompt = {
@@ -73,7 +77,7 @@ export function LifnuxStartupDataSync() {
       if (!latest?.hasExport || !latest.modifiedAt || !latest.filename) return;
 
       const remoteTs = toTimestamp(latest.modifiedAt);
-      if (!Number.isFinite(remoteTs) || remoteTs <= localTs) return;
+      if (!isRemoteDataNewer(remoteTs, localTs)) return;
       setPrompt({
         localUpdatedAt: localUpdatedAt,
         remoteUpdatedAt: latest.modifiedAt,

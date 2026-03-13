@@ -19,7 +19,7 @@ import { autoDoneOnFinal, createDefaultStageTemplate, latestStageResultDate, upd
 import type { Application, CareerState, Employment, EmploymentChange, JobPosting, JobPostingContractType } from "./types";
 import type { DocumentLeadTimeDetail, DocumentOutcomeDetail } from "./components/ApplicationAnalysisModal";
 
-type ViewMode = "JOB_POSTINGS" | "IN_PROGRESS" | "DONE";
+type ViewMode = "JOB_POSTINGS" | "IN_PROGRESS" | "DONE" | "UNANNOUNCED";
 type SortMode = "importanceDesc" | "importanceAsc" | "deadline" | "updatedAt" | "appliedAt" | "nextPendingStage" | "resultAt";
 type PostingDrawerMode = "view" | "edit" | "create";
 const CALENDAR_HOLIDAY_KEY = "lifnux.calendar.holidays.v100";
@@ -313,6 +313,22 @@ export default function CareerPage() {
     const keyword = search.trim().toLowerCase();
     return state.applications.filter((app) => {
       if (app.status !== "DONE") return false;
+      if (app.finalResult === "UNANNOUNCED") return false;
+      if (!keyword) return true;
+      const posting = postingMap.get(app.postingId);
+      return (
+        (posting?.companyName ?? "").toLowerCase().includes(keyword) ||
+        (posting?.postingTitle ?? "").toLowerCase().includes(keyword) ||
+        (posting?.role ?? "").toLowerCase().includes(keyword)
+      );
+    });
+  }, [state.applications, search, postingMap]);
+
+  const unannouncedApps = useMemo(() => {
+    const keyword = search.trim().toLowerCase();
+    return state.applications.filter((app) => {
+      if (app.status !== "DONE") return false;
+      if (app.finalResult !== "UNANNOUNCED") return false;
       if (!keyword) return true;
       const posting = postingMap.get(app.postingId);
       return (
@@ -378,6 +394,20 @@ export default function CareerPage() {
     });
     return next;
   }, [doneApps, sortMode]);
+
+  const sortedUnannounced = useMemo(() => {
+    const next = [...unannouncedApps];
+    if (sortMode === "appliedAt") {
+      next.sort((a, b) => b.appliedAt.localeCompare(a.appliedAt));
+      return next;
+    }
+    next.sort((a, b) => {
+      const ar = latestStageResultDate(a) ?? "";
+      const br = latestStageResultDate(b) ?? "";
+      return br.localeCompare(ar);
+    });
+    return next;
+  }, [unannouncedApps, sortMode]);
 
   useEffect(() => {
     if (!analysisOpen) return;
@@ -522,6 +552,15 @@ export default function CareerPage() {
                 >
                   완료
                 </button>
+                <button
+                  className={`rounded-full px-3 py-1.5 ${viewMode === "UNANNOUNCED" ? "bg-cyan-300/20 text-cyan-200" : "text-[var(--ink-1)]"}`}
+                  onClick={() => {
+                    setViewMode("UNANNOUNCED");
+                    setSortMode("resultAt");
+                  }}
+                >
+                  미발표
+                </button>
               </div>
 
               <input
@@ -548,6 +587,12 @@ export default function CareerPage() {
                   </>
                 ) : null}
                 {viewMode === "DONE" ? (
+                  <>
+                    <option value="resultAt">결과일순</option>
+                    <option value="appliedAt">지원일순</option>
+                  </>
+                ) : null}
+                {viewMode === "UNANNOUNCED" ? (
                   <>
                     <option value="resultAt">결과일순</option>
                     <option value="appliedAt">지원일순</option>
@@ -611,6 +656,18 @@ export default function CareerPage() {
             {viewMode === "DONE" ? (
               <DoneView
                 applications={sortedDone}
+                postingMap={postingMap}
+                industryNameMap={industryNameMap}
+                onOpen={(app) => {
+                  setSelectedApplicationId(app.applicationId);
+                  setApplicationReadOnly(true);
+                  setApplicationModalOpen(true);
+                }}
+              />
+            ) : null}
+            {viewMode === "UNANNOUNCED" ? (
+              <DoneView
+                applications={sortedUnannounced}
                 postingMap={postingMap}
                 industryNameMap={industryNameMap}
                 onOpen={(app) => {
@@ -688,7 +745,9 @@ export default function CareerPage() {
             ...prev,
             applications: prev.applications.map((item) => (item.applicationId === normalized.applicationId ? normalized : item))
           }));
-          if (normalized.status === "DONE") setViewMode("DONE");
+          if (normalized.status === "DONE") {
+            setViewMode(normalized.finalResult === "UNANNOUNCED" ? "UNANNOUNCED" : "DONE");
+          }
           setApplicationModalOpen(false);
           setSelectedApplicationId(null);
         }}

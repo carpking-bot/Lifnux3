@@ -17,7 +17,7 @@ type Props = {
 };
 
 const TYPE_OPTIONS: StageType[] = ["DOCUMENT", "INTERVIEW_1", "INTERVIEW_2", "FINAL", "CUSTOM"];
-const RESULT_OPTIONS: StageResult[] = ["PENDING", "PASS", "FAIL"];
+const RESULT_OPTIONS: StageResult[] = ["PENDING", "PASS", "UNANNOUNCED", "FAIL"];
 
 function typeLabel(type: StageType) {
   if (type === "DOCUMENT") return "서류";
@@ -30,6 +30,7 @@ function typeLabel(type: StageType) {
 function resultLabel(result: StageResult) {
   if (result === "PENDING") return "대기";
   if (result === "PASS") return "합격";
+  if (result === "UNANNOUNCED") return "미발표";
   return "불합격";
 }
 
@@ -40,6 +41,7 @@ function statusLabel(status: Application["status"]) {
 function finalResultLabel(result: Application["finalResult"]) {
   if (result === "PASS") return "합격";
   if (result === "FAIL") return "불합격";
+  if (result === "UNANNOUNCED") return "미발표";
   return "-";
 }
 

@@ -71,7 +71,9 @@ export function InProgressView({ applications, postingMap, industryNameMap, onOp
                           ? "border-white/20 text-[var(--ink-1)]"
                         : stage.result === "PASS"
                           ? "border-emerald-300/50 text-emerald-300"
-                          : "border-rose-400/50 text-rose-300"
+                        : stage.result === "UNANNOUNCED"
+                          ? "border-cyan-300/50 text-cyan-300"
+                        : "border-rose-400/50 text-rose-300"
                     }`}
                   >
                     {stageLabel(stage)}

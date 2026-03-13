@@ -37,6 +37,96 @@ function safeParse(raw: string) {
   }
 }
 
+type TimestampCandidate = {
+  value: string;
+  ts: number;
+};
+
+function parseTimestamp(value: unknown): number | null {
+  if (typeof value === "number") {
+    if (!Number.isFinite(value)) return null;
+    return value > 1e12 ? value : value * 1000;
+  }
+
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+
+  const isLikelyDate =
+    /\d{4}[.\-/]\s*\d{1,2}[.\-/]\s*\d{1,2}|\\d{4}-\d{2}-\d{2}T|오전|오후/.test(trimmed);
+  if (isLikelyDate) {
+    const parsed = Date.parse(trimmed);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+
+  const korean = trimmed.match(/^(\d{4})[.]\s*(\d{1,2})[.]\s*(\d{1,2})[.]?\s*(오전|오후)\s*(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+  if (korean) {
+    const [, year, month, day, meridiem, hourRaw, minuteRaw, secondRaw] = korean;
+    const hourNumber = Number(hourRaw);
+    const minute = Number(minuteRaw);
+    const second = Number(secondRaw ?? 0);
+    if (!Number.isFinite(hourNumber) || !Number.isFinite(minute) || !Number.isFinite(second)) return null;
+    let hour = hourNumber % 24;
+    if (meridiem === "오후" && hour < 12) hour += 12;
+    if (meridiem === "오전" && hour === 12) hour = 0;
+    const ts = new Date(Number(year), Number(month) - 1, Number(day), hour, minute, second).getTime();
+    return Number.isFinite(ts) ? ts : null;
+  }
+
+  return null;
+}
+
+function collectLatestUpdatedAtFromValue(value: unknown): number | null {
+  let latest: number | null = null;
+
+  const walk = (node: unknown) => {
+    if (node === null || node === undefined) return;
+
+    const parsed = parseTimestamp(node);
+    if (parsed !== null && (latest === null || parsed > latest)) {
+      latest = parsed;
+    }
+
+    if (Array.isArray(node)) {
+      node.forEach((entry) => walk(entry));
+      return;
+    }
+
+    if (typeof node === "object") {
+      const entries = Object.values(node as Record<string, unknown>);
+      for (const entry of entries) {
+        walk(entry);
+      }
+    }
+  };
+
+  walk(value);
+  return latest;
+}
+
+function collectLatestUpdatedAtFromStorage(): number | null {
+  if (typeof window === "undefined") return null;
+  let latest: number | null = null;
+  for (let i = 0; i < window.localStorage.length; i += 1) {
+    const key = window.localStorage.key(i);
+    if (!key || !isLifnuxKey(key) || key === BACKUP_KEY || key === LOCAL_DATA_UPDATED_AT_KEY) continue;
+    const raw = window.localStorage.getItem(key);
+    if (raw === null) continue;
+    const parsed = safeParse(raw);
+    const candidate = collectLatestUpdatedAtFromValue(parsed);
+    if (candidate !== null && (latest === null || candidate > latest)) {
+      latest = candidate;
+    }
+  }
+  return latest;
+}
+
+function toCandidate(value: string | number): TimestampCandidate | null {
+  const ts = parseTimestamp(value);
+  if (ts === null) return null;
+  return { value: new Date(ts).toISOString(), ts };
+}
+
 export function buildLifnuxExport(): LifnuxExport {
   const data: Record<string, Record<string, unknown>> = {};
   if (typeof window === "undefined") {
@@ -74,9 +164,31 @@ export function getBackupExport(): LifnuxExport | null {
 export function getLocalDataLastUpdatedAt(): string | null {
   if (typeof window === "undefined") return null;
   const backup = getBackupExport();
-  if (backup?.meta?.exportedAt) return backup.meta.exportedAt;
   const direct = window.localStorage.getItem(LOCAL_DATA_UPDATED_AT_KEY);
-  return direct && direct.trim() ? direct : null;
+  const directTs = direct && direct.trim() ? parseTimestamp(direct) : null;
+  const storageTs = collectLatestUpdatedAtFromStorage();
+
+  const candidates = [
+    backup?.meta?.exportedAt,
+    Number.isFinite(directTs) ? direct : null,
+    storageTs !== null ? new Date(storageTs).toISOString() : null
+  ].filter((value): value is string => Boolean(value));
+
+  const timestamps = candidates.map((value) => toCandidate(value)).filter((entry): entry is TimestampCandidate => entry !== null);
+
+  if (!timestamps.length) return null;
+  timestamps.sort((a, b) => b.ts - a.ts);
+  const latest = timestamps[0];
+
+  try {
+    if (direct !== latest.value) {
+      window.localStorage.setItem(LOCAL_DATA_UPDATED_AT_KEY, latest.value);
+    }
+  } catch {
+    // Ignore if local storage is blocked or quota is full.
+  }
+
+  return latest.value;
 }
 
 export function downloadLifnuxExport({ useBackup = false }: { useBackup?: boolean } = {}) {

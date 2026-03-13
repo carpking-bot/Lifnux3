@@ -59,7 +59,7 @@ export type JobPosting = {
 
 export type StageType = "DOCUMENT" | "INTERVIEW_1" | "INTERVIEW_2" | "FINAL" | "CUSTOM";
 
-export type StageResult = "PENDING" | "PASS" | "FAIL";
+export type StageResult = "PENDING" | "PASS" | "FAIL" | "UNANNOUNCED";
 
 export type Stage = {
   stageId: string;
@@ -72,7 +72,7 @@ export type Stage = {
 };
 
 export type ApplicationStatus = "IN_PROGRESS" | "DONE";
-export type FinalResult = "PASS" | "FAIL" | null;
+export type FinalResult = "PASS" | "FAIL" | "UNANNOUNCED" | null;
 
 export type Application = {
   applicationId: string;

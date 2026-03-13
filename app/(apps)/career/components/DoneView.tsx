@@ -17,6 +17,7 @@ function importanceClass(importance: number) {
 function finalLabel(value: Application["finalResult"]) {
   if (value === "PASS") return "합격";
   if (value === "FAIL") return "불합격";
+  if (value === "UNANNOUNCED") return "미발표";
   return "-";
 }
 
@@ -51,7 +52,15 @@ export function DoneView({ applications, postingMap, industryNameMap, onOpen }: 
                     <span className="rounded-lg border border-white/20 px-3 py-1 text-sm text-[var(--ink-1)]">결과일 {resultAt ?? "-"}</span>
                   </div>
                 </div>
-                <span className={`shrink-0 rounded-full border px-3 py-1.5 text-sm ${app.finalResult === "PASS" ? "border-emerald-300/50 text-emerald-300" : "border-rose-400/50 text-rose-300"}`}>
+                <span className={`shrink-0 rounded-full border px-3 py-1.5 text-sm ${
+                  app.finalResult === "PASS"
+                    ? "border-emerald-300/50 text-emerald-300"
+                    : app.finalResult === "FAIL"
+                      ? "border-rose-400/50 text-rose-300"
+                      : app.finalResult === "UNANNOUNCED"
+                        ? "border-cyan-300/50 text-cyan-300"
+                        : "border-white/20 text-[var(--ink-1)]"
+                }`}>
                   {finalLabel(app.finalResult)}
                 </span>
               </div>
