@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-11T15:35:11.006Z"
+    "exportedAt": "2026-03-16T09:15:12.075Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "KpM6xNAgRoI",
+        "trackId": "aLTtvgXMZyA",
         "volume": 80,
-        "position": 0
+        "position": 55.59009491989136
       }
     },
     "health": {
@@ -3164,6 +3164,65 @@
           "createdAt": "2026-03-11T05:06:40.058Z",
           "distanceKm": 3,
           "calorieOverride": 119
+        },
+        {
+          "id": "24f71574-f7a1-49b8-953a-7b48832fd455",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-12",
+          "durationMin": 35,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-12T04:42:45.778Z",
+          "distanceKm": 2.87,
+          "calorieOverride": 114
+        },
+        {
+          "id": "98c73e92-dfaa-44a1-8f1c-322ea79cb0d6",
+          "typeId": "home",
+          "loggedForDate": "2026-03-11",
+          "durationMin": 20,
+          "createdAt": "2026-03-12T04:43:18.379Z"
+        },
+        {
+          "id": "ed3aef5e-8b99-41c1-b9aa-70e84c6a6920",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-12",
+          "durationMin": 50,
+          "memo": "19회차\n기본기다지는중",
+          "createdAt": "2026-03-12T13:52:45.544Z"
+        },
+        {
+          "id": "04bd151f-0d94-449e-91ae-7e4dabb9934d",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-13",
+          "durationMin": 29,
+          "createdAt": "2026-03-13T07:34:30.240Z",
+          "distanceKm": 2.47,
+          "calorieOverride": 98
+        },
+        {
+          "id": "127a4101-3fd0-4b5f-89a0-3bab287c881f",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-13",
+          "durationMin": 50,
+          "memo": "20회차\n드릴",
+          "createdAt": "2026-03-14T07:00:03.595Z"
+        },
+        {
+          "id": "86abf26a-f72d-444b-8ec9-cf3f234ba496",
+          "typeId": "home",
+          "loggedForDate": "2026-03-15",
+          "durationMin": 20,
+          "createdAt": "2026-03-16T00:57:15.813Z"
+        },
+        {
+          "id": "fd95be10-8ede-4d3b-bd88-3b1b1e4ec56c",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-16",
+          "durationMin": 36,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-16T04:55:00.730Z",
+          "distanceKm": 2.92,
+          "calorieOverride": 115
         }
       ]
     },
@@ -3265,6 +3324,22 @@
         {
           "date": "2026-03-11",
           "totalKrw": 31535066.900000002
+        },
+        {
+          "date": "2026-03-12",
+          "totalKrw": 31505529.87
+        },
+        {
+          "date": "2026-03-13",
+          "totalKrw": 31408477.880000003
+        },
+        {
+          "date": "2026-03-14",
+          "totalKrw": 31338942.54
+        },
+        {
+          "date": "2026-03-16",
+          "totalKrw": 31351728.16
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -8387,7 +8462,8 @@
           "Index",
           "Biotech",
           "Shipbuilding",
-          "Alternative Asset"
+          "Alternative Asset",
+          "Robotics"
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
@@ -8993,9 +9069,9 @@
             "schedule": "PER_MONTH",
             "perMonth": [
               101493,
-              75976,
-              75976,
-              0,
+              307000,
+              307000,
+              233000,
               0,
               0,
               0,
@@ -9058,9 +9134,9 @@
             "amount": 0,
             "schedule": "PER_MONTH",
             "perMonth": [
-              700000,
-              1200000,
-              1200000,
+              1000000,
+              1000000,
+              1000000,
               700000,
               200000,
               200000,
@@ -9113,8 +9189,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-005930",
           "symbolKey": "005930",
-          "avgPrice": 109612.65217391304,
-          "qty": 20,
+          "avgPrice": 113064.43064182193,
+          "qty": 21,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
@@ -9355,6 +9431,42 @@
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorMajorLabel": "Index",
+          "sectorLabel": "Index"
+        },
+        {
+          "id": "f6e0ccf6-b35e-4013-9298-07de5102870a",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-005380",
+          "symbolKey": "005380",
+          "avgPrice": 526000,
+          "qty": 1,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Robotics"
+        },
+        {
+          "id": "2a8854bc-9e19-4378-8dd4-cd3dcaea9be7",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-016360",
+          "symbolKey": "016360",
+          "avgPrice": 95000,
+          "qty": 1,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Financials"
+        },
+        {
+          "id": "f9552db8-cb91-49b5-9c32-451f83308e2a",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-nas:sqqq",
+          "symbolKey": "NAS:SQQQ",
+          "avgPrice": 75.07,
+          "qty": 4,
+          "currency": "USD",
+          "countryLabel": "US",
+          "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Index"
         }
       ],
@@ -10383,6 +10495,69 @@
           "title": "스포티비",
           "amount": 9900,
           "kind": "expense"
+        },
+        {
+          "id": "cf84a158-170c-475f-a763-d796df295249",
+          "createdAt": 1773279218614,
+          "date": "2026-03-12",
+          "category": "Snacks & Coffee",
+          "title": "졸음껌",
+          "amount": 6000,
+          "kind": "expense"
+        },
+        {
+          "id": "28df984e-1351-4d40-a3ac-aac32d2d9749",
+          "createdAt": 1773279233542,
+          "date": "2026-03-11",
+          "category": "Snacks & Coffee",
+          "title": "빽다방",
+          "amount": 4300,
+          "kind": "expense"
+        },
+        {
+          "id": "f92a69c6-c8f5-4f00-b28a-01018ecd7fe4",
+          "createdAt": 1773296986933,
+          "date": "2026-03-12",
+          "category": "Transport",
+          "title": "K-PASS 환급금",
+          "amount": 50000,
+          "kind": "income"
+        },
+        {
+          "id": "fa04adb0-2bde-4b4f-ab6a-9af73dd285a3",
+          "createdAt": 1773471786759,
+          "date": "2026-03-13",
+          "category": "Snacks & Coffee",
+          "title": "편의점",
+          "amount": 2070,
+          "kind": "expense"
+        },
+        {
+          "id": "5342b54b-3638-44da-a706-2c0645412fed",
+          "createdAt": 1773471804903,
+          "date": "2026-03-14",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 840,
+          "kind": "expense"
+        },
+        {
+          "id": "02c7a627-bbb8-48ab-adf9-ccc7d924dc69",
+          "createdAt": 1773471816102,
+          "date": "2026-03-14",
+          "category": "Shopping",
+          "title": "닌텐도 스위치2",
+          "amount": 698500,
+          "kind": "expense"
+        },
+        {
+          "id": "0e48bf4a-8e66-4c4e-90c4-62a54c8d71e5",
+          "createdAt": 1773471826343,
+          "date": "2026-03-14",
+          "category": "Game",
+          "title": "포코피아",
+          "amount": 79800,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -10426,8 +10601,8 @@
         "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
         "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
-        "aSec": 0,
-        "bSec": 76,
+        "aSec": 75,
+        "bSec": 100,
         "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-02-28T15:00:00.000Z"
@@ -10513,6 +10688,15 @@
           "endSec": 76,
           "speed": 1,
           "createdAt": 1773158259445
+        },
+        {
+          "id": "e23089cf-0067-4b28-8c86-4f1c502c6145",
+          "videoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+          "name": "Part 2",
+          "startSec": 75,
+          "endSec": 100,
+          "speed": 1,
+          "createdAt": 1773586988211
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -10685,6 +10869,14 @@
         {
           "dateKey": "2026-03-11",
           "createdAt": 1773239080523
+        },
+        {
+          "dateKey": "2026-03-12",
+          "createdAt": 1773325371665
+        },
+        {
+          "dateKey": "2026-03-15",
+          "createdAt": 1773585298329
         }
       ],
       "lifnux:guitar:videos": [
@@ -10846,10 +11038,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31535066.900000002,
-        "unrealizedPnlKrw": 3469287.785921745,
-        "realizedPnlYtdKrw": 2093822.0760782606,
-        "updatedAt": 1773206285885
+        "totalValueKrw": 31351728.16,
+        "unrealizedPnlKrw": 3024098.9638817385,
+        "realizedPnlYtdKrw": 2100052.5689182607,
+        "updatedAt": 1773636835366
       }
     },
     "personalGrowth": {
@@ -11247,13 +11439,6 @@
           "importance": "LOW",
           "price": 512000,
           "memo": ""
-        },
-        {
-          "id": "3f824a51-d564-4182-82dd-3820b58c3e8b",
-          "name": "갤럭시 Z 플립7",
-          "importance": "LOW",
-          "price": 1392800,
-          "memo": ""
         }
       ],
       "lifnux.calendar.recurring.v100": [
@@ -11278,7 +11463,8 @@
           "location": "위메이드 타워",
           "memo": "",
           "exclusions": [
-            "2026-02-06"
+            "2026-02-06",
+            "2026-03-19"
           ],
           "createdAt": 1769498553764
         },
@@ -11470,6 +11656,18 @@
           "date": "2026-03-10",
           "type": "DATE",
           "importance": "LOW",
+          "location": "",
+          "memo": ""
+        },
+        {
+          "id": "1dd2f64a-f013-4221-a902-c557410e5317",
+          "title": "예비군 훈련",
+          "date": "2026-03-19",
+          "type": "TIMED",
+          "startTime": "12:00",
+          "endTime": "18:00",
+          "importance": "HIGH",
+          "labelId": "704abcad-3de3-455f-9eef-ab3b80154812",
           "location": "",
           "memo": ""
         }
@@ -16610,15 +16808,15 @@
           "applicationId": "4cf7a9fb-8b38-4186-8ca4-158147b2c00c",
           "postingId": "9c97a8f7-01bf-4add-88ab-b4cb2eece4eb",
           "appliedAt": "2026-03-02",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "8f349e1d-44c8-4856-a512-4006abd7d52e",
               "type": "DOCUMENT",
               "submittedAt": "2026-03-02",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-03-12",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -16766,8 +16964,8 @@
           "applicationId": "0eb5fca5-1fe0-4f3c-8ea8-033d216533f6",
           "postingId": "a3a48cd3-74c2-4d63-8e4e-a5248b61ba7a",
           "appliedAt": "2026-02-23",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "38b91cb4-e939-40ef-9531-c7246a822e47",
@@ -16782,8 +16980,8 @@
               "type": "CUSTOM",
               "customLabel": "과제 전형",
               "submittedAt": "2026-03-03",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-03-16",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -17095,15 +17293,15 @@
           "applicationId": "94be0b96-6c42-413a-9ccc-2833448978c1",
           "postingId": "8a528c58-c711-49ac-8251-b5580156a45e",
           "appliedAt": "2026-01-26",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "UNANNOUNCED",
           "stages": [
             {
               "stageId": "a0e20117-63be-439c-ba9d-7e0e5543c30d",
               "type": "DOCUMENT",
               "submittedAt": "2026-01-26",
               "resultAt": null,
-              "result": "PENDING",
+              "result": "UNANNOUNCED",
               "notes": ""
             },
             {
@@ -17239,6 +17437,48 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "afec2c9f-aade-4188-bc60-07390364e06e",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "카카오",
+          "postingTitle": "AI 데이터 라벨링 어시스턴트",
+          "role": "스태프",
+          "contractType": "계약직",
+          "departmentInfo": "카카오의 신규 AI 서비스 및 도메인 검색 품질 개선을 위한 AI 검색 기술을 담당하는 조직입니다. 최신 언어 모델과 AI 검색 기술을 바탕으로 높은 수준의 AI 검색 에이전트를 만들어 가고 있습니다. 수많은 사용자의 검색 여정 속에서 가장 정확하고 만족스러운 답을 제공하기 위해, 데이터로부터 배우고 과감한 실험을 통해 끊임없이 성장하는 문화를 지향합니다. 대규모 데이터와 고성능 모델을 통해 카카오의 AI 검색 서비스의 품질을 개선해 나가실 분들을 기다립니다.",
+          "responsibilities": "AI 에이전트 시스템을 위한 데이터 생성 및 가공\nAI 생성 결과 평가 및 개선 피드백 수행\n언어 데이터 설계 및 어노테이션 가이드라인 수립 보조\n데이터 품질 관리 및 검수 프로세스 개선 지원",
+          "requirements": "한국어 문서 이해력과 세밀한 텍스트 처리 능력을 갖추신 분\n생성형 AI 서비스 사용 경험이 있으신 분\n프롬프트 엔지니어링에 관심이 있거나, 관련 개념을 접해보신 분\nLLM을 활용해 간단한 코드를 이해하고 실행해 본 경험이 있으신 분\n대량의 데이터를 꼼꼼하게 검토하며 책임감 있게 업무를 수행하실 수 있는 분\n원활하고 능동적인 커뮤니케이션이 가능하신 분",
+          "neededSkills": "",
+          "preferred": "AI 데이터 구축, 전처리 및 어노테이션 경험자\n데이터 가이드라인 설계 또는 기준 수립 경험자\n모델 응답 평가 및 품질 관리(QA) 경험자\n대규모 AI 학습 데이터 구축 프로젝트 참여 경험자",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://careers.kakao.com/jobs/P-14393?skillSet=&part=STAFF&company=KAKAO&keyword=&employeeType=&page=1",
+          "createdAt": "2026-03-12T07:43:53.218Z",
+          "updatedAt": "2026-03-12T07:43:53.218Z"
+        },
+        {
+          "postingId": "12ea407b-1d33-42a9-b85e-811b1fc59d4d",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "쿡앱스",
+          "postingTitle": "게임 사업 PM",
+          "role": "사업PM",
+          "contractType": "계약직",
+          "departmentInfo": "쿡앱스 사업팀은 “글로벌 사업을 통해 회사의 성장에 필요한 동력과 기회를 만들어 낸다”라는 미션을 달성하기 위해 쿡앱스의 타이틀을 게임 더 크게 성공시킬 수 있도록 국가별 현지화 전략, BM 방향성 수립, IP 콜라보레이션 등 다양한 사업 업무를 수행하고 있어요. 게임 산업에 정답은 없다고 생각해요. 하지만 해답은 찾을 수 있다고 믿어요. 함께 적극적으로 고민하고, 의문을 제기하며 해답을 주도적으로 찾아 나갈 동료를 기다리고 있어요.",
+          "responsibilities": "<포트리스 사가>, <냥냥시노비> 등 쿡앱스 프로젝트에 대한 글로벌 권역의 사업 PM 업무를 담당해요.\n글로벌 라이브 서비스 단계에서 서비스 전체를 사업 PM으로서 고민하고 대응해요.\nBM 및 상품 기획을 통해 프로젝트의 수익화에 기여하고, 지표 분석·서비스 개선 등 담당 프로젝트를 운영해요.\n시장 리서치, 레퍼런스 조사 등을 통해 최신 트렌드를 파악하고, 사업 실무에 필요한 인사이트를 도출해요.",
+          "requirements": "지표를 잘 이해하고 분석할 수 있으신 분\n모바일 하이브리드 캐주얼 게임에 대한 이해와 관심이 있으신 분\n자신의 생각을 문서로 잘 표현할 수 있으신 분",
+          "neededSkills": "",
+          "preferred": "중국어, 일본어, 영어 등 외국어 소통과 활용이 능숙한 분\n게임 산업 및 글로벌 게임 트렌드에 대한 이해도가 높으신 분\n원활한 커뮤니케이션 능력을 보유하신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://career.cookapps.com/job_posting/M58OgAmC",
+          "createdAt": "2026-03-12T02:41:12.849Z",
+          "updatedAt": "2026-03-12T02:41:15.233Z"
+        },
+        {
           "postingId": "cf0db3bf-0473-4fff-af04-6c9740670170",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "슈퍼크리에이티브",
@@ -17321,27 +17561,6 @@
           "link": "https://recruit.navercorp.com/rcrt/view.do?annoId=30004610&lang=ko",
           "createdAt": "2026-02-27T14:23:09.527Z",
           "updatedAt": "2026-03-10T02:50:09.349Z"
-        },
-        {
-          "postingId": "96a9a89d-c80b-4a93-8bee-f59ba325fe75",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "라인게임즈",
-          "postingTitle": "라이브서비스 운영팀 담당자",
-          "role": "운영",
-          "contractType": "정규직",
-          "departmentInfo": "",
-          "responsibilities": "• 라이브 게임 운영 정책 수립 및 실행\n• 운영 이벤트 기획 및 운영\n• 업데이트 콘텐츠 운영 세팅 및 검수\n• 운영 지표 모니터링 및 데이터 기반 개선안 도출\n• 유관 부서(개발/사업/마케팅/CS 등)와의 협업 및 일정 관리\n• 이슈 대응 및 긴급 상황 커뮤니케이션",
-          "requirements": "• 2년 이상의 유관 경력을 보유하신 분",
-          "neededSkills": "",
-          "preferred": "• 모바일/온라인 게임 라이브 운영 경험\n• 영어/일본어/중국어 가능자\n• 라이브 이슈 대응 및 정책 수립 경험\n• 다양한 장르의 게임 플레이 경험 및 높은 이해도",
-          "memo": "입사지원 및 서류전형 > 1차 인터뷰 > 처우협의 > 최종합격\n\n",
-          "comment": "",
-          "deadline": "2026-03-13",
-          "importance": 6,
-          "isFavorite": true,
-          "link": "https://recruit.line.games/notice/425",
-          "createdAt": "2026-02-27T14:04:09.404Z",
-          "updatedAt": "2026-02-27T14:22:10.271Z"
         },
         {
           "postingId": "ddc19f57-6a07-480f-90dc-9c77d4699fdd",
@@ -17799,11 +18018,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "KpM6xNAgRoI",
-        "queueIndex": 3,
-        "currentTime": 0,
+        "videoId": "aLTtvgXMZyA",
+        "queueIndex": 28,
+        "currentTime": 55.59009491989136,
         "repeatMode": "all",
-        "shuffle": false
+        "shuffle": true
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -18071,9 +18290,39 @@
             "videoId": "aF8OFSroHgg",
             "title": "PUBLIC ENEMY (Feat. Roh Yun Ha, Wuuslime) (PUBLIC ENEMY (Feat. 노윤하, Wuuslime))",
             "url": "https://youtu.be/aF8OFSroHgg?si=GIct5ktJ8p8zXr_k"
+          },
+          {
+            "id": "52558f2c-d64a-48ba-b915-5451d99f6018",
+            "videoId": "pRmsP7A-DtY",
+            "title": "something between us (Romance 101 X george) (좋아해.. (바른연애 길잡이 X 죠지))",
+            "url": "https://youtu.be/pRmsP7A-DtY?si=9P6aK6ZUOvsVWwan"
+          },
+          {
+            "id": "78c94e18-d6ba-4a37-8d1f-53ba0e8c8280",
+            "videoId": "rHLGjbz-yls",
+            "title": "romeo n juliet (feat. youra)",
+            "url": "https://youtu.be/rHLGjbz-yls?si=ah8nQCVmrsI_pLT_"
+          },
+          {
+            "id": "c59c0f02-faa2-4cd6-9262-91e1777df7c9",
+            "videoId": "ujCdcX6o3e0",
+            "title": "Can I Love ? (feat. youra, Meego)",
+            "url": "https://youtu.be/ujCdcX6o3e0?si=h7w8V7oQw6tjbJTx"
+          },
+          {
+            "id": "380ee2e4-6d40-4358-bb84-b1b4380b73a7",
+            "videoId": "P3YURx8awqQ",
+            "title": "Seori - Dive with you (feat. eaJ) (OFFICIAL M/V)",
+            "url": "https://youtu.be/P3YURx8awqQ?si=RQJ3nC6npV3j5rej"
+          },
+          {
+            "id": "d82730d4-21ee-462e-9bd5-537dec1377ff",
+            "videoId": "tIvAQR9Zj8M",
+            "title": "Effie - down (Official MacBook Video)",
+            "url": "https://youtu.be/tIvAQR9Zj8M?si=lf--etNQ0vyIOeKi"
           }
         ],
-        "currentIndex": 32,
+        "currentIndex": 28,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -18436,7 +18685,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 967010
+          "balance": 163910
         },
         {
           "accountId": "acc-us-1",
@@ -18446,7 +18695,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 362.88
+          "balance": 62.60000000000002
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -18454,6 +18703,9 @@
           "balance": 0
         }
       ]
+    },
+    "data": {
+      "lifnux:data.lastUpdatedAt": "2040-12-31T00:00:00.000Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -18596,9 +18848,6 @@
         "remainingLeaveMinutes": 0,
         "remainingLeaveHours": 0
       }
-    },
-    "data": {
-      "lifnux:data.lastUpdatedAt": "2026-03-11T09:08:02.384Z"
     },
     "-music-queue-v1": {
       "lifnux-music-queue-v1": {
@@ -19360,6 +19609,62 @@
           "direction": "WITHDRAW",
           "amount": 100000,
           "memo": "엄마가 달래서"
+        },
+        {
+          "id": "b4e5f95e-0b5d-4d57-aff3-147e8a2f531c",
+          "ts": 1773300076881,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "005380",
+          "side": "BUY",
+          "qty": 1,
+          "price": 526000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "0d37d765-7d4d-4df7-b602-f44ea801aac6",
+          "ts": 1773387308024,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "005930",
+          "side": "BUY",
+          "qty": 1,
+          "price": 182100,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "11004851-7a68-4f0c-8f2d-4c37720e679c",
+          "ts": 1773387319760,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "016360",
+          "side": "BUY",
+          "qty": 1,
+          "price": 95000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "e9ca80f5-294b-4fc3-a5e0-bc249f0eb0e1",
+          "ts": 1773471712245,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:SQQQ",
+          "side": "BUY",
+          "qty": 4,
+          "price": 75.07,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },
