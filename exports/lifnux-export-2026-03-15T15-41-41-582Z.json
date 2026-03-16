@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-13T07:55:17.136Z"
+    "exportedAt": "2026-03-15T15:41:41.578Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "tKERw3_ked0",
+        "trackId": "KpM6xNAgRoI",
         "volume": 80,
-        "position": 67.72408796185303
+        "position": 0
       }
     },
     "health": {
@@ -3198,6 +3198,21 @@
           "createdAt": "2026-03-13T07:34:30.240Z",
           "distanceKm": 2.47,
           "calorieOverride": 98
+        },
+        {
+          "id": "127a4101-3fd0-4b5f-89a0-3bab287c881f",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-13",
+          "durationMin": 50,
+          "memo": "20회차\n드릴",
+          "createdAt": "2026-03-14T07:00:03.595Z"
+        },
+        {
+          "id": "da931356-7806-40b1-b131-9ea48c0542bf",
+          "typeId": "home",
+          "loggedForDate": "2026-03-15",
+          "durationMin": 20,
+          "createdAt": "2026-03-15T15:41:14.887Z"
         }
       ]
     },
@@ -3307,10 +3322,14 @@
         {
           "date": "2026-03-13",
           "totalKrw": 31408477.880000003
+        },
+        {
+          "date": "2026-03-14",
+          "totalKrw": 31338942.54
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -8434,7 +8453,19 @@
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
-      "lifnux.finance.trades.v100": [],
+      "lifnux.finance.trades.v100": [
+        {
+          "id": "72549937-c698-4818-92e1-087314eeab9a",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-nas:sqqq",
+          "side": "BUY",
+          "price": 75.07,
+          "qty": 4,
+          "executedAt": 1773471712245,
+          "realizedPnl": null,
+          "realizedPnlPercent": null
+        }
+      ],
       "lifnux.finance.expense.categories.v1": [
         "Food",
         "Transport",
@@ -9419,7 +9450,22 @@
           "symbolKey": "016360",
           "avgPrice": 95000,
           "qty": 1,
-          "currency": "KRW"
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Financials"
+        },
+        {
+          "id": "f9552db8-cb91-49b5-9c32-451f83308e2a",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-nas:sqqq",
+          "symbolKey": "NAS:SQQQ",
+          "avgPrice": 75.07,
+          "qty": 4,
+          "currency": "USD",
+          "countryLabel": "US",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Index"
         }
       ],
       "lifnux.finance.hub.reveal.v1": false,
@@ -10474,6 +10520,42 @@
           "title": "K-PASS 환급금",
           "amount": 50000,
           "kind": "income"
+        },
+        {
+          "id": "fa04adb0-2bde-4b4f-ab6a-9af73dd285a3",
+          "createdAt": 1773471786759,
+          "date": "2026-03-13",
+          "category": "Snacks & Coffee",
+          "title": "편의점",
+          "amount": 2070,
+          "kind": "expense"
+        },
+        {
+          "id": "5342b54b-3638-44da-a706-2c0645412fed",
+          "createdAt": 1773471804903,
+          "date": "2026-03-14",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 840,
+          "kind": "expense"
+        },
+        {
+          "id": "02c7a627-bbb8-48ab-adf9-ccc7d924dc69",
+          "createdAt": 1773471816102,
+          "date": "2026-03-14",
+          "category": "Shopping",
+          "title": "닌텐도 스위치2",
+          "amount": 698500,
+          "kind": "expense"
+        },
+        {
+          "id": "0e48bf4a-8e66-4c4e-90c4-62a54c8d71e5",
+          "createdAt": 1773471826343,
+          "date": "2026-03-14",
+          "category": "Game",
+          "title": "포코피아",
+          "amount": 79800,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -10514,12 +10596,12 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
+        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
+        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
-        "aSec": 0,
-        "bSec": 76,
-        "speed": 0.8,
+        "aSec": 75,
+        "bSec": 100,
+        "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-02-28T15:00:00.000Z"
       },
@@ -10604,6 +10686,15 @@
           "endSec": 76,
           "speed": 1,
           "createdAt": 1773158259445
+        },
+        {
+          "id": "e23089cf-0067-4b28-8c86-4f1c502c6145",
+          "videoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+          "name": "Part 2",
+          "startSec": 75,
+          "endSec": 100,
+          "speed": 1,
+          "createdAt": 1773586988211
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -10780,6 +10871,10 @@
         {
           "dateKey": "2026-03-12",
           "createdAt": 1773325371665
+        },
+        {
+          "dateKey": "2026-03-15",
+          "createdAt": 1773585298329
         }
       ],
       "lifnux:guitar:videos": [
@@ -10941,10 +11036,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31408477.880000003,
-        "unrealizedPnlKrw": 3080848.683881741,
-        "realizedPnlYtdKrw": 2100052.5689182607,
-        "updatedAt": 1773387965767
+        "totalValueKrw": 31338942.54,
+        "unrealizedPnlKrw": 2985973.013361737,
+        "realizedPnlYtdKrw": 2100655.5198382605,
+        "updatedAt": 1773471712596
       }
     },
     "personalGrowth": {
@@ -17936,11 +18031,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "tKERw3_ked0",
-        "queueIndex": 9,
-        "currentTime": 67.72408796185303,
+        "videoId": "KpM6xNAgRoI",
+        "queueIndex": 3,
+        "currentTime": 0,
         "repeatMode": "all",
-        "shuffle": true
+        "shuffle": false
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -18234,9 +18329,9 @@
             "url": "https://youtu.be/P3YURx8awqQ?si=RQJ3nC6npV3j5rej"
           }
         ],
-        "currentIndex": 9,
+        "currentIndex": 3,
         "isPlaying": true,
-        "shuffle": true,
+        "shuffle": false,
         "repeatMode": "all",
         "presets": [
           {
@@ -18607,7 +18702,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 362.88
+          "balance": 62.60000000000002
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -19560,6 +19655,20 @@
           "side": "BUY",
           "qty": 1,
           "price": 95000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "e9ca80f5-294b-4fc3-a5e0-bc249f0eb0e1",
+          "ts": 1773471712245,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:SQQQ",
+          "side": "BUY",
+          "qty": 4,
+          "price": 75.07,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null

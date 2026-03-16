@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-15T15:09:02.765Z"
+    "exportedAt": "2026-03-16T15:23:58.774Z"
   },
   "data": {
     "lastState": {
@@ -3206,6 +3206,23 @@
           "durationMin": 50,
           "memo": "20회차\n드릴",
           "createdAt": "2026-03-14T07:00:03.595Z"
+        },
+        {
+          "id": "86abf26a-f72d-444b-8ec9-cf3f234ba496",
+          "typeId": "home",
+          "loggedForDate": "2026-03-15",
+          "durationMin": 20,
+          "createdAt": "2026-03-16T00:57:15.813Z"
+        },
+        {
+          "id": "fd95be10-8ede-4d3b-bd88-3b1b1e4ec56c",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-16",
+          "durationMin": 36,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-16T04:55:00.730Z",
+          "distanceKm": 2.92,
+          "calorieOverride": 115
         }
       ]
     },
@@ -3319,6 +3336,10 @@
         {
           "date": "2026-03-14",
           "totalKrw": 31338942.54
+        },
+        {
+          "date": "2026-03-16",
+          "totalKrw": 31351728.16
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -8446,19 +8467,7 @@
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
-      "lifnux.finance.trades.v100": [
-        {
-          "id": "72549937-c698-4818-92e1-087314eeab9a",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-stock-nas:sqqq",
-          "side": "BUY",
-          "price": 75.07,
-          "qty": 4,
-          "executedAt": 1773471712245,
-          "realizedPnl": null,
-          "realizedPnlPercent": null
-        }
-      ],
+      "lifnux.finance.trades.v100": [],
       "lifnux.finance.expense.categories.v1": [
         "Food",
         "Transport",
@@ -8476,6 +8485,7 @@
         "Interest",
         "Dividends"
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -8490,7 +8500,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "us-aapl",
@@ -9060,9 +9069,9 @@
             "schedule": "PER_MONTH",
             "perMonth": [
               101493,
-              75976,
-              75976,
-              0,
+              307000,
+              307000,
+              233000,
               0,
               0,
               0,
@@ -9125,9 +9134,9 @@
             "amount": 0,
             "schedule": "PER_MONTH",
             "perMonth": [
-              700000,
-              1200000,
-              1200000,
+              1000000,
+              1000000,
+              1000000,
               700000,
               200000,
               200000,
@@ -10691,6 +10700,10 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -10746,10 +10759,6 @@
           "createdAt": 1773157984491
         }
       ],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -11029,10 +11038,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31338942.54,
-        "unrealizedPnlKrw": 2985973.013361737,
-        "realizedPnlYtdKrw": 2100655.5198382605,
-        "updatedAt": 1773471712596
+        "totalValueKrw": 31351728.16,
+        "unrealizedPnlKrw": 3024098.9638817385,
+        "realizedPnlYtdKrw": 2100052.5689182607,
+        "updatedAt": 1773636835366
       }
     },
     "personalGrowth": {
@@ -11430,13 +11439,6 @@
           "importance": "LOW",
           "price": 512000,
           "memo": ""
-        },
-        {
-          "id": "3f824a51-d564-4182-82dd-3820b58c3e8b",
-          "name": "갤럭시 Z 플립7",
-          "importance": "LOW",
-          "price": 1392800,
-          "memo": ""
         }
       ],
       "lifnux.calendar.recurring.v100": [
@@ -11461,7 +11463,8 @@
           "location": "위메이드 타워",
           "memo": "",
           "exclusions": [
-            "2026-02-06"
+            "2026-02-06",
+            "2026-03-19"
           ],
           "createdAt": 1769498553764
         },
@@ -11653,6 +11656,18 @@
           "date": "2026-03-10",
           "type": "DATE",
           "importance": "LOW",
+          "location": "",
+          "memo": ""
+        },
+        {
+          "id": "1dd2f64a-f013-4221-a902-c557410e5317",
+          "title": "예비군 훈련",
+          "date": "2026-03-19",
+          "type": "TIMED",
+          "startTime": "12:00",
+          "endTime": "18:00",
+          "importance": "HIGH",
+          "labelId": "704abcad-3de3-455f-9eef-ab3b80154812",
           "location": "",
           "memo": ""
         }
@@ -16949,8 +16964,8 @@
           "applicationId": "0eb5fca5-1fe0-4f3c-8ea8-033d216533f6",
           "postingId": "a3a48cd3-74c2-4d63-8e4e-a5248b61ba7a",
           "appliedAt": "2026-02-23",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "38b91cb4-e939-40ef-9531-c7246a822e47",
@@ -16965,9 +16980,9 @@
               "type": "CUSTOM",
               "customLabel": "과제 전형",
               "submittedAt": "2026-03-03",
-              "resultAt": null,
-              "result": "PENDING",
-              "notes": ""
+              "resultAt": "2026-03-16",
+              "result": "FAIL",
+              "notes": "과제 리뷰를 해봤는데 암만봐도 이게 면접 못갈정돈가? 싶긴한데... 뭔가 더 디테일한 점을 놓쳤나?"
             },
             {
               "stageId": "1d33cdd3-ffa5-47f6-9758-7339c16a40d6",
@@ -17458,10 +17473,10 @@
           "comment": "",
           "deadline": null,
           "importance": 7,
-          "isFavorite": true,
+          "isFavorite": false,
           "link": "https://career.cookapps.com/job_posting/M58OgAmC",
           "createdAt": "2026-03-12T02:41:12.849Z",
-          "updatedAt": "2026-03-12T02:41:15.233Z"
+          "updatedAt": "2026-03-16T15:22:00.075Z"
         },
         {
           "postingId": "cf0db3bf-0473-4fff-af04-6c9740670170",
@@ -17546,48 +17561,6 @@
           "link": "https://recruit.navercorp.com/rcrt/view.do?annoId=30004610&lang=ko",
           "createdAt": "2026-02-27T14:23:09.527Z",
           "updatedAt": "2026-03-10T02:50:09.349Z"
-        },
-        {
-          "postingId": "96a9a89d-c80b-4a93-8bee-f59ba325fe75",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "라인게임즈",
-          "postingTitle": "라이브서비스 운영팀 담당자",
-          "role": "운영",
-          "contractType": "정규직",
-          "departmentInfo": "",
-          "responsibilities": "• 라이브 게임 운영 정책 수립 및 실행\n• 운영 이벤트 기획 및 운영\n• 업데이트 콘텐츠 운영 세팅 및 검수\n• 운영 지표 모니터링 및 데이터 기반 개선안 도출\n• 유관 부서(개발/사업/마케팅/CS 등)와의 협업 및 일정 관리\n• 이슈 대응 및 긴급 상황 커뮤니케이션",
-          "requirements": "• 2년 이상의 유관 경력을 보유하신 분",
-          "neededSkills": "",
-          "preferred": "• 모바일/온라인 게임 라이브 운영 경험\n• 영어/일본어/중국어 가능자\n• 라이브 이슈 대응 및 정책 수립 경험\n• 다양한 장르의 게임 플레이 경험 및 높은 이해도",
-          "memo": "입사지원 및 서류전형 > 1차 인터뷰 > 처우협의 > 최종합격\n\n",
-          "comment": "",
-          "deadline": "2026-03-13",
-          "importance": 6,
-          "isFavorite": true,
-          "link": "https://recruit.line.games/notice/425",
-          "createdAt": "2026-02-27T14:04:09.404Z",
-          "updatedAt": "2026-02-27T14:22:10.271Z"
-        },
-        {
-          "postingId": "ddc19f57-6a07-480f-90dc-9c77d4699fdd",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "슈퍼센트",
-          "postingTitle": "게임 리서처",
-          "role": "사업개발",
-          "contractType": "정규직",
-          "departmentInfo": "슈퍼센트가 수억 다운로드를 만들어온 힘은 데이터 이면의 '재미'를 읽어내는 통찰력에 있습니다. \n게임 리서처는 전 세계 마켓의 수 많은 게임을 탐구하며, 무엇이 유저를 움직이는지 분석하고, 그 결과를 사내에 전파하는 '나침반' 역할을 수행합니다. \n본인의 분석이 글로벌 히트작의 기준이 되고, 슈퍼센트의 게임 퀄리티를 한 단계 끌어올리는 짜릿한 경험을 함께할 동료를 기다립니다.",
-          "responsibilities": "글로벌 모바일 마켓(Top Charts 및 라이징 게임)의 주요 게임들을 플레이하고 분석합니다.\n게임의 코어 루프, BM, UX/UI, 유저 심리 등을 분석하여 대내외용 인사이트 보고서를 작성합니다.\n시장 트렌드 변화를 상시 모니터링하고, 성공 가능성이 높은 유망 장르 및 컨셉을 발굴하여 제안합니다.\n퍼블리싱 검토 단계의 게임들을 플레이하며, 게임성 및 퀄리티를 객관적으로 평가하고 개선 방향을 제시합니다.\n사내 세미나 및 공유 채널을 통해 최신 게임 트렌드와 분석 인사이트를 전파합니다.",
-          "requirements": "게임 기획 또는 서비스 운영 경험이 있거나, 리서처 혹은 전문 리뷰어로서 게임 분석 경험이 있으신 분\n특정 장르에 치우지지 않고 하이퍼캐주얼부터 하이브리드, 미드코어까지 폭넓게 플레이하고 분석할 수 있으신 분\n현상(Data) 뒤에 숨겨진 재미의 본질(Why)을 논리적으로 설명하고 문서로 정리할 수 있으신 분\n주관적인 느낌이 아닌, 객관적인 지표와 기준에 근거하여 게임의 퀄리티를 평가할 수 있으신 분\n능동적으로 정보를 수집하고, 분석한 내용을 타 직군이 이해하기 쉽게 전달할 수 있으신 분",
-          "neededSkills": "게임 분석 및 역기획서 작성 역량\n데이터 분석 툴 활용 능력(Sensor Tower, data.ai 등 사용 경험 우대)\n문서 작성 및 프리젠테이션 스킬(Notion, PPT 등)",
-          "preferred": "글로벌 마켓에 대한 이해도가 높고, 해외 최신 트렌드 매체를 꾸준히 구독하며 인사이트로 연결하시는 분\n게임 제작 과정 전반(기획/개발 등)에 대한 이해를 바탕으로 실무에 적용 가능한 피드백을 제시할 수 있으신 분\nAI 도구(ChatGPT 등)를 활용해 방대한 리서치 데이터를 효율적으로 요약·정리할 수 있으신 분\n직접 게임 프로젝트를 런칭한 경험이 있거나, 핵심 지표를 개선한 경험이 있으신 분",
-          "memo": "",
-          "comment": "",
-          "deadline": null,
-          "importance": 7,
-          "isFavorite": false,
-          "link": "https://supercent.career.greetinghr.com/ko/o/202463",
-          "createdAt": "2026-02-26T05:07:23.233Z",
-          "updatedAt": "2026-03-03T03:24:03.098Z"
         },
         {
           "postingId": "66df825a-b400-4455-96de-bcbec0b0c76f",
@@ -17731,10 +17704,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": false,
+          "isFavorite": true,
           "link": "https://loadcomplete.career.greetinghr.com/ko/o/198273",
           "createdAt": "2026-02-23T15:42:03.777Z",
-          "updatedAt": "2026-02-23T15:42:03.777Z"
+          "updatedAt": "2026-03-16T15:22:11.227Z"
         },
         {
           "postingId": "a3a48cd3-74c2-4d63-8e4e-a5248b61ba7a",
@@ -18320,11 +18293,17 @@
             "videoId": "P3YURx8awqQ",
             "title": "Seori - Dive with you (feat. eaJ) (OFFICIAL M/V)",
             "url": "https://youtu.be/P3YURx8awqQ?si=RQJ3nC6npV3j5rej"
+          },
+          {
+            "id": "d82730d4-21ee-462e-9bd5-537dec1377ff",
+            "videoId": "tIvAQR9Zj8M",
+            "title": "Effie - down (Official MacBook Video)",
+            "url": "https://youtu.be/tIvAQR9Zj8M?si=lf--etNQ0vyIOeKi"
           }
         ],
-        "currentIndex": 3,
+        "currentIndex": 28,
         "isPlaying": true,
-        "shuffle": false,
+        "shuffle": true,
         "repeatMode": "all",
         "presets": [
           {
@@ -18705,7 +18684,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2040-12-31T00:00:00.000Z"
+      "lifnux:data.lastUpdatedAt": "2026-03-16T09:15:12.075Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
