@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-17T08:37:37.635Z"
+    "exportedAt": "2026-03-20T09:04:50.107Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "_Ngk-DCHfD0",
+        "trackId": "tq9Y62uJUfU",
         "volume": 80,
-        "position": 47.66695306866455
+        "position": 0
       }
     },
     "health": {
@@ -3233,6 +3233,32 @@
           "createdAt": "2026-03-17T04:36:44.832Z",
           "distanceKm": 2.86,
           "calorieOverride": 112
+        },
+        {
+          "id": "4b9c313e-ca96-4ec9-b37b-79162a0c6934",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-17",
+          "durationMin": 50,
+          "memo": "21회차\n호흡 언제 트이냐",
+          "createdAt": "2026-03-17T14:03:45.664Z"
+        },
+        {
+          "id": "37dab2b9-3308-47ec-9b89-ec21d46c2743",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-19",
+          "durationMin": 50,
+          "memo": "22회차\n개노잼 기본기함",
+          "createdAt": "2026-03-19T14:28:24.696Z"
+        },
+        {
+          "id": "217565ab-4a80-4b7a-b9c1-118a8459ad21",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-20",
+          "durationMin": 36,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-20T04:49:10.586Z",
+          "distanceKm": 2.97,
+          "calorieOverride": 117
         }
       ]
     },
@@ -3353,7 +3379,15 @@
         },
         {
           "date": "2026-03-17",
-          "totalKrw": 31742281.12
+          "totalKrw": 31666839.6852
+        },
+        {
+          "date": "2026-03-19",
+          "totalKrw": 31709982.28
+        },
+        {
+          "date": "2026-03-20",
+          "totalKrw": 31695179.95
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -8481,19 +8515,7 @@
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
-      "lifnux.finance.trades.v100": [
-        {
-          "id": "412afde8-ab33-4ec4-873e-68b35c4f7d87",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-016360",
-          "side": "BUY",
-          "price": 98100,
-          "qty": 1,
-          "executedAt": 1773712671062,
-          "realizedPnl": null,
-          "realizedPnlPercent": null
-        }
-      ],
+      "lifnux.finance.trades.v100": [],
       "lifnux.finance.expense.categories.v1": [
         "Food",
         "Transport",
@@ -10603,6 +10625,33 @@
           "amount": 1500,
           "kind": "income",
           "memo": "구글 배당금"
+        },
+        {
+          "id": "d8055d2a-d214-4e28-bfdb-d67db72ef904",
+          "createdAt": 1773801077908,
+          "date": "2026-03-18",
+          "category": "Snacks & Coffee",
+          "title": "졸음껌",
+          "amount": 6000,
+          "kind": "expense"
+        },
+        {
+          "id": "1824dd2f-80cd-4c4b-a91e-46d635d6ebb9",
+          "createdAt": 1773975443305,
+          "date": "2026-03-18",
+          "category": "Snacks & Coffee",
+          "title": "스타벅스",
+          "amount": 7300,
+          "kind": "expense"
+        },
+        {
+          "id": "7a39c62a-200d-4536-a1fc-16ea742fe30d",
+          "createdAt": 1773975456001,
+          "date": "2026-03-19",
+          "category": "Snacks & Coffee",
+          "title": "아마스빈 버블티",
+          "amount": 5500,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -10643,12 +10692,12 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
-        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
+        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
         "loopEnabled": true,
         "aSec": 75,
         "bSec": 100,
-        "speed": 1,
+        "speed": 0.75,
         "shadowing": false,
         "attendanceCursor": "2026-02-28T15:00:00.000Z"
       },
@@ -10922,6 +10971,18 @@
         {
           "dateKey": "2026-03-15",
           "createdAt": 1773585298329
+        },
+        {
+          "dateKey": "2026-03-17",
+          "createdAt": 1773757414092
+        },
+        {
+          "dateKey": "2026-03-18",
+          "createdAt": 1773842652077
+        },
+        {
+          "dateKey": "2026-03-19",
+          "createdAt": 1773934107384
         }
       ],
       "lifnux:guitar:videos": [
@@ -11083,10 +11144,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31742281.12,
-        "unrealizedPnlKrw": 3448439.031241741,
-        "realizedPnlYtdKrw": 2099248.634358261,
-        "updatedAt": 1773714203244
+        "totalValueKrw": 31695179.95,
+        "unrealizedPnlKrw": 3359103.9770417437,
+        "realizedPnlYtdKrw": 2100253.5525582605,
+        "updatedAt": 1773997459559
       }
     },
     "personalGrowth": {
@@ -16927,15 +16988,15 @@
           "applicationId": "0d34eac2-4486-43ff-9dd0-d4a59891d8c1",
           "postingId": "b2c2afac-05a5-439c-be50-850edb39d098",
           "appliedAt": "2026-02-25",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "d4a80a52-1e05-44cb-8766-f9ea14e1811a",
               "type": "DOCUMENT",
               "submittedAt": "2026-02-25",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-03-19",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -17339,14 +17400,14 @@
           "postingId": "8a528c58-c711-49ac-8251-b5580156a45e",
           "appliedAt": "2026-01-26",
           "status": "DONE",
-          "finalResult": "UNANNOUNCED",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "a0e20117-63be-439c-ba9d-7e0e5543c30d",
               "type": "DOCUMENT",
               "submittedAt": "2026-01-26",
-              "resultAt": null,
-              "result": "UNANNOUNCED",
+              "resultAt": "2026-03-18",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -17482,6 +17543,69 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "0c4b92fa-7bc2-459f-9f4e-87ab35bd1b4a",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "에임드",
+          "postingTitle": "[UA팀] 모바일 게임 퍼포먼스 마케터 (주니어)",
+          "role": "마케",
+          "contractType": "정규직",
+          "departmentInfo": "AIMED UA팀에 합류하면, 국내에서 UA를 가장 깊이 이해하고 실질적인 성과를 만들어내는 퍼포먼스 마케터로 성장할 수 있습니다.\n\n특히 SLG처럼 UA 영향력이 압도적으로 큰 장르에서의 실전 경험은 한국에서는 사실상 AIMED에서만 얻을 수 있는 커리어 자산입니다.\n\n당신의 UA 경력이 어떤 깊이를 갖게 될지, 우리는 그 로드맵을 명확히 가지고 있습니다.",
+          "responsibilities": "에임드 UA팀은 자사 인하우스 게임(SLG, 퍼즐)과, 자회사 ‘게임베리스튜디오’의 게임(캐주얼/방치형)의 글로벌 UA를 담당합니다.\n\n글로벌 마케팅 채널(예: Meta, Google Ads, TikTok 등)을 활용한 유저 유입 캠페인 운영\n\n비용 대비 최대 성과(ROAS) 목표로 캠페인 최적화\n\nUA 마케팅 관련 리서치, 타사 사례 분석 및 인사이트 도출\n\n내부 팀(크리에이티브팀, 데이터팀 등)과 협업하여 마케팅 소재 및 전략 기획\n\n데이터 분석을 기반으로 매체별 퍼포먼스 관리 및 리포팅",
+          "requirements": "모바일 게임 및 마케팅에 관심이 많고, 플레이 경험이 풍부한 분\n\n데이터 기반 분석에 흥미가 있거나, Excel/MMP 등 툴을 다뤄본 경험이 있는 분\n\n빠른 실행과 반복 학습에 익숙하고, 도전과 시행착오에 유연한 분",
+          "neededSkills": "",
+          "preferred": "모바일 앱 Attribution Tool 사용 경험이 있으신 분(AppsFlyer, Adjust 등)\n\n게임 업계에서 모바일 마케팅 경험이 있으신 분\n\n크리에이티브팀, 제작사와 협업 경험이 있는 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://aimed.career.greetinghr.com/ko/o/135721",
+          "createdAt": "2026-03-19T14:01:16.454Z",
+          "updatedAt": "2026-03-19T14:01:16.454Z"
+        },
+        {
+          "postingId": "8a10faad-cf18-4d4c-9cc7-73993a7d79d5",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "엔엑스쓰리게임즈",
+          "postingTitle": "[로드나인] 개발PM",
+          "role": "개발PM",
+          "contractType": "정규직",
+          "departmentInfo": "로드나인은 ​NX3GAMES 고유의 ​자체 IP로, \n\nUnity엔진을 사용하여 ​서비스 ​중인 실사형 ​중세 판타지 대작 ​MMORPG입니다.\n\n모바일/PC 멀티플랫폼 ​지원 ​중이며 글로벌 ​최고 ​수준의 ​퀄리티 구현과,\n\n가장 완성된 ​월드 ​MMORPG를 목표로 달리고 ​있습니다.",
+          "responsibilities": "- 라이브 서비스 이슈 대응\n\n- 개발 일정 관리 (아트 리소스 일정 포함)\n\n- 유관 부서와의 커뮤니케이션",
+          "requirements": "- 원활한 커뮤니케이션 및 협업 능력을 보유하신 분\n\n- 모바일 게임 개발 및 라이브 서비스 프로세스에 대한 이해가 있으신 분\n\n- 높은 책임감과 꼼꼼한 업무 처리 능력을 갖추신 분\n\n- 빠른 상황 판단과 적극적인 문제 해결 자세를 지니신 분\n\n- 아트 리소스 관리 경험이 있으신 분",
+          "neededSkills": "",
+          "preferred": "- MMORPG 장르 라이브 경험\n\n-JIRA를 통해 개발 일정 관리해본 경험이 있으신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://nx3games.career.greetinghr.com/ko/o/204495",
+          "createdAt": "2026-03-19T13:57:59.261Z",
+          "updatedAt": "2026-03-19T14:01:30.949Z"
+        },
+        {
+          "postingId": "7cac4cca-cc1c-4970-bcac-e192f75175e0",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "펄어비스",
+          "postingTitle": "구매 담당자",
+          "role": "구매",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "PC, 소프트웨어, 사무용품 등 임직원이 필요한 물품을 구매 및 관리\n비용 정산, 계약서 관리 등 행정 절차 지원\n데이터 정리, 시장조사 및 보고서 작성 등 행정 업무 지원",
+          "requirements": "4년제 대학 졸업 및 졸업예정 또는 이와 동등한 학력 소지자 (전공 무관)\n기본적인 영어 읽기 및 쓰기가 가능하신 분\nMS Office(엑셀, PPT 등) 활용이 익숙하신 분",
+          "neededSkills": "",
+          "preferred": "단순 반복되는 업무라도, 끝까지 책임감 있게 마무리하시는 분\n데이터 관리 시 꼼꼼하고 세심하게 살펴보실 수 있으신 분\n동료를 도우며 팀 전체가 함께 목표를 달성하는 것에 보람을 느끼시는 분\n자동차 운전이 가능하신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://www.pearlabyss.com/ko-KR/Company/Careers/detail?_jobOpeningNo=733",
+          "createdAt": "2026-03-18T02:36:50.040Z",
+          "updatedAt": "2026-03-18T04:41:23.666Z"
+        },
+        {
           "postingId": "afec2c9f-aade-4188-bc60-07390364e06e",
           "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
           "companyName": "카카오",
@@ -17500,28 +17624,7 @@
           "isFavorite": false,
           "link": "https://careers.kakao.com/jobs/P-14393?skillSet=&part=STAFF&company=KAKAO&keyword=&employeeType=&page=1",
           "createdAt": "2026-03-12T07:43:53.218Z",
-          "updatedAt": "2026-03-12T07:43:53.218Z"
-        },
-        {
-          "postingId": "12ea407b-1d33-42a9-b85e-811b1fc59d4d",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "쿡앱스",
-          "postingTitle": "게임 사업 PM",
-          "role": "사업PM",
-          "contractType": "계약직",
-          "departmentInfo": "쿡앱스 사업팀은 “글로벌 사업을 통해 회사의 성장에 필요한 동력과 기회를 만들어 낸다”라는 미션을 달성하기 위해 쿡앱스의 타이틀을 게임 더 크게 성공시킬 수 있도록 국가별 현지화 전략, BM 방향성 수립, IP 콜라보레이션 등 다양한 사업 업무를 수행하고 있어요. 게임 산업에 정답은 없다고 생각해요. 하지만 해답은 찾을 수 있다고 믿어요. 함께 적극적으로 고민하고, 의문을 제기하며 해답을 주도적으로 찾아 나갈 동료를 기다리고 있어요.",
-          "responsibilities": "<포트리스 사가>, <냥냥시노비> 등 쿡앱스 프로젝트에 대한 글로벌 권역의 사업 PM 업무를 담당해요.\n글로벌 라이브 서비스 단계에서 서비스 전체를 사업 PM으로서 고민하고 대응해요.\nBM 및 상품 기획을 통해 프로젝트의 수익화에 기여하고, 지표 분석·서비스 개선 등 담당 프로젝트를 운영해요.\n시장 리서치, 레퍼런스 조사 등을 통해 최신 트렌드를 파악하고, 사업 실무에 필요한 인사이트를 도출해요.",
-          "requirements": "지표를 잘 이해하고 분석할 수 있으신 분\n모바일 하이브리드 캐주얼 게임에 대한 이해와 관심이 있으신 분\n자신의 생각을 문서로 잘 표현할 수 있으신 분",
-          "neededSkills": "",
-          "preferred": "중국어, 일본어, 영어 등 외국어 소통과 활용이 능숙한 분\n게임 산업 및 글로벌 게임 트렌드에 대한 이해도가 높으신 분\n원활한 커뮤니케이션 능력을 보유하신 분",
-          "memo": "",
-          "comment": "",
-          "deadline": null,
-          "importance": 7,
-          "isFavorite": false,
-          "link": "https://career.cookapps.com/job_posting/M58OgAmC",
-          "createdAt": "2026-03-12T02:41:12.849Z",
-          "updatedAt": "2026-03-16T15:22:00.075Z"
+          "updatedAt": "2026-03-19T13:58:11.037Z"
         },
         {
           "postingId": "cf0db3bf-0473-4fff-af04-6c9740670170",
@@ -17543,27 +17646,6 @@
           "link": "https://recruit.supercreative.kr/job_posting/bj4ABeJf",
           "createdAt": "2026-03-05T14:16:29.676Z",
           "updatedAt": "2026-03-05T14:16:34.597Z"
-        },
-        {
-          "postingId": "06090d63-fbb6-483f-92d0-426b261e5426",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "펄어비스",
-          "postingTitle": "검은사막 모바일 운영 담당자",
-          "role": "운영",
-          "contractType": "계약직",
-          "departmentInfo": "",
-          "responsibilities": "안정적인 게임서비스를 위한 점검 진행 및 관련 사전 준비 업무\n유저에게 전달해야 할 다양한 공지사항 등 작성\n운영툴을 사용하여 이벤트, 명령어 등 운영 필요사항 세팅 및 로그 확인\n장애 및 이슈에 대해 빠르게 확인하여 공유/논의/대응 후 정상화 진행\n게임 내외의 동향을 확인하여 게임이 개선될 수 있도록 진행\n게임서비스 전반에 걸쳐 문제가 될만한 요소를 사전에 파악하고 대응\n상대방에 대한 이해와 존중, 공감을 바탕으로 유관부서와의 커뮤니케이션 진행",
-          "requirements": "하나의 게임을 휴식기 없이 오랜 시간 플레이하신 분 (패키지 게임의 경우 엔딩을 보신 분)\n현재도 매일 2시간 이상 플레이하는 게임이 있으신 분\n실시간으로 변화하는 라이브 서비스 환경의 흐름에 맞춰 함께 협업할 수 있으신 분\n새로운 배움에 주저함이 없으신 분",
-          "neededSkills": "",
-          "preferred": "어떤 일이든 크로스 체크를 기본으로 하는 꼼꼼함을 갖추신 분\n문장력이 뛰어나 전달하고자 하는 내용을 글로 잘 표현하시는 분\n트렌드를 놓치지 않으며 센스와 감각을 보유하신 분",
-          "memo": "근무형태 : 계약직 12개월 (계약기간 종료 후 평가를 통해 정규직 전환 / 계약 연장 / 계약 종료가 검토되며, 계약기간 동안 연봉 및 복리후생은 정규직과 동일하게 적용됩니다.) ",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": false,
-          "link": null,
-          "createdAt": "2026-02-27T14:35:22.914Z",
-          "updatedAt": "2026-02-27T14:35:38.729Z"
         },
         {
           "postingId": "9c97a8f7-01bf-4add-88ab-b4cb2eece4eb",
@@ -17979,9 +18061,9 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "_Ngk-DCHfD0",
-        "queueIndex": 8,
-        "currentTime": 47.66695306866455,
+        "videoId": "tq9Y62uJUfU",
+        "queueIndex": 27,
+        "currentTime": 0,
         "repeatMode": "all",
         "shuffle": true
       },
@@ -18283,7 +18365,7 @@
             "url": "https://youtu.be/tIvAQR9Zj8M?si=lf--etNQ0vyIOeKi"
           }
         ],
-        "currentIndex": 8,
+        "currentIndex": 27,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -18666,7 +18748,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-03-16T15:23:58.774Z"
+      "lifnux:data.lastUpdatedAt": "2026-03-19T15:28:40.158Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
