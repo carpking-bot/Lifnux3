@@ -1087,7 +1087,7 @@ export default function NewsPage() {
 
           <div className="mt-3 text-xs text-[var(--ink-1)]">
             Candidates: {visibleCandidates.length} | Selected: {selectedVisible.length}
-            {" "} | Pipeline: Search -> Embed -> Embed-2
+            {" "} | Pipeline: Search -&gt; Embed -&gt; Embed-2
           </div>
         </section>
 

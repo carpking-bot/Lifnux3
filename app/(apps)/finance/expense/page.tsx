@@ -1858,7 +1858,7 @@ export default function FinanceExpensePage() {
           setHistoryDetailOpen(false);
           setHistoryDrillOpen(false);
         }}
-        panelClassName="!w-[58vw] !max-w-[58vw] h-[85vh] max-h-[85vh] overflow-hidden flex flex-col"
+        panelClassName="!w-[96vw] !max-w-[1100px] h-[85vh] max-h-[85vh] overflow-hidden flex flex-col"
         contentClassName="flex-1 overflow-y-auto lifnux-scroll pr-1"
       >
         <div className="flex flex-col gap-6 text-sm min-[1100px]:flex-row">

@@ -89,7 +89,7 @@ export async function GET(request: Request) {
     const response = await fetch(upstreamUrl, { cache: "no-store" });
     if (!response.ok) {
       console.error("[NEXT QUOTES UPSTREAM ERROR]", response.status, response.statusText);
-      return NextResponse.json({ quotes: [], error: "quote-service-error" });
+      return NextResponse.json({ quotes: [], error: "quote-service-error" }, { status: 502 });
     }
 
     const data = (await response.json()) as { quotes?: Quote[] };
@@ -117,7 +117,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ quotes: finalQuotes });
   } catch (error) {
     console.error("[NEXT QUOTES UNAVAILABLE]", error);
-    return NextResponse.json({ quotes: [], error: "quote-service-unavailable" });
+    return NextResponse.json({ quotes: [], error: "quote-service-unavailable" }, { status: 503 });
   }
 }
-

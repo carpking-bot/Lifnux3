@@ -56,7 +56,7 @@ export default function HomePage() {
       <div className="pointer-events-none absolute -top-40 left-10 h-96 w-96 rounded-full bg-[radial-gradient(circle,_rgba(90,214,208,0.25)_0%,_transparent_70%)] blur-2xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,_rgba(90,120,214,0.22)_0%,_transparent_70%)] blur-2xl" />
 
-      <section className="relative z-10 flex h-screen items-center justify-center">
+      <section className="relative z-10 flex min-h-[100dvh] items-center justify-center">
         <LifnuxLauncher
           mode="home"
           orbitApps={coreApps}

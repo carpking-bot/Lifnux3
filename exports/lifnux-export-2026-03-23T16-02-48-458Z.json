@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-19T15:28:40.158Z"
+    "exportedAt": "2026-03-23T16:02:48.452Z"
   },
   "data": {
     "lastState": {
@@ -3249,6 +3249,38 @@
           "durationMin": 50,
           "memo": "22회차\n개노잼 기본기함",
           "createdAt": "2026-03-19T14:28:24.696Z"
+        },
+        {
+          "id": "6cd78e87-1544-4378-8579-95703b8d22b7",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-21",
+          "durationMin": 43,
+          "memo": "동네 걷기",
+          "createdAt": "2026-03-21T15:47:51.885Z",
+          "distanceKm": 3.51,
+          "calorieOverride": 139
+        },
+        {
+          "id": "71a8bcde-721c-46d0-af43-6bf927c9a4d7",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-20",
+          "durationMin": 50,
+          "memo": "23회차\n또 기본기함. 근데 나 수영에 재능 없는듯 ..",
+          "createdAt": "2026-03-21T15:48:19.055Z"
+        },
+        {
+          "id": "607302ee-e0b9-46a9-bc8b-9b45615a9c86",
+          "typeId": "home",
+          "loggedForDate": "2026-03-21",
+          "durationMin": 20,
+          "createdAt": "2026-03-21T17:27:16.526Z"
+        },
+        {
+          "id": "9ddfac40-2595-4a80-be9c-e9b3f4f724fb",
+          "typeId": "home",
+          "loggedForDate": "2026-03-22",
+          "durationMin": 20,
+          "createdAt": "2026-03-22T16:05:09.654Z"
         }
       ]
     },
@@ -10620,6 +10652,71 @@
           "title": "졸음껌",
           "amount": 6000,
           "kind": "expense"
+        },
+        {
+          "id": "d936450d-969c-41a2-9675-5abe0d5db77e",
+          "createdAt": 1774189966167,
+          "date": "2026-03-18",
+          "category": "Snacks & Coffee",
+          "title": "스타벅스",
+          "amount": 7300,
+          "kind": "expense"
+        },
+        {
+          "id": "4ed8e6e3-7809-47c6-860b-7920a768d61c",
+          "createdAt": 1774189991299,
+          "date": "2026-03-19",
+          "category": "Snacks & Coffee",
+          "title": "버블티",
+          "amount": 5500,
+          "kind": "expense",
+          "memo": "빨대 꽂다가 터뜨린 개 레전드"
+        },
+        {
+          "id": "7c83201c-2bc1-4e62-875f-ff856645f044",
+          "createdAt": 1774190008707,
+          "date": "2026-03-20",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 980,
+          "kind": "expense"
+        },
+        {
+          "id": "4041cc1c-d764-4902-9981-be2400172a4d",
+          "createdAt": 1774190015491,
+          "date": "2026-03-20",
+          "category": "Snacks & Coffee",
+          "title": "편의점",
+          "amount": 2250,
+          "kind": "expense"
+        },
+        {
+          "id": "577f154d-a72b-436d-967c-fb41e9f34da6",
+          "createdAt": 1774190033565,
+          "date": "2026-03-21",
+          "category": "Other",
+          "title": "Fun&Fun 회비",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "3e21bc80-ebde-48c2-aeb9-071e7b21f815",
+          "createdAt": 1774190069062,
+          "date": "2026-03-22",
+          "category": "Snacks & Coffee",
+          "title": "메가커피",
+          "amount": 3300,
+          "kind": "expense",
+          "memo": "레몬티"
+        },
+        {
+          "id": "c42c2c3d-f70a-4108-99c5-ecb9b662a1c3",
+          "createdAt": 1774190079606,
+          "date": "2026-03-22",
+          "category": "Food",
+          "title": "점심 (바지락 칼국수)",
+          "amount": 13000,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -10660,12 +10757,12 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
-        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+        "selectedSongId": "9217dd76-2abf-4e39-8828-82497d8a913f",
+        "selectedVideoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
         "loopEnabled": true,
-        "aSec": 75,
-        "bSec": 100,
-        "speed": 0.75,
+        "aSec": 0,
+        "bSec": 165,
+        "speed": 0.85,
         "shadowing": false,
         "attendanceCursor": "2026-02-28T15:00:00.000Z"
       },
@@ -10759,6 +10856,15 @@
           "endSec": 100,
           "speed": 1,
           "createdAt": 1773586988211
+        },
+        {
+          "id": "fac78c6b-af7c-4ee8-8890-4a2279cb5760",
+          "videoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+          "name": "Part 3",
+          "startSec": 108,
+          "endSec": 165,
+          "speed": 1,
+          "createdAt": 1774194227398
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -10951,6 +11057,18 @@
         {
           "dateKey": "2026-03-19",
           "createdAt": 1773934107384
+        },
+        {
+          "dateKey": "2026-03-21",
+          "createdAt": 1774105112942
+        },
+        {
+          "dateKey": "2026-03-22",
+          "createdAt": 1774190138526
+        },
+        {
+          "dateKey": "2026-03-23",
+          "createdAt": 1774277870875
         }
       ],
       "lifnux:guitar:videos": [
@@ -18716,7 +18834,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2040-12-31T00:00:00.000Z"
+      "lifnux:data.lastUpdatedAt": "2026-03-23T16:02:48.063Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
