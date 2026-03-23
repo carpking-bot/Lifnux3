@@ -531,8 +531,10 @@ export function GlobalMusicPlayerOverlay() {
                         key={value}
                         className={currentRating >= value ? "text-[var(--accent-1)]" : "text-[var(--ink-1)]"}
                         onClick={() => activeItem && setRating(activeItem, value)}
+                        aria-label={`Rate ${value} star${value > 1 ? "s" : ""}`}
+                        title={`Rate ${value} star${value > 1 ? "s" : ""}`}
                       >
-                        ★
+                        *
                       </button>
                     );
                   })}
@@ -557,6 +559,8 @@ export function GlobalMusicPlayerOverlay() {
                     setExpanded(false);
                     saveState(UI_OPEN_KEY, false);
                   }}
+                  aria-label="Collapse player"
+                  title="Collapse player"
                 >
                   <ChevronDown className="h-4 w-4" />
                 </button>
@@ -603,6 +607,8 @@ export function GlobalMusicPlayerOverlay() {
                   if (!isPlaying) markUserInteracted();
                   setIsPlaying(!isPlaying);
                 }}
+                aria-label={isPlaying ? "Pause playback" : "Play playback"}
+                title={isPlaying ? "Pause playback" : "Play playback"}
               >
                 {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               </button>
@@ -619,7 +625,12 @@ export function GlobalMusicPlayerOverlay() {
                   Resume
                 </button>
               ) : null}
-              <button className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10" onClick={handleNext}>
+              <button
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10"
+                onClick={handleNext}
+                aria-label="Next track"
+                title="Next track"
+              >
                 <SkipForward className="h-4 w-4" />
               </button>
               <div className="flex items-center gap-2 pl-2">
@@ -784,3 +795,4 @@ export function GlobalMusicPlayerOverlay() {
     </>
   );
 }
+
