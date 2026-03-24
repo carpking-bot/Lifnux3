@@ -13,6 +13,7 @@ const HUB_REVEAL_KEY = "lifnux.finance.hub.reveal.v1";
 const ASSET_MONTHLY_SNAPSHOTS_KEY = "asset_monthly_snapshots";
 const ASSET_CATEGORY_SCHEMA_KEY = "lifnux.finance.asset.category.schema.v1";
 const EXPENSE_LEDGER_KEY = "lifnux.finance.expense.ledger.v1";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 type AssetCategory = { id: string; name: string };
 type AssetItem = { categoryId?: string; amountKRW?: number };
@@ -45,7 +46,7 @@ export default function FinancePage() {
   const [fxRate, setFxRate] = useState<number | null>(null);
   const [transactionCardTab, setTransactionCardTab] = useState<"expense" | "income">("expense");
 
-  useEffect(() => {
+  const reloadFinanceHubState = () => {
     setRevealed(loadState<boolean>(HUB_REVEAL_KEY, false));
     setAssetSnapshots(loadState<AssetSnapshotMap>(ASSET_MONTHLY_SNAPSHOTS_KEY, {}));
     setAssetCategories(loadState<AssetCategory[]>(ASSET_CATEGORY_SCHEMA_KEY, []));
@@ -57,6 +58,18 @@ export default function FinancePage() {
     const initialFx = data.indices.find((item) => item.symbol === "USD/KRW")?.last ?? null;
     setFxRate(initialFx && initialFx > 0 ? initialFx : null);
     setReady(true);
+  };
+
+  useEffect(() => {
+    reloadFinanceHubState();
+  }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadFinanceHubState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
   }, []);
 
   useEffect(() => {
@@ -306,4 +319,3 @@ export default function FinancePage() {
     </AppShell>
   );
 }
-

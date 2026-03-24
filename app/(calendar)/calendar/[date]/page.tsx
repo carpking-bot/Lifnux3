@@ -15,6 +15,7 @@ const SCHEDULE_KEY = "lifnux.calendar.schedules.v100";
 const HOLIDAY_KEY = "lifnux.calendar.holidays.v100";
 const LABEL_KEY = "lifnux.calendar.labels.v100";
 const RECURRING_KEY = "lifnux.calendar.recurring.v100";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 function matchesRecurring(rule: RecurringRule, dateKey: string, holidayDates: Set<string>) {
   const date = parseDateKey(dateKey);
@@ -94,7 +95,7 @@ export default function SchedulerPage({ params }: { params: { date: string } }) 
   const [defaultEndTime, setDefaultEndTime] = useState<string | undefined>(undefined);
   const [defaultType, setDefaultType] = useState<CalendarEvent["type"] | undefined>(undefined);
 
-  useEffect(() => {
+  const reloadSchedulerState = () => {
     const loadedEvents = loadState(SCHEDULE_KEY, []);
     const loadedRules = loadState(RECURRING_KEY, []);
     const migrated = migrateRepeatEvents(loadedEvents, loadedRules);
@@ -106,6 +107,18 @@ export default function SchedulerPage({ params }: { params: { date: string } }) 
     }
     setHolidays(loadState(HOLIDAY_KEY, []));
     setLabels(loadState(LABEL_KEY, []));
+  };
+
+  useEffect(() => {
+    reloadSchedulerState();
+  }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadSchedulerState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
   }, []);
 
   const holidayDates = useMemo(() => new Set(holidays.map((holiday) => holiday.date)), [holidays]);

@@ -17,6 +17,7 @@ const HOLIDAY_KEY = "lifnux.calendar.holidays.v100";
 const LABEL_KEY = "lifnux.calendar.labels.v100";
 const SHOPPING_KEY = "lifnux.calendar.shopping.v100";
 const RECURRING_KEY = "lifnux.calendar.recurring.v100";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 const statusData = {
   company: "Lifnux Labs",
@@ -139,7 +140,7 @@ export default function CalendarPage() {
   }, [holidays]);
   const holidayDates = useMemo(() => new Set(holidays.map((holiday) => holiday.date)), [holidays]);
 
-  useEffect(() => {
+  const reloadCalendarState = () => {
     const loadedEvents = loadState(SCHEDULE_KEY, []);
     const loadedRules = loadState(RECURRING_KEY, []);
     const migrated = migrateRepeatEvents(loadedEvents, loadedRules);
@@ -152,12 +153,24 @@ export default function CalendarPage() {
     setHolidays(loadState(HOLIDAY_KEY, []));
     setLabels(loadState(LABEL_KEY, []));
     setShopping(loadState(SHOPPING_KEY, []));
+  };
+
+  useEffect(() => {
+    reloadCalendarState();
     const ym = searchParams.get("ym");
     if (!ym) return;
     const [y, m] = ym.split("-").map(Number);
     if (!y || !m) return;
     setCursor(new Date(y, m - 1, 1));
   }, [searchParams]);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadCalendarState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+  }, []);
 
   useEffect(() => {
     if (!shoppingModalOpen) return;

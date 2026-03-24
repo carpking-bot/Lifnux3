@@ -12,6 +12,7 @@ const EXPENSE_REVIEW_KEY = "lifnux.finance.expense.review.v1";
 const EXPENSE_BUDGET_KEY = "lifnux.finance.expense.budget.v1";
 const EXPENSE_SEED_BATCH = "seed-2010-2019";
 const PRESERVED_BUDGET_MONTH = "2026-02";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 const formatNumberInput = (value: string) => {
   const digits = value.replace(/[^\d]/g, "");
@@ -194,7 +195,7 @@ export default function FinanceExpensePage() {
   const [inlineNotice, setInlineNotice] = useState<string | null>(null);
   const ledgerTabLabel = ledgerKindTab === "income" ? "Income" : "Expense";
 
-  useEffect(() => {
+  const reloadExpenseState = () => {
     const loadedEntries = loadState<ExpenseEntry[]>(EXPENSE_LEDGER_KEY, []);
     const loadedCategories = loadState<string[]>(EXPENSE_CATEGORIES_KEY, ["Food", "Transport", "Housing", "Shopping", "Other"]);
     const loadedBudget = loadState<Record<string, number>>(EXPENSE_BUDGET_KEY, {});
@@ -213,7 +214,19 @@ export default function FinanceExpensePage() {
     if (Object.keys(loadedBudget).length !== Object.keys(sanitizedBudget).length) {
       saveState(EXPENSE_BUDGET_KEY, sanitizedBudget);
     }
+  };
+
+  useEffect(() => {
+    reloadExpenseState();
   }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadExpenseState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+  }, [selectedMonth]);
 
   useEffect(() => {
     setBudgetInput(budgetByMonth[selectedMonth] ? formatNumberInput(String(budgetByMonth[selectedMonth])) : "");

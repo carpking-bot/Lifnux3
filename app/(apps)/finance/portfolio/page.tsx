@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 const PORTFOLIO_LABEL_OPTIONS_KEY = "lifnux.finance.portfolio.labels.v100";
 const PORTFOLIO_HISTORY_KEY = "lifnux.finance.portfolio.history.v100";
 const PORTFOLIO_PERFORMANCE_KEY = "investing.portfolio.performance.v1";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 type PortfolioLabelOptions = {
   countries: string[];
@@ -153,17 +154,12 @@ export default function PortfolioPage() {
     endDate: ""
   });
 
-  useEffect(() => {
+  const reloadPortfolioState = () => {
     const data = loadFinanceState();
     const normalizedAccounts = data.accounts.map((account) => ({
       ...account,
       currency: account.currency ?? (account.countryType === "US" ? "USD" : "KRW")
     }));
-    setAccounts(normalizedAccounts);
-    setHoldings(data.holdings);
-    setStocks(data.stocks);
-    setSettings(data.settings);
-    setTrades(data.trades);
     const loadedCash = loadCashBalances();
     const loadedLedger = loadLedgerRecords();
     const stocksById = new Map(data.stocks.map((stock) => [stock.id, stock]));
@@ -205,35 +201,51 @@ export default function PortfolioPage() {
     });
     const countrySet = new Set(persistedOptions.countries.map((entry) => entry.trim()).filter(Boolean));
     const sectorMajorSet = new Set((persistedOptions.sectorMajors ?? []).map((entry) => entry.trim()).filter(Boolean));
-    const sectorSet = new Set(persistedOptions.sectors.map((entry) => entry.trim()).filter(Boolean));
+    const sectorSet = new Set((persistedOptions.sectors ?? []).map((entry) => entry.trim()).filter(Boolean));
     data.holdings.forEach((holding) => {
       if (holding.countryLabel?.trim()) countrySet.add(holding.countryLabel.trim());
       if (holding.sectorMajorLabel?.trim()) sectorMajorSet.add(holding.sectorMajorLabel.trim());
       if (holding.sectorLabel?.trim()) sectorSet.add(holding.sectorLabel.trim());
     });
+    const loadedHistory = loadState<PortfolioHistoryPoint[]>(PORTFOLIO_HISTORY_KEY, []);
+
+    setAccounts(normalizedAccounts);
+    setHoldings(data.holdings);
+    setStocks(data.stocks);
+    setSettings(data.settings);
+    setTrades(data.trades);
     setLabelOptions({
       countries: Array.from(countrySet),
       sectorMajors: Array.from(sectorMajorSet),
       sectors: Array.from(sectorSet)
     });
-    const loadedHistory = loadState<PortfolioHistoryPoint[]>(PORTFOLIO_HISTORY_KEY, []);
     setHistory(isLikelySeededTwoYearHistory(loadedHistory) ? [] : loadedHistory);
-    setCashBalances((prev) => {
-      if (prev.length) return prev;
-      const normalized = normalizedAccounts.length
-        ? normalizedAccounts.map((account) => ({
+    setCashBalances(
+      loadedCash.length
+        ? loadedCash
+        : normalizedAccounts.map((account) => ({
             accountId: account.id,
             currency: account.currency ?? (account.countryType === "US" ? "USD" : "KRW"),
             balance: 0
           }))
-        : [];
-      return loadedCash.length ? loadedCash : normalized;
-    });
+    );
     setLedgerRecords(migratedLedger);
     if (!loadedLedger.length && migratedLedger.length) {
       saveLedgerRecords(migratedLedger);
     }
     setReady(true);
+  };
+
+  useEffect(() => {
+    reloadPortfolioState();
+  }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadPortfolioState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
   }, []);
 
   useEffect(() => {

@@ -13,6 +13,7 @@ const EXPORT_VERSION = "1.0.0";
 const BACKUP_KEY = "lifnux:backup";
 const BACKUP_ENABLED_KEY = "lifnux:backup.enabled";
 const LOCAL_DATA_UPDATED_AT_KEY = "lifnux:data.lastUpdatedAt";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 const SYNC_EXACT_KEYS = new Set(["portfolio.positions", "investing.portfolio.performance.v1"]);
 const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music.", "career_"];
 
@@ -235,6 +236,11 @@ export function importLifnuxExport(payload: LifnuxExport) {
   } catch {
     // Ignore if local storage is blocked.
   }
+  window.dispatchEvent(
+    new CustomEvent(LOCAL_DATA_IMPORTED_EVENT, {
+      detail: { updatedAt }
+    })
+  );
 }
 
 export function isAutoBackupEnabled() {

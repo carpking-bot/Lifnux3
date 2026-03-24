@@ -14,6 +14,7 @@ import type { Goal, GoalDomain, GoalScope, GoalStatus, ProgressUpdate, WeeklyChe
 const SCOPE_TABS: GoalScope[] = ["WEEKLY", "MONTHLY", "YEARLY", "LIFETIME"];
 const VIEW_TABS = ["ACTIVE", "ARCHIVE"] as const;
 type GoalViewTab = (typeof VIEW_TABS)[number];
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 function toYmd(date: Date) {
   const y = date.getFullYear();
@@ -78,12 +79,24 @@ export default function PersonalGrowthPage() {
   const [monthBaseYear, setMonthBaseYear] = useState(new Date().getFullYear());
   const [yearBase, setYearBase] = useState(() => Math.floor(new Date().getFullYear() / 12) * 12);
 
-  useEffect(() => {
+  const reloadPersonalGrowthState = () => {
     const loadedDomains = personalGrowthStore.loadDomains();
     setDomains(loadedDomains);
     setGoals(personalGrowthStore.loadGoals().map((goal) => ({ ...goal, isArchived: goal.isArchived ?? false })));
     setUpdates(personalGrowthStore.loadProgressUpdates());
     setChecklistStates(personalGrowthStore.loadWeeklyChecklistStates());
+  };
+
+  useEffect(() => {
+    reloadPersonalGrowthState();
+  }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadPersonalGrowthState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
   }, []);
 
   const weekKey = useMemo(() => startOfWeekKey(weekDate), [weekDate]);

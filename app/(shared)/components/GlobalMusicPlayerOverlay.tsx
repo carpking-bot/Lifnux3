@@ -106,6 +106,44 @@ export function GlobalMusicPlayerOverlay() {
   const USER_INTERACTED_KEY = "music.userInteracted";
   const ONBOARDING_KEY = "music.onboardingDismissed";
   const UI_OPEN_KEY = "music.playerUIOpen";
+  const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
+
+  const reloadOverlayState = () => {
+    const savedOpen = Boolean(loadState(UI_OPEN_KEY, false));
+    if (!isMusicRoute && pathname === "/") {
+      saveState(UI_OPEN_KEY, false);
+      setExpanded(false);
+    } else {
+      setExpanded(isMusicRoute ? true : savedOpen);
+    }
+
+    const savedResume = loadState(RESUME_KEY, null);
+    const lastState = loadState<{
+      trackId?: string;
+      volume?: number;
+      position?: number;
+    } | null>(LAST_STATE_KEY, null);
+    if (lastState && Number.isFinite(lastState.volume)) {
+      setVolume(Number(lastState.volume));
+    }
+    if (lastState) {
+      resumeRef.current =
+        savedResume ??
+        ({
+          videoId: lastState.trackId ?? "",
+          queueIndex: 0,
+          currentTime: lastState.position ?? 0,
+          isPlaying: false,
+          repeatMode: "off",
+          shuffle: false
+        } as typeof resumeRef.current);
+    } else {
+      resumeRef.current = savedResume;
+    }
+    setUserInteracted(Boolean(loadState(USER_INTERACTED_KEY, false)));
+    setOnboardingDismissed(Boolean(loadState(ONBOARDING_KEY, false)));
+    if (isMusicRoute) setUiHidden(false);
+  };
 
   const markUserInteracted = useCallback(() => {
     if (userInteracted) return;
@@ -173,6 +211,14 @@ export function GlobalMusicPlayerOverlay() {
     setUserInteracted(Boolean(loadState(USER_INTERACTED_KEY, false)));
     setOnboardingDismissed(Boolean(loadState(ONBOARDING_KEY, false)));
   }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadOverlayState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+  }, [isMusicRoute, pathname]);
 
   const activeItem = queue[currentIndex];
   useEffect(() => {

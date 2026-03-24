@@ -20,6 +20,7 @@ const ASSET_DATASET_IMPORTED_KEY = "lifnux.finance.asset.dataset.imported.v9";
 const EXPENSE_LEDGER_KEY = "lifnux.finance.expense.ledger.v1";
 const CASHFLOW_PLANNER_KEY = "lifnux.finance.asset.cashflowPlanner.v1";
 const CASHFLOW_PLANNER_SNAPSHOTS_KEY = "lifnux.finance.asset.cashflowPlanner.snapshots.v1";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 const ASSET_MIN_MONTH = "2024-03";
 const UNCATEGORIZED_ID = "uncategorized";
 
@@ -607,68 +608,35 @@ export default function FinanceAssetPage() {
   const [plannerOverwriteConfirmOpen, setPlannerOverwriteConfirmOpen] = useState(false);
   const [plannerOverwriteTargetId, setPlannerOverwriteTargetId] = useState<string | null>(null);
   const [plannerOverwriteTargetName, setPlannerOverwriteTargetName] = useState("");
-  const hydratedEditorMonthRef = useRef<string>("");
-  const anyAssetModalOpen =
-    categoryModalOpen ||
-    historyModalOpen ||
-    cashflowPlannerOpen ||
-    growthModalOpen ||
-    logsModalOpen ||
-    debugOpen ||
-    seedConfirmOpen ||
-    !!seedStatusMessage ||
-    itemGuardOpen ||
-    categoryConfirmOpen ||
-    overwriteOpen ||
-    editModalOpen ||
-    editApplyConfirmOpen;
 
-  useEffect(() => {
-    const stored = loadState<Partial<CashflowPlannerState> | null>(CASHFLOW_PLANNER_KEY, null);
-    setCashflowPlanner(normalizeCashflowPlannerState(stored));
+  const reloadAssetState = () => {
+    const storedPlanner = loadState<Partial<CashflowPlannerState> | null>(CASHFLOW_PLANNER_KEY, null);
+    setCashflowPlanner(normalizeCashflowPlannerState(storedPlanner));
     setCashflowPlannerHydrated(true);
-  }, []);
 
-  useEffect(() => {
-    if (!cashflowPlannerHydrated) return;
-    saveState(CASHFLOW_PLANNER_KEY, cashflowPlanner);
-  }, [cashflowPlanner, cashflowPlannerHydrated]);
-
-  useEffect(() => {
-    const stored = loadState<CashflowPlannerSnapshot[]>(CASHFLOW_PLANNER_SNAPSHOTS_KEY, []);
-    if (!Array.isArray(stored)) {
+    const storedSnapshots = loadState<CashflowPlannerSnapshot[]>(CASHFLOW_PLANNER_SNAPSHOTS_KEY, []);
+    if (!Array.isArray(storedSnapshots)) {
       setCashflowPlannerSnapshots([]);
       setCashflowPlannerSnapshotsHydrated(true);
-      return;
+    } else {
+      const normalizedPlannerSnapshots = storedSnapshots
+        .filter((item) => item && typeof item.id === "string" && typeof item.name === "string")
+        .map((item) => ({
+          id: item.id,
+          name: item.name.trim() || "Unnamed Plan",
+          startMonth: normalizeMonthKey(item.startMonth),
+          endMonth: normalizeMonthKey(item.endMonth, item.startMonth),
+          createdAt: Number.isFinite(Number(item.createdAt)) ? Number(item.createdAt) : Date.now(),
+          planner: normalizeCashflowPlannerState({
+            ...(item.planner ?? {}),
+            startMonth: (item.planner as Partial<CashflowPlannerState> | undefined)?.startMonth ?? item.startMonth
+          })
+        }))
+        .sort((a, b) => b.createdAt - a.createdAt);
+      setCashflowPlannerSnapshots(normalizedPlannerSnapshots);
+      setCashflowPlannerSnapshotsHydrated(true);
     }
-    const normalized = stored
-      .filter((item) => item && typeof item.id === "string" && typeof item.name === "string")
-      .map((item) => ({
-        id: item.id,
-        name: item.name.trim() || "Unnamed Plan",
-        startMonth: normalizeMonthKey(item.startMonth),
-        endMonth: normalizeMonthKey(item.endMonth, item.startMonth),
-        createdAt: Number.isFinite(Number(item.createdAt)) ? Number(item.createdAt) : Date.now(),
-        planner: normalizeCashflowPlannerState({
-          ...(item.planner ?? {}),
-          startMonth: (item.planner as Partial<CashflowPlannerState> | undefined)?.startMonth ?? item.startMonth
-        })
-      }))
-      .sort((a, b) => b.createdAt - a.createdAt);
-    setCashflowPlannerSnapshots(normalized);
-    setCashflowPlannerSnapshotsHydrated(true);
-  }, []);
 
-  useEffect(() => {
-    if (!cashflowPlannerSnapshotsHydrated) return;
-    saveState(CASHFLOW_PLANNER_SNAPSHOTS_KEY, cashflowPlannerSnapshots);
-  }, [cashflowPlannerSnapshots, cashflowPlannerSnapshotsHydrated]);
-
-  useEffect(() => {
-    if (month < ASSET_MIN_MONTH) setMonth(ASSET_MIN_MONTH);
-  }, [month]);
-
-  useEffect(() => {
     let loadedCategories = loadState<AssetCategory[]>(ASSET_CATEGORY_SCHEMA_KEY, []);
     let loadedLogs = loadState<SnapshotLog[]>(ASSET_SNAPSHOT_LOGS_KEY, []);
     const loadedSnapshotsRaw = loadState<any>(ASSET_MONTHLY_SNAPSHOTS_KEY, {});
@@ -708,7 +676,6 @@ export default function FinanceAssetPage() {
         setMonth(clampAssetMonth(imported.latestMonth));
       }
     } else if (!alreadyImported && hasUserAssetData) {
-      // Existing data is present: mark import as completed so manual snapshots are never overwritten.
       saveState(ASSET_DATASET_IMPORTED_KEY, true);
     }
     if (!alreadyImported) {
@@ -728,6 +695,47 @@ export default function FinanceAssetPage() {
     setStocks(data.stocks ?? []);
     const initialFx = data.indices.find((item) => item.symbol === "USD/KRW")?.last ?? null;
     setFxRate(initialFx && initialFx > 0 ? initialFx : null);
+  };
+  const hydratedEditorMonthRef = useRef<string>("");
+  const anyAssetModalOpen =
+    categoryModalOpen ||
+    historyModalOpen ||
+    cashflowPlannerOpen ||
+    growthModalOpen ||
+    logsModalOpen ||
+    debugOpen ||
+    seedConfirmOpen ||
+    !!seedStatusMessage ||
+    itemGuardOpen ||
+    categoryConfirmOpen ||
+    overwriteOpen ||
+    editModalOpen ||
+    editApplyConfirmOpen;
+
+  useEffect(() => {
+    if (!cashflowPlannerHydrated) return;
+    saveState(CASHFLOW_PLANNER_KEY, cashflowPlanner);
+  }, [cashflowPlanner, cashflowPlannerHydrated]);
+
+  useEffect(() => {
+    if (!cashflowPlannerSnapshotsHydrated) return;
+    saveState(CASHFLOW_PLANNER_SNAPSHOTS_KEY, cashflowPlannerSnapshots);
+  }, [cashflowPlannerSnapshots, cashflowPlannerSnapshotsHydrated]);
+
+  useEffect(() => {
+    if (month < ASSET_MIN_MONTH) setMonth(ASSET_MIN_MONTH);
+  }, [month]);
+
+  useEffect(() => {
+    reloadAssetState();
+  }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadAssetState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
   }, []);
 
   useEffect(() => {
@@ -3226,4 +3234,3 @@ function MonthClickPicker({
     </div>
   );
 }
-

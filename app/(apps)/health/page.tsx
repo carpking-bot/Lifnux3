@@ -27,6 +27,7 @@ import { createHealthStore } from "./lib/store";
 import type { ActivityLog, ActivityLogDraft, ActivityType, ActivityTypeId, ActivityWeeklyTarget } from "./types";
 
 const TEST_MODE_KEY = "lifnux.health.debug.testMode.v1";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 function fallbackTypes(): ActivityType[] {
   const now = new Date().toISOString();
@@ -164,6 +165,23 @@ export default function HealthPage() {
 
   const activeStore = useMemo(() => createHealthStore(isTestMode ? "test" : "main"), [isTestMode]);
 
+  const reloadHealthState = () => {
+    try {
+      const nextTestMode = loadState<boolean>(TEST_MODE_KEY, false);
+      const nextStore = createHealthStore(nextTestMode ? "test" : "main");
+      const loadedTypes = nextStore.loadActivityTypes();
+      setIsTestMode(nextTestMode);
+      setTypes(loadedTypes.length ? loadedTypes : fallbackTypes());
+      setLogs(nextStore.loadActivityLogs());
+      setWeeklyTargets(nextStore.loadWeeklyTargets());
+    } catch {
+      setTypes(fallbackTypes());
+      setLogs([]);
+      setWeeklyTargets([]);
+      setToast("Health data recovered with fallback defaults.");
+    }
+  };
+
   useEffect(() => {
     setIsTestMode(loadState<boolean>(TEST_MODE_KEY, false));
     setTestModeReady(true);
@@ -196,6 +214,14 @@ export default function HealthPage() {
       setToast("Health data recovered with fallback defaults.");
     }
   }, [activeStore]);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadHealthState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+  }, []);
 
   useEffect(() => {
     if (!testModeReady) return;

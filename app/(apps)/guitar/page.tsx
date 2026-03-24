@@ -21,6 +21,7 @@ const STATE_KEY = "lifnux:guitar:state";
 const LEGACY_KEY = "lifnux:guitar:v1";
 const LEGACY_SEGMENT_KEY = "lifnux.guitar.segments.v100";
 const LEGACY_ATTENDANCE_KEY = "lifnux.guitar.attendance.v100";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 type GuitarState = {
   selectedSongId?: string;
@@ -54,7 +55,7 @@ export default function GuitarPage() {
   const [attendanceCursor, setAttendanceCursor] = useState<Date>(() => new Date());
   const [hydrated, setHydrated] = useState(false);
 
-  useEffect(() => {
+  const reloadGuitarState = () => {
     let loadedSongs = loadState<Song[]>(SONG_KEY, []);
     let loadedVideos = loadState<Video[]>(VIDEO_KEY, []);
     if (loadedSongs.length === 0 && loadedVideos.length === 0) {
@@ -69,8 +70,8 @@ export default function GuitarPage() {
         typeof song.difficulty === "number"
           ? (song.difficulty as Song["difficulty"])
           : song.difficulty
-          ? (Number(song.difficulty) as Song["difficulty"])
-          : undefined
+            ? (Number(song.difficulty) as Song["difficulty"])
+            : undefined
     }));
     const migratedVideos = loadedVideos.map((video: any) => {
       if ("youtubeId" in video && "kind" in video) return video as Video;
@@ -85,13 +86,14 @@ export default function GuitarPage() {
         createdAt: video.createdAt ?? Date.now()
       } as Video;
     });
-    setSongs(migratedSongs);
-    setVideos(migratedVideos);
     const loadedSegments = loadState<Segment[]>(SEGMENT_KEY, []);
     const loadedAttendance = loadState<Attendance[]>(ATTENDANCE_KEY, []);
+    const loadedState = loadState<GuitarState | null>(STATE_KEY, null);
+
+    setSongs(migratedSongs);
+    setVideos(migratedVideos);
     setSegments(loadedSegments.length ? loadedSegments : loadState(LEGACY_SEGMENT_KEY, []));
     setAttendance(loadedAttendance.length ? loadedAttendance : loadState(LEGACY_ATTENDANCE_KEY, []));
-    const loadedState = loadState<GuitarState | null>(STATE_KEY, null);
     if (loadedState) {
       setSelectedSongId(loadedState.selectedSongId);
       setSelectedVideoId(loadedState.selectedVideoId);
@@ -106,6 +108,18 @@ export default function GuitarPage() {
       }
     }
     setHydrated(true);
+  };
+
+  useEffect(() => {
+    reloadGuitarState();
+  }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadGuitarState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
   }, []);
 
   useEffect(() => {
@@ -446,6 +460,5 @@ async function fetchYouTubeTitle(videoId: string) {
     return "";
   }
 }
-
 
 

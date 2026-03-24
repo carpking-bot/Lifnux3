@@ -131,7 +131,7 @@ export default function LabPage() {
         onConfirm={() => {
           if (pendingImport && validateLifnuxExport(pendingImport)) {
             importLifnuxExport(pendingImport);
-            showToast({ type: "success", message: "Import complete. Please refresh the page." });
+            showToast({ type: "success", message: "Import complete." });
           } else {
             showToast({ type: "error", message: "Invalid import payload." });
           }

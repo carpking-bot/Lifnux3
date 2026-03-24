@@ -6,6 +6,7 @@ import { isRatingPresetName, ratingToPresetName } from "../lib/music";
 import { loadState, saveState } from "../lib/storage";
 
 const STORAGE_KEY = "lifnux.music.state.v100";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 type MusicState = {
   queue: QueueItem[];
@@ -46,7 +47,7 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
   const [state, setState] = useState<MusicState>(defaultState);
   const [hydrated, setHydrated] = useState(false);
 
-  useEffect(() => {
+  const reloadMusicState = () => {
     const loaded = loadState(STORAGE_KEY, defaultState);
     const repeatMode =
       loaded && typeof loaded === "object" && "repeatMode" in loaded
@@ -63,6 +64,18 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
       ratings: (loaded as MusicState)?.ratings ?? {}
     });
     setHydrated(true);
+  };
+
+  useEffect(() => {
+    reloadMusicState();
+  }, []);
+
+  useEffect(() => {
+    const handleImported = () => {
+      reloadMusicState();
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, handleImported);
   }, []);
 
   useEffect(() => {
