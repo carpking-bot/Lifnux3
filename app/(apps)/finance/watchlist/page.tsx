@@ -152,6 +152,24 @@ export default function FinanceWatchlistPage() {
     window.setTimeout(() => setNotice(null), 2400);
   };
 
+  const renderTaxonomyLabels = (item: StockItem) => {
+    const labels = [
+      item.countryLabel,
+      item.sectorMajorLabel ? `대:${item.sectorMajorLabel}` : undefined,
+      item.sectorLabel ? `소:${item.sectorLabel}` : undefined
+    ].filter(Boolean);
+    if (!labels.length) return null;
+    return (
+      <div className="mt-2 flex flex-wrap gap-1 text-[10px] text-[var(--ink-1)]">
+        {labels.map((label) => (
+          <span key={`${item.id}-${label}`} className="rounded-full border border-white/10 px-2 py-[1px]">
+            {label}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   const fetchQuote = async (symbol: string) => {
     try {
       const response = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbol)}`);
@@ -366,9 +384,9 @@ export default function FinanceWatchlistPage() {
       setHoldingError("Avg price must be 0 or greater.");
       return;
     }
-    const currency = stock.market === "KR" ? "KRW" : "USD";
+    const currency: "KRW" | "USD" = stock.market === "KR" ? "KRW" : "USD";
     const existing = holdings.find((entry) => entry.symbolKey === holdingTargetId);
-    const next = existing
+    const next: Holding[] = existing
       ? holdings.map((entry) =>
           entry.id === existing.id
             ? {
@@ -377,7 +395,10 @@ export default function FinanceWatchlistPage() {
                 qty: qtyValue,
                 avgPrice: resolvedAvgValue,
                 currency,
-                notes: holdingDraft.notes.trim() || undefined
+                notes: holdingDraft.notes.trim() || undefined,
+                countryLabel: stock.countryLabel,
+                sectorMajorLabel: stock.sectorMajorLabel,
+                sectorLabel: stock.sectorLabel
               }
             : entry
         )
@@ -391,7 +412,10 @@ export default function FinanceWatchlistPage() {
             avgPrice: resolvedAvgValue,
             qty: qtyValue,
             currency,
-            notes: holdingDraft.notes.trim() || undefined
+            notes: holdingDraft.notes.trim() || undefined,
+            countryLabel: stock.countryLabel,
+            sectorMajorLabel: stock.sectorMajorLabel,
+            sectorLabel: stock.sectorLabel
           }
         ];
     saveHoldings(next);
@@ -783,6 +807,7 @@ export default function FinanceWatchlistPage() {
                             )
                           : "--"}
                       </div>
+                      {renderTaxonomyLabels(item)}
                       <div className={`text-xs ${watchQuotes.get(getQuoteSymbol(item).toUpperCase())?.changePercent && (watchQuotes.get(getQuoteSymbol(item).toUpperCase())?.changePercent ?? 0) >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
                         {watchQuotes.get(getQuoteSymbol(item).toUpperCase())?.changePercent === null || watchQuotes.get(getQuoteSymbol(item).toUpperCase())?.changePercent === undefined
                           ? "--"

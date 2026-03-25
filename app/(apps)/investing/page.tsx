@@ -124,6 +124,24 @@ export default function InvestingPage() {
     })}`;
   };
 
+  const renderTaxonomyLabels = (item: StockItem) => {
+    const labels = [
+      item.countryLabel,
+      item.sectorMajorLabel ? `대:${item.sectorMajorLabel}` : undefined,
+      item.sectorLabel ? `소:${item.sectorLabel}` : undefined
+    ].filter(Boolean);
+    if (!labels.length) return null;
+    return (
+      <div className="mt-2 flex flex-wrap gap-1 text-[10px] text-[var(--ink-1)]">
+        {labels.map((label) => (
+          <span key={`${item.id}-${label}`} className="rounded-full border border-white/10 px-2 py-[1px]">
+            {label}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <AppShell showTitle={false}>
       <div className="mx-auto w-full max-w-[1200px] pb-20 pt-10">
@@ -224,6 +242,7 @@ export default function InvestingPage() {
                       <div className="font-medium">
                         {item.label ?? item.symbol} <span className="text-[var(--ink-1)]">({item.symbol})</span>
                       </div>
+                      {renderTaxonomyLabels(item)}
                       <div
                         className={`text-xs ${
                           item.quote?.changePercent !== null && item.quote?.changePercent !== undefined && item.quote?.changePercent >= 0
@@ -299,6 +318,7 @@ export default function InvestingPage() {
           <div className="space-y-2 text-sm">
             <div className="text-lg">{detailStock.label ?? detailStock.symbol}</div>
             <div className="text-[var(--ink-1)]">{detailStock.symbol}</div>
+            {renderTaxonomyLabels(detailStock)}
             <div className="text-[var(--ink-1)]">
               Last:{" "}
               {formatPrice(detailQuote?.price, detailStock.symbol, detailStock.market, detailQuote?.currency)}

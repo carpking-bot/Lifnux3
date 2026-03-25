@@ -20,6 +20,9 @@ export type StockItem = {
   createdAt?: number;
   name?: string;
   label?: string;
+  countryLabel?: string;
+  sectorMajorLabel?: string;
+  sectorLabel?: string;
   watchlisted?: boolean;
   notes?: string;
   mktCapRank?: number;

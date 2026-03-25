@@ -19,6 +19,11 @@ function now() {
   return Date.now();
 }
 
+function trimOptional(value?: string) {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
 export function seedIndices(): IndexItem[] {
   const base = [
     { name: "NASDAQ", symbol: "IXIC", region: "US", last: 18234.1, changePct: 0.72, changeAbs: 130.4 },
@@ -200,6 +205,9 @@ export function loadFinanceState() {
         ...item,
         symbol: normalizedSymbol,
         label: resolvedLabel,
+        countryLabel: trimOptional(item.countryLabel),
+        sectorMajorLabel: trimOptional(item.sectorMajorLabel),
+        sectorLabel: trimOptional(item.sectorLabel),
         assetType: item.assetType ?? "STOCK",
         exchange: item.exchange ?? (item.market === "KR" ? "KRX" : "NASDAQ"),
         currency: item.currency ?? (item.market === "KR" ? "KRW" : "USD"),
@@ -223,7 +231,7 @@ export function loadFinanceState() {
         watchlisted?: boolean;
       }[]
     >(WATCHLIST_KEY, []);
-    const migrated =
+    const migrated: StockItem[] =
       legacy.length > 0
         ? legacy.map((item) => ({
             id: item.id,
@@ -251,15 +259,16 @@ export function loadFinanceState() {
   const savedPositions = loadState<Holding[]>(PORTFOLIO_POSITIONS_KEY, []);
   const holdingsSeed = seedHoldings();
   const rawHoldings = savedPositions.length ? savedPositions : legacyHoldings.length ? legacyHoldings : holdingsSeed;
+  const stockById = new Map(stocks.map((item) => [item.id, item]));
   const holdings = rawHoldings.map((holding) => {
-    const stock = holding.stockId ? stocks.find((item) => item.id === holding.stockId) : undefined;
+    const stock = holding.stockId ? stockById.get(holding.stockId) : undefined;
     const symbol = holding.symbolKey || stock?.symbol || "";
     return {
       ...holding,
       symbolKey: normalizeSymbol(symbol),
-      countryLabel: holding.countryLabel?.trim() || undefined,
-      sectorMajorLabel: holding.sectorMajorLabel?.trim() || undefined,
-      sectorLabel: holding.sectorLabel?.trim() || undefined
+      countryLabel: trimOptional(holding.countryLabel) ?? trimOptional(stock?.countryLabel),
+      sectorMajorLabel: trimOptional(holding.sectorMajorLabel) ?? trimOptional(stock?.sectorMajorLabel),
+      sectorLabel: trimOptional(holding.sectorLabel) ?? trimOptional(stock?.sectorLabel)
     };
   });
   const stocksBySymbol = new Map(stocks.map((item) => [normalizeSymbol(item.symbol), item]));
@@ -270,10 +279,32 @@ export function loadFinanceState() {
     if (!symbolKey) return;
     const existing = stocksBySymbol.get(symbolKey);
     if (existing) {
-      if (existing.watchlisted === false) {
+      let nextExisting = existing;
+      const mergedCountry = trimOptional(existing.countryLabel) ?? trimOptional(holding.countryLabel);
+      const mergedSectorMajor = trimOptional(existing.sectorMajorLabel) ?? trimOptional(holding.sectorMajorLabel);
+      const mergedSector = trimOptional(existing.sectorLabel) ?? trimOptional(holding.sectorLabel);
+      if (
+        mergedCountry !== existing.countryLabel ||
+        mergedSectorMajor !== existing.sectorMajorLabel ||
+        mergedSector !== existing.sectorLabel
+      ) {
         const idx = nextStocks.findIndex((entry) => entry.id === existing.id);
         if (idx >= 0) {
-          nextStocks[idx] = { ...existing, watchlisted: true };
+          nextExisting = {
+            ...existing,
+            countryLabel: mergedCountry,
+            sectorMajorLabel: mergedSectorMajor,
+            sectorLabel: mergedSector
+          };
+          nextStocks[idx] = nextExisting;
+          stocksBySymbol.set(symbolKey, nextExisting);
+          stocksChanged = true;
+        }
+      }
+      if (existing.watchlisted === false) {
+        const idx = nextStocks.findIndex((entry) => entry.id === nextExisting.id);
+        if (idx >= 0) {
+          nextStocks[idx] = { ...nextExisting, watchlisted: true };
           stocksBySymbol.set(symbolKey, nextStocks[idx]);
           stocksChanged = true;
         }
@@ -293,6 +324,9 @@ export function loadFinanceState() {
       createdAt: now(),
       label,
       name: label,
+      countryLabel: trimOptional(holding.countryLabel),
+      sectorMajorLabel: trimOptional(holding.sectorMajorLabel),
+      sectorLabel: trimOptional(holding.sectorLabel),
       watchlisted: true,
       mktCapRank: 9999,
       last: quote.last,

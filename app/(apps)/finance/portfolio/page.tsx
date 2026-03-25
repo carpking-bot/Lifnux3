@@ -17,6 +17,7 @@ import {
   saveFinanceSettings,
   saveHoldings,
   saveLedgerRecords,
+  saveStocks,
   saveTrades
 } from "../../../(shared)/lib/finance";
 import { loadState, saveState } from "../../../(shared)/lib/storage";
@@ -50,6 +51,8 @@ type AnalyzeResult = {
   points: Array<{ date: string; close: number }>;
   returns: Record<AnalyzePeriodKey, number | null>;
 };
+
+type LabelField = "countryLabel" | "sectorMajorLabel" | "sectorLabel";
 
 const ANALYZE_PERIODS: Array<{ key: AnalyzePeriodKey; label: string; days: number }> = [
   { key: "1W", label: "1W", days: 7 },
@@ -207,6 +210,11 @@ export default function PortfolioPage() {
       if (holding.sectorMajorLabel?.trim()) sectorMajorSet.add(holding.sectorMajorLabel.trim());
       if (holding.sectorLabel?.trim()) sectorSet.add(holding.sectorLabel.trim());
     });
+    data.stocks.forEach((stock) => {
+      if (stock.countryLabel?.trim()) countrySet.add(stock.countryLabel.trim());
+      if (stock.sectorMajorLabel?.trim()) sectorMajorSet.add(stock.sectorMajorLabel.trim());
+      if (stock.sectorLabel?.trim()) sectorSet.add(stock.sectorLabel.trim());
+    });
     const loadedHistory = loadState<PortfolioHistoryPoint[]>(PORTFOLIO_HISTORY_KEY, []);
 
     setAccounts(normalizedAccounts);
@@ -295,6 +303,10 @@ export default function PortfolioPage() {
     if (!ready) return;
     saveHoldings(holdings);
   }, [holdings, ready]);
+  useEffect(() => {
+    if (!ready) return;
+    saveStocks(stocks);
+  }, [stocks, ready]);
   useEffect(() => {
     saveFinanceSettings(settings);
   }, [settings]);
@@ -846,6 +858,22 @@ export default function PortfolioPage() {
     [labelOptions.sectors]
   );
 
+  const syncStockLabels = (stockId: string | undefined, symbolKey: string, labels: Partial<Pick<StockItem, LabelField>>) => {
+    setStocks((prev) =>
+      prev.map((stock) => {
+        const isMatch =
+          (stockId && stock.id === stockId) || normalizeSymbol(stock.symbol) === normalizeSymbol(symbolKey);
+        if (!isMatch) return stock;
+        return {
+          ...stock,
+          countryLabel: labels.countryLabel,
+          sectorMajorLabel: labels.sectorMajorLabel,
+          sectorLabel: labels.sectorLabel
+        };
+      })
+    );
+  };
+
   const addCountryLabelOption = () => {
     const value = newCountryLabel.trim();
     if (!value) return;
@@ -928,6 +956,17 @@ export default function PortfolioPage() {
         return holding.sectorLabel === original ? { ...holding, sectorLabel: nextValue } : holding;
       })
     );
+    setStocks((prev) =>
+      prev.map((stock) => {
+        if (type === "country") {
+          return stock.countryLabel === original ? { ...stock, countryLabel: nextValue } : stock;
+        }
+        if (type === "sectorMajor") {
+          return stock.sectorMajorLabel === original ? { ...stock, sectorMajorLabel: nextValue } : stock;
+        }
+        return stock.sectorLabel === original ? { ...stock, sectorLabel: nextValue } : stock;
+      })
+    );
   };
 
   const deleteLabelOption = (type: "country" | "sectorMajor" | "sector", target: string) => {
@@ -952,6 +991,17 @@ export default function PortfolioPage() {
           return holding.sectorMajorLabel === target ? { ...holding, sectorMajorLabel: undefined } : holding;
         }
         return holding.sectorLabel === target ? { ...holding, sectorLabel: undefined } : holding;
+      })
+    );
+    setStocks((prev) =>
+      prev.map((stock) => {
+        if (type === "country") {
+          return stock.countryLabel === target ? { ...stock, countryLabel: undefined } : stock;
+        }
+        if (type === "sectorMajor") {
+          return stock.sectorMajorLabel === target ? { ...stock, sectorMajorLabel: undefined } : stock;
+        }
+        return stock.sectorLabel === target ? { ...stock, sectorLabel: undefined } : stock;
       })
     );
     setLabelEdits((prev) => {
@@ -1163,6 +1213,9 @@ export default function PortfolioPage() {
     if (!(nextAvg >= 0) || !(nextQty > 0)) return;
     const nextStock = stocks.find((item) => item.id === nextDraft.stockId);
     const nextSymbolKey = normalizeSymbol(nextStock?.symbol ?? target.symbolKey);
+    const nextCountryLabel = nextDraft.countryLabel?.trim() || undefined;
+    const nextSectorMajorLabel = nextDraft.sectorMajorLabel?.trim() || undefined;
+    const nextSectorLabel = nextDraft.sectorLabel?.trim() || undefined;
     setHoldings((prev) =>
       prev.map((entry) =>
         entry.id === editingId
@@ -1173,16 +1226,21 @@ export default function PortfolioPage() {
               symbolKey: nextSymbolKey,
               avgPrice: nextAvg,
               qty: nextQty,
-              countryLabel: nextDraft.countryLabel?.trim() || undefined,
-              sectorMajorLabel: nextDraft.sectorMajorLabel?.trim() || undefined,
-              sectorLabel: nextDraft.sectorLabel?.trim() || undefined
+              countryLabel: nextCountryLabel,
+              sectorMajorLabel: nextSectorMajorLabel,
+              sectorLabel: nextSectorLabel
             }
           : entry
       )
     );
-    const normalizedCountry = nextDraft.countryLabel?.trim();
-    const normalizedSectorMajor = nextDraft.sectorMajorLabel?.trim();
-    const normalizedSector = nextDraft.sectorLabel?.trim();
+    syncStockLabels(nextDraft.stockId || target.stockId, nextSymbolKey, {
+      countryLabel: nextCountryLabel,
+      sectorMajorLabel: nextSectorMajorLabel,
+      sectorLabel: nextSectorLabel
+    });
+    const normalizedCountry = nextCountryLabel;
+    const normalizedSectorMajor = nextSectorMajorLabel;
+    const normalizedSector = nextSectorLabel;
     if (normalizedCountry) {
       setLabelOptions((prev) => ({
         ...prev,
@@ -1256,7 +1314,10 @@ export default function PortfolioPage() {
         symbolKey,
         avgPrice: priceValue,
         qty: qtyValue,
-        currency
+        currency,
+        countryLabel: stock.countryLabel,
+        sectorMajorLabel: stock.sectorMajorLabel,
+        sectorLabel: stock.sectorLabel
       });
     } else if (existing) {
       const idx = nextHoldings.findIndex((entry) => entry.id === existing.id);
