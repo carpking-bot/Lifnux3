@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-25T15:30:35.092Z"
+    "exportedAt": "2026-03-29T15:10:39.901Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "lthsxQQhrDc",
+        "trackId": "oyXx7MDqZ-Q",
         "volume": 80,
         "position": 0
       }
@@ -3333,6 +3333,49 @@
           "loggedForDate": "2026-03-26",
           "durationMin": 20,
           "createdAt": "2026-03-25T15:30:32.649Z"
+        },
+        {
+          "id": "f1a60814-429b-4795-bbf2-678a66bdc0b4",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-26",
+          "durationMin": 32,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-26T04:54:57.562Z",
+          "distanceKm": 2.41,
+          "calorieOverride": 96
+        },
+        {
+          "id": "b3de2165-6f55-4f95-ab6a-61d60a1828e6",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-26",
+          "durationMin": 50,
+          "memo": "25회차\n계속 기본기. 운동하는 느낌은 안나긴함 ㅠ",
+          "createdAt": "2026-03-26T15:31:16.235Z"
+        },
+        {
+          "id": "f9bbe06d-1b26-48ec-a92b-f6659ecbe5e2",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-27",
+          "durationMin": 38,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-27T04:37:04.063Z",
+          "distanceKm": 3,
+          "calorieOverride": 118
+        },
+        {
+          "id": "1962eed7-996d-486f-9116-d28e278c17f5",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-27",
+          "durationMin": 50,
+          "memo": "26회차",
+          "createdAt": "2026-03-27T14:35:46.548Z"
+        },
+        {
+          "id": "b8a5b59f-c360-4230-b5d1-598c4c7961f3",
+          "typeId": "home",
+          "loggedForDate": "2026-03-28",
+          "durationMin": 20,
+          "createdAt": "2026-03-28T18:09:00.106Z"
         }
       ]
     },
@@ -3466,6 +3509,18 @@
         {
           "date": "2026-03-25",
           "totalKrw": 32439390.09
+        },
+        {
+          "date": "2026-03-26",
+          "totalKrw": 31783527.7106
+        },
+        {
+          "date": "2026-03-27",
+          "totalKrw": 31493914
+        },
+        {
+          "date": "2026-03-28",
+          "totalKrw": 32820695.890000004
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -8595,13 +8650,24 @@
       "lifnux.finance.asset.dataset.imported.v9": true,
       "lifnux.finance.trades.v100": [
         {
-          "id": "f39a2333-da25-41da-8359-49dbb1a97046",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-016360",
+          "id": "d54e9c41-a378-4692-ba02-080e16987d35",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "auto-us-nas:flnc",
           "side": "BUY",
-          "price": 97500,
+          "price": 14.44,
+          "qty": 8,
+          "executedAt": 1774719757704,
+          "realizedPnl": null,
+          "realizedPnlPercent": null
+        },
+        {
+          "id": "ff0f01d9-e8cd-47a5-8d1b-689b09d4a8a8",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "auto-us-nys:snow",
+          "side": "BUY",
+          "price": 152.58,
           "qty": 1,
-          "executedAt": 1774450086521,
+          "executedAt": 1774719793767,
           "realizedPnl": null,
           "realizedPnlPercent": null
         }
@@ -8621,9 +8687,9 @@
         "Gift",
         "Wage",
         "Interest",
-        "Dividends"
+        "Dividends",
+        "Cashback"
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -8638,6 +8704,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "us-aapl",
@@ -9425,8 +9492,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-005930",
           "symbolKey": "005930",
-          "avgPrice": 116402,
-          "qty": 22,
+          "avgPrice": 118836.69565217392,
+          "qty": 23,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
@@ -9461,8 +9528,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:flnc",
           "symbolKey": "NAS:FLNC",
-          "avgPrice": 26.06696,
-          "qty": 14,
+          "avgPrice": 21.838974545454548,
+          "qty": 22,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Energy/Grid",
@@ -9485,8 +9552,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nys:snow",
           "symbolKey": "NYS:SNOW",
-          "avgPrice": 183.25,
-          "qty": 5,
+          "avgPrice": 178.13833333333332,
+          "qty": 6,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "AI Software",
@@ -9668,18 +9735,6 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Non AI",
           "sectorLabel": "Financials"
-        },
-        {
-          "id": "6c568f8a-f2b5-4f2e-9cf4-f8deae92cc4b",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-stock-ams:koru",
-          "symbolKey": "AMS:KORU",
-          "avgPrice": 372.69,
-          "qty": 1,
-          "currency": "USD",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "Risky Assets",
-          "sectorLabel": "Index"
         },
         {
           "id": "9ed0ffc3-c76b-454b-b86a-4a1373e845a8",
@@ -10932,6 +10987,62 @@
           "title": "졸음껌",
           "amount": 6000,
           "kind": "expense"
+        },
+        {
+          "id": "2b70711c-ef0b-4384-af1a-34675cd6b266",
+          "createdAt": 1774488171335,
+          "date": "2026-03-25",
+          "category": "Snacks & Coffee",
+          "title": "스타벅스",
+          "amount": 8300,
+          "kind": "expense",
+          "memo": "슈크림 말차라떼 ICE"
+        },
+        {
+          "id": "a6d9cf91-73f3-4faf-a425-049129f4b95f",
+          "createdAt": 1774488183717,
+          "date": "2026-03-26",
+          "category": "Subscription",
+          "title": "네이버 MYBOX",
+          "amount": 1646,
+          "kind": "expense"
+        },
+        {
+          "id": "9c4372a1-e27b-4047-880d-96ea32240dd6",
+          "createdAt": 1774488250926,
+          "date": "2026-03-25",
+          "category": "Cashback",
+          "title": "하나카드 현금IC 캐쉬백",
+          "amount": 41,
+          "kind": "income",
+          "memo": "스타벅스 그건듯"
+        },
+        {
+          "id": "49e3b4e0-17f6-4c2f-b680-6d92fdf30ea2",
+          "createdAt": 1774577519218,
+          "date": "2026-03-26",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 1280,
+          "kind": "expense"
+        },
+        {
+          "id": "12cd8e87-6bbf-4ced-b25f-00a9c1ec1864",
+          "createdAt": 1774577534458,
+          "date": "2026-03-27",
+          "category": "Subscription",
+          "title": "유튜브 프리미엄",
+          "amount": 14900,
+          "kind": "expense"
+        },
+        {
+          "id": "3a25db8a-684a-42e0-9d25-a567cdb3efc3",
+          "createdAt": 1774796665452,
+          "date": "2026-03-28",
+          "category": "Transport",
+          "title": "카카오바이크",
+          "amount": 1120,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -10972,10 +11083,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "e52d3f5c-2ea2-4165-8717-2622e2a9a8b6",
+        "selectedSongId": "9217dd76-2abf-4e39-8828-82497d8a913f",
+        "selectedVideoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
         "loopEnabled": true,
-        "speed": 1,
+        "speed": 0.75,
         "shadowing": false,
         "attendanceCursor": "2026-02-28T15:00:00.000Z"
       },
@@ -11081,10 +11192,6 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -11140,6 +11247,10 @@
           "createdAt": 1773157984491
         }
       ],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -11290,6 +11401,14 @@
         {
           "dateKey": "2026-03-25",
           "createdAt": 1774448887257
+        },
+        {
+          "dateKey": "2026-03-26",
+          "createdAt": 1774539104987
+        },
+        {
+          "dateKey": "2026-03-28",
+          "createdAt": 1774709763615
         }
       ],
       "lifnux:guitar:videos": [
@@ -11451,10 +11570,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 32439390.09,
-        "unrealizedPnlKrw": 2689446.58368,
-        "realizedPnlYtdKrw": 1984300.3361982605,
-        "updatedAt": 1774450304492
+        "totalValueKrw": 32820695.890000004,
+        "unrealizedPnlKrw": 3113915.438439995,
+        "realizedPnlYtdKrw": 1848145.5562382606,
+        "updatedAt": 1774720331648
       }
     },
     "personalGrowth": {
@@ -17254,15 +17373,15 @@
           "applicationId": "a47666ad-dfd2-45ec-b75b-333ed9902c38",
           "postingId": "4de4bbac-90a6-4c6e-b540-9f6d4baa0896",
           "appliedAt": "2026-02-25",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "f319da14-4588-4ee8-9b69-4cd77d8fe80c",
               "type": "DOCUMENT",
               "submittedAt": "2026-02-25",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-03-27",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -17816,7 +17935,7 @@
           "level": "인턴",
           "salaryKRW": 37000000,
           "isCurrent": true,
-          "remainingPTO": 1.75,
+          "remainingPTO": 4.75,
           "notes": ""
         },
         {
@@ -17849,6 +17968,111 @@
         }
       ],
       "career_job_postings": [
+        {
+          "postingId": "0da18e5f-7f85-4613-8b35-c1276009dccf",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "에피드게임즈",
+          "postingTitle": "[사업/운영] 국내 사업 PM",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "게임 ​런칭 ​및 ​라이브 서비스 ​프로젝트 전략 수립\n게임 및 ​유저 ​데이터 분석을 ​통한 방향성 제시\n유관 ​부서 및 ​파트너사 ​커뮤니케이션 조율\n",
+          "requirements": "서브컬처, 게임, ​애니메이션에 ​대한 깊은 이해도와 ​애정이 ​있으신 ​분\n모바일 게임에 대한 ​이해도가 높으신 ​분\n유연하고 ​능동적인 커뮤니케이션 ​능력을 보유하신 ​분\n주도적인 ​업무 수행과 끈기가 ​있으신 분",
+          "neededSkills": "",
+          "preferred": "수집형 RPG, 서브컬처 등의 장르 이해도가 높으신 분\n게임 시스템과 게임 BM에 대해 깊은 이해도를 갖추신 분\n비즈니스 수준의 외국어 활용이 가능한 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://epidgames.career.greetinghr.com/ko/o/207995",
+          "createdAt": "2026-03-27T15:15:44.663Z",
+          "updatedAt": "2026-03-27T15:15:51.815Z"
+        },
+        {
+          "postingId": "c8895c28-b96f-4564-8a5d-8e28739c0465",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "NHN Cloud",
+          "postingTitle": "사업지원",
+          "role": "사업",
+          "contractType": "정규직",
+          "departmentInfo": "NHN Cloud는 대한민국을 대표하는 클라우드 서비스로서 데이터 센터부터 플랫폼, 애플리케이션 서비스에 이르기까지 고객이 필요한 모든 클라우드 서비스를 제공 하는 클라우드 서비스 제공사(CSP)입니다. 탄탄한 기술력으로 폭발적인 성장을 이뤄온 NHN Cloud는 이제 국내를 넘어 글로벌 테크 기업으로의 성장을 목표로 하고 있습니다.",
+          "responsibilities": "사업수주에 따른 계약검토 및 관련 업무 지원(매입, 보증, 청구 등)\n월 정기 매출 정산 업무(청구, 검증, 수정 등)\n대외 매출 집계, 분석 등의 관리업무\n사내 지원부서(법무, 회계, 구매 등) 업무 대응",
+          "requirements": "",
+          "neededSkills": "",
+          "preferred": "꼼꼼한 성격과 논리적인 사고방식을 가지고 계신 분\n대내외 커뮤니케이션 및 협업 능력이 뛰어나신 분\n회계 및 재무 관련 자격증을 보유하신 분",
+          "memo": "채용 공고에서 요구하는 경험과 역량을 중심으로 기재해주세요.\n해오신 업무를 프로젝트 단위로 잘 정리해서 적어주세요.\n포트폴리오, 노션, 깃허브 등 경험과 역량을 어필할 별도의 자료가 있다면 함께 제출해주세요.\n일부 포지션에서는 포트폴리오 제출이 필수입니다. 확인하시고 꼭 제출해주세요.\n자기소개는 직무 역량을 경험과 잘 연결지어 작성해주시면 좋아요.",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://careers.nhn.com/recruits/4284308203672435948",
+          "createdAt": "2026-03-27T14:55:54.528Z",
+          "updatedAt": "2026-03-27T14:56:06.945Z"
+        },
+        {
+          "postingId": "952f8e73-88d5-4287-b474-56dfc931659c",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "빅파이어게임즈",
+          "postingTitle": "개발 PM",
+          "role": "개발PM",
+          "contractType": "단기계약직",
+          "departmentInfo": "",
+          "responsibilities": "게임 개발 프로세스의 이해 및 프로젝트 관리 지식을 바탕으로, 프로젝트 진행의 전반적인 과정(요구사항 수집, 기획, 개발, 테스트, 배포, 퍼블리싱)이 원활하게 진행되도록 필요한 프로세스 수립, 진행, 조율, 관리하는 역할을 수행합니다.\n\n프로젝트 통합관리(Project Integration Management): 프로젝트 개발 전체 과정의 기간 수립 및 진척 사항을 관리하고, 개발을 위한 다양한 프로세스를 수립하며, 제품 개발을 위한 제반 사항을 준비 및 지원합니다.\n프로젝트 범위관리(Project Scope Management): 개발팀 내/외부 이해관계자들의 개발 요구사항을 수집하고, 요구사항에 대한 개발 범위를 구체화합니다. 계획과 요구사항을 바탕으로 범위를 검증 및 통제합니다.\n프로젝트 일정관리(Project Time Management): 프로젝트 범위, 가용 자원 등을 고려하여 기간 별 프로젝트 일정을 산정하고, 기간 내에 완수할 수 있도록 일정을 관리합니다.\n프로젝트 의사소통관리(Project Communication Management): 프로젝트 정보를 시의 적절하게 계획, 수집, 생성, 분배, 저장, 통제, 감시, 폐기할 수 있도록 필요한 프로세스를 개발하고 관리합니다.\n프로젝트 위험관리(Project Risk Management): 프로젝트를 진행하면서 발생하는 모든 위험에 대하여 정성적, 정량적 분석을 실시하고, 대응 계획을 수립하고 실행합니다.\n프로젝트 조달관리(Project Procurement Management): 프로젝트팀 외부로부터 필요한 자원 및 리소스, 서비스 또는 결과물을 획득할 수 있도록 프로세스를 수립하고 관리합니다.\n개발 조직 운영 및 관리(Dev. Organization Management): 건강한 조직을 유지하는데 필요한 각종 내부 정책과 가이드라인을 제시하고 조직이 추구하는 문화를 정착시킬 수 있도록 지원합니다.\n프로젝트 산출물 관리(Project Deliverables Management): 프로젝트에서 생성되는 모든 산출물(정책, 문서, 굿즈 등)을 요구되는 사양으로 적재하고, 효율적으로 관리할 수 있도록 프로세스를 수립합니다.",
+          "requirements": "게임 개발에 대한 이해도가 있으신 분\nJira/Wiki 상급 활용 가능하신 분\n커뮤니케이션 능력이 우수한 분\n협업에 대한 이해와 수행이 우수한 분",
+          "neededSkills": "",
+          "preferred": "외국어 가능자",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://bigfiregames.career.greetinghr.com/ko/o/148313",
+          "createdAt": "2026-03-27T14:38:27.293Z",
+          "updatedAt": "2026-03-27T14:38:27.293Z"
+        },
+        {
+          "postingId": "7b752262-3945-47ba-90ee-36ec09ca1034",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "NC AI",
+          "postingTitle": "AI 데이터 구축 어시스턴트",
+          "role": "AI 리서",
+          "contractType": "단기계약직",
+          "departmentInfo": "NC AI의 생성형AI모델 및 서비스의 기반이 되는 학습/평가 데이터를 만들고 있습니다.\n하나의 도메인에 국한되지 않고 게임, 패션, 영상, 텍스트 등 여러 도메인에 대한 이해를 바탕으로\n사람과 기술의 중간에서 데이터로 커뮤니케이션 하는 방법을 찾고 있습니다.",
+          "responsibilities": "• 생성형AI 기술 개발 및 서비스를 위한 각종 데이터를 구축합니다.\n• 한국어 문장 의도를 분석하여 가이드에 맞는 태깅 수행합니다.\n• 게임 챗봇서비스를 위한 대화 데이터를 구축합니다.\n• 내부 프로젝트를 위한 리서치와 보고서를 작성합니다.",
+          "requirements": "• 한국어 인공지능 데이터와 챗봇서비스 데이터 구축에 대한 관심과 경험이 있는 분\n• 인공지능 서비스에 대한 리서치와 보고서 작성 능력이 있는 분",
+          "neededSkills": "",
+          "preferred": "• Office, Python, AI 도구 사용이 가능한 분\n• 국문학, 언어학, 문헌정보학 등 어학 관련 전공한 분\n• NCSOFT에서 서비스 중인 게임에 대한 이해도가 높거나 다양한 게임을 즐기는 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://careers.ncsoft.com/apply/view/100581?companyId=NCAI",
+          "createdAt": "2026-03-27T14:37:17.299Z",
+          "updatedAt": "2026-03-27T14:37:17.299Z"
+        },
+        {
+          "postingId": "15879091-7683-4612-bfa6-971e3ce4ef05",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "넥슨게임즈",
+          "postingTitle": "[사업실] 사업PM",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "- 대형 업데이트 타겟 공식 프로모션 페이지 기획 및 UA캠페인 핸들링\n\n- 주간 신규 상품 기획 및 유관부서 조율\n\n- 불특정 라이브 이슈 발생 시 내부 의사결정 지원\n\n- 지표 변화 추적 및 사유 분석, 인사이트 도출 및 내부 리포팅\n\n- 시장 조사를 위한 시장 트렌드 및 벤치마킹 분석서 작성, 내부 리포팅",
+          "responsibilities": "- 신입 ~ 8년 이하 경력 보유자 및 1년 계약직 근무 가능자\n\n- 아이디어를 구체화하여 설득력 있는 문서로 작성해낼 수 있는 역량을 갖춘 분\n\n- 게임 컨텐츠에 대한 논리적 분석과 인사이트 역량을 갖춘 분\n\n- 다양한 유관부서와의 커뮤니케이션에서 적극적인 자세를 갖춘 분\n\n- 업무 관련 역량 혹은 경험을 확인할 수 있는 포트폴리오 및 경력기술서 첨부 필수",
+          "requirements": "- MMORPG 혹은 글로벌 PC/모바일 게임 론칭, 라이브 유지보수 경험자 우대\n\n- 지표 분석 업무에 수행 경험자 우대\n\n- 신규 BM 성공 경험 우대\n\n- 외국어 능력(일본어, 중국어) 보유자 우대",
+          "neededSkills": "",
+          "preferred": "",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 8,
+          "isFavorite": true,
+          "link": "https://careers.nexon.com/recruit/9649",
+          "createdAt": "2026-03-26T08:39:33.150Z",
+          "updatedAt": "2026-03-26T08:39:36.062Z"
+        },
         {
           "postingId": "0c4b92fa-7bc2-459f-9f4e-87ab35bd1b4a",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
@@ -17889,7 +18113,7 @@
           "isFavorite": false,
           "link": "https://nx3games.career.greetinghr.com/ko/o/204495",
           "createdAt": "2026-03-19T13:57:59.261Z",
-          "updatedAt": "2026-03-19T14:01:30.949Z"
+          "updatedAt": "2026-03-27T15:15:47.495Z"
         },
         {
           "postingId": "7cac4cca-cc1c-4970-bcac-e192f75175e0",
@@ -17932,27 +18156,6 @@
           "link": "https://careers.kakao.com/jobs/P-14393?skillSet=&part=STAFF&company=KAKAO&keyword=&employeeType=&page=1",
           "createdAt": "2026-03-12T07:43:53.218Z",
           "updatedAt": "2026-03-19T13:58:11.037Z"
-        },
-        {
-          "postingId": "cf0db3bf-0473-4fff-af04-6c9740670170",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "슈퍼크리에이티브",
-          "postingTitle": "시장 및 경쟁 게임 분석 프로젝트 매니저",
-          "role": "PM",
-          "contractType": "정규직",
-          "departmentInfo": "",
-          "responsibilities": "• 게임 시장 및 커뮤니티 리서치\n• 경쟁 서브컬쳐 게임 구조 및 BM 분석\n• 자사 게임 포지셔닝 전략 수립 및 인사이트 제안\n• 데이터 분석가 및 유관 조직과 협업하여 실행 가능한 인사이트 도출",
-          "requirements": "• 관련 경력 1년 이상\n\n• 라이브 서비스 게임 기획 또는 사업PM 경험이 있는 분\n\n• 서브컬쳐 장르 게임에 대한 이해도가 높은 분\n\n• 데이터 기반 사고 및 문제 해결 능력을 보유한 분\n• 논리적 문서화 및 구조화 능력을 보유한 분\n\n• 해외여행에 결격사유가 없는 분",
-          "neededSkills": "",
-          "preferred": "• 서브컬쳐 장르 헤비 유저 경험을 보유한 분\n• 데이터 설계 및 분석 요구사항 정의 경험을 보유한 분\n• SQL/Hive 등 로그 기반 데이터 구조에 대한 이해도가 높은 분\n• 사업PM 또는 라이브 프로젝트 리딩 경험이 있는 분\n• 다부서 협업을 통해 성과를 만든 경험이 있는 분\n• 에픽세븐 또는 카오스 제로 나이트메어 플레이 경험이 있는 분\n• 게임 커뮤니티에 자주 접속하는 분",
-          "memo": "본 포지션은 시장 해석 능력과 구조적 사고 역량을 중요하게 평가합니다.\n가능한 경우, 아래 과제 중 1개 이상을 선택하여 제출해 주세요. (미제출 하셔도 감점없으니 자유롭게 제출 바랍니다.)\n\n1. 서브컬쳐 시장 및 포지셔닝 분석\n• 특정 서브컬쳐 RPG 1개 이상을 선정하여 시장 내 포지션, 차별 요소, 경쟁 우위 구조를 분석해 주세요.\n\n2. 서브컬쳐 게임 구조 분석\n• 아래 게임 중 1개 이상을 선택하여 분석해 주세요. (예시 외 서브컬쳐 게임으로 진행하셔도 무방합니다.)\n(ex. 카제나, 에픽세븐, 명일방주, 원신, 붕괴:스타레일, 명조 등)\n• 분석 내용 예시\n: 코어 루프 구조, 성장 시스템 설계, 재화 순환 구조, BM 특징 등\n\n3. 개선 제안 과제\n• 대상 게임 : 카제나 또는 에픽세븐\n• 제안 방향 : \nLTV 및 PLC(제품 수명 주기) 증진을 위한 제품 개선안 또는 BM 강화 전략 제안\n\n\n ※ 단순 요약이 아닌 본인의 해석, 판단, 적용, 인사이트를 중요하게 평가합니다.\n    형식은 자유이며 기존 작성 자료 일부 발췌 제출도 가능합니다.",
-          "comment": "",
-          "deadline": null,
-          "importance": 8,
-          "isFavorite": true,
-          "link": "https://recruit.supercreative.kr/job_posting/bj4ABeJf",
-          "createdAt": "2026-03-05T14:16:29.676Z",
-          "updatedAt": "2026-03-05T14:16:34.597Z"
         },
         {
           "postingId": "9c97a8f7-01bf-4add-88ab-b4cb2eece4eb",
@@ -18368,8 +18571,8 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "lthsxQQhrDc",
-        "queueIndex": 5,
+        "videoId": "oyXx7MDqZ-Q",
+        "queueIndex": 23,
         "currentTime": 0,
         "repeatMode": "all",
         "shuffle": true
@@ -18706,10 +18909,16 @@
             "videoId": "h2TjzsvFX0s",
             "title": "🎧 로제 Rosé - toxic till the end x Wonderwall Mashup (Live From Howard Stern) [가사해석]",
             "url": "https://youtu.be/h2TjzsvFX0s?si=eISV8pNmYD6rcwgk"
+          },
+          {
+            "id": "3fadabf9-de6c-4229-9153-d18180e8eb04",
+            "videoId": "4AJx9nNagr0",
+            "title": "face2face",
+            "url": "https://youtu.be/4AJx9nNagr0?si=bTStq5Gb3Jtk7VhI"
           }
         ],
-        "currentIndex": 5,
-        "isPlaying": false,
+        "currentIndex": 23,
+        "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -19071,7 +19280,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 258635
+          "balance": 86235
         },
         {
           "accountId": "acc-us-1",
@@ -19081,7 +19290,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 0.3900000000000148
+          "balance": 13.179999999999978
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -19091,7 +19300,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-03-25T15:30:34.591Z"
+      "lifnux:data.lastUpdatedAt": "2026-03-29T15:10:39.376Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -20343,6 +20552,62 @@
           "side": "BUY",
           "qty": 1,
           "price": 97500,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "3dbae85a-22ac-46ab-901f-da492cb7a908",
+          "ts": 1774572771128,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:KORU",
+          "side": "SELL",
+          "qty": 1,
+          "price": 280.89,
+          "realizedPnl": -91.80000000000001,
+          "realizedPnlPercent": -24.631731465829514,
+          "costBasis": 372.69
+        },
+        {
+          "id": "b460e111-d847-48cb-a145-9f2e1b071b7b",
+          "ts": 1774572852201,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "005930",
+          "side": "BUY",
+          "qty": 1,
+          "price": 172400,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "25afe5fd-8fc2-4b12-8234-2980fd153864",
+          "ts": 1774719757704,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 8,
+          "price": 14.44,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "8d11c820-37a0-4d2d-b406-4c1b1bd5f6fc",
+          "ts": 1774719793767,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NYS:SNOW",
+          "side": "BUY",
+          "qty": 1,
+          "price": 152.58,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
