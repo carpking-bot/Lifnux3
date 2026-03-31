@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-03-27T09:30:14.046Z"
+    "exportedAt": "2026-03-31T09:10:19.907Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "oyXx7MDqZ-Q",
+        "trackId": "h2TjzsvFX0s",
         "volume": 80,
         "position": 0
       }
@@ -3361,6 +3361,48 @@
           "createdAt": "2026-03-27T04:37:04.063Z",
           "distanceKm": 3,
           "calorieOverride": 118
+        },
+        {
+          "id": "1962eed7-996d-486f-9116-d28e278c17f5",
+          "typeId": "swimming",
+          "loggedForDate": "2026-03-27",
+          "durationMin": 50,
+          "memo": "26회차",
+          "createdAt": "2026-03-27T14:35:46.548Z"
+        },
+        {
+          "id": "b8a5b59f-c360-4230-b5d1-598c4c7961f3",
+          "typeId": "home",
+          "loggedForDate": "2026-03-28",
+          "durationMin": 20,
+          "createdAt": "2026-03-28T18:09:00.106Z"
+        },
+        {
+          "id": "2a0380db-c29b-440e-aa2f-4c555bd08a7c",
+          "typeId": "home",
+          "loggedForDate": "2026-03-29",
+          "durationMin": 20,
+          "createdAt": "2026-03-30T00:35:24.715Z"
+        },
+        {
+          "id": "7cee6284-36a5-4b4e-90e9-01613e8a8ead",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-30",
+          "durationMin": 35,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-30T04:38:53.340Z",
+          "distanceKm": 2.87,
+          "calorieOverride": 113
+        },
+        {
+          "id": "339bcaaf-dcbf-4f6d-b390-c85f91c5284b",
+          "typeId": "walking",
+          "loggedForDate": "2026-03-31",
+          "durationMin": 27,
+          "memo": "점심 산책",
+          "createdAt": "2026-03-31T04:36:12.718Z",
+          "distanceKm": 2.99,
+          "calorieOverride": 193
         }
       ]
     },
@@ -3502,10 +3544,22 @@
         {
           "date": "2026-03-27",
           "totalKrw": 31493914
+        },
+        {
+          "date": "2026-03-28",
+          "totalKrw": 32820695.890000004
+        },
+        {
+          "date": "2026-03-30",
+          "totalKrw": 30624644.18
+        },
+        {
+          "date": "2026-03-31",
+          "totalKrw": 30344190.15
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -9486,8 +9540,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:flnc",
           "symbolKey": "NAS:FLNC",
-          "avgPrice": 26.06696,
-          "qty": 14,
+          "avgPrice": 21.838974545454548,
+          "qty": 22,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Energy/Grid",
@@ -9510,8 +9564,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nys:snow",
           "symbolKey": "NYS:SNOW",
-          "avgPrice": 183.25,
-          "qty": 5,
+          "avgPrice": 178.13833333333332,
+          "qty": 6,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "AI Software",
@@ -9546,8 +9600,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-441800",
           "symbolKey": "441800",
-          "avgPrice": 17087,
-          "qty": 25,
+          "avgPrice": 18506.666666666668,
+          "qty": 30,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Index",
@@ -9627,8 +9681,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-stock-0072r0",
           "symbolKey": "0072R0",
-          "avgPrice": 15790.241379310344,
-          "qty": 58,
+          "avgPrice": 15672.83076923077,
+          "qty": 65,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Alternative Asset",
@@ -9639,8 +9693,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-000660",
           "symbolKey": "000660",
-          "avgPrice": 962250,
-          "qty": 2,
+          "avgPrice": 932166.6666666666,
+          "qty": 3,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
@@ -9659,30 +9713,6 @@
           "sectorMajorLabel": "Non AI"
         },
         {
-          "id": "0e68e6b9-a49b-403f-9dc0-f9ba10f07f87",
-          "accountId": "acc-us-1",
-          "stockId": "auto-kr-102970",
-          "symbolKey": "102970",
-          "avgPrice": 16738,
-          "qty": 9,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Financials",
-          "sectorMajorLabel": "Non AI"
-        },
-        {
-          "id": "f6e0ccf6-b35e-4013-9298-07de5102870a",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-005380",
-          "symbolKey": "005380",
-          "avgPrice": 526000,
-          "qty": 1,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "Non AI",
-          "sectorLabel": "Robotics"
-        },
-        {
           "id": "2a8854bc-9e19-4378-8dd4-cd3dcaea9be7",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-016360",
@@ -9693,18 +9723,6 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Non AI",
           "sectorLabel": "Financials"
-        },
-        {
-          "id": "9ed0ffc3-c76b-454b-b86a-4a1373e845a8",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-0043y0",
-          "symbolKey": "0043Y0",
-          "avgPrice": 16570,
-          "qty": 20,
-          "currency": "KRW",
-          "countryLabel": "CN",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
         },
         {
           "id": "58ea7805-1cf8-46fe-94f5-3c0f2a934625",
@@ -10992,6 +11010,33 @@
           "title": "유튜브 프리미엄",
           "amount": 14900,
           "kind": "expense"
+        },
+        {
+          "id": "3a25db8a-684a-42e0-9d25-a567cdb3efc3",
+          "createdAt": 1774796665452,
+          "date": "2026-03-28",
+          "category": "Transport",
+          "title": "카카오바이크",
+          "amount": 1120,
+          "kind": "expense"
+        },
+        {
+          "id": "c3c01be9-d7ca-40f8-bdd8-ef16add6c74f",
+          "createdAt": 1774919683584,
+          "date": "2026-03-28",
+          "category": "Entertainment",
+          "title": "코인 노래방",
+          "amount": 3000,
+          "kind": "expense"
+        },
+        {
+          "id": "36f226e7-64e6-4bf1-8318-f404bf8b5b4a",
+          "createdAt": 1774919697336,
+          "date": "2026-03-28",
+          "category": "Subscription",
+          "title": "ChatGPT Plus",
+          "amount": 33176,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11032,10 +11077,12 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
+        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
+        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
-        "speed": 1,
+        "aSec": 165,
+        "bSec": 265,
+        "speed": 0.65,
         "shadowing": false,
         "attendanceCursor": "2026-02-28T15:00:00.000Z"
       },
@@ -11138,6 +11185,15 @@
           "endSec": 165,
           "speed": 1,
           "createdAt": 1774194227398
+        },
+        {
+          "id": "5768ca9f-65a0-493f-a4e0-351d0734bbfc",
+          "videoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+          "name": "SOLO",
+          "startSec": 165,
+          "endSec": 265,
+          "speed": 1,
+          "createdAt": 1774884143028
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -11354,6 +11410,14 @@
         {
           "dateKey": "2026-03-26",
           "createdAt": 1774539104987
+        },
+        {
+          "dateKey": "2026-03-28",
+          "createdAt": 1774709763615
+        },
+        {
+          "dateKey": "2026-03-30",
+          "createdAt": 1774881914347
         }
       ],
       "lifnux:guitar:videos": [
@@ -11515,10 +11579,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31493914,
-        "unrealizedPnlKrw": 1821443.8558000028,
-        "realizedPnlYtdKrw": 1847650.4216782607,
-        "updatedAt": 1774595242730
+        "totalValueKrw": 30344190.15,
+        "unrealizedPnlKrw": 440302.5847999975,
+        "realizedPnlYtdKrw": 1857723.0126782607,
+        "updatedAt": 1774948217624
       }
     },
     "personalGrowth": {
@@ -17282,6 +17346,47 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "a674b043-9b76-441b-936c-13ebe8148369",
+          "postingId": "7cac4cca-cc1c-4970-bcac-e192f75175e0",
+          "appliedAt": "2026-03-30",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "c2c06655-16f5-451e-80dc-90a2a47023f1",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-03-30",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "68fdc210-8d55-499f-ace7-bf72e6f2a932",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "f325fa55-8048-4cff-ab8b-c7b0b7a55e8a",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "ba77d92d-a436-41c1-ba45-cda61f639b41",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "4cf7a9fb-8b38-4186-8ca4-158147b2c00c",
           "postingId": "9c97a8f7-01bf-4add-88ab-b4cb2eece4eb",
           "appliedAt": "2026-03-02",
@@ -17880,7 +17985,7 @@
           "level": "인턴",
           "salaryKRW": 37000000,
           "isCurrent": true,
-          "remainingPTO": 1.75,
+          "remainingPTO": 4.75,
           "notes": ""
         },
         {
@@ -17913,6 +18018,90 @@
         }
       ],
       "career_job_postings": [
+        {
+          "postingId": "72be295a-fc4b-4eb9-8acd-c7e84b5e9bd0",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "라인게임즈",
+          "postingTitle": "라이브서비스 운영팀 담당자",
+          "role": "운영",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "• 라이브 게임 운영 정책 수립 및 실행\n• 운영 이벤트 기획 및 운영\n• 업데이트 콘텐츠 운영 세팅 및 검수\n• 운영 지표 모니터링 및 데이터 기반 개선안 도출\n• 유관 부서(개발/사업/마케팅/CS 등)와의 협업 및 일정 관리\n• 이슈 대응 및 긴급 상황 커뮤니케이션",
+          "requirements": "• 2년 이상의 유관 경력을 보유하신 분",
+          "neededSkills": "",
+          "preferred": "• 모바일/온라인 게임 라이브 운영 경험\n• 영어/일본어/중국어 가능자\n• 라이브 이슈 대응 및 정책 수립 경험\n• 다양한 장르의 게임 플레이 경험 및 높은 이해도",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://recruit.line.games/notice/429",
+          "createdAt": "2026-03-30T02:11:16.164Z",
+          "updatedAt": "2026-03-30T02:11:20.893Z"
+        },
+        {
+          "postingId": "0da18e5f-7f85-4613-8b35-c1276009dccf",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "에피드게임즈",
+          "postingTitle": "[사업/운영] 국내 사업 PM",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "게임 ​런칭 ​및 ​라이브 서비스 ​프로젝트 전략 수립\n게임 및 ​유저 ​데이터 분석을 ​통한 방향성 제시\n유관 ​부서 및 ​파트너사 ​커뮤니케이션 조율\n",
+          "requirements": "서브컬처, 게임, ​애니메이션에 ​대한 깊은 이해도와 ​애정이 ​있으신 ​분\n모바일 게임에 대한 ​이해도가 높으신 ​분\n유연하고 ​능동적인 커뮤니케이션 ​능력을 보유하신 ​분\n주도적인 ​업무 수행과 끈기가 ​있으신 분",
+          "neededSkills": "",
+          "preferred": "수집형 RPG, 서브컬처 등의 장르 이해도가 높으신 분\n게임 시스템과 게임 BM에 대해 깊은 이해도를 갖추신 분\n비즈니스 수준의 외국어 활용이 가능한 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://epidgames.career.greetinghr.com/ko/o/207995",
+          "createdAt": "2026-03-27T15:15:44.663Z",
+          "updatedAt": "2026-03-27T15:15:51.815Z"
+        },
+        {
+          "postingId": "952f8e73-88d5-4287-b474-56dfc931659c",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "빅파이어게임즈",
+          "postingTitle": "개발 PM",
+          "role": "개발PM",
+          "contractType": "단기계약직",
+          "departmentInfo": "",
+          "responsibilities": "게임 개발 프로세스의 이해 및 프로젝트 관리 지식을 바탕으로, 프로젝트 진행의 전반적인 과정(요구사항 수집, 기획, 개발, 테스트, 배포, 퍼블리싱)이 원활하게 진행되도록 필요한 프로세스 수립, 진행, 조율, 관리하는 역할을 수행합니다.\n\n프로젝트 통합관리(Project Integration Management): 프로젝트 개발 전체 과정의 기간 수립 및 진척 사항을 관리하고, 개발을 위한 다양한 프로세스를 수립하며, 제품 개발을 위한 제반 사항을 준비 및 지원합니다.\n프로젝트 범위관리(Project Scope Management): 개발팀 내/외부 이해관계자들의 개발 요구사항을 수집하고, 요구사항에 대한 개발 범위를 구체화합니다. 계획과 요구사항을 바탕으로 범위를 검증 및 통제합니다.\n프로젝트 일정관리(Project Time Management): 프로젝트 범위, 가용 자원 등을 고려하여 기간 별 프로젝트 일정을 산정하고, 기간 내에 완수할 수 있도록 일정을 관리합니다.\n프로젝트 의사소통관리(Project Communication Management): 프로젝트 정보를 시의 적절하게 계획, 수집, 생성, 분배, 저장, 통제, 감시, 폐기할 수 있도록 필요한 프로세스를 개발하고 관리합니다.\n프로젝트 위험관리(Project Risk Management): 프로젝트를 진행하면서 발생하는 모든 위험에 대하여 정성적, 정량적 분석을 실시하고, 대응 계획을 수립하고 실행합니다.\n프로젝트 조달관리(Project Procurement Management): 프로젝트팀 외부로부터 필요한 자원 및 리소스, 서비스 또는 결과물을 획득할 수 있도록 프로세스를 수립하고 관리합니다.\n개발 조직 운영 및 관리(Dev. Organization Management): 건강한 조직을 유지하는데 필요한 각종 내부 정책과 가이드라인을 제시하고 조직이 추구하는 문화를 정착시킬 수 있도록 지원합니다.\n프로젝트 산출물 관리(Project Deliverables Management): 프로젝트에서 생성되는 모든 산출물(정책, 문서, 굿즈 등)을 요구되는 사양으로 적재하고, 효율적으로 관리할 수 있도록 프로세스를 수립합니다.",
+          "requirements": "게임 개발에 대한 이해도가 있으신 분\nJira/Wiki 상급 활용 가능하신 분\n커뮤니케이션 능력이 우수한 분\n협업에 대한 이해와 수행이 우수한 분",
+          "neededSkills": "",
+          "preferred": "외국어 가능자",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://bigfiregames.career.greetinghr.com/ko/o/148313",
+          "createdAt": "2026-03-27T14:38:27.293Z",
+          "updatedAt": "2026-03-27T14:38:27.293Z"
+        },
+        {
+          "postingId": "7b752262-3945-47ba-90ee-36ec09ca1034",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "NC AI",
+          "postingTitle": "AI 데이터 구축 어시스턴트",
+          "role": "AI 리서",
+          "contractType": "단기계약직",
+          "departmentInfo": "NC AI의 생성형AI모델 및 서비스의 기반이 되는 학습/평가 데이터를 만들고 있습니다.\n하나의 도메인에 국한되지 않고 게임, 패션, 영상, 텍스트 등 여러 도메인에 대한 이해를 바탕으로\n사람과 기술의 중간에서 데이터로 커뮤니케이션 하는 방법을 찾고 있습니다.",
+          "responsibilities": "• 생성형AI 기술 개발 및 서비스를 위한 각종 데이터를 구축합니다.\n• 한국어 문장 의도를 분석하여 가이드에 맞는 태깅 수행합니다.\n• 게임 챗봇서비스를 위한 대화 데이터를 구축합니다.\n• 내부 프로젝트를 위한 리서치와 보고서를 작성합니다.",
+          "requirements": "• 한국어 인공지능 데이터와 챗봇서비스 데이터 구축에 대한 관심과 경험이 있는 분\n• 인공지능 서비스에 대한 리서치와 보고서 작성 능력이 있는 분",
+          "neededSkills": "",
+          "preferred": "• Office, Python, AI 도구 사용이 가능한 분\n• 국문학, 언어학, 문헌정보학 등 어학 관련 전공한 분\n• NCSOFT에서 서비스 중인 게임에 대한 이해도가 높거나 다양한 게임을 즐기는 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://careers.ncsoft.com/apply/view/100581?companyId=NCAI",
+          "createdAt": "2026-03-27T14:37:17.299Z",
+          "updatedAt": "2026-03-27T14:37:17.299Z"
+        },
         {
           "postingId": "15879091-7683-4612-bfa6-971e3ce4ef05",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
@@ -17974,7 +18163,7 @@
           "isFavorite": false,
           "link": "https://nx3games.career.greetinghr.com/ko/o/204495",
           "createdAt": "2026-03-19T13:57:59.261Z",
-          "updatedAt": "2026-03-19T14:01:30.949Z"
+          "updatedAt": "2026-03-27T15:15:47.495Z"
         },
         {
           "postingId": "7cac4cca-cc1c-4970-bcac-e192f75175e0",
@@ -17996,27 +18185,6 @@
           "link": "https://www.pearlabyss.com/ko-KR/Company/Careers/detail?_jobOpeningNo=733",
           "createdAt": "2026-03-18T02:36:50.040Z",
           "updatedAt": "2026-03-18T04:41:23.666Z"
-        },
-        {
-          "postingId": "afec2c9f-aade-4188-bc60-07390364e06e",
-          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
-          "companyName": "카카오",
-          "postingTitle": "AI 데이터 라벨링 어시스턴트",
-          "role": "스태프",
-          "contractType": "계약직",
-          "departmentInfo": "카카오의 신규 AI 서비스 및 도메인 검색 품질 개선을 위한 AI 검색 기술을 담당하는 조직입니다. 최신 언어 모델과 AI 검색 기술을 바탕으로 높은 수준의 AI 검색 에이전트를 만들어 가고 있습니다. 수많은 사용자의 검색 여정 속에서 가장 정확하고 만족스러운 답을 제공하기 위해, 데이터로부터 배우고 과감한 실험을 통해 끊임없이 성장하는 문화를 지향합니다. 대규모 데이터와 고성능 모델을 통해 카카오의 AI 검색 서비스의 품질을 개선해 나가실 분들을 기다립니다.",
-          "responsibilities": "AI 에이전트 시스템을 위한 데이터 생성 및 가공\nAI 생성 결과 평가 및 개선 피드백 수행\n언어 데이터 설계 및 어노테이션 가이드라인 수립 보조\n데이터 품질 관리 및 검수 프로세스 개선 지원",
-          "requirements": "한국어 문서 이해력과 세밀한 텍스트 처리 능력을 갖추신 분\n생성형 AI 서비스 사용 경험이 있으신 분\n프롬프트 엔지니어링에 관심이 있거나, 관련 개념을 접해보신 분\nLLM을 활용해 간단한 코드를 이해하고 실행해 본 경험이 있으신 분\n대량의 데이터를 꼼꼼하게 검토하며 책임감 있게 업무를 수행하실 수 있는 분\n원활하고 능동적인 커뮤니케이션이 가능하신 분",
-          "neededSkills": "",
-          "preferred": "AI 데이터 구축, 전처리 및 어노테이션 경험자\n데이터 가이드라인 설계 또는 기준 수립 경험자\n모델 응답 평가 및 품질 관리(QA) 경험자\n대규모 AI 학습 데이터 구축 프로젝트 참여 경험자",
-          "memo": "",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": false,
-          "link": "https://careers.kakao.com/jobs/P-14393?skillSet=&part=STAFF&company=KAKAO&keyword=&employeeType=&page=1",
-          "createdAt": "2026-03-12T07:43:53.218Z",
-          "updatedAt": "2026-03-19T13:58:11.037Z"
         },
         {
           "postingId": "9c97a8f7-01bf-4add-88ab-b4cb2eece4eb",
@@ -18432,8 +18600,8 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "oyXx7MDqZ-Q",
-        "queueIndex": 23,
+        "videoId": "h2TjzsvFX0s",
+        "queueIndex": 54,
         "currentTime": 0,
         "repeatMode": "all",
         "shuffle": true
@@ -18776,10 +18944,16 @@
             "videoId": "4AJx9nNagr0",
             "title": "face2face",
             "url": "https://youtu.be/4AJx9nNagr0?si=bTStq5Gb3Jtk7VhI"
+          },
+          {
+            "id": "26700568-e4be-41c8-bd9c-83fdeb82f907",
+            "videoId": "YzJW3lJeZa0",
+            "title": "Lily of The Valley",
+            "url": "https://youtu.be/YzJW3lJeZa0?si=CnQMTOFkLicylfFu"
           }
         ],
-        "currentIndex": 23,
-        "isPlaying": false,
+        "currentIndex": 54,
+        "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -19141,17 +19315,17 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 86235
+          "balance": 11735
         },
         {
           "accountId": "acc-us-1",
           "currency": "KRW",
-          "balance": 10564
+          "balance": 7159
         },
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 281.28
+          "balance": 13.179999999999978
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -19161,7 +19335,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-03-27T09:30:14.036Z"
+      "lifnux:data.lastUpdatedAt": "2026-03-31T09:10:19.768Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -20441,6 +20615,127 @@
           "side": "BUY",
           "qty": 1,
           "price": 172400,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "25afe5fd-8fc2-4b12-8234-2980fd153864",
+          "ts": 1774719757704,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 8,
+          "price": 14.44,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "8d11c820-37a0-4d2d-b406-4c1b1bd5f6fc",
+          "ts": 1774719793767,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NYS:SNOW",
+          "side": "BUY",
+          "qty": 1,
+          "price": 152.58,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "52445fec-2faa-4119-ab93-2709540e82f3",
+          "ts": 1774831201795,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "SELL",
+          "qty": 20,
+          "price": 16000,
+          "realizedPnl": -11400,
+          "realizedPnlPercent": -3.4399517199758605,
+          "costBasis": 331400
+        },
+        {
+          "id": "036fc8b0-a9f3-498c-91e7-e1dc3ada1ec3",
+          "ts": 1774831214875,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "005380",
+          "side": "SELL",
+          "qty": 1,
+          "price": 467500,
+          "realizedPnl": -58500,
+          "realizedPnlPercent": -11.12167300380228,
+          "costBasis": 526000
+        },
+        {
+          "id": "29212a70-75e2-411d-9a00-486885ff84aa",
+          "ts": 1774831224995,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 10000
+        },
+        {
+          "id": "aa4eef47-0993-4af7-b567-216b0118ed64",
+          "ts": 1774831235731,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "000660",
+          "side": "BUY",
+          "qty": 1,
+          "price": 872000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "fcbcc6bd-3032-4adc-a47a-634f3a94b4e2",
+          "ts": 1774850853016,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "102970",
+          "side": "SELL",
+          "qty": 9,
+          "price": 25280,
+          "realizedPnl": 76878,
+          "realizedPnlPercent": 51.03357629346398,
+          "costBasis": 150642
+        },
+        {
+          "id": "b1a22773-c3bd-46bc-8d26-76db9d88b84f",
+          "ts": 1774850876184,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "441800",
+          "side": "BUY",
+          "qty": 5,
+          "price": 25605,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "e57d95f0-91c1-4d65-9cbd-bb102eaa85aa",
+          "ts": 1774850888536,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0072R0",
+          "side": "BUY",
+          "qty": 7,
+          "price": 14700,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
