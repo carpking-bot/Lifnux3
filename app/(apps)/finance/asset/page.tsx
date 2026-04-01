@@ -5,10 +5,10 @@ import Link from "next/link";
 import { AppShell } from "../../../(shared)/components/AppShell";
 import { Modal } from "../../../(shared)/components/Modal";
 import { ConfirmModal } from "../../../(shared)/components/ConfirmModal";
-import { loadFinanceState, normalizeSymbol } from "../../../(shared)/lib/finance";
+import { loadCashBalances, loadFinanceState, normalizeSymbol } from "../../../(shared)/lib/finance";
 import { loadState, saveState } from "../../../(shared)/lib/storage";
 import { useQuotes } from "../../../../src/lib/quotes/useQuotes";
-import type { BrokerAccount, Holding, StockItem } from "../../../(shared)/types/finance";
+import type { BrokerAccount, CashBalance, Holding, StockItem } from "../../../(shared)/types/finance";
 import { loadAssetDataset } from "./assetDataset";
 
 const ASSET_ITEMS_TEMPLATE_KEY = "asset_items_template";
@@ -17,6 +17,7 @@ const ASSET_CATEGORY_SCHEMA_KEY = "lifnux.finance.asset.category.schema.v1";
 const ASSET_SNAPSHOT_LOGS_KEY = "lifnux.finance.asset.snapshot.logs.v1";
 const ASSET_EDITOR_DRAFTS_KEY = "lifnux.finance.asset.editor.drafts.v1";
 const ASSET_DATASET_IMPORTED_KEY = "lifnux.finance.asset.dataset.imported.v9";
+const ASSET_INVESTING_SYNC_LOG_KEY = "lifnux.finance.asset.investing.sync.logs.v1";
 const EXPENSE_LEDGER_KEY = "lifnux.finance.expense.ledger.v1";
 const CASHFLOW_PLANNER_KEY = "lifnux.finance.asset.cashflowPlanner.v1";
 const CASHFLOW_PLANNER_SNAPSHOTS_KEY = "lifnux.finance.asset.cashflowPlanner.snapshots.v1";
@@ -58,6 +59,7 @@ type SnapshotLog = {
   at: number;
   source: "manual" | "seed";
 };
+type InvestingSyncLogMap = Record<string, number>;
 type SeedScenario = "worker-default" | "investing-heavy" | "cash-heavy" | "physical-heavy";
 type SeedAccount = {
   id: string;
@@ -589,9 +591,13 @@ export default function FinanceAssetPage() {
   const [editAlertMessage, setEditAlertMessage] = useState<string | null>(null);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [editDraft, setEditDraft] = useState<ItemEditDraft | null>(null);
+  const [syncInvestingConfirmOpen, setSyncInvestingConfirmOpen] = useState(false);
+  const [syncInvestingTargetCategoryId, setSyncInvestingTargetCategoryId] = useState<string | null>(null);
+  const [investingSyncLogs, setInvestingSyncLogs] = useState<InvestingSyncLogMap>({});
 
   const [accounts, setAccounts] = useState<BrokerAccount[]>([]);
   const [holdings, setHoldings] = useState<Holding[]>([]);
+  const [cashBalances, setCashBalances] = useState<CashBalance[]>([]);
   const [stocks, setStocks] = useState<StockItem[]>([]);
   const [fxRate, setFxRate] = useState<number | null>(null);
   const [expenseAverageHint, setExpenseAverageHint] = useState("");
@@ -685,13 +691,24 @@ export default function FinanceAssetPage() {
         saveState(ASSET_SNAPSHOT_LOGS_KEY, loadedLogs);
       }
     }
+    const rawSyncLogs = loadState<InvestingSyncLogMap>(ASSET_INVESTING_SYNC_LOG_KEY, {});
+    const sanitizedSyncLogs = Object.fromEntries(
+      Object.entries(rawSyncLogs ?? {})
+        .filter(([syncMonth, syncAt]) => syncMonth >= ASSET_MIN_MONTH && Number.isFinite(Number(syncAt)))
+        .map(([syncMonth, syncAt]) => [syncMonth, Number(syncAt)])
+    ) as InvestingSyncLogMap;
+    if (Object.keys(rawSyncLogs ?? {}).length !== Object.keys(sanitizedSyncLogs).length) {
+      saveState(ASSET_INVESTING_SYNC_LOG_KEY, sanitizedSyncLogs);
+    }
     setCategories(loadedCategories.length ? loadedCategories : defaultCategories());
     setSnapshotLogs(loadedLogs);
+    setInvestingSyncLogs(sanitizedSyncLogs);
     setSnapshots(migrated);
 
     const data = loadFinanceState();
     setAccounts(data.accounts ?? []);
     setHoldings(data.holdings ?? []);
+    setCashBalances(loadCashBalances());
     setStocks(data.stocks ?? []);
     const initialFx = data.indices.find((item) => item.symbol === "USD/KRW")?.last ?? null;
     setFxRate(initialFx && initialFx > 0 ? initialFx : null);
@@ -709,6 +726,7 @@ export default function FinanceAssetPage() {
     itemGuardOpen ||
     categoryConfirmOpen ||
     overwriteOpen ||
+    syncInvestingConfirmOpen ||
     editModalOpen ||
     editApplyConfirmOpen;
 
@@ -837,6 +855,18 @@ export default function FinanceAssetPage() {
   const heldStocks = useMemo(() => stocks.filter((s) => heldStockSet.has(normalizeSymbol(s.symbol))), [stocks, heldStockSet]);
   const heldSymbols = useMemo(() => heldStocks.map((s) => getQuoteSymbol(s)), [heldStocks]);
   const { bySymbol: heldQuotes } = useQuotes(heldSymbols);
+  const cashBalanceByAccount = useMemo(() => {
+    const accountMap = new Map(accounts.map((account) => [account.id, account]));
+    const map = new Map<string, number>();
+    cashBalances.forEach((entry) => {
+      const account = accountMap.get(entry.accountId);
+      const currency = entry.currency ?? account?.currency ?? (account?.countryType === "US" ? "USD" : "KRW");
+      const balance = Number(entry.balance) || 0;
+      const balanceKrw = currency === "USD" ? (fxRate ? balance * fxRate : 0) : balance;
+      map.set(entry.accountId, (map.get(entry.accountId) ?? 0) + balanceKrw);
+    });
+    return map;
+  }, [accounts, cashBalances, fxRate]);
 
   const investingByAccount = useMemo(() => {
     const map = new Map<string, number>();
@@ -848,8 +878,11 @@ export default function FinanceAssetPage() {
       const valueKrw = holding.currency === "USD" ? (fxRate ? value * fxRate : 0) : value;
       map.set(holding.accountId, (map.get(holding.accountId) ?? 0) + valueKrw);
     });
+    cashBalanceByAccount.forEach((cashKrw, accountId) => {
+      map.set(accountId, (map.get(accountId) ?? 0) + cashKrw);
+    });
     return map;
-  }, [activeHoldings, stocks, heldQuotes, fxRate]);
+  }, [activeHoldings, stocks, heldQuotes, fxRate, cashBalanceByAccount]);
 
   const investingLiveTotal = useMemo(() => {
     let total = 0;
@@ -1405,8 +1438,11 @@ export default function FinanceAssetPage() {
     setEditorItems(previous.items.map((it) => ({ ...it, id: crypto.randomUUID() })));
   };
 
-  const syncInvesting = (categoryId?: string) => {
-    if (!isCurrentMonth) return;
+  const syncInvestingNow = (categoryId?: string) => {
+    if (month > monthNow()) {
+      setEditAlertMessage(`미래 월(${month})은 Sync 할 수 없습니다.`);
+      return;
+    }
     const target = categories.find((c) => c.id === categoryId) ?? categories.find((c) => c.kind === "INVESTING") ?? categories[0];
     if (!target) return;
     const subId = target.subcategories[0]?.id;
@@ -1429,6 +1465,22 @@ export default function FinanceAssetPage() {
       rows.push({ id: crypto.randomUUID(), name: "Investing Total (synced)", categoryId: target.id, subcategoryId: subId, amountKRW: Math.round(investingLiveTotal), source: "investing" });
     }
     setEditorItems((prev) => [...prev.filter((it) => it.source !== "investing"), ...rows]);
+    const syncedAt = Date.now();
+    setInvestingSyncLogs((prev) => {
+      const next = { ...prev, [month]: syncedAt };
+      saveState(ASSET_INVESTING_SYNC_LOG_KEY, next);
+      return next;
+    });
+    setEditAlertMessage(`Investing Sync 완료: ${month} (${new Date(syncedAt).toLocaleString("ko-KR", { hour12: false })})`);
+  };
+
+  const requestSyncInvesting = (categoryId?: string) => {
+    if (month > monthNow()) {
+      setEditAlertMessage(`미래 월(${month})은 Sync 할 수 없습니다.`);
+      return;
+    }
+    setSyncInvestingTargetCategoryId(categoryId ?? null);
+    setSyncInvestingConfirmOpen(true);
   };
 
   const saveSnapshotNow = () => {
@@ -1692,7 +1744,9 @@ export default function FinanceAssetPage() {
     return normalize(editorItems) !== normalize(snapshots[month]?.items ?? []);
   }, [editorItems, snapshots, month]);
 
-  const isCurrentMonth = month === monthNow();
+  const canSyncInvesting = month <= runtimeCurrentMonth;
+  const selectedMonthSyncedAt = investingSyncLogs[month] ?? null;
+  const selectedMonthSyncedAtLabel = selectedMonthSyncedAt ? new Date(selectedMonthSyncedAt).toLocaleString("ko-KR", { hour12: false }) : null;
 
   const editorSubcategoryOptions = useMemo(() => {
     if (editorCategoryFilter === "ALL") {
@@ -1838,18 +1892,25 @@ export default function FinanceAssetPage() {
                       <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{card.name}</div>
                       <div className={`mt-1 text-xl font-semibold ${blurClass} ${isDebtCard ? "text-rose-300" : ""}`}>{formatKrw(card.total)}</div>
                     </div>
-                    <div className="flex flex-wrap justify-end gap-2 text-[11px]">
-                      <button className="rounded-full border border-white/10 px-2 py-1" onClick={() => setCategoryModalOpen(true)}>Edit Category</button>
-                      <button className="rounded-full border border-white/10 px-2 py-1" onClick={() => addItem(card.id)}>Add Item</button>
+                    <div className="flex flex-col items-end gap-1 text-[11px]">
+                      <div className="flex flex-wrap justify-end gap-2">
+                        <button className="rounded-full border border-white/10 px-2 py-1" onClick={() => setCategoryModalOpen(true)}>Edit Category</button>
+                        <button className="rounded-full border border-white/10 px-2 py-1" onClick={() => addItem(card.id)}>Add Item</button>
+                        {card.kind === "INVESTING" ? (
+                          <button
+                            className={`rounded-full border px-2 py-1 ${canSyncInvesting ? "border-white/10" : "border-white/5 text-white/40 cursor-not-allowed"}`}
+                            onClick={() => requestSyncInvesting(card.id)}
+                            disabled={!canSyncInvesting}
+                            title={canSyncInvesting ? "Sync investing asset" : "미래 월은 Sync 불가"}
+                          >
+                            Sync Investing Asset
+                          </button>
+                        ) : null}
+                      </div>
                       {card.kind === "INVESTING" ? (
-                        <button
-                          className={`rounded-full border px-2 py-1 ${isCurrentMonth ? "border-white/10" : "border-white/5 text-white/40 cursor-not-allowed"}`}
-                          onClick={() => syncInvesting(card.id)}
-                          disabled={!isCurrentMonth}
-                          title={isCurrentMonth ? "Sync investing asset" : "현재 월에서만 Sync 가능합니다"}
-                        >
-                          Sync Investing Asset
-                        </button>
+                        <div className="text-[10px] text-[var(--ink-1)]">
+                          Last Sync: {selectedMonthSyncedAtLabel ?? "-"}
+                        </div>
                       ) : null}
                     </div>
                   </div>
@@ -1883,31 +1944,34 @@ export default function FinanceAssetPage() {
         <section className="mt-6 lifnux-glass rounded-2xl p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Monthly Editor / Snapshot</div>
-            <div className="flex flex-wrap gap-2 text-xs">
-              <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setCategoryModalOpen(true)}>
-                Manage Categories
-              </button>
-              <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => addItem()}>
-                + Add Item
-              </button>
-              <button className="rounded-full border border-white/10 px-3 py-1" onClick={duplicatePreviousMonth}>
-                Duplicate Previous Month
-              </button>
-              <button
-                className={`rounded-full border px-3 py-1 ${isCurrentMonth ? "border-white/10" : "border-white/5 text-white/40 cursor-not-allowed"}`}
-                onClick={() => syncInvesting()}
-                disabled={!isCurrentMonth}
-                title={isCurrentMonth ? "Sync investing asset" : "현재 월에서만 Sync 가능합니다"}
-              >
-                Sync Investing Asset
-              </button>
-              <button className="rounded-full border border-[var(--accent-1)] px-3 py-1 text-[var(--accent-1)]" onClick={saveSnapshot}>
-                Save Snapshot
-              </button>
+            <div className="flex flex-col items-end gap-1 text-xs">
+              <div className="flex flex-wrap justify-end gap-2">
+                <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setCategoryModalOpen(true)}>
+                  Manage Categories
+                </button>
+                <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => addItem()}>
+                  + Add Item
+                </button>
+                <button className="rounded-full border border-white/10 px-3 py-1" onClick={duplicatePreviousMonth}>
+                  Duplicate Previous Month
+                </button>
+                <button
+                  className={`rounded-full border px-3 py-1 ${canSyncInvesting ? "border-white/10" : "border-white/5 text-white/40 cursor-not-allowed"}`}
+                  onClick={() => requestSyncInvesting()}
+                  disabled={!canSyncInvesting}
+                  title={canSyncInvesting ? "Sync investing asset" : "미래 월은 Sync 불가"}
+                >
+                  Sync Investing Asset
+                </button>
+                <button className="rounded-full border border-[var(--accent-1)] px-3 py-1 text-[var(--accent-1)]" onClick={saveSnapshot}>
+                  Save Snapshot
+                </button>
+              </div>
+              <div className="text-[11px] text-[var(--ink-1)]">Last Sync: {selectedMonthSyncedAtLabel ?? "-"}</div>
             </div>
           </div>
 
-          {!isCurrentMonth ? <div className="mt-3 text-xs text-amber-300">과거/미래 월: Sync 비활성 (수동 입력만 가능)</div> : null}
+          {!canSyncInvesting ? <div className="mt-3 text-xs text-amber-300">미래 월은 Sync 비활성 (현재/과거 월만 가능)</div> : null}
 
           <div className="mt-3 grid gap-2 rounded-xl border border-white/10 bg-black/20 p-3 md:grid-cols-3">
             <label className="text-xs text-[var(--ink-1)]">
@@ -2916,6 +2980,23 @@ export default function FinanceAssetPage() {
           saveSnapshotNow();
         }}
         onCancel={() => setOverwriteOpen(false)}
+      />
+      <ConfirmModal
+        open={syncInvestingConfirmOpen}
+        title="Sync Investing Asset"
+        description="Investing 자산을 포트폴리오 기준으로 동기화하시겠습니까?"
+        detail={`${month} 에디터의 기존 Investing(sync) 항목은 최신 값으로 교체됩니다.`}
+        confirmLabel="Sync"
+        cancelLabel="Cancel"
+        onConfirm={() => {
+          setSyncInvestingConfirmOpen(false);
+          syncInvestingNow(syncInvestingTargetCategoryId ?? undefined);
+          setSyncInvestingTargetCategoryId(null);
+        }}
+        onCancel={() => {
+          setSyncInvestingConfirmOpen(false);
+          setSyncInvestingTargetCategoryId(null);
+        }}
       />
       <ConfirmModal
         open={plannerOverwriteConfirmOpen}

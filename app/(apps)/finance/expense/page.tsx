@@ -51,6 +51,12 @@ type MonthlyReviewEntry = {
   updatedAt: number;
 };
 type MonthlyReviewStore = Record<string, MonthlyReviewEntry>;
+type CategoryReviewTrend = {
+  current: number;
+  prev: number;
+  deltaAmount: number;
+  deltaPercent: number | null;
+};
 
 const formatKrw = (value: number) => `₩${Math.round(value).toLocaleString("ko-KR")}`;
 const DEFAULT_CATEGORY = "Uncategorized";
@@ -67,6 +73,54 @@ const buildCategoryTotals = (list: ExpenseEntry[]) => {
     value,
     color: CATEGORY_COLORS[index % CATEGORY_COLORS.length]
   }));
+};
+
+const buildCategoryTotalMap = (list: ExpenseEntry[]) => {
+  const map = new Map<string, number>();
+  list.forEach((entry) => map.set(entry.category, (map.get(entry.category) ?? 0) + entry.amount));
+  return map;
+};
+
+const buildCategoryReviewTrend = (current: number, prev: number): CategoryReviewTrend => {
+  const deltaAmount = current - prev;
+  return {
+    current,
+    prev,
+    deltaAmount,
+    deltaPercent: prev > 0 ? (deltaAmount / prev) * 100 : null
+  };
+};
+
+const formatCategoryReviewTrendPercent = (trend: CategoryReviewTrend) => {
+  if (trend.prev === 0) return trend.current > 0 ? "NEW" : "-";
+  if (trend.deltaPercent === null) return "-";
+  return `${trend.deltaPercent >= 0 ? "+" : ""}${trend.deltaPercent.toFixed(1)}%`;
+};
+
+const getCategoryReviewTrendClass = (trend: CategoryReviewTrend) => {
+  if (trend.prev === 0 || trend.deltaAmount === 0) return "text-[var(--ink-1)]";
+  return trend.deltaAmount > 0 ? "text-rose-300" : "text-emerald-300";
+};
+
+const getCategoryReviewTrendChipClass = (trend: CategoryReviewTrend) => {
+  if (trend.prev === 0 || trend.deltaAmount === 0) return "border border-white/15 bg-white/5";
+  return trend.deltaAmount > 0 ? "border border-rose-400/30 bg-rose-500/10" : "border border-emerald-400/30 bg-emerald-500/10";
+};
+
+const getReviewRatingTextClass = (rating: ReviewRating) => {
+  if (rating === "Great") return "text-emerald-300";
+  if (rating === "Good") return "text-sky-300";
+  if (rating === "Soso") return "text-zinc-200";
+  if (rating === "Bad") return "text-orange-300";
+  return "text-rose-300";
+};
+
+const getReviewRatingBadgeClass = (rating: ReviewRating) => {
+  if (rating === "Great") return "border border-emerald-400/40 bg-emerald-500/10 text-emerald-300";
+  if (rating === "Good") return "border border-sky-400/40 bg-sky-500/10 text-sky-300";
+  if (rating === "Soso") return "border border-zinc-400/35 bg-zinc-500/10 text-zinc-200";
+  if (rating === "Bad") return "border border-orange-400/40 bg-orange-500/10 text-orange-300";
+  return "border border-rose-400/40 bg-rose-500/10 text-rose-300";
 };
 
 const groupCategoryTotals = (totals: { label: string; value: number; color: string }[], total: number) => {
@@ -958,8 +1012,15 @@ export default function FinanceExpensePage() {
     () => entries.filter((entry) => entry.date.startsWith(reviewDraftMonth) && normalizeEntryKind(entry) === "expense"),
     [entries, reviewDraftMonth]
   );
+  const reviewDraftPrevMonthKey = useMemo(() => getPrevMonthKey(reviewDraftMonth), [reviewDraftMonth]);
+  const reviewDraftPrevEntries = useMemo(
+    () => entries.filter((entry) => entry.date.startsWith(reviewDraftPrevMonthKey) && normalizeEntryKind(entry) === "expense"),
+    [entries, reviewDraftPrevMonthKey]
+  );
   const reviewDraftTotal = useMemo(() => reviewDraftEntries.reduce((sum, entry) => sum + entry.amount, 0), [reviewDraftEntries]);
   const reviewDraftCategoryTotals = useMemo(() => buildCategoryTotals(reviewDraftEntries), [reviewDraftEntries]);
+  const reviewDraftCurrentCategoryTotals = useMemo(() => buildCategoryTotalMap(reviewDraftEntries), [reviewDraftEntries]);
+  const reviewDraftPrevCategoryTotals = useMemo(() => buildCategoryTotalMap(reviewDraftPrevEntries), [reviewDraftPrevEntries]);
   const reviewDraftGrouped = useMemo(
     () => groupCategoryTotals(reviewDraftCategoryTotals, reviewDraftTotal),
     [reviewDraftCategoryTotals, reviewDraftTotal]
@@ -968,6 +1029,43 @@ export default function FinanceExpensePage() {
     () => (reviewDetailMonth ? reviewByMonth[reviewDetailMonth] ?? null : null),
     [reviewByMonth, reviewDetailMonth]
   );
+  const reviewDraftCategoryTrends = useMemo(() => {
+    const map = new Map<string, CategoryReviewTrend>();
+    if (!reviewDraft) return map;
+    Object.keys(reviewDraft.categoryReviews).forEach((label) => {
+      const current = reviewDraftCurrentCategoryTotals.get(label) ?? 0;
+      const prev = reviewDraftPrevCategoryTotals.get(label) ?? 0;
+      map.set(label, buildCategoryReviewTrend(current, prev));
+    });
+    return map;
+  }, [reviewDraft, reviewDraftCurrentCategoryTotals, reviewDraftPrevCategoryTotals]);
+  const reviewDetailPrevMonthKey = useMemo(() => (reviewDetail ? getPrevMonthKey(reviewDetail.month) : null), [reviewDetail]);
+  const reviewDetailEntries = useMemo(
+    () =>
+      reviewDetail
+        ? entries.filter((entry) => entry.date.startsWith(reviewDetail.month) && normalizeEntryKind(entry) === "expense")
+        : [],
+    [entries, reviewDetail]
+  );
+  const reviewDetailPrevEntries = useMemo(
+    () =>
+      reviewDetailPrevMonthKey
+        ? entries.filter((entry) => entry.date.startsWith(reviewDetailPrevMonthKey) && normalizeEntryKind(entry) === "expense")
+        : [],
+    [entries, reviewDetailPrevMonthKey]
+  );
+  const reviewDetailCurrentCategoryTotals = useMemo(() => buildCategoryTotalMap(reviewDetailEntries), [reviewDetailEntries]);
+  const reviewDetailPrevCategoryTotals = useMemo(() => buildCategoryTotalMap(reviewDetailPrevEntries), [reviewDetailPrevEntries]);
+  const reviewDetailCategoryTrends = useMemo(() => {
+    const map = new Map<string, CategoryReviewTrend>();
+    if (!reviewDetail) return map;
+    Object.keys(reviewDetail.categoryReviews).forEach((label) => {
+      const current = reviewDetailCurrentCategoryTotals.get(label) ?? 0;
+      const prev = reviewDetailPrevCategoryTotals.get(label) ?? 0;
+      map.set(label, buildCategoryReviewTrend(current, prev));
+    });
+    return map;
+  }, [reviewDetail, reviewDetailCurrentCategoryTotals, reviewDetailPrevCategoryTotals]);
 
   const reviewDraftInsightEntries = useMemo(() => {
     if (!selectedCategory) return [];
@@ -2155,7 +2253,7 @@ export default function FinanceExpensePage() {
                 onChange={(event) =>
                   setReviewDraft((prev) => (prev ? { ...prev, overallRating: event.target.value as ReviewRating } : prev))
                 }
-                className="lifnux-select mt-1 w-full rounded-lg border border-white/20 bg-[#0f1620] px-3 py-2 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+                className={`lifnux-select mt-1 w-full rounded-lg border border-white/20 bg-[#0f1620] px-3 py-2 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] ${getReviewRatingTextClass(reviewDraft?.overallRating ?? "Soso")}`}
               >
                 {REVIEW_RATINGS.map((rating) => (
                   <option key={rating} value={rating}>
@@ -2163,6 +2261,11 @@ export default function FinanceExpensePage() {
                   </option>
                 ))}
               </select>
+              <div className="mt-2">
+                <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${getReviewRatingBadgeClass(reviewDraft?.overallRating ?? "Soso")}`}>
+                  {reviewDraft?.overallRating ?? "Soso"}
+                </span>
+              </div>
             </label>
             <label className="block">
               <div className="text-[var(--ink-1)]">Overall comment</div>
@@ -2177,52 +2280,68 @@ export default function FinanceExpensePage() {
             <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Per-category ratings</div>
             <div className="max-h-[260px] space-y-3 overflow-y-auto pr-1 lifnux-scroll">
               {reviewDraft
-                ? Object.entries(reviewDraft.categoryReviews).map(([label, data]) => (
-                    <div key={label} className="rounded-lg border border-white/10 bg-black/20 p-3">
-                      <div className="text-xs text-[var(--ink-1)]">{label}</div>
-                      <select
-                        value={data.rating}
-                        onChange={(event) =>
-                          setReviewDraft((prev) =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  categoryReviews: {
-                                    ...prev.categoryReviews,
-                                    [label]: { ...prev.categoryReviews[label], rating: event.target.value as ReviewRating }
+                ? Object.entries(reviewDraft.categoryReviews).map(([label, data]) => {
+                    const trend = reviewDraftCategoryTrends.get(label) ?? buildCategoryReviewTrend(0, 0);
+                    return (
+                      <div key={label} className="rounded-lg border border-white/15 bg-black/25 p-3">
+                        <div className="text-sm font-semibold text-white/90">{label}</div>
+                        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                          <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-sm font-semibold text-white">
+                            {formatKrw(trend.current)}
+                          </span>
+                          <span
+                            className={`rounded-md px-2 py-1 text-xs font-semibold ${getCategoryReviewTrendClass(trend)} ${getCategoryReviewTrendChipClass(trend)}`}
+                          >
+                            전월대비 {formatCategoryReviewTrendPercent(trend)}
+                          </span>
+                          <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs font-medium text-slate-200">
+                            전월 {formatKrw(trend.prev)}
+                          </span>
+                        </div>
+                        <select
+                          value={data.rating}
+                          onChange={(event) =>
+                            setReviewDraft((prev) =>
+                              prev
+                                ? {
+                                    ...prev,
+                                    categoryReviews: {
+                                      ...prev.categoryReviews,
+                                      [label]: { ...prev.categoryReviews[label], rating: event.target.value as ReviewRating }
+                                    }
                                   }
-                                }
-                              : prev
-                          )
-                        }
-                        className="lifnux-select mt-2 w-full rounded-lg border border-white/20 bg-[#0f1620] px-3 py-2 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-                      >
-                        {REVIEW_RATINGS.map((rating) => (
-                          <option key={rating} value={rating}>
-                            {rating}
-                          </option>
-                        ))}
-                      </select>
-                      <input
-                        value={data.comment}
-                        onChange={(event) =>
-                          setReviewDraft((prev) =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  categoryReviews: {
-                                    ...prev.categoryReviews,
-                                    [label]: { ...prev.categoryReviews[label], comment: event.target.value }
+                                : prev
+                            )
+                          }
+                          className={`lifnux-select mt-2 w-full rounded-lg border border-white/20 bg-[#0f1620] px-3 py-2 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] ${getReviewRatingTextClass(data.rating)}`}
+                        >
+                          {REVIEW_RATINGS.map((rating) => (
+                            <option key={rating} value={rating}>
+                              {rating}
+                            </option>
+                          ))}
+                        </select>
+                        <input
+                          value={data.comment}
+                          onChange={(event) =>
+                            setReviewDraft((prev) =>
+                              prev
+                                ? {
+                                    ...prev,
+                                    categoryReviews: {
+                                      ...prev.categoryReviews,
+                                      [label]: { ...prev.categoryReviews[label], comment: event.target.value }
+                                    }
                                   }
-                                }
-                              : prev
-                          )
-                        }
-                        placeholder="Comment (optional)"
-                        className="mt-2 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2"
-                      />
-                    </div>
-                  ))
+                                : prev
+                            )
+                          }
+                          placeholder="Comment (optional)"
+                          className="mt-2 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/90 placeholder:text-[var(--ink-1)]"
+                        />
+                      </div>
+                    );
+                  })
                 : null}
             </div>
             <div className="flex justify-end gap-2 pt-2">
@@ -2254,7 +2373,9 @@ export default function FinanceExpensePage() {
                 <div className="flex items-center justify-between gap-2">
                   <button className="min-w-0 flex-1 text-left" onClick={() => openReviewDetail(row.month)}>
                     <div className="text-sm font-semibold">{row.month}</div>
-                    <div className="mt-1 text-xs text-[var(--ink-1)]">Overall: {row.overallRating}</div>
+                    <div className="mt-1 text-xs">
+                      Overall: <span className={`font-semibold ${getReviewRatingTextClass(row.overallRating)}`}>{row.overallRating}</span>
+                    </div>
                     <div className="mt-1 truncate text-xs text-[var(--ink-1)]">{row.overallComment || "-"}</div>
                   </button>
                   <div className="flex flex-col items-end gap-2">
@@ -2283,19 +2404,41 @@ export default function FinanceExpensePage() {
           <div className="space-y-4 text-sm">
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Overall</div>
-              <div className="mt-1 text-base">{reviewDetail.overallRating}</div>
-              <div className="mt-2 text-xs text-[var(--ink-1)]">{reviewDetail.overallComment || "No comment."}</div>
+              <div className="mt-1">
+                <span className={`inline-flex rounded-full px-2.5 py-1 text-sm font-semibold ${getReviewRatingBadgeClass(reviewDetail.overallRating)}`}>
+                  {reviewDetail.overallRating}
+                </span>
+              </div>
+              <div className="mt-2 text-sm text-slate-200">{reviewDetail.overallComment || "No comment."}</div>
             </div>
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Per-category</div>
               <div className="mt-2 space-y-2">
-                {Object.entries(reviewDetail.categoryReviews).map(([label, data]) => (
-                  <div key={label} className="rounded-lg border border-white/10 bg-black/20 p-3">
-                    <div className="text-xs text-[var(--ink-1)]">{label}</div>
-                    <div className="mt-1 text-sm">{data.rating}</div>
-                    <div className="mt-1 text-xs text-[var(--ink-1)]">{data.comment || "-"}</div>
-                  </div>
-                ))}
+                {Object.entries(reviewDetail.categoryReviews).map(([label, data]) => {
+                  const trend = reviewDetailCategoryTrends.get(label) ?? buildCategoryReviewTrend(0, 0);
+                  return (
+                    <div key={label} className="rounded-lg border border-white/15 bg-black/25 p-3">
+                      <div className="text-base font-semibold text-white/90">{label}</div>
+                      <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                        <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-base font-semibold text-white">
+                          {formatKrw(trend.current)}
+                        </span>
+                        <span
+                          className={`rounded-md px-2 py-1 text-sm font-semibold ${getCategoryReviewTrendClass(trend)} ${getCategoryReviewTrendChipClass(trend)}`}
+                        >
+                          전월대비 {formatCategoryReviewTrendPercent(trend)}
+                        </span>
+                        <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-sm font-medium text-slate-200">
+                          전월 {formatKrw(trend.prev)}
+                        </span>
+                      </div>
+                      <div className="mt-2">
+                        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${getReviewRatingBadgeClass(data.rating)}`}>{data.rating}</span>
+                      </div>
+                      <div className="mt-2 text-sm text-slate-200">{data.comment || "-"}</div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             <div className="flex justify-end gap-2">
