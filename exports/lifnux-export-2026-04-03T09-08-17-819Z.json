@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-01T16:10:59.929Z"
+    "exportedAt": "2026-04-03T09:08:17.814Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "aF8OFSroHgg",
+        "trackId": "m3DZsBw5bnE",
         "volume": 80,
-        "position": 0
+        "position": 144.69526705340576
       }
     },
     "health": {
@@ -3428,6 +3428,33 @@
           "loggedForDate": "2026-04-01",
           "durationMin": 20,
           "createdAt": "2026-04-01T16:10:46.805Z"
+        },
+        {
+          "id": "097fcfd9-e011-45cf-9bee-c19f83af7f5f",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-02",
+          "durationMin": 32,
+          "createdAt": "2026-04-02T04:37:29.654Z",
+          "distanceKm": 2.57,
+          "calorieOverride": 102
+        },
+        {
+          "id": "7dad3efd-6b9f-4d94-8f16-d12657883d66",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-02",
+          "durationMin": 50,
+          "memo": "28회차\n새로운 강사와 함께..",
+          "createdAt": "2026-04-02T13:55:24.277Z"
+        },
+        {
+          "id": "4ab85a06-ed47-4ff5-affe-1bb98b208e47",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-03",
+          "durationMin": 37,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-03T05:56:58.195Z",
+          "distanceKm": 3.09,
+          "calorieOverride": 122
         }
       ]
     },
@@ -3585,10 +3612,18 @@
         {
           "date": "2026-04-01",
           "totalKrw": 31801151.71
+        },
+        {
+          "date": "2026-04-02",
+          "totalKrw": 31054387.283400003
+        },
+        {
+          "date": "2026-04-03",
+          "totalKrw": 31517200.85
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": false
+        "blurSensitiveNumbers": true
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -9606,7 +9641,10 @@
           "changeAbs": 3.4608,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true
+          "watchlisted": true,
+          "countryLabel": "US",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Index"
         },
         {
           "id": "kr-stock-0162y0",
@@ -10103,6 +10141,18 @@
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "0625c774-7a80-4dd9-9a54-d18badab882d",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-nas:sqqq",
+          "symbolKey": "NAS:SQQQ",
+          "avgPrice": 81.48,
+          "qty": 4,
+          "currency": "USD",
+          "countryLabel": "US",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Index"
         }
       ],
       "lifnux.finance.hub.reveal.v1": false,
@@ -11437,6 +11487,16 @@
           "title": "예비군 작계보상비",
           "amount": 8000,
           "kind": "income"
+        },
+        {
+          "id": "a10151a6-0b86-4e6b-ad3d-5014e348662c",
+          "createdAt": 1775096379776,
+          "date": "2026-04-02",
+          "category": "Dividends",
+          "title": "배당",
+          "amount": 6675,
+          "kind": "income",
+          "memo": "Korea플러스배당액티브"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11479,12 +11539,12 @@
       "lifnux:guitar:state": {
         "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
         "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
-        "loopEnabled": false,
-        "aSec": 165,
-        "bSec": 265,
-        "speed": 0.8,
+        "loopEnabled": true,
+        "aSec": 75,
+        "bSec": 100,
+        "speed": 0.75,
         "shadowing": false,
-        "attendanceCursor": "2026-02-28T15:00:00.000Z"
+        "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
       "lifnux:guitar:segments": [
         {
@@ -11594,6 +11654,15 @@
           "endSec": 265,
           "speed": 1,
           "createdAt": 1774884143028
+        },
+        {
+          "id": "760a2c16-5393-438f-9941-d88948d092ea",
+          "videoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
+          "name": "Part 8~9",
+          "startSec": 195,
+          "endSec": 260,
+          "speed": 0.85,
+          "createdAt": 1775140087531
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -11822,6 +11891,10 @@
         {
           "dateKey": "2026-03-31",
           "createdAt": 1774966881788
+        },
+        {
+          "dateKey": "2026-04-02",
+          "createdAt": 1775138779263
         }
       ],
       "lifnux:guitar:videos": [
@@ -11983,10 +12056,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31801151.71,
-        "unrealizedPnlKrw": 1642937.0684400052,
-        "realizedPnlYtdKrw": 2289579.7462382605,
-        "updatedAt": 1775055368193
+        "totalValueKrw": 31517200.85,
+        "unrealizedPnlKrw": 1383513.155799996,
+        "realizedPnlYtdKrw": 2287932.9716782607,
+        "updatedAt": 1775195771370
       }
     },
     "personalGrowth": {
@@ -19382,9 +19455,9 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "aF8OFSroHgg",
-        "queueIndex": 43,
-        "currentTime": 0,
+        "videoId": "m3DZsBw5bnE",
+        "queueIndex": 34,
+        "currentTime": 144.69526705340576,
         "repeatMode": "all",
         "shuffle": true
       },
@@ -19734,8 +19807,8 @@
             "url": "https://youtu.be/YzJW3lJeZa0?si=CnQMTOFkLicylfFu"
           }
         ],
-        "currentIndex": 43,
-        "isPlaying": false,
+        "currentIndex": 34,
+        "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -20097,7 +20170,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 11735
+          "balance": 1080685
         },
         {
           "accountId": "acc-us-1",
@@ -20107,7 +20180,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 1029.58
+          "balance": 0.6599999999999113
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -20117,7 +20190,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-01T16:10:59.219Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-03T09:08:17.139Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -21644,6 +21717,47 @@
           "side": "BUY",
           "qty": 2,
           "price": 199.8,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "7bea03b3-56a5-49c6-a1e4-78ccadd2069e",
+          "ts": 1775138242953,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "WITHDRAW",
+          "amount": 704
+        },
+        {
+          "id": "dc06c729-dedc-4616-a956-311a53d4ab1c",
+          "ts": 1775138258009,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 1068950
+        },
+        {
+          "id": "a42d2d45-21d9-4ec4-a01e-90850d4b1915",
+          "ts": 1775138315321,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 1
+        },
+        {
+          "id": "aaa25998-ddb4-437c-bc9a-9571d870422e",
+          "ts": 1775138327402,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:SQQQ",
+          "side": "BUY",
+          "qty": 4,
+          "price": 81.48,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
