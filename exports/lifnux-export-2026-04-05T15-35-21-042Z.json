@@ -2,14 +2,22 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
     "exportedAt": "2026-04-05T15:35:21.036Z"
+========
+    "exportedAt": "2026-04-03T09:08:17.814Z"
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "aF8OFSroHgg",
+        "trackId": "m3DZsBw5bnE",
         "volume": 80,
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
         "position": 0
+========
+        "position": 144.69526705340576
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
       }
     },
     "health": {
@@ -3447,12 +3455,23 @@
           "createdAt": "2026-04-02T13:55:24.277Z"
         },
         {
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
           "id": "59501482-a963-44d5-93cb-f1364e849b42",
           "typeId": "swimming",
           "loggedForDate": "2026-04-03",
           "durationMin": 50,
           "memo": "29회차\n고개 옆으로 뉘우고 호흡하기",
           "createdAt": "2026-04-03T13:56:37.761Z"
+========
+          "id": "4ab85a06-ed47-4ff5-affe-1bb98b208e47",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-03",
+          "durationMin": 37,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-03T05:56:58.195Z",
+          "distanceKm": 3.09,
+          "calorieOverride": 122
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
         }
       ]
     },
@@ -3617,11 +3636,15 @@
         },
         {
           "date": "2026-04-03",
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
           "totalKrw": 31526758.330000002
+========
+          "totalKrw": 31517200.85
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": false
+        "blurSensitiveNumbers": true
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -11538,7 +11561,13 @@
         "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
         "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
         "speed": 0.8,
+========
+        "aSec": 75,
+        "bSec": 100,
+        "speed": 0.75,
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -11891,10 +11920,13 @@
         {
           "dateKey": "2026-04-02",
           "createdAt": 1775138779263
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
         },
         {
           "dateKey": "2026-04-05",
           "createdAt": 1775399345683
+========
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
         }
       ],
       "lifnux:guitar:videos": [
@@ -12056,10 +12088,17 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
         "totalValueKrw": 31526758.330000002,
         "unrealizedPnlKrw": 1360420.6884400062,
         "realizedPnlYtdKrw": 2289579.7462382605,
         "updatedAt": 1775224656864
+========
+        "totalValueKrw": 31517200.85,
+        "unrealizedPnlKrw": 1383513.155799996,
+        "realizedPnlYtdKrw": 2287932.9716782607,
+        "updatedAt": 1775195771370
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
       }
     },
     "personalGrowth": {
@@ -19455,9 +19494,15 @@
         }
       ],
       "lifnux.music.resume.v110": {
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
         "videoId": "aF8OFSroHgg",
         "queueIndex": 43,
         "currentTime": 0,
+========
+        "videoId": "m3DZsBw5bnE",
+        "queueIndex": 34,
+        "currentTime": 144.69526705340576,
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
         "repeatMode": "all",
         "shuffle": true
       },
@@ -19807,7 +19852,7 @@
             "url": "https://youtu.be/YzJW3lJeZa0?si=CnQMTOFkLicylfFu"
           }
         ],
-        "currentIndex": 43,
+        "currentIndex": 34,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -20190,7 +20235,11 @@
       ]
     },
     "data": {
+<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
       "lifnux:data.lastUpdatedAt": "2026-04-05T15:35:20.913Z"
+========
+      "lifnux:data.lastUpdatedAt": "2026-04-03T09:08:17.139Z"
+>>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
