@@ -2,22 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
-    "exportedAt": "2026-04-05T15:35:21.036Z"
-========
-    "exportedAt": "2026-04-03T09:08:17.814Z"
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
+    "exportedAt": "2026-04-06T09:04:28.655Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "m3DZsBw5bnE",
+        "trackId": "YzJW3lJeZa0",
         "volume": 80,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
         "position": 0
-========
-        "position": 144.69526705340576
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
       }
     },
     "health": {
@@ -3455,23 +3447,22 @@
           "createdAt": "2026-04-02T13:55:24.277Z"
         },
         {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
           "id": "59501482-a963-44d5-93cb-f1364e849b42",
           "typeId": "swimming",
           "loggedForDate": "2026-04-03",
           "durationMin": 50,
           "memo": "29회차\n고개 옆으로 뉘우고 호흡하기",
           "createdAt": "2026-04-03T13:56:37.761Z"
-========
-          "id": "4ab85a06-ed47-4ff5-affe-1bb98b208e47",
+        },
+        {
+          "id": "e105039c-9ab0-4d02-9a3d-c249c4d298a0",
           "typeId": "walking",
-          "loggedForDate": "2026-04-03",
-          "durationMin": 37,
+          "loggedForDate": "2026-04-06",
+          "durationMin": 35,
           "memo": "점심 산책",
-          "createdAt": "2026-04-03T05:56:58.195Z",
-          "distanceKm": 3.09,
-          "calorieOverride": 122
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
+          "createdAt": "2026-04-06T04:34:47.609Z",
+          "distanceKm": 2.72,
+          "calorieOverride": 108
         }
       ]
     },
@@ -3636,11 +3627,15 @@
         },
         {
           "date": "2026-04-03",
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
           "totalKrw": 31526758.330000002
-========
-          "totalKrw": 31517200.85
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
+        },
+        {
+          "date": "2026-04-05",
+          "totalKrw": 31534397.700000003
+        },
+        {
+          "date": "2026-04-06",
+          "totalKrw": 31734421.3852
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -9107,6 +9102,7 @@
         "Dividends",
         "Cashback"
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9121,25 +9117,7 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
-        {
-          "id": "us-aapl",
-          "symbol": "AAPL",
-          "market": "US",
-          "name": "AAPL",
-          "isHeld": false,
-          "watchlisted": true,
-          "notes": "",
-          "mktCapRank": 9999,
-          "last": 438,
-          "changePct": 1.36,
-          "label": "AAPL",
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1770776916076
-        },
         {
           "id": "auto-us-nas:crwd",
           "symbol": "NAS:CRWD",
@@ -9179,22 +9157,6 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "auto-us-nys:nine",
-          "symbol": "NYS:NINE",
-          "market": "US",
-          "label": "NINE",
-          "name": "NINE",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 454,
-          "changePct": 1.68,
-          "changeAbs": 7.6272,
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1770776916076
-        },
-        {
           "id": "auto-kr-138080",
           "symbol": "138080",
           "market": "KR",
@@ -9205,22 +9167,6 @@
           "last": 54178,
           "changePct": 2.78,
           "changeAbs": 1506.1484,
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1770776916076
-        },
-        {
-          "id": "auto-kr-039490",
-          "symbol": "039490",
-          "market": "KR",
-          "label": "키움증권",
-          "name": "039490",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 138693,
-          "changePct": 1.93,
-          "changeAbs": 2676.7749,
           "assetType": "STOCK",
           "exchange": "KRX",
           "currency": "KRW",
@@ -9357,22 +9303,6 @@
           "createdAt": 1770776916076
         },
         {
-          "id": "auto-us-nys:baba",
-          "symbol": "NYS:BABA",
-          "market": "US",
-          "label": "BABA",
-          "name": "BABA",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 432,
-          "changePct": -2.76,
-          "changeAbs": -11.9232,
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1770776916076
-        },
-        {
           "id": "auto-us-nys:snow",
           "symbol": "NYS:SNOW",
           "market": "US",
@@ -9484,22 +9414,6 @@
           "sectorLabel": "Biotech"
         },
         {
-          "id": "kr-396510",
-          "label": "TIGER 차이나클린에너지SOLACTIVE",
-          "symbol": "396510",
-          "market": "KR",
-          "last": 158612,
-          "changePct": -2.88,
-          "changeAbs": -4568.0256,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": false,
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1770776916076
-        },
-        {
           "id": "kr-009540",
           "label": "HD한국조선해양",
           "symbol": "009540",
@@ -9555,22 +9469,6 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Semiconductor"
-        },
-        {
-          "id": "kr-etf-371160",
-          "label": "TIGER 차이나항셍테크",
-          "symbol": "371160",
-          "market": "KR",
-          "assetType": "ETF",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1770863766644,
-          "last": 78926,
-          "changePct": -1.74,
-          "changeAbs": -1373.3123999999998,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": true
         },
         {
           "id": "kr-stock-005380",
@@ -9668,22 +9566,6 @@
           "sectorLabel": "Index"
         },
         {
-          "id": "kr-stock-0162y0",
-          "label": "TIME 코스닥액티브",
-          "symbol": "0162Y0",
-          "market": "KR",
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1773123035598,
-          "last": 121348,
-          "changePct": 2.48,
-          "changeAbs": 3009.4303999999997,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": true
-        },
-        {
           "id": "kr-stock-0163y0",
           "label": "KoAct 코스닥액티브",
           "symbol": "0163Y0",
@@ -9755,6 +9637,22 @@
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "kr-stock-117700",
+          "label": "KODEX 건설",
+          "symbol": "117700",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1775462398053,
+          "last": 103824,
+          "changePct": 1.24,
+          "changeAbs": 1287.4176,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -11518,6 +11416,33 @@
           "amount": 6675,
           "kind": "income",
           "memo": "Korea플러스배당액티브"
+        },
+        {
+          "id": "525e3896-d8ab-42bd-859b-dc601e79bd9a",
+          "createdAt": 1775442197932,
+          "date": "2026-04-04",
+          "category": "Other",
+          "title": "일렉 기타 레슨비",
+          "amount": 160000,
+          "kind": "expense"
+        },
+        {
+          "id": "50f03ec0-1b2a-4c1b-b23f-26a40a27d33b",
+          "createdAt": 1775442226829,
+          "date": "2026-04-04",
+          "category": "Entertainment",
+          "title": "코인 노래방",
+          "amount": 3782,
+          "kind": "expense"
+        },
+        {
+          "id": "87396148-6890-4256-90e2-f7692688f485",
+          "createdAt": 1775442242772,
+          "date": "2026-04-04",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 2240,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11561,13 +11486,7 @@
         "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
         "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
         "speed": 0.8,
-========
-        "aSec": 75,
-        "bSec": 100,
-        "speed": 0.75,
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -11691,6 +11610,10 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -11746,10 +11669,6 @@
           "createdAt": 1773157984491
         }
       ],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -11920,13 +11839,10 @@
         {
           "dateKey": "2026-04-02",
           "createdAt": 1775138779263
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
         },
         {
           "dateKey": "2026-04-05",
           "createdAt": 1775399345683
-========
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
         }
       ],
       "lifnux:guitar:videos": [
@@ -12088,17 +12004,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
-        "totalValueKrw": 31526758.330000002,
-        "unrealizedPnlKrw": 1360420.6884400062,
-        "realizedPnlYtdKrw": 2289579.7462382605,
-        "updatedAt": 1775224656864
-========
-        "totalValueKrw": 31517200.85,
-        "unrealizedPnlKrw": 1383513.155799996,
-        "realizedPnlYtdKrw": 2287932.9716782607,
-        "updatedAt": 1775195771370
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
+        "totalValueKrw": 31734421.3852,
+        "unrealizedPnlKrw": 1625221.1515200026,
+        "realizedPnlYtdKrw": 2286697.8907582606,
+        "updatedAt": 1775466264639
       }
     },
     "personalGrowth": {
@@ -19494,15 +19403,9 @@
         }
       ],
       "lifnux.music.resume.v110": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
-        "videoId": "aF8OFSroHgg",
-        "queueIndex": 43,
+        "videoId": "YzJW3lJeZa0",
+        "queueIndex": 56,
         "currentTime": 0,
-========
-        "videoId": "m3DZsBw5bnE",
-        "queueIndex": 34,
-        "currentTime": 144.69526705340576,
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
         "repeatMode": "all",
         "shuffle": true
       },
@@ -19852,8 +19755,8 @@
             "url": "https://youtu.be/YzJW3lJeZa0?si=CnQMTOFkLicylfFu"
           }
         ],
-        "currentIndex": 34,
-        "isPlaying": true,
+        "currentIndex": 56,
+        "isPlaying": false,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -20235,11 +20138,7 @@
       ]
     },
     "data": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-05T15-35-21-042Z.json
-      "lifnux:data.lastUpdatedAt": "2026-04-05T15:35:20.913Z"
-========
-      "lifnux:data.lastUpdatedAt": "2026-04-03T09:08:17.139Z"
->>>>>>>> 41f02313c76b2033e77eedc89764af98d8bb555c:exports/lifnux-export-2026-04-03T09-08-17-819Z.json
+      "lifnux:data.lastUpdatedAt": "2026-04-06T09:04:27.652Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
