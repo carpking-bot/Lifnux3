@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-05T15:40:13.883Z"
+    "exportedAt": "2026-04-07T15:09:24.530Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "aF8OFSroHgg",
+        "trackId": "h2TjzsvFX0s",
         "volume": 80,
         "position": 0
       }
@@ -3453,6 +3453,51 @@
           "durationMin": 50,
           "memo": "29회차\n고개 옆으로 뉘우고 호흡하기",
           "createdAt": "2026-04-03T13:56:37.761Z"
+        },
+        {
+          "id": "e105039c-9ab0-4d02-9a3d-c249c4d298a0",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-06",
+          "durationMin": 35,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-06T04:34:47.609Z",
+          "distanceKm": 2.72,
+          "calorieOverride": 108
+        },
+        {
+          "id": "9ed2cf7c-8569-488f-ae5e-b84fa37d430b",
+          "typeId": "home",
+          "loggedForDate": "2026-04-06",
+          "durationMin": 20,
+          "createdAt": "2026-04-07T00:48:19.116Z"
+        },
+        {
+          "id": "607c7713-f1cc-4f50-9404-e07179f4487a",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-07",
+          "durationMin": 35,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-07T06:10:05.680Z",
+          "distanceKm": 2.89,
+          "calorieOverride": 114
+        },
+        {
+          "id": "8c20de18-a849-4311-af01-9863aef0bb36",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-03",
+          "durationMin": 37,
+          "memo": "wjatla tkscor",
+          "createdAt": "2026-04-07T06:10:41.936Z",
+          "distanceKm": 3.09,
+          "calorieOverride": 122
+        },
+        {
+          "id": "fb57f22b-e2bb-4d7a-8494-579154144501",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-07",
+          "durationMin": 50,
+          "memo": "수영 30회차",
+          "createdAt": "2026-04-07T13:53:45.134Z"
         }
       ]
     },
@@ -3622,10 +3667,18 @@
         {
           "date": "2026-04-05",
           "totalKrw": 31534397.700000003
+        },
+        {
+          "date": "2026-04-06",
+          "totalKrw": 31699655.7304
+        },
+        {
+          "date": "2026-04-07",
+          "totalKrw": 35588633.760000005
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -9088,6 +9141,7 @@
         "Dividends",
         "Cashback"
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9102,25 +9156,7 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
-        {
-          "id": "us-aapl",
-          "symbol": "AAPL",
-          "market": "US",
-          "name": "AAPL",
-          "isHeld": false,
-          "watchlisted": true,
-          "notes": "",
-          "mktCapRank": 9999,
-          "last": 438,
-          "changePct": 1.36,
-          "label": "AAPL",
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1770776916076
-        },
         {
           "id": "auto-us-nas:crwd",
           "symbol": "NAS:CRWD",
@@ -9160,22 +9196,6 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "auto-us-nys:nine",
-          "symbol": "NYS:NINE",
-          "market": "US",
-          "label": "NINE",
-          "name": "NINE",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 454,
-          "changePct": 1.68,
-          "changeAbs": 7.6272,
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1770776916076
-        },
-        {
           "id": "auto-kr-138080",
           "symbol": "138080",
           "market": "KR",
@@ -9186,22 +9206,6 @@
           "last": 54178,
           "changePct": 2.78,
           "changeAbs": 1506.1484,
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1770776916076
-        },
-        {
-          "id": "auto-kr-039490",
-          "symbol": "039490",
-          "market": "KR",
-          "label": "키움증권",
-          "name": "039490",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 138693,
-          "changePct": 1.93,
-          "changeAbs": 2676.7749,
           "assetType": "STOCK",
           "exchange": "KRX",
           "currency": "KRW",
@@ -9338,22 +9342,6 @@
           "createdAt": 1770776916076
         },
         {
-          "id": "auto-us-nys:baba",
-          "symbol": "NYS:BABA",
-          "market": "US",
-          "label": "BABA",
-          "name": "BABA",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 432,
-          "changePct": -2.76,
-          "changeAbs": -11.9232,
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1770776916076
-        },
-        {
           "id": "auto-us-nys:snow",
           "symbol": "NYS:SNOW",
           "market": "US",
@@ -9465,22 +9453,6 @@
           "sectorLabel": "Biotech"
         },
         {
-          "id": "kr-396510",
-          "label": "TIGER 차이나클린에너지SOLACTIVE",
-          "symbol": "396510",
-          "market": "KR",
-          "last": 158612,
-          "changePct": -2.88,
-          "changeAbs": -4568.0256,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": false,
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1770776916076
-        },
-        {
           "id": "kr-009540",
           "label": "HD한국조선해양",
           "symbol": "009540",
@@ -9536,22 +9508,6 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Semiconductor"
-        },
-        {
-          "id": "kr-etf-371160",
-          "label": "TIGER 차이나항셍테크",
-          "symbol": "371160",
-          "market": "KR",
-          "assetType": "ETF",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1770863766644,
-          "last": 78926,
-          "changePct": -1.74,
-          "changeAbs": -1373.3123999999998,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": true
         },
         {
           "id": "kr-stock-005380",
@@ -9649,22 +9605,6 @@
           "sectorLabel": "Index"
         },
         {
-          "id": "kr-stock-0162y0",
-          "label": "TIME 코스닥액티브",
-          "symbol": "0162Y0",
-          "market": "KR",
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1773123035598,
-          "last": 121348,
-          "changePct": 2.48,
-          "changeAbs": 3009.4303999999997,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": true
-        },
-        {
           "id": "kr-stock-0163y0",
           "label": "KoAct 코스닥액티브",
           "symbol": "0163Y0",
@@ -9736,6 +9676,22 @@
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "kr-stock-117700",
+          "label": "KODEX 건설",
+          "symbol": "117700",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1775462398053,
+          "last": 103824,
+          "changePct": 1.24,
+          "changeAbs": 1287.4176,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -11499,6 +11455,43 @@
           "amount": 6675,
           "kind": "income",
           "memo": "Korea플러스배당액티브"
+        },
+        {
+          "id": "525e3896-d8ab-42bd-859b-dc601e79bd9a",
+          "createdAt": 1775442197932,
+          "date": "2026-04-04",
+          "category": "Other",
+          "title": "일렉 기타 레슨비",
+          "amount": 160000,
+          "kind": "expense"
+        },
+        {
+          "id": "50f03ec0-1b2a-4c1b-b23f-26a40a27d33b",
+          "createdAt": 1775442226829,
+          "date": "2026-04-04",
+          "category": "Entertainment",
+          "title": "코인 노래방",
+          "amount": 3782,
+          "kind": "expense"
+        },
+        {
+          "id": "87396148-6890-4256-90e2-f7692688f485",
+          "createdAt": 1775442242772,
+          "date": "2026-04-04",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 2240,
+          "kind": "expense"
+        },
+        {
+          "id": "bf7e462d-c9b0-4b3b-88e6-fe0ff13a8be7",
+          "createdAt": 1775542321400,
+          "date": "2026-04-01",
+          "category": "Other",
+          "title": "용돈",
+          "amount": 200000,
+          "kind": "income",
+          "memo": "은 아니고 지역화폐 충전해서 달라는 거였긴한데 암튼 이득"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11539,10 +11532,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
-        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
+        "selectedVideoId": "e52d3f5c-2ea2-4165-8717-2622e2a9a8b6",
         "loopEnabled": true,
-        "speed": 0.8,
+        "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -11666,6 +11659,10 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -11721,10 +11718,6 @@
           "createdAt": 1773157984491
         }
       ],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -11899,6 +11892,14 @@
         {
           "dateKey": "2026-04-05",
           "createdAt": 1775399345683
+        },
+        {
+          "dateKey": "2026-04-06",
+          "createdAt": 1775482402392
+        },
+        {
+          "dateKey": "2026-04-07",
+          "createdAt": 1775570237897
         }
       ],
       "lifnux:guitar:videos": [
@@ -12060,10 +12061,10 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31534397.700000003,
-        "unrealizedPnlKrw": 1359897.5716000013,
-        "realizedPnlYtdKrw": 2289991.4398782607,
-        "updatedAt": 1775403524842
+        "totalValueKrw": 35588633.760000005,
+        "unrealizedPnlKrw": 5463108.552640006,
+        "realizedPnlYtdKrw": 2287521.2780382605,
+        "updatedAt": 1775570721867
       }
     },
     "personalGrowth": {
@@ -18878,6 +18879,27 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "5d21ae7f-d988-4a67-a7c6-b654c7647acf",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "파이드픽셀즈",
+          "postingTitle": "[파이드픽셀즈] 라이브 서비스 사업 PM 담당자",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "사업 파트는 프로젝트 성공을 위한 모든 요소를 계획하고 실행하는 부서입니다.\n\n라이브 서비스를 기반으로 다양한 사업 및 라이브옵스 실험을 기획하고 이끌어 갈 구성원을 모집하고 있습니다.",
+          "responsibilities": "라이브 서비스 운영 및 이슈 대응\n마켓 관리 및 업데이트 대응\nBM / 이벤트 / 운영 관련 A/B 테스트 설계 및 라이브 적용\nAI 및 다양한 툴을 활용한 업무 자동화 및 생산성 개선 시스템 구축\n데이터 분석 및 리포트\n시장 조사 및 사업 분석",
+          "requirements": "새로운 도전과 실험을 스스로 기획하고 실행해보신 분\n새로운 도구를 빠르게 학습하고 업무에 적용하는 데 거부감이 없으신 분\n데이터 기반으로 사고하고 결과를 해석하려는 태도를 가지신 분\n캐주얼 장르에 대한 이해도가 있으신 분",
+          "neededSkills": "",
+          "preferred": "특정 게임을 깊이 있게 플레이하고, 개선점을 고민해보신 경험이 있으신 분\nAI 툴을 적극적으로 활용하신 경험이 있으신 분\n가설을 기반으로 실험과 검증까지 진행하신 경험이 있으신 분",
+          "memo": "이력서 및 자기소개서\n'그랑사가 키우기' 서비스 분석 및 제안 (필수 / AI 활용 가능)\n경력기술서 (업무와 경력 중심)\n포트폴리오\n",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://piedpixels.careers.team/job-descriptions/bqzooWKza4",
+          "createdAt": "2026-04-07T01:55:20.851Z",
+          "updatedAt": "2026-04-07T01:55:26.861Z"
+        },
+        {
           "postingId": "eea739bc-ea3f-4549-9853-f00e1f0faaf2",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "컴투스",
@@ -19459,11 +19481,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "aF8OFSroHgg",
-        "queueIndex": 43,
+        "videoId": "h2TjzsvFX0s",
+        "queueIndex": 54,
         "currentTime": 0,
         "repeatMode": "all",
-        "shuffle": true
+        "shuffle": false
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -19809,11 +19831,17 @@
             "videoId": "YzJW3lJeZa0",
             "title": "Lily of The Valley",
             "url": "https://youtu.be/YzJW3lJeZa0?si=CnQMTOFkLicylfFu"
+          },
+          {
+            "id": "2dee09c4-e099-442c-9b98-726804f7315d",
+            "videoId": "H5jm8uQ6Fso",
+            "title": "a plumber",
+            "url": "https://youtu.be/H5jm8uQ6Fso?si=QmLgmrUrqLTzwApd"
           }
         ],
-        "currentIndex": 43,
+        "currentIndex": 54,
         "isPlaying": true,
-        "shuffle": true,
+        "shuffle": false,
         "repeatMode": "all",
         "presets": [
           {
@@ -20194,7 +20222,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-05T15:40:13.481Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-07T15:09:24.440Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
