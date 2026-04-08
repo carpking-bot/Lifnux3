@@ -39,7 +39,11 @@ type PortfolioLabelOptions = {
 type PortfolioHistoryPoint = {
   date: string;
   totalKrw: number;
+  quality?: "final" | "provisional";
 };
+
+type PricingState = "VALID" | "STALE" | "FALLBACK" | "ERROR";
+type PortfolioQuality = "OK" | "DEGRADED" | "ERROR";
 
 type AnalyzePeriodKey = "1W" | "2W" | "1M" | "3M" | "6M" | "1Y";
 type AnalyzeResult = {
@@ -351,20 +355,35 @@ export default function PortfolioPage() {
     return activeHoldings.map((holding) => {
       const stock = stocks.find((item) => normalizeSymbol(item.symbol) === normalizeSymbol(holding.symbolKey));
       const quote = stock ? heldQuotes.get(getQuoteSymbol(stock).toUpperCase()) : undefined;
-      const price = quote?.price ?? stock?.last ?? 0;
-      const marketValue = price * holding.qty;
+      const quotePrice = typeof quote?.price === "number" && quote.price > 0 ? quote.price : null;
+      const fallbackPrice = quotePrice === null && typeof stock?.last === "number" && stock.last > 0 ? stock.last : null;
+      const price = quotePrice ?? fallbackPrice ?? 0;
+      const pricingState: PricingState =
+        quotePrice !== null
+          ? quote?.status === "STALE"
+            ? "STALE"
+            : "VALID"
+          : fallbackPrice !== null
+            ? "FALLBACK"
+            : "ERROR";
+      const hasUsablePrice = pricingState !== "ERROR";
+      const marketValue = hasUsablePrice ? price * holding.qty : 0;
       const costBasis = holding.avgPrice * holding.qty;
-      const pnlValue = marketValue - costBasis;
+      const pnlValue = hasUsablePrice ? marketValue - costBasis : 0;
       const isUsd = holding.currency === "USD";
       const rate = useFx && isUsd ? fxRate : null;
-      const marketValueKrw = isUsd ? (rate ? marketValue * rate : null) : marketValue;
+      const marketValueKrw = hasUsablePrice ? (isUsd ? (rate ? marketValue * rate : null) : marketValue) : null;
       const costBasisKrw = isUsd ? (rate ? costBasis * rate : null) : costBasis;
-      const pnlKrw = isUsd ? (rate ? pnlValue * rate : null) : pnlValue;
+      const pnlKrw = hasUsablePrice ? (isUsd ? (rate ? pnlValue * rate : null) : pnlValue) : null;
       return {
         holding,
         stock,
         quote,
         price,
+        quoteStatus: quote?.status ?? null,
+        quoteWarning: quote?.warning ?? null,
+        pricingState,
+        hasUsablePrice,
         marketValue,
         costBasis,
         pnlValue,
@@ -423,7 +442,18 @@ export default function PortfolioPage() {
     let costBasisKrwPartial = 0;
     let holdingsMarketValueKrwPartial = 0;
     let hasUsdHoldings = false;
+    let pricedHoldingCount = 0;
+    let missingPriceCount = 0;
+    let stalePriceCount = 0;
+    let fallbackPriceCount = 0;
     holdingEntries.forEach((entry) => {
+      if (!entry.hasUsablePrice) {
+        missingPriceCount += 1;
+        return;
+      }
+      pricedHoldingCount += 1;
+      if (entry.pricingState === "STALE") stalePriceCount += 1;
+      if (entry.pricingState === "FALLBACK") fallbackPriceCount += 1;
       if (entry.holding.currency === "KRW") {
         holdingsKrw += entry.marketValue;
         holdingsMarketValueKrwPartial += entry.marketValue;
@@ -449,12 +479,19 @@ export default function PortfolioPage() {
           ? holdingsKrw + holdingsUsd * fxRate + cashKrw + cashUsd * fxRate
           : null
         : holdingsKrw + cashKrw;
-    const holdingsMarketValueKrw = hasUsdHoldings && !(useFx && fxRate) ? null : holdingsMarketValueKrwPartial;
-    const costBasisKrw = hasUsdHoldings && !(useFx && fxRate) ? null : costBasisKrwPartial;
+    const allHoldingsMissing = holdingEntries.length > 0 && pricedHoldingCount === 0;
+    const holdingsMarketValueKrw =
+      allHoldingsMissing || (hasUsdHoldings && !(useFx && fxRate)) ? null : holdingsMarketValueKrwPartial;
+    const costBasisKrw = allHoldingsMissing || (hasUsdHoldings && !(useFx && fxRate)) ? null : costBasisKrwPartial;
     const unrealizedPnlKrw =
       holdingsMarketValueKrw !== null && costBasisKrw !== null ? holdingsMarketValueKrw - costBasisKrw : null;
     const unrealizedPnlPct =
       unrealizedPnlKrw !== null && costBasisKrw !== null && costBasisKrw > 0 ? (unrealizedPnlKrw / costBasisKrw) * 100 : null;
+    let quality: PortfolioQuality = "OK";
+    if (allHoldingsMissing) quality = "ERROR";
+    else if (missingPriceCount > 0 || stalePriceCount > 0 || fallbackPriceCount > 0) quality = "DEGRADED";
+    const historyPolicy: "FINAL" | "PROVISIONAL" | "SKIP" =
+      quality === "OK" ? "FINAL" : quality === "DEGRADED" ? "PROVISIONAL" : "SKIP";
     return {
       holdingsKrw,
       holdingsUsd,
@@ -464,7 +501,13 @@ export default function PortfolioPage() {
       holdingsMarketValueKrw,
       costBasisKrw,
       unrealizedPnlKrw,
-      unrealizedPnlPct
+      unrealizedPnlPct,
+      quality,
+      pricedHoldingCount,
+      missingPriceCount,
+      stalePriceCount,
+      fallbackPriceCount,
+      historyPolicy
     };
   };
 
@@ -566,12 +609,18 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     if (!ready || overallTotals.totalKrw === null || overallTotals.totalKrw <= 0) return;
+    if (overallTotals.historyPolicy === "SKIP") return;
     const today = new Date().toISOString().slice(0, 10);
     setHistory((prev) => {
       const next = [...prev];
       const index = next.findIndex((item) => item.date === today);
-      const point: PortfolioHistoryPoint = { date: today, totalKrw: overallTotals.totalKrw as number };
+      const point: PortfolioHistoryPoint = {
+        date: today,
+        totalKrw: overallTotals.totalKrw as number,
+        quality: overallTotals.historyPolicy === "FINAL" ? "final" : "provisional"
+      };
       if (index >= 0) {
+        if (next[index]?.quality === "final" && point.quality === "provisional") return next;
         next[index] = point;
       } else {
         next.push(point);
@@ -579,7 +628,7 @@ export default function PortfolioPage() {
       next.sort((a, b) => a.date.localeCompare(b.date));
       return next;
     });
-  }, [overallTotals.totalKrw, ready]);
+  }, [overallTotals.historyPolicy, overallTotals.totalKrw, ready]);
 
   useEffect(() => {
     if (!ready) return;
@@ -587,9 +636,10 @@ export default function PortfolioPage() {
       totalValueKrw: overallTotals.totalKrw,
       unrealizedPnlKrw: overallTotals.unrealizedPnlKrw,
       realizedPnlYtdKrw: realizedYtdTotalKrw,
+      dataQuality: overallTotals.quality,
       updatedAt: Date.now()
     });
-  }, [overallTotals.totalKrw, overallTotals.unrealizedPnlKrw, ready, realizedYtdTotalKrw]);
+  }, [overallTotals.quality, overallTotals.totalKrw, overallTotals.unrealizedPnlKrw, ready, realizedYtdTotalKrw]);
 
   const blurClass = settings.blurSensitiveNumbers ? "blur-sm select-none" : "";
 
@@ -1474,11 +1524,29 @@ export default function PortfolioPage() {
 
         <div className="lifnux-glass rounded-2xl p-6">
           <div className="sticky top-3 z-10 mb-4 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm backdrop-blur">
+            {totals.quality !== "OK" ? (
+              <div
+                className={`mb-3 rounded-xl border px-3 py-2 text-xs ${
+                  totals.quality === "ERROR"
+                    ? "border-rose-500/40 bg-rose-500/10 text-rose-200"
+                    : "border-amber-500/40 bg-amber-500/10 text-amber-200"
+                }`}
+              >
+                {totals.quality === "ERROR"
+                  ? "가격 호출에 오류가 발생했습니다. 잠시만 기다려주세요. 일부 종목은 계산에서 제외되었습니다."
+                  : "일부 종목 시세가 지연되어 추정치로 표시됩니다."}{" "}
+                (missing {totals.missingPriceCount}, stale {totals.stalePriceCount}, fallback {totals.fallbackPriceCount})
+              </div>
+            ) : null}
             <div className="grid gap-3 md:grid-cols-3">
               <div className="rounded-xl border border-white/10 bg-black/30 p-3">
                 <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">Total Value (KRW)</div>
                 <div className={`mt-2 text-2xl font-semibold ${blurClass}`}>
-                  {totals.totalKrw !== null ? formatCurrency(totals.totalKrw, "KRW") : "FX not ready"}
+                  {totals.totalKrw !== null
+                    ? formatCurrency(totals.totalKrw, "KRW")
+                    : totals.quality === "ERROR"
+                      ? "Price error"
+                      : "FX not ready"}
                 </div>
                 <div className={`mt-1 text-xs text-white/75 ${blurClass}`}>
                   Holdings KRW {formatCurrency(totals.holdingsKrw, "KRW")} / USD {formatCurrency(totals.holdingsUsd, "USD")} · Cash KRW{" "}
@@ -1500,7 +1568,11 @@ export default function PortfolioPage() {
                     : "-"}
                 </div>
                 <div className={`mt-1 text-xs ${blurClass}`}>
-                  {totals.unrealizedPnlPct !== null ? `${totals.unrealizedPnlPct >= 0 ? "+" : ""}${totals.unrealizedPnlPct.toFixed(2)}%` : "FX not ready"}
+                  {totals.unrealizedPnlPct !== null
+                    ? `${totals.unrealizedPnlPct >= 0 ? "+" : ""}${totals.unrealizedPnlPct.toFixed(2)}%`
+                    : totals.quality === "ERROR"
+                      ? "Price error"
+                      : "FX not ready"}
                 </div>
                 <div className="mt-1 text-[10px] text-[var(--ink-1)]">Holdings only</div>
               </div>
@@ -1699,14 +1771,16 @@ export default function PortfolioPage() {
                 const marketValue = entry.marketValue;
                 const costBasis = entry.costBasis;
                 const pnlValue = entry.pnlValue;
-                const pnlPct = costBasis > 0 ? (pnlValue / costBasis) * 100 : 0;
+                const pnlPct = entry.hasUsablePrice && costBasis > 0 ? (pnlValue / costBasis) * 100 : null;
                 const valueKrw = entry.marketValueKrw ?? 0;
                 const weightPct =
                   totalWeightBaseKrw && totalWeightBaseKrw > 0 ? (valueKrw / totalWeightBaseKrw) * 100 : null;
                 const displayCurrency = entry.rate ? "KRW" : holding.currency;
-                const displayMarketValue = entry.rate ? entry.marketValueKrw ?? marketValue : marketValue;
+                const displayMarketValue = entry.hasUsablePrice ? (entry.rate ? entry.marketValueKrw ?? marketValue : marketValue) : null;
                 const displayCostBasis = entry.rate ? entry.costBasisKrw ?? costBasis : costBasis;
-                const displayPnl = entry.rate ? entry.pnlKrw ?? pnlValue : pnlValue;
+                const displayPnl = entry.hasUsablePrice ? (entry.rate ? entry.pnlKrw ?? pnlValue : pnlValue) : null;
+                const isEstimatedPrice = entry.pricingState === "STALE" || entry.pricingState === "FALLBACK";
+                const estimatedPriceLabel = "추정치";
                 return (
                   <div
                     key={holding.id}
@@ -1723,14 +1797,22 @@ export default function PortfolioPage() {
                       </div>
                     </div>
                     <div className={blurClass}>
-                      <div>{formatCurrency(currentPrice, holding.currency)}</div>
-                      <div className="text-xs text-white/80">
-                        {formatCurrency(displayMarketValue, displayCurrency)}
+                      <div className={isEstimatedPrice ? "text-amber-300" : ""}>
+                        {entry.hasUsablePrice ? formatCurrency(currentPrice, holding.currency) : "-"}
                       </div>
-                      {entry.rate ? (
+                      <div className="text-xs text-white/80">
+                        {displayMarketValue !== null ? formatCurrency(displayMarketValue, displayCurrency) : "-"}
+                      </div>
+                      {entry.rate && entry.hasUsablePrice ? (
                         <div className="text-xs text-[var(--ink-1)]">
                           {formatCurrency(marketValue, "USD")}
                         </div>
+                      ) : null}
+                      {entry.hasUsablePrice && isEstimatedPrice ? (
+                        <div className="text-xs text-amber-300">{estimatedPriceLabel}</div>
+                      ) : null}
+                      {!entry.hasUsablePrice ? (
+                        <div className="text-xs text-rose-300">{entry.quoteWarning ?? "price-error"}</div>
                       ) : null}
                     </div>
                     <div className={blurClass}>
@@ -1761,14 +1843,19 @@ export default function PortfolioPage() {
                       </div>
                     </div>
                     <div className={blurClass}>
-                      <div className={displayPnl >= 0 ? "text-emerald-300" : "text-rose-300"}>
-                        {displayPnl >= 0 ? "+" : ""}
-                        {formatCurrency(Math.abs(displayPnl), displayCurrency)}
-                      </div>
-                      <div className={`text-xs ${pnlPct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
-                        {pnlPct >= 0 ? "+" : ""}
-                        {pnlPct.toFixed(2)}%
-                      </div>
+                      {displayPnl !== null ? (
+                        <>
+                          <div className={displayPnl >= 0 ? "text-emerald-300" : "text-rose-300"}>
+                            {displayPnl >= 0 ? "+" : ""}
+                            {formatCurrency(Math.abs(displayPnl), displayCurrency)}
+                          </div>
+                          <div className={`text-xs ${pnlPct !== null && pnlPct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
+                            {pnlPct !== null ? `${pnlPct >= 0 ? "+" : ""}${pnlPct.toFixed(2)}%` : "-"}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-xs text-rose-300">Price error</div>
+                      )}
                     </div>
                     <div className={blurClass}>{weightPct !== null ? `${formatNumber(weightPct, 2)}%` : "-"}</div>
                     <div className="flex items-center justify-between gap-2">
@@ -3365,6 +3452,11 @@ function PortfolioHistoryChart({
                     >
                       {entry.date}
                     </button>
+                    {entry.quality === "provisional" ? (
+                      <div className="mt-1 inline-flex rounded-full border border-amber-400/30 bg-amber-500/10 px-2 py-[1px] text-[10px] text-amber-200">
+                        provisional
+                      </div>
+                    ) : null}
                     <div className="truncate text-base font-semibold text-white">{formatKrw(entry.totalKrw)}</div>
                   </div>
                   <button

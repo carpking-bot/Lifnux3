@@ -8,4 +8,7 @@ export type Quote = {
   source: "kis" | "daum" | "naver" | "manual";
   name?: string | null;
   warning?: string | null;
+  status?: "VALID" | "RETRYING" | "ERROR" | "STALE";
+  guardReason?: string | null;
+  staleAgeSec?: number | null;
 };

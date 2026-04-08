@@ -45,6 +45,7 @@ type PortfolioPerformanceSnapshot = {
   totalValueKrw?: number | null;
   unrealizedPnlKrw?: number | null;
   realizedPnlYtdKrw?: number | null;
+  dataQuality?: "OK" | "DEGRADED" | "ERROR";
   updatedAt?: number;
 };
 

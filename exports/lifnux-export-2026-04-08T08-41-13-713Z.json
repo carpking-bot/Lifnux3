@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-06T15:37:40.405Z"
+    "exportedAt": "2026-04-08T08:41:13.707Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "YzJW3lJeZa0",
+        "trackId": "aF8OFSroHgg",
         "volume": 80,
-        "position": 0
+        "position": 85.66760895040893
       }
     },
     "health": {
@@ -3463,6 +3463,41 @@
           "createdAt": "2026-04-06T04:34:47.609Z",
           "distanceKm": 2.72,
           "calorieOverride": 108
+        },
+        {
+          "id": "9ed2cf7c-8569-488f-ae5e-b84fa37d430b",
+          "typeId": "home",
+          "loggedForDate": "2026-04-06",
+          "durationMin": 20,
+          "createdAt": "2026-04-07T00:48:19.116Z"
+        },
+        {
+          "id": "607c7713-f1cc-4f50-9404-e07179f4487a",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-07",
+          "durationMin": 35,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-07T06:10:05.680Z",
+          "distanceKm": 2.89,
+          "calorieOverride": 114
+        },
+        {
+          "id": "8c20de18-a849-4311-af01-9863aef0bb36",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-03",
+          "durationMin": 37,
+          "memo": "wjatla tkscor",
+          "createdAt": "2026-04-07T06:10:41.936Z",
+          "distanceKm": 3.09,
+          "calorieOverride": 122
+        },
+        {
+          "id": "fb57f22b-e2bb-4d7a-8494-579154144501",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-07",
+          "durationMin": 50,
+          "memo": "수영 30회차",
+          "createdAt": "2026-04-07T13:53:45.134Z"
         }
       ]
     },
@@ -3636,6 +3671,11 @@
         {
           "date": "2026-04-06",
           "totalKrw": 31699655.7304
+        },
+        {
+          "date": "2026-04-08",
+          "totalKrw": 33328179.269700002,
+          "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
@@ -9102,7 +9142,6 @@
         "Dividends",
         "Cashback"
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9117,6 +9156,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -9853,8 +9893,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:flnc",
           "symbolKey": "NAS:FLNC",
-          "avgPrice": 21.838974545454548,
-          "qty": 22,
+          "avgPrice": 20.889897599999998,
+          "qty": 25,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Energy/Grid",
@@ -10006,8 +10046,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-000660",
           "symbolKey": "000660",
-          "avgPrice": 932166.6666666666,
-          "qty": 3,
+          "avgPrice": 942875,
+          "qty": 4,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
@@ -10030,8 +10070,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-016360",
           "symbolKey": "016360",
-          "avgPrice": 95633.33333333333,
-          "qty": 6,
+          "avgPrice": 96185.71428571429,
+          "qty": 7,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorMajorLabel": "Non AI",
@@ -10054,24 +10094,12 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-stock-nas:amd",
           "symbolKey": "NAS:AMD",
-          "avgPrice": 199.8,
-          "qty": 2,
+          "avgPrice": 209.26666666666665,
+          "qty": 3,
           "currency": "USD",
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
-        },
-        {
-          "id": "0625c774-7a80-4dd9-9a54-d18badab882d",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-stock-nas:sqqq",
-          "symbolKey": "NAS:SQQQ",
-          "avgPrice": 81.48,
-          "qty": 4,
-          "currency": "USD",
-          "countryLabel": "US",
-          "sectorMajorLabel": "Risky Assets",
-          "sectorLabel": "Index"
         }
       ],
       "lifnux.finance.hub.reveal.v1": false,
@@ -11443,6 +11471,25 @@
           "title": "카카오 바이크",
           "amount": 2240,
           "kind": "expense"
+        },
+        {
+          "id": "bf7e462d-c9b0-4b3b-88e6-fe0ff13a8be7",
+          "createdAt": 1775542321400,
+          "date": "2026-04-01",
+          "category": "Other",
+          "title": "용돈",
+          "amount": 200000,
+          "kind": "income",
+          "memo": "은 아니고 지역화폐 충전해서 달라는 거였긴한데 암튼 이득"
+        },
+        {
+          "id": "7d750644-e5bc-4d9b-9673-008fe207e36d",
+          "createdAt": 1775615558843,
+          "date": "2026-04-08",
+          "category": "Subscription",
+          "title": "카카오 이모티콘 플러스",
+          "amount": 3900,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11483,8 +11530,8 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "28605697-04ec-4271-a610-ce3dd85b1a7e",
-        "selectedVideoId": "c1c4775d-840a-4b40-8e24-379fd02412dd",
+        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
+        "selectedVideoId": "e52d3f5c-2ea2-4165-8717-2622e2a9a8b6",
         "loopEnabled": true,
         "speed": 1,
         "shadowing": false,
@@ -11610,10 +11657,6 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -11669,6 +11712,10 @@
           "createdAt": 1773157984491
         }
       ],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -11847,6 +11894,10 @@
         {
           "dateKey": "2026-04-06",
           "createdAt": 1775482402392
+        },
+        {
+          "dateKey": "2026-04-07",
+          "createdAt": 1775570237897
         }
       ],
       "lifnux:guitar:videos": [
@@ -12008,10 +12059,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 31699655.7304,
-        "unrealizedPnlKrw": 1557805.5493599996,
-        "realizedPnlYtdKrw": 2288344.6653182604,
-        "updatedAt": 1775486511839
+        "totalValueKrw": 33328179.269700002,
+        "unrealizedPnlKrw": 3475696.7933400013,
+        "realizedPnlYtdKrw": 2208248.3770382605,
+        "dataQuality": "OK",
+        "updatedAt": 1775636257057
       }
     },
     "personalGrowth": {
@@ -18826,6 +18878,27 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "5d21ae7f-d988-4a67-a7c6-b654c7647acf",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "파이드픽셀즈",
+          "postingTitle": "[파이드픽셀즈] 라이브 서비스 사업 PM 담당자",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "사업 파트는 프로젝트 성공을 위한 모든 요소를 계획하고 실행하는 부서입니다.\n\n라이브 서비스를 기반으로 다양한 사업 및 라이브옵스 실험을 기획하고 이끌어 갈 구성원을 모집하고 있습니다.",
+          "responsibilities": "라이브 서비스 운영 및 이슈 대응\n마켓 관리 및 업데이트 대응\nBM / 이벤트 / 운영 관련 A/B 테스트 설계 및 라이브 적용\nAI 및 다양한 툴을 활용한 업무 자동화 및 생산성 개선 시스템 구축\n데이터 분석 및 리포트\n시장 조사 및 사업 분석",
+          "requirements": "새로운 도전과 실험을 스스로 기획하고 실행해보신 분\n새로운 도구를 빠르게 학습하고 업무에 적용하는 데 거부감이 없으신 분\n데이터 기반으로 사고하고 결과를 해석하려는 태도를 가지신 분\n캐주얼 장르에 대한 이해도가 있으신 분",
+          "neededSkills": "",
+          "preferred": "특정 게임을 깊이 있게 플레이하고, 개선점을 고민해보신 경험이 있으신 분\nAI 툴을 적극적으로 활용하신 경험이 있으신 분\n가설을 기반으로 실험과 검증까지 진행하신 경험이 있으신 분",
+          "memo": "이력서 및 자기소개서\n'그랑사가 키우기' 서비스 분석 및 제안 (필수 / AI 활용 가능)\n경력기술서 (업무와 경력 중심)\n포트폴리오\n",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://piedpixels.careers.team/job-descriptions/bqzooWKza4",
+          "createdAt": "2026-04-07T01:55:20.851Z",
+          "updatedAt": "2026-04-07T01:55:26.861Z"
+        },
+        {
           "postingId": "eea739bc-ea3f-4549-9853-f00e1f0faaf2",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "컴투스",
@@ -19407,9 +19480,9 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "YzJW3lJeZa0",
-        "queueIndex": 56,
-        "currentTime": 0,
+        "videoId": "aF8OFSroHgg",
+        "queueIndex": 43,
+        "currentTime": 85.66760895040893,
         "repeatMode": "all",
         "shuffle": true
       },
@@ -19757,10 +19830,22 @@
             "videoId": "YzJW3lJeZa0",
             "title": "Lily of The Valley",
             "url": "https://youtu.be/YzJW3lJeZa0?si=CnQMTOFkLicylfFu"
+          },
+          {
+            "id": "2dee09c4-e099-442c-9b98-726804f7315d",
+            "videoId": "H5jm8uQ6Fso",
+            "title": "a plumber",
+            "url": "https://youtu.be/H5jm8uQ6Fso?si=QmLgmrUrqLTzwApd"
+          },
+          {
+            "id": "e8c12d90-5a4e-47df-b5c8-5bfae56fcba8",
+            "videoId": "19oT04OuBhg",
+            "title": "이찬혁 (LEE CHANHYUK) - '멸종위기사랑' M/V",
+            "url": "https://youtu.be/19oT04OuBhg?si=rr6AWjbol3aNQ4wg"
           }
         ],
-        "currentIndex": 56,
-        "isPlaying": false,
+        "currentIndex": 43,
+        "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -20122,7 +20207,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 1080685
+          "balance": 6185
         },
         {
           "accountId": "acc-us-1",
@@ -20132,7 +20217,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 0.6599999999999113
+          "balance": 9.949999999999896
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -20142,7 +20227,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-06T15:37:39.760Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-08T08:41:12.931Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -21710,6 +21795,76 @@
           "side": "BUY",
           "qty": 4,
           "price": 81.48,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "ce4b4dcf-50c7-4aed-96e2-1e95cff5c225",
+          "ts": 1775609491003,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:SQQQ",
+          "side": "SELL",
+          "qty": 4,
+          "price": 69.82,
+          "realizedPnl": -46.64000000000004,
+          "realizedPnlPercent": -14.31026018654886,
+          "costBasis": 325.92
+        },
+        {
+          "id": "e29c6c26-a150-4a45-a5a8-d280098eb86b",
+          "ts": 1775609511700,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:AMD",
+          "side": "BUY",
+          "qty": 1,
+          "price": 228.2,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "0fa552b0-002a-41a0-8968-0227e4b4fed2",
+          "ts": 1775609524116,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 3,
+          "price": 13.93,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "9311a81d-fb50-4b94-98bb-989499551a7d",
+          "ts": 1775609560876,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "000660",
+          "side": "BUY",
+          "qty": 1,
+          "price": 975000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "0c7a8f82-6397-4118-b9c7-bc6fcd523c84",
+          "ts": 1775609573470,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "016360",
+          "side": "BUY",
+          "qty": 1,
+          "price": 99500,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null

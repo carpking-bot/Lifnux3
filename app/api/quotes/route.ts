@@ -14,6 +14,9 @@ type Quote = {
   source?: string | null;
   name?: string | null;
   warning?: string | null;
+  status?: "VALID" | "RETRYING" | "ERROR" | "STALE";
+  guardReason?: string | null;
+  staleAgeSec?: number | null;
 };
 
 type ClassifiedSymbol = {
@@ -38,13 +41,22 @@ const classifySymbol = (raw: string): ClassifiedSymbol => {
   return { original, normalized: original, kind: "US" };
 };
 
+const quotePriority = (quote?: Quote): number => {
+  if (!quote) return 0;
+  if (quote.status === "VALID") return 40;
+  if (quote.status === "STALE") return 30;
+  if (typeof quote.price === "number") return 20;
+  if (quote.status === "RETRYING") return 10;
+  return 0;
+};
+
 const chooseNonNullPrice = (a?: Quote, b?: Quote): Quote | undefined => {
   if (!a) return b;
   if (!b) return a;
-  const aHasPrice = typeof a.price === "number";
-  const bHasPrice = typeof b.price === "number";
-  if (aHasPrice && !bHasPrice) return a;
-  if (!aHasPrice && bHasPrice) return b;
+  const aPriority = quotePriority(a);
+  const bPriority = quotePriority(b);
+  if (aPriority > bPriority) return a;
+  if (bPriority > aPriority) return b;
   return a;
 };
 
@@ -57,7 +69,10 @@ const emptyQuote = (symbol: string): Quote => ({
   marketTime: null,
   source: "manual",
   name: null,
-  warning: "not-found"
+  warning: "not-found",
+  status: "ERROR",
+  guardReason: "not-found",
+  staleAgeSec: null
 });
 
 export async function GET(request: Request) {
