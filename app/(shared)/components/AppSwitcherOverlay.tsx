@@ -35,7 +35,7 @@ export function AppSwitcherOverlay({ open, onClose }: { open: boolean; onClose: 
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[radial-gradient(circle_at_top,_#20324b_0%,_#0b121c_55%,_#080c13_100%)]"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 backdrop-blur-md"
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

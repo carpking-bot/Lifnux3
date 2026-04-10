@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import {
   ChevronDown,
   ChevronUp,
+  History,
   Music2,
   SkipBack,
   SkipForward,
@@ -21,6 +22,7 @@ import {
 import { useMusic } from "./MusicPlayerProvider";
 import { parseVideoId } from "../lib/music";
 import { loadState, saveState } from "../lib/storage";
+import { Modal } from "./Modal";
 
 declare global {
   interface Window {
@@ -80,6 +82,8 @@ export function GlobalMusicPlayerOverlay() {
   const [onboardingDismissed, setOnboardingDismissed] = useState(false);
   const [uiHidden, setUiHidden] = useState(false);
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+  const [statsOpen, setStatsOpen] = useState(false);
+  const [statsWindow, setStatsWindow] = useState<"TOTAL" | "D30" | "D7">("TOTAL");
 
   const {
     queue,
@@ -92,13 +96,22 @@ export function GlobalMusicPlayerOverlay() {
     setShuffle,
     setRepeatMode,
     ratings,
-    setRating
+    setRating,
+    presets,
+    playHistory,
+    addPlayHistory
   } = useMusic();
   const repeatModeRef = useRef(repeatMode);
   const activeVideoIdRef = useRef<string | null>(null);
   const queueRef = useRef(queue);
   const currentIndexRef = useRef(currentIndex);
   const shuffleRef = useRef(shuffle);
+  const playSessionRef = useRef<{
+    videoId: string;
+    seenAfterFiveSec: boolean;
+    reachedNearEnd: boolean;
+    counted: boolean;
+  } | null>(null);
   const lastErrorRef = useRef<{ index: number; videoId: string; retries: number } | null>(null);
   const isDev = process.env.NODE_ENV === "development";
   const RESUME_KEY = "lifnux.music.resume.v110";
@@ -240,6 +253,89 @@ export function GlobalMusicPlayerOverlay() {
   const coverUrl = activeItem?.videoId ? `https://i.ytimg.com/vi/${activeItem.videoId}/hqdefault.jpg` : null;
   const displayTitle = activeItem?.customTitle || activeItem?.title || "No track";
   const currentRating = activeItem ? ratings[activeItem.videoId] ?? 0 : 0;
+  const nowMs = Date.now();
+
+  const getWindowStart = (windowType: "TOTAL" | "D30" | "D7") => {
+    if (windowType === "TOTAL") return 0;
+    const days = windowType === "D30" ? 30 : 7;
+    return nowMs - days * 24 * 60 * 60 * 1000;
+  };
+
+  const getVideoLabel = useCallback(
+    (videoId: string) => {
+      const queueMatch = queue.find((item) => item.videoId === videoId);
+      if (queueMatch) return queueMatch.customTitle || queueMatch.title || videoId;
+      for (const preset of presets) {
+        const track = preset.tracks?.find((item) => item.videoId === videoId);
+        if (track) return track.customTitle || track.title || videoId;
+      }
+      return videoId;
+    },
+    [queue, presets]
+  );
+
+  const playStatsRows = useMemo(() => {
+    const startMs = getWindowStart(statsWindow);
+    return Object.entries(playHistory)
+      .map(([videoId, timestamps]) => {
+        const count = timestamps.filter((ts) => ts >= startMs).length;
+        return {
+          videoId,
+          title: getVideoLabel(videoId),
+          count
+        };
+      })
+      .filter((row) => row.count > 0)
+      .sort((a, b) => b.count - a.count || a.title.localeCompare(b.title, "ko"));
+  }, [playHistory, statsWindow, getVideoLabel]);
+
+  const totalPlayCount = useMemo(() => playStatsRows.reduce((sum, row) => sum + row.count, 0), [playStatsRows]);
+
+  const openStatsModal = () => {
+    setStatsWindow("TOTAL");
+    setStatsOpen(true);
+  };
+
+  const resetPlaySession = useCallback((videoId: string) => {
+    if (!videoId) {
+      playSessionRef.current = null;
+      return;
+    }
+    playSessionRef.current = {
+      videoId,
+      seenAfterFiveSec: false,
+      reachedNearEnd: false,
+      counted: false
+    };
+  }, []);
+
+  const updatePlaySessionProgress = useCallback(
+    (videoId: string, time: number, total: number) => {
+      if (!videoId || !Number.isFinite(time) || !Number.isFinite(total) || total <= 0) return;
+      if (!playSessionRef.current || playSessionRef.current.videoId !== videoId) {
+        resetPlaySession(videoId);
+      }
+      const session = playSessionRef.current;
+      if (!session || session.counted) return;
+      const startThreshold = 5;
+      const endThreshold = Math.max(total - 5, 5);
+      if (time >= startThreshold) {
+        session.seenAfterFiveSec = true;
+      }
+      if (time >= endThreshold) {
+        session.reachedNearEnd = true;
+      }
+      if (session.seenAfterFiveSec && session.reachedNearEnd) {
+        session.counted = true;
+        addPlayHistory(videoId);
+      }
+    },
+    [addPlayHistory, resetPlaySession]
+  );
+
+  useEffect(() => {
+    resetPlaySession(activeItem?.videoId ?? "");
+  }, [activeItem?.videoId, resetPlaySession]);
 
   useEffect(() => {
     if (!apiReady || !playerHostRef.current) return;
@@ -353,9 +449,12 @@ export function GlobalMusicPlayerOverlay() {
       const total = playerRef.current.getDuration?.() ?? 0;
       setCurrentTime(time);
       setDuration(total);
+      if (playerState === "PLAYING") {
+        updatePlaySessionProgress(activeItem.videoId, time, total);
+      }
     }, 250);
     return () => clearInterval(interval);
-  }, [playerReady, playerState, activeItem?.videoId, isSeeking]);
+  }, [playerReady, playerState, activeItem?.videoId, isSeeking, updatePlaySessionProgress]);
 
   useEffect(() => {
     if (!playerReady || !queue.length || resumeAppliedRef.current || !resumeRef.current) return;
@@ -433,6 +532,7 @@ export function GlobalMusicPlayerOverlay() {
     if (repeatModeRef.current === "one") {
       const videoId = activeVideoIdRef.current;
       if (videoId) restartCurrent(videoId);
+      if (videoId) resetPlaySession(videoId);
       return;
     }
     const nextIndex = computeNextIndex(currentIndexRef.current);
@@ -448,6 +548,9 @@ export function GlobalMusicPlayerOverlay() {
     const time = playerRef.current?.getCurrentTime?.() ?? 0;
     if (time > 2) {
       playerRef.current?.seekTo?.(0, true);
+      if (activeItem?.videoId) {
+        resetPlaySession(activeItem.videoId);
+      }
       if (isPlaying) {
         playerRef.current?.playVideo?.();
       }
@@ -589,6 +692,16 @@ export function GlobalMusicPlayerOverlay() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              {isMusicRoute ? (
+                <button
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-[var(--ink-1)] hover:text-[var(--ink-0)]"
+                  onClick={openStatsModal}
+                  aria-label="Open play statistics"
+                  title="Open play statistics"
+                >
+                  <History className="h-4 w-4" />
+                </button>
+              ) : null}
               {!isMusicRoute ? (
                 <Link
                   href="/music"
@@ -838,6 +951,62 @@ export function GlobalMusicPlayerOverlay() {
         : portalTarget
         ? createPortal(card, portalTarget)
         : <div className="pointer-events-none fixed inset-0 z-40">{card}</div>}
+      <Modal
+        open={statsOpen}
+        title="Play Statistics"
+        onClose={() => setStatsOpen(false)}
+        actions={
+          <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setStatsOpen(false)}>
+            Close
+          </button>
+        }
+      >
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            className={`rounded-full border px-3 py-1.5 text-xs ${statsWindow === "TOTAL" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+            onClick={() => setStatsWindow("TOTAL")}
+          >
+            Total
+          </button>
+          <button
+            className={`rounded-full border px-3 py-1.5 text-xs ${statsWindow === "D30" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+            onClick={() => setStatsWindow("D30")}
+          >
+            Last 30 Days
+          </button>
+          <button
+            className={`rounded-full border px-3 py-1.5 text-xs ${statsWindow === "D7" ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"}`}
+            onClick={() => setStatsWindow("D7")}
+          >
+            Last 7 Days
+          </button>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-sm text-[var(--ink-0)]">
+          Total Plays: <span className="text-[var(--accent-1)]">{totalPlayCount}</span>
+        </div>
+        <div className="max-h-[420px] overflow-y-auto rounded-xl border border-white/10 bg-black/25">
+          {playStatsRows.length === 0 ? (
+            <div className="px-4 py-3 text-sm text-[var(--ink-1)]">No play records in this range.</div>
+          ) : (
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-black/55 text-left text-xs uppercase tracking-[0.14em] text-[var(--ink-1)]">
+                <tr>
+                  <th className="px-4 py-2">Track</th>
+                  <th className="px-4 py-2 text-right">Plays</th>
+                </tr>
+              </thead>
+              <tbody>
+                {playStatsRows.map((row) => (
+                  <tr key={row.videoId} className="border-t border-white/10">
+                    <td className="px-4 py-2 text-[var(--ink-0)]">{row.title}</td>
+                    <td className="px-4 py-2 text-right text-[var(--accent-1)]">{row.count}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </Modal>
     </>
   );
 }

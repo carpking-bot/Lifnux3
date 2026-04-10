@@ -18,6 +18,13 @@ function fmtSalary(value: number | null) {
   return `${value.toLocaleString("ko-KR")}원`;
 }
 
+function fmtCareerDuration(days: number) {
+  const safeDays = Math.max(0, Math.floor(days));
+  const years = Math.floor(safeDays / 365);
+  const months = Math.floor((safeDays % 365) / 30);
+  return `${years}년 ${months}개월`;
+}
+
 export function CareerStatusCard({ currentEmployment, latestChange, tenureDays, totalCareerDays, onOpenEditor, onOpenOverview }: Props) {
   const displayTitle = latestChange?.title || currentEmployment?.title || "-";
   const displayDepartment = latestChange?.department || currentEmployment?.department || "-";
@@ -28,8 +35,7 @@ export function CareerStatusCard({ currentEmployment, latestChange, tenureDays, 
     <section className="lifnux-glass rounded-2xl p-6">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-semibold text-white">Current Career Status</h2>
-          <div className="text-sm text-[var(--ink-1)]">Current employment summary and latest change snapshot.</div>
+          <h2 className="text-2xl font-semibold text-white">현재 경력 사항</h2>
         </div>
         <div className="flex items-center gap-2">
           <button className="rounded-full border border-white/20 px-5 py-2.5 text-sm text-[var(--ink-1)]" onClick={onOpenOverview}>
@@ -57,7 +63,7 @@ export function CareerStatusCard({ currentEmployment, latestChange, tenureDays, 
           </div>
           <div className="rounded-xl border border-white/10 bg-black/20 p-4">
             <div className="text-xs uppercase tracking-[0.14em] text-[var(--ink-1)]">전체 경력기간</div>
-            <div className="mt-1.5 text-lg font-semibold text-white">{totalCareerDays}일</div>
+            <div className="mt-1.5 text-lg font-semibold text-white">{fmtCareerDuration(totalCareerDays)}</div>
           </div>
           <div className="rounded-xl border border-white/10 bg-black/20 p-4">
             <div className="text-xs uppercase tracking-[0.14em] text-[var(--ink-1)]">직책/직급</div>

@@ -11,6 +11,8 @@ import { formatDateKey, getDday, getMonthGrid, parseDateKey } from "../../(share
 import { formatPrice, sortShoppingItems } from "../../(shared)/lib/shopping";
 import type { CalendarEvent, HolidayEvent, Label, RecurringRule, ShoppingItem } from "../../(shared)/types/calendar";
 import { EventEditor } from "./components/EventEditor";
+import { loadCareerState } from "../../(apps)/career/lib/storage";
+import type { Employment } from "../../(apps)/career/types";
 
 const SCHEDULE_KEY = "lifnux.calendar.schedules.v100";
 const HOLIDAY_KEY = "lifnux.calendar.holidays.v100";
@@ -19,12 +21,61 @@ const SHOPPING_KEY = "lifnux.calendar.shopping.v100";
 const RECURRING_KEY = "lifnux.calendar.recurring.v100";
 const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
-const statusData = {
-  company: "Lifnux Labs",
-  leaveHours: 72,
-  tenure: "1y 3m",
-  days: "D+463"
+const defaultStatusData = {
+  company: "-",
+  leaveDisplay: "0d 0h",
+  tenureDisplay: "0년 0개월",
+  daysDisplay: "D+0"
 };
+
+function parseDateOnly(dateKey: string) {
+  return new Date(`${dateKey}T00:00:00`).getTime();
+}
+
+function getTenureDays(startDate: string, endDate: string | null) {
+  const startMs = parseDateOnly(startDate);
+  const endMs = parseDateOnly(endDate ?? formatDateKey(new Date()));
+  if (!Number.isFinite(startMs) || !Number.isFinite(endMs)) return 0;
+  return Math.max(0, Math.floor((endMs - startMs) / 86400000) + 1);
+}
+
+function getCurrentEmployment(employments: Employment[]) {
+  const current = employments.find((item) => item.isCurrent);
+  if (current) return current;
+  return [...employments].sort((a, b) => (b.endDate ?? "9999-12-31").localeCompare(a.endDate ?? "9999-12-31"))[0] ?? null;
+}
+
+function formatLeaveDays(days: number | null | undefined) {
+  if (!Number.isFinite(days)) return "0d 0h";
+  const safeDays = Math.max(0, Number(days));
+  const dayPart = Math.floor(safeDays);
+  const hourPartRaw = Math.round((safeDays - dayPart) * 8);
+  if (hourPartRaw >= 8) {
+    return `${dayPart + 1}d 0h`;
+  }
+  return `${dayPart}d ${hourPartRaw}h`;
+}
+
+function formatCareerDuration(days: number) {
+  const safeDays = Math.max(0, Math.floor(days));
+  const years = Math.floor(safeDays / 365);
+  const months = Math.floor((safeDays % 365) / 30);
+  return `${years}년 ${months}개월`;
+}
+
+function buildCareerStatusData() {
+  const careerState = loadCareerState();
+  const currentEmployment = getCurrentEmployment(careerState.employments);
+  const totalCareerDays = careerState.employments.reduce((sum, employment) => sum + getTenureDays(employment.startDate, employment.endDate), 0);
+  const currentTenureDays = currentEmployment ? getTenureDays(currentEmployment.startDate, currentEmployment.endDate) : 0;
+
+  return {
+    company: currentEmployment?.companyName?.trim() || "-",
+    leaveDisplay: formatLeaveDays(currentEmployment?.remainingPTO),
+    tenureDisplay: formatCareerDuration(totalCareerDays),
+    daysDisplay: `D+${currentTenureDays}`
+  };
+}
 
 function matchesRecurring(rule: RecurringRule, dateKey: string, holidayDates: Set<string>) {
   const date = new Date(dateKey);
@@ -121,6 +172,7 @@ export default function CalendarPage() {
   const [confirmTitle, setConfirmTitle] = useState("");
   const [confirmMessage, setConfirmMessage] = useState("");
   const [confirmAction, setConfirmAction] = useState<(() => void) | null>(null);
+  const [statusData, setStatusData] = useState(defaultStatusData);
 
   const year = cursor.getFullYear();
   const monthIndex = cursor.getMonth();
@@ -153,6 +205,7 @@ export default function CalendarPage() {
     setHolidays(loadState(HOLIDAY_KEY, []));
     setLabels(loadState(LABEL_KEY, []));
     setShopping(loadState(SHOPPING_KEY, []));
+    setStatusData(buildCareerStatusData());
   };
 
   useEffect(() => {
@@ -264,9 +317,9 @@ export default function CalendarPage() {
             <div className="uppercase tracking-[0.3em]">Status</div>
             <div className="flex gap-6">
               <div>{statusData.company}</div>
-              <div>Leave {statusData.leaveHours}h</div>
-              <div>{statusData.tenure}</div>
-              <div>{statusData.days}</div>
+              <div>잔여 연차 : {statusData.leaveDisplay}</div>
+              <div>{statusData.tenureDisplay}</div>
+              <div>{statusData.daysDisplay}</div>
             </div>
           </div>
 
