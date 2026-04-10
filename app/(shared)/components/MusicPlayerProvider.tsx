@@ -17,6 +17,7 @@ type MusicState = {
   presets: Preset[];
   selectedPresetId: string | null;
   ratings: Record<string, number>;
+  playHistory: Record<string, number[]>;
 };
 
 type MusicContextValue = MusicState & {
@@ -28,6 +29,7 @@ type MusicContextValue = MusicState & {
   setPresets: (presets: Preset[]) => void;
   setSelectedPresetId: (id: string | null) => void;
   setRating: (item: QueueItem | PresetTrack | null, rating: number) => void;
+  addPlayHistory: (videoId: string, playedAt?: number) => void;
 };
 
 const MusicContext = createContext<MusicContextValue | null>(null);
@@ -40,7 +42,8 @@ const defaultState: MusicState = {
   repeatMode: "off",
   presets: [],
   selectedPresetId: null,
-  ratings: {}
+  ratings: {},
+  playHistory: {}
 };
 
 export function MusicPlayerProvider({ children }: { children: React.ReactNode }) {
@@ -61,7 +64,8 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
       repeatMode,
       presets,
       selectedPresetId: (loaded as MusicState)?.selectedPresetId ?? null,
-      ratings: (loaded as MusicState)?.ratings ?? {}
+      ratings: (loaded as MusicState)?.ratings ?? {},
+      playHistory: normalizePlayHistory((loaded as MusicState)?.playHistory ?? {})
     });
     setHydrated(true);
   };
@@ -122,6 +126,21 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
     });
   }, []);
 
+  const addPlayHistory = useCallback((videoId: string, playedAt: number = Date.now()) => {
+    if (!videoId) return;
+    setState((prev) => {
+      const existing = prev.playHistory[videoId] ?? [];
+      const nextEntries = [...existing, playedAt].slice(-1000);
+      return {
+        ...prev,
+        playHistory: {
+          ...prev.playHistory,
+          [videoId]: nextEntries
+        }
+      };
+    });
+  }, []);
+
   const value = useMemo<MusicContextValue>(
     () => ({
       ...state,
@@ -132,9 +151,21 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
       setRepeatMode,
       setPresets,
       setSelectedPresetId,
-      setRating
+      setRating,
+      addPlayHistory
     }),
-    [state, setQueue, setCurrentIndex, setIsPlaying, setShuffle, setRepeatMode, setPresets, setSelectedPresetId, setRating]
+    [
+      state,
+      setQueue,
+      setCurrentIndex,
+      setIsPlaying,
+      setShuffle,
+      setRepeatMode,
+      setPresets,
+      setSelectedPresetId,
+      setRating,
+      addPlayHistory
+    ]
   );
 
   return <MusicContext.Provider value={value}>{children}</MusicContext.Provider>;
@@ -163,6 +194,16 @@ function normalizePresets(presets: Preset[]) {
     const tracks = Array.isArray(preset.tracks) ? preset.tracks : undefined;
     return { ...preset, isRatingPreset, tracks };
   });
+}
+
+function normalizePlayHistory(playHistory: Record<string, number[]>) {
+  if (!playHistory || typeof playHistory !== "object") return {};
+  const normalized: Record<string, number[]> = {};
+  for (const [videoId, entries] of Object.entries(playHistory)) {
+    if (!videoId || !Array.isArray(entries)) continue;
+    normalized[videoId] = entries.filter((entry) => Number.isFinite(entry)).map((entry) => Number(entry));
+  }
+  return normalized;
 }
 
 function updateRatingPresets(

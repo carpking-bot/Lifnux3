@@ -287,7 +287,6 @@ export default function MusicPage() {
       <div className="mx-auto w-full max-w-[1200px] pb-28 pt-10">
         <div className="mb-8">
           <h1 className="text-3xl">Lifnux Audio Hub</h1>
-          <div className="text-sm text-[var(--ink-1)]">Curate queues and presets for your focus flow.</div>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[300px_1fr]">

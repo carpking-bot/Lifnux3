@@ -34,7 +34,7 @@ export function AppLauncherOverlay({ open, onClose }: { open: boolean; onClose: 
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xl"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

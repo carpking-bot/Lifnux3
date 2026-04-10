@@ -52,10 +52,6 @@ export default function HomePage() {
 
   return (
     <main className="relative min-h-screen">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_#20324b_0%,_#0b121c_55%,_#080c13_100%)]" />
-      <div className="pointer-events-none absolute -top-40 left-10 h-96 w-96 rounded-full bg-[radial-gradient(circle,_rgba(90,214,208,0.25)_0%,_transparent_70%)] blur-2xl" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,_rgba(90,120,214,0.22)_0%,_transparent_70%)] blur-2xl" />
-
       <section className="relative z-10 flex min-h-[100dvh] items-center justify-center">
         <LifnuxLauncher
           mode="home"
