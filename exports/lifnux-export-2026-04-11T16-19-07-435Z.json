@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-09T09:11:44.434Z"
+    "exportedAt": "2026-04-11T16:19:07.428Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
         "trackId": "lOrU0MH0bMk",
         "volume": 80,
-        "position": 174.57494480163575
+        "position": 0
       }
     },
     "health": {
@@ -3515,6 +3515,24 @@
           "loggedForDate": "2026-04-08",
           "durationMin": 20,
           "createdAt": "2026-04-08T16:04:47.976Z"
+        },
+        {
+          "id": "15a3cbff-1135-449f-886b-dbe10103900e",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-09",
+          "durationMin": 50,
+          "memo": "31회차\n역대급 수영 노재능",
+          "createdAt": "2026-04-09T14:29:04.347Z"
+        },
+        {
+          "id": "409f8f73-f18a-4ed1-b45f-1257867831d9",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-10",
+          "durationMin": 42,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-10T16:21:13.177Z",
+          "distanceKm": 3.39,
+          "calorieOverride": 133
         }
       ]
     },
@@ -3696,12 +3714,22 @@
         },
         {
           "date": "2026-04-09",
-          "totalKrw": 32882639.86,
+          "totalKrw": 32700045,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-10",
+          "totalKrw": 33148205.8852,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-11",
+          "totalKrw": 33218779.849999998,
           "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -10122,9 +10150,21 @@
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "755881fd-2618-4d6c-b9f9-c91e1e166bc7",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-0043y0",
+          "symbolKey": "0043Y0",
+          "avgPrice": 17690,
+          "qty": 3,
+          "currency": "KRW",
+          "countryLabel": "CN",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
         }
       ],
-      "lifnux.finance.hub.reveal.v1": false,
+      "lifnux.finance.hub.reveal.v1": true,
       "lifnux.finance.asset.snapshot.logs.v1": [
         {
           "id": "534040c6-879f-4527-9b42-2153caa24f1e",
@@ -11531,6 +11571,70 @@
           "title": "쿠팡플레이 스포츠패스",
           "amount": 9900,
           "kind": "expense"
+        },
+        {
+          "id": "0e274bfa-071a-49bf-8c83-a40f37481b78",
+          "createdAt": 1775838121628,
+          "date": "2026-04-09",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 1160,
+          "kind": "expense"
+        },
+        {
+          "id": "81e47362-9edf-4469-adc4-db4457629468",
+          "createdAt": 1775838213294,
+          "date": "2026-04-10",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 2320,
+          "kind": "expense"
+        },
+        {
+          "id": "c73fb38e-c6fd-4a30-80a8-2bb9a3aca2f1",
+          "createdAt": 1775838228478,
+          "date": "2026-04-10",
+          "category": "Transport",
+          "title": "카카오 바이크 멤버십",
+          "amount": 38900,
+          "kind": "expense"
+        },
+        {
+          "id": "50613c24-c440-4cdf-b19f-5d3dcd02f15e",
+          "createdAt": 1775838239742,
+          "date": "2026-04-10",
+          "category": "Subscription",
+          "title": "쿠팡와우",
+          "amount": 7890,
+          "kind": "expense"
+        },
+        {
+          "id": "285cbc7d-95fa-4ae6-b35f-a0f30167afce",
+          "createdAt": 1775838253958,
+          "date": "2026-04-10",
+          "category": "Wage",
+          "title": "3월 추가 급여",
+          "amount": 6100,
+          "kind": "income"
+        },
+        {
+          "id": "910db596-942b-4cb5-8558-6dfc42c054d8",
+          "createdAt": 1775838269303,
+          "date": "2026-04-10",
+          "category": "Transport",
+          "title": "K-PASS 환급금",
+          "amount": 47250,
+          "kind": "income"
+        },
+        {
+          "id": "9e5c8507-204a-471a-af07-437dc1295a95",
+          "createdAt": 1775838305141,
+          "date": "2026-04-10",
+          "category": "Dividends",
+          "title": "배당금",
+          "amount": 18200,
+          "kind": "income",
+          "memo": "HD한국조선해양"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11574,7 +11678,7 @@
         "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
         "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
-        "speed": 0.75,
+        "speed": 0.85,
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -11939,6 +12043,14 @@
         {
           "dateKey": "2026-04-07",
           "createdAt": 1775570237897
+        },
+        {
+          "dateKey": "2026-04-09",
+          "createdAt": 1775745391584
+        },
+        {
+          "dateKey": "2026-04-08",
+          "createdAt": 1775745397649
         }
       ],
       "lifnux:guitar:videos": [
@@ -12100,12 +12212,15 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 32882639.86,
-        "unrealizedPnlKrw": 3013925.6899599954,
-        "realizedPnlYtdKrw": 2208978.4843182606,
+        "totalValueKrw": 33218779.849999998,
+        "unrealizedPnlKrw": 3267602.2925999984,
+        "realizedPnlYtdKrw": 2210438.6988782603,
         "dataQuality": "OK",
-        "updatedAt": 1775717759086
+        "updatedAt": 1775924273443
       }
+    },
+    "home": {
+      "lifnux.home.background.theme": "gradient"
     },
     "personalGrowth": {
       "lifnux.personalGrowth.weeklyChecklist.v1": [
@@ -18919,6 +19034,27 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "a034e6af-0590-498e-8fb6-d09ab07a95dd",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "웹젠",
+          "postingTitle": "국내사업PM",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "- 게임 사업 전략 수립\n\n- 사업 계획 수립 및 이벤트, 세일즈 기획 및 실행\n\n- 콘텐츠/지표/BM 분석 및 개선\n\n- 담당 프로젝트 전반 매니지먼트",
+          "responsibilities": "- 게임 및 게임용어에 대한 이해도가 높은 분\n\n- 문서 작성 및 Office 활용 능력을 보유한 분\n\n- 원만한 대인관계 및 커뮤니케이션 역량을 보유한 분",
+          "requirements": "",
+          "neededSkills": "",
+          "preferred": "- 모바일 게임 런칭 및 라이브 서비스 경험이 있는 분\n\n- PC/모바일/콘솔 등 게임 플레이 경험이 많은 분",
+          "memo": "",
+          "comment": "",
+          "deadline": "2026-04-27",
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://webzen.recruiter.co.kr/career/jobs/105836",
+          "createdAt": "2026-04-10T16:26:12.685Z",
+          "updatedAt": "2026-04-10T16:26:15.502Z"
+        },
+        {
           "postingId": "63047f0c-fc6b-4912-9cd1-f6e2835df504",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "넥슨코리아",
@@ -19064,27 +19200,6 @@
           "link": "https://aimed.career.greetinghr.com/ko/o/135721",
           "createdAt": "2026-03-19T14:01:16.454Z",
           "updatedAt": "2026-03-19T14:01:16.454Z"
-        },
-        {
-          "postingId": "8a10faad-cf18-4d4c-9cc7-73993a7d79d5",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "엔엑스쓰리게임즈",
-          "postingTitle": "[로드나인] 개발PM",
-          "role": "개발PM",
-          "contractType": "정규직",
-          "departmentInfo": "로드나인은 ​NX3GAMES 고유의 ​자체 IP로, \n\nUnity엔진을 사용하여 ​서비스 ​중인 실사형 ​중세 판타지 대작 ​MMORPG입니다.\n\n모바일/PC 멀티플랫폼 ​지원 ​중이며 글로벌 ​최고 ​수준의 ​퀄리티 구현과,\n\n가장 완성된 ​월드 ​MMORPG를 목표로 달리고 ​있습니다.",
-          "responsibilities": "- 라이브 서비스 이슈 대응\n\n- 개발 일정 관리 (아트 리소스 일정 포함)\n\n- 유관 부서와의 커뮤니케이션",
-          "requirements": "- 원활한 커뮤니케이션 및 협업 능력을 보유하신 분\n\n- 모바일 게임 개발 및 라이브 서비스 프로세스에 대한 이해가 있으신 분\n\n- 높은 책임감과 꼼꼼한 업무 처리 능력을 갖추신 분\n\n- 빠른 상황 판단과 적극적인 문제 해결 자세를 지니신 분\n\n- 아트 리소스 관리 경험이 있으신 분",
-          "neededSkills": "",
-          "preferred": "- MMORPG 장르 라이브 경험\n\n-JIRA를 통해 개발 일정 관리해본 경험이 있으신 분",
-          "memo": "",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": false,
-          "link": "https://nx3games.career.greetinghr.com/ko/o/204495",
-          "createdAt": "2026-03-19T13:57:59.261Z",
-          "updatedAt": "2026-03-27T15:15:47.495Z"
         },
         {
           "postingId": "7cac4cca-cc1c-4970-bcac-e192f75175e0",
@@ -19523,7 +19638,7 @@
       "lifnux.music.resume.v110": {
         "videoId": "lOrU0MH0bMk",
         "queueIndex": 31,
-        "currentTime": 174.57494480163575,
+        "currentTime": 0,
         "repeatMode": "all",
         "shuffle": true
       },
@@ -20237,7 +20352,8 @@
         "ratings": {
           "sZxLJLj9o38": 5,
           "NOXRroYA8Tc": 5
-        }
+        },
+        "playHistory": {}
       }
     },
     "shoppingList": {
@@ -20248,7 +20364,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 6185
+          "balance": 3115
         },
         {
           "accountId": "acc-us-1",
@@ -20268,7 +20384,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-09T09:11:43.827Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-11T16:19:07.285Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -21906,6 +22022,29 @@
           "side": "BUY",
           "qty": 1,
           "price": 99500,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "701bb2ea-1c11-4dbd-9ac5-09f91a376463",
+          "ts": 1775838418581,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 50000
+        },
+        {
+          "id": "7061d2bd-999d-4b61-b82f-b9b9834c112c",
+          "ts": 1775838428069,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "BUY",
+          "qty": 3,
+          "price": 17690,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null

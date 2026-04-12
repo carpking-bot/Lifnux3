@@ -2,24 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
-    "exportedAt": "2026-04-09T15:45:19.458Z"
-========
-    "exportedAt": "2026-04-10T08:46:04.910Z"
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
+    "exportedAt": "2026-04-12T15:40:18.920Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
         "trackId": "lOrU0MH0bMk",
         "volume": 80,
         "position": 0
-========
-        "trackId": "Kv-Aqwttwzo",
-        "volume": 80,
-        "position": 1.6995329732971192
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
       }
     },
     "health": {
@@ -3527,31 +3517,22 @@
           "createdAt": "2026-04-08T16:04:47.976Z"
         },
         {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
           "id": "15a3cbff-1135-449f-886b-dbe10103900e",
           "typeId": "swimming",
           "loggedForDate": "2026-04-09",
           "durationMin": 50,
           "memo": "31회차\n역대급 수영 노재능",
           "createdAt": "2026-04-09T14:29:04.347Z"
-========
-          "id": "7eb948f1-5671-4c2e-ad65-9a9fec3f72f4",
-          "typeId": "swimming",
-          "loggedForDate": "2026-04-09",
-          "durationMin": 50,
-          "memo": "31회차\n역대급 수영 노재능 ㅋㅋ",
-          "createdAt": "2026-04-10T00:43:41.548Z"
         },
         {
-          "id": "ae14b651-85db-4d71-947f-68741c99244d",
+          "id": "409f8f73-f18a-4ed1-b45f-1257867831d9",
           "typeId": "walking",
           "loggedForDate": "2026-04-10",
           "durationMin": 42,
           "memo": "점심 산책",
-          "createdAt": "2026-04-10T06:04:26.916Z",
+          "createdAt": "2026-04-10T16:21:13.177Z",
           "distanceKm": 3.39,
           "calorieOverride": 133
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
         }
       ]
     },
@@ -3733,16 +3714,17 @@
         },
         {
           "date": "2026-04-09",
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
           "totalKrw": 32700045,
-========
-          "totalKrw": 32882639.86,
           "quality": "final"
         },
         {
           "date": "2026-04-10",
-          "totalKrw": 33212176.320000004,
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
+          "totalKrw": 33148205.8852,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-11",
+          "totalKrw": 33218779.849999998,
           "quality": "final"
         }
       ],
@@ -9210,7 +9192,6 @@
         "Dividends",
         "Cashback"
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9225,6 +9206,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -9761,22 +9743,6 @@
           "mktCapRank": 9999,
           "notes": "",
           "watchlisted": true
-        },
-        {
-          "id": "kr-stock-036570",
-          "label": "NC소프트",
-          "symbol": "036570",
-          "market": "KR",
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1775790252144,
-          "last": 50219,
-          "changePct": -0.81,
-          "changeAbs": -406.77389999999997,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": true
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -10186,7 +10152,7 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "1d421f16-0551-4e6b-8b43-3cba199aa424",
+          "id": "755881fd-2618-4d6c-b9f9-c91e1e166bc7",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-0043y0",
           "symbolKey": "0043Y0",
@@ -11605,30 +11571,64 @@
           "title": "쿠팡플레이 스포츠패스",
           "amount": 9900,
           "kind": "expense"
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
-========
         },
         {
-          "id": "186d30fd-382c-4951-967d-5ad069197183",
-          "createdAt": 1775781616139,
+          "id": "0e274bfa-071a-49bf-8c83-a40f37481b78",
+          "createdAt": 1775838121628,
           "date": "2026-04-09",
           "category": "Transport",
-          "title": "카카오바이크",
+          "title": "카카오 바이크",
           "amount": 1160,
           "kind": "expense"
         },
         {
-          "id": "b2c4bc5e-a4a1-4571-aa1d-b4e23af97f9c",
-          "createdAt": 1775789583780,
+          "id": "81e47362-9edf-4469-adc4-db4457629468",
+          "createdAt": 1775838213294,
+          "date": "2026-04-10",
+          "category": "Transport",
+          "title": "카카오 바이크",
+          "amount": 2320,
+          "kind": "expense"
+        },
+        {
+          "id": "c73fb38e-c6fd-4a30-80a8-2bb9a3aca2f1",
+          "createdAt": 1775838228478,
+          "date": "2026-04-10",
+          "category": "Transport",
+          "title": "카카오 바이크 멤버십",
+          "amount": 38900,
+          "kind": "expense"
+        },
+        {
+          "id": "50613c24-c440-4cdf-b19f-5d3dcd02f15e",
+          "createdAt": 1775838239742,
+          "date": "2026-04-10",
+          "category": "Subscription",
+          "title": "쿠팡와우",
+          "amount": 7890,
+          "kind": "expense"
+        },
+        {
+          "id": "285cbc7d-95fa-4ae6-b35f-a0f30167afce",
+          "createdAt": 1775838253958,
           "date": "2026-04-10",
           "category": "Wage",
-          "title": "3월분 추가 급여",
+          "title": "3월 추가 급여",
           "amount": 6100,
           "kind": "income"
         },
         {
-          "id": "479d7a35-f5af-4b30-a944-130818a786d9",
-          "createdAt": 1775789622255,
+          "id": "910db596-942b-4cb5-8558-6dfc42c054d8",
+          "createdAt": 1775838269303,
+          "date": "2026-04-10",
+          "category": "Transport",
+          "title": "K-PASS 환급금",
+          "amount": 47250,
+          "kind": "income"
+        },
+        {
+          "id": "9e5c8507-204a-471a-af07-437dc1295a95",
+          "createdAt": 1775838305141,
           "date": "2026-04-10",
           "category": "Dividends",
           "title": "배당금",
@@ -11637,23 +11637,60 @@
           "memo": "HD한국조선해양"
         },
         {
-          "id": "b8a3c709-fd11-47b0-8676-0e10cf8e65e8",
-          "createdAt": 1775795946494,
-          "date": "2026-04-10",
-          "category": "Subscription",
-          "title": "쿠팡와우",
-          "amount": 7890,
+          "id": "cfdc5507-4d82-4cf7-8779-d5d97e115e55",
+          "createdAt": 1776007511981,
+          "date": "2026-04-11",
+          "category": "Transport",
+          "title": "3월 교통비",
+          "amount": 121150,
           "kind": "expense"
         },
         {
-          "id": "5d1e05ed-aa6e-44b5-81a9-278ba953917b",
-          "createdAt": 1775795962645,
-          "date": "2026-04-10",
+          "id": "d1917650-00f7-42d0-ac24-d2506e5adee4",
+          "createdAt": 1776007524853,
+          "date": "2026-04-11",
           "category": "Other",
-          "title": "K패스 환급금",
-          "amount": 47250,
-          "kind": "income"
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
+          "title": "Fun&Fun",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "283eeb2a-752f-4eb5-8a05-0975ec4083bc",
+          "createdAt": 1776007548861,
+          "date": "2026-04-12",
+          "category": "Snacks & Coffee",
+          "title": "스타벅스",
+          "amount": 5900,
+          "kind": "expense",
+          "memo": "자허블"
+        },
+        {
+          "id": "e03f4e38-16d2-4238-9259-bb462d26a02a",
+          "createdAt": 1776007566931,
+          "date": "2026-04-12",
+          "category": "Food",
+          "title": "점심",
+          "amount": 16400,
+          "kind": "expense",
+          "memo": "Olly's Burger 맥앤치즈 세트"
+        },
+        {
+          "id": "f5437d0c-921e-403b-b375-776518c75df0",
+          "createdAt": 1776007573899,
+          "date": "2026-04-12",
+          "category": "Transport",
+          "title": "카카오바이크",
+          "amount": 2240,
+          "kind": "expense"
+        },
+        {
+          "id": "d5a0f1c4-3b48-4fe8-acbd-ff6841741028",
+          "createdAt": 1776007581339,
+          "date": "2026-04-12",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11694,17 +11731,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
         "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
         "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
         "speed": 0.85,
-========
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
-        "loopEnabled": true,
-        "speed": 0.75,
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -11828,10 +11858,6 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -11887,6 +11913,10 @@
           "createdAt": 1773157984491
         }
       ],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -12071,21 +12101,12 @@
           "createdAt": 1775570237897
         },
         {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
           "dateKey": "2026-04-09",
           "createdAt": 1775745391584
         },
         {
           "dateKey": "2026-04-08",
           "createdAt": 1775745397649
-========
-          "dateKey": "2026-04-08",
-          "createdAt": 1775781843652
-        },
-        {
-          "dateKey": "2026-04-09",
-          "createdAt": 1775781843892
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
         }
       ],
       "lifnux:guitar:videos": [
@@ -12247,23 +12268,15 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
-        "totalValueKrw": 32700045,
-        "unrealizedPnlKrw": 2839446.6767999977,
-        "realizedPnlYtdKrw": 2208613.4306782605,
+        "totalValueKrw": 33218779.849999998,
+        "unrealizedPnlKrw": 3267602.2925999984,
+        "realizedPnlYtdKrw": 2210438.6988782603,
         "dataQuality": "OK",
-        "updatedAt": 1775744901431
-========
-        "totalValueKrw": 33212176.320000004,
-        "unrealizedPnlKrw": 3270914.6094400026,
-        "realizedPnlYtdKrw": 2210073.6452382607,
-        "dataQuality": "OK",
-        "updatedAt": 1775805458607
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
+        "updatedAt": 1775924273443
       }
     },
     "home": {
-      "lifnux.home.background.theme": "Spring.png"
+      "lifnux.home.background.theme": "gradient"
     },
     "personalGrowth": {
       "lifnux.personalGrowth.weeklyChecklist.v1": [
@@ -19077,30 +19090,27 @@
       ],
       "career_job_postings": [
         {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
-========
-          "postingId": "75dcfd64-422d-43a3-83f2-c1edb1e36f10",
+          "postingId": "a034e6af-0590-498e-8fb6-d09ab07a95dd",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "웹젠",
           "postingTitle": "국내사업PM",
           "role": "사업PM",
-          "contractType": "인턴",
-          "departmentInfo": "",
-          "responsibilities": "- 게임 사업 전략 수립\n\n- 사업 계획 수립 및 이벤트, 세일즈 기획 및 실행\n\n- 콘텐츠/지표/BM 분석 및 개선\n\n- 담당 프로젝트 전반 매니지먼트",
-          "requirements": "- 게임 및 게임용어에 대한 이해도가 높은 분\n\n- 문서 작성 및 Office 활용 능력을 보유한 분\n\n- 원만한 대인관계 및 커뮤니케이션 역량을 보유한 분",
+          "contractType": "정규직",
+          "departmentInfo": "- 게임 사업 전략 수립\n\n- 사업 계획 수립 및 이벤트, 세일즈 기획 및 실행\n\n- 콘텐츠/지표/BM 분석 및 개선\n\n- 담당 프로젝트 전반 매니지먼트",
+          "responsibilities": "- 게임 및 게임용어에 대한 이해도가 높은 분\n\n- 문서 작성 및 Office 활용 능력을 보유한 분\n\n- 원만한 대인관계 및 커뮤니케이션 역량을 보유한 분",
+          "requirements": "",
           "neededSkills": "",
           "preferred": "- 모바일 게임 런칭 및 라이브 서비스 경험이 있는 분\n\n- PC/모바일/콘솔 등 게임 플레이 경험이 많은 분",
           "memo": "",
           "comment": "",
           "deadline": "2026-04-27",
-          "importance": 6,
+          "importance": 7,
           "isFavorite": true,
           "link": "https://webzen.recruiter.co.kr/career/jobs/105836",
-          "createdAt": "2026-04-10T04:41:09.465Z",
-          "updatedAt": "2026-04-10T04:41:11.592Z"
+          "createdAt": "2026-04-10T16:26:12.685Z",
+          "updatedAt": "2026-04-10T16:26:15.502Z"
         },
         {
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
           "postingId": "63047f0c-fc6b-4912-9cd1-f6e2835df504",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "넥슨코리아",
@@ -19200,10 +19210,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": false,
+          "isFavorite": true,
           "link": "https://bigfiregames.career.greetinghr.com/ko/o/148313",
           "createdAt": "2026-03-27T14:38:27.293Z",
-          "updatedAt": "2026-04-10T04:41:19.752Z"
+          "updatedAt": "2026-04-03T14:14:12.828Z"
         },
         {
           "postingId": "15879091-7683-4612-bfa6-971e3ce4ef05",
@@ -19246,27 +19256,6 @@
           "link": "https://aimed.career.greetinghr.com/ko/o/135721",
           "createdAt": "2026-03-19T14:01:16.454Z",
           "updatedAt": "2026-03-19T14:01:16.454Z"
-        },
-        {
-          "postingId": "8a10faad-cf18-4d4c-9cc7-73993a7d79d5",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "엔엑스쓰리게임즈",
-          "postingTitle": "[로드나인] 개발PM",
-          "role": "개발PM",
-          "contractType": "정규직",
-          "departmentInfo": "로드나인은 ​NX3GAMES 고유의 ​자체 IP로, \n\nUnity엔진을 사용하여 ​서비스 ​중인 실사형 ​중세 판타지 대작 ​MMORPG입니다.\n\n모바일/PC 멀티플랫폼 ​지원 ​중이며 글로벌 ​최고 ​수준의 ​퀄리티 구현과,\n\n가장 완성된 ​월드 ​MMORPG를 목표로 달리고 ​있습니다.",
-          "responsibilities": "- 라이브 서비스 이슈 대응\n\n- 개발 일정 관리 (아트 리소스 일정 포함)\n\n- 유관 부서와의 커뮤니케이션",
-          "requirements": "- 원활한 커뮤니케이션 및 협업 능력을 보유하신 분\n\n- 모바일 게임 개발 및 라이브 서비스 프로세스에 대한 이해가 있으신 분\n\n- 높은 책임감과 꼼꼼한 업무 처리 능력을 갖추신 분\n\n- 빠른 상황 판단과 적극적인 문제 해결 자세를 지니신 분\n\n- 아트 리소스 관리 경험이 있으신 분",
-          "neededSkills": "",
-          "preferred": "- MMORPG 장르 라이브 경험\n\n-JIRA를 통해 개발 일정 관리해본 경험이 있으신 분",
-          "memo": "",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": false,
-          "link": "https://nx3games.career.greetinghr.com/ko/o/204495",
-          "createdAt": "2026-03-19T13:57:59.261Z",
-          "updatedAt": "2026-03-27T15:15:47.495Z"
         },
         {
           "postingId": "7cac4cca-cc1c-4970-bcac-e192f75175e0",
@@ -19703,15 +19692,9 @@
         }
       ],
       "lifnux.music.resume.v110": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
         "videoId": "lOrU0MH0bMk",
         "queueIndex": 31,
         "currentTime": 0,
-========
-        "videoId": "Kv-Aqwttwzo",
-        "queueIndex": 15,
-        "currentTime": 1.6995329732971192,
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
         "repeatMode": "all",
         "shuffle": true
       },
@@ -20073,13 +20056,8 @@
             "url": "https://youtu.be/19oT04OuBhg?si=rr6AWjbol3aNQ4wg"
           }
         ],
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
         "currentIndex": 31,
-        "isPlaying": false,
-========
-        "currentIndex": 15,
         "isPlaying": true,
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -20431,134 +20409,7 @@
           "sZxLJLj9o38": 5,
           "NOXRroYA8Tc": 5
         },
-        "playHistory": {
-          "AOGhUcAdTKk": [
-            1775796105840,
-            1775798626363
-          ],
-          "Aq_gsctWHtQ": [
-            1775796409849,
-            1775802882493,
-            1775803852805,
-            1775805153693
-          ],
-          "tq9Y62uJUfU": [
-            1775796731681,
-            1775807508655
-          ],
-          "Z2tv0GyQdL8": [
-            1775797002256,
-            1775797733068,
-            1775810504874
-          ],
-          "tKERw3_ked0": [
-            1775797250913
-          ],
-          "_0f5FjEQzsg": [
-            1775797462521,
-            1775800728820
-          ],
-          "m_MuSyqkGJI": [
-            1775797992549,
-            1775802120657,
-            1775806971773
-          ],
-          "4SrrieLwsOI": [
-            1775798249028
-          ],
-          "tIvAQR9Zj8M": [
-            1775798393978,
-            1775801104817
-          ],
-          "rMWUpRGtSo4": [
-            1775798893090,
-            1775799390066
-          ],
-          "ujCdcX6o3e0": [
-            1775799123444,
-            1775803112572
-          ],
-          "FCsLikmxhV0": [
-            1775799624128,
-            1775804846402
-          ],
-          "odDxJliW2Fg": [
-            1775800060490,
-            1775803548949
-          ],
-          "hAEfi_SKTEU": [
-            1775800260669
-          ],
-          "3VlqlntAOt8": [
-            1775800516956,
-            1775802376916,
-            1775809771622
-          ],
-          "Kv-Aqwttwzo": [
-            1775800959793
-          ],
-          "-tKVN2mAKRI": [
-            1775801397698
-          ],
-          "74_yqNBhQbA": [
-            1775801652381
-          ],
-          "NOXRroYA8Tc": [
-            1775801861235
-          ],
-          "rHLGjbz-yls": [
-            1775802578338
-          ],
-          "lOrU0MH0bMk": [
-            1775804065799
-          ],
-          "pRmsP7A-DtY": [
-            1775804314365,
-            1775807757270
-          ],
-          "YzJW3lJeZa0": [
-            1775804612286
-          ],
-          "QIlzgNozXKw": [
-            1775805344692
-          ],
-          "h0KIWaUEIgQ": [
-            1775806495381
-          ],
-          "56XiKr44a9U": [
-            1775806712144
-          ],
-          "KpM6xNAgRoI": [
-            1775807186776,
-            1775808414250
-          ],
-          "h2TjzsvFX0s": [
-            1775807943969,
-            1775809515492
-          ],
-          "aLTtvgXMZyA": [
-            1775808199134
-          ],
-          "kPa7bsKwL-c": [
-            1775808667225,
-            1775810757576
-          ],
-          "H5jm8uQ6Fso": [
-            1775808877490
-          ],
-          "19oT04OuBhg": [
-            1775809107103
-          ],
-          "IpFX2vq8HKw": [
-            1775809328840
-          ],
-          "E5BLkMGxDgQ": [
-            1775810009271
-          ],
-          "P3YURx8awqQ": [
-            1775810234274
-          ]
-        }
+        "playHistory": {}
       }
     },
     "shoppingList": {
@@ -20569,7 +20420,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 1315
+          "balance": 3115
         },
         {
           "accountId": "acc-us-1",
@@ -20589,11 +20440,7 @@
       ]
     },
     "data": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-09T15-45-19-464Z.json
-      "lifnux:data.lastUpdatedAt": "2026-04-09T15:45:18.961Z"
-========
-      "lifnux:data.lastUpdatedAt": "2026-04-10T08:46:04.348Z"
->>>>>>>> 95256cf694fb6c79fec43366926be13385564f0f:exports/lifnux-export-2026-04-10T08-46-04-915Z.json
+      "lifnux:data.lastUpdatedAt": "2026-04-12T15:40:18.171Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -22236,27 +22083,17 @@
           "costBasis": null
         },
         {
-          "id": "d3c37458-3a37-4677-adc8-bb5fa25d93ba",
-          "ts": 1775789669135,
+          "id": "701bb2ea-1c11-4dbd-9ac5-09f91a376463",
+          "ts": 1775838418581,
           "accountId": "acc-kr-1",
           "type": "CASHFLOW",
           "currency": "KRW",
           "direction": "DEPOSIT",
-          "amount": 18200,
-          "memo": "배당금"
+          "amount": 50000
         },
         {
-          "id": "8d70be8d-5e60-48b4-a74a-2bd308f2ba4a",
-          "ts": 1775789755140,
-          "accountId": "acc-kr-1",
-          "type": "CASHFLOW",
-          "currency": "KRW",
-          "direction": "DEPOSIT",
-          "amount": 30000
-        },
-        {
-          "id": "b0a55001-65be-40e4-aff2-7817e10e61d0",
-          "ts": 1775789770268,
+          "id": "7061d2bd-999d-4b61-b82f-b9b9834c112c",
+          "ts": 1775838428069,
           "accountId": "acc-kr-1",
           "type": "TRADE",
           "currency": "KRW",
