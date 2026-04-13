@@ -109,8 +109,12 @@ export default function SettingsPage() {
         variant="danger"
         onConfirm={() => {
           if (pendingImport && validateLifnuxExport(pendingImport)) {
-            importLifnuxExport(pendingImport);
-            showToast({ type: "success", message: "Import complete." });
+            try {
+              importLifnuxExport(pendingImport);
+              showToast({ type: "success", message: "Import complete." });
+            } catch {
+              showToast({ type: "error", message: "Import failed. Check storage quota or browser settings." });
+            }
           } else {
             showToast({ type: "error", message: "Invalid import payload." });
           }

@@ -15,7 +15,7 @@ const BACKUP_ENABLED_KEY = "lifnux:backup.enabled";
 const LOCAL_DATA_UPDATED_AT_KEY = "lifnux:data.lastUpdatedAt";
 const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 const SYNC_EXACT_KEYS = new Set(["portfolio.positions", "investing.portfolio.performance.v1"]);
-const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music.", "career_"];
+const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music.", "career_", "news_"];
 
 function isLifnuxKey(key: string) {
   if (SYNC_EXACT_KEYS.has(key)) return true;
@@ -210,37 +210,54 @@ export function downloadLifnuxExport({ useBackup = false }: { useBackup?: boolea
 export function validateLifnuxExport(payload: unknown): payload is LifnuxExport {
   if (!payload || typeof payload !== "object") return false;
   const candidate = payload as LifnuxExport;
-  return candidate.meta?.app === "lifnux" && typeof candidate.data === "object";
+  return candidate.meta?.app === "lifnux" && !!candidate.data && typeof candidate.data === "object" && !Array.isArray(candidate.data);
 }
 
 export function importLifnuxExport(payload: LifnuxExport) {
   if (typeof window === "undefined") return;
   const keysToClear: string[] = [];
+  const previousState = new Map<string, string | null>();
   for (let i = 0; i < window.localStorage.length; i += 1) {
     const key = window.localStorage.key(i);
-    if (key && isLifnuxKey(key)) keysToClear.push(key);
+    if (!key || !isLifnuxKey(key)) continue;
+    keysToClear.push(key);
+    previousState.set(key, window.localStorage.getItem(key));
   }
-  keysToClear.forEach((key) => window.localStorage.removeItem(key));
+
+  const serializedEntries: Array<[string, string]> = [];
   Object.values(payload.data).forEach((group) => {
     Object.entries(group).forEach(([key, value]) => {
-      if (typeof value === "string") {
-        window.localStorage.setItem(key, value);
-      } else {
-        window.localStorage.setItem(key, JSON.stringify(value));
-      }
+      if (!isLifnuxKey(key)) return;
+      serializedEntries.push([key, typeof value === "string" ? value : JSON.stringify(value)]);
     });
   });
-  const updatedAt = payload?.meta?.exportedAt ?? new Date().toISOString();
+
   try {
-    window.localStorage.setItem(LOCAL_DATA_UPDATED_AT_KEY, updatedAt);
-  } catch {
-    // Ignore if local storage is blocked.
+    keysToClear.forEach((key) => window.localStorage.removeItem(key));
+    serializedEntries.forEach(([key, value]) => {
+      window.localStorage.setItem(key, value);
+    });
+    const updatedAt = payload?.meta?.exportedAt ?? new Date().toISOString();
+    try {
+      window.localStorage.setItem(LOCAL_DATA_UPDATED_AT_KEY, updatedAt);
+    } catch {
+      // Ignore if local storage is blocked.
+    }
+    window.dispatchEvent(
+      new CustomEvent(LOCAL_DATA_IMPORTED_EVENT, {
+        detail: { updatedAt }
+      })
+    );
+  } catch (error) {
+    const touchedKeys = new Set<string>([...keysToClear, ...serializedEntries.map(([key]) => key)]);
+    touchedKeys.forEach((key) => window.localStorage.removeItem(key));
+    previousState.forEach((value, key) => {
+      if (value !== null) {
+        window.localStorage.setItem(key, value);
+      }
+    });
+    throw error;
   }
-  window.dispatchEvent(
-    new CustomEvent(LOCAL_DATA_IMPORTED_EVENT, {
-      detail: { updatedAt }
-    })
-  );
 }
 
 export function isAutoBackupEnabled() {
