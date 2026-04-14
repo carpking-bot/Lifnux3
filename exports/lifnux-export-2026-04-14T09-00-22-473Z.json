@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-12T15:40:18.920Z"
+    "exportedAt": "2026-04-14T09:00:22.468Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "lOrU0MH0bMk",
+        "trackId": "P3YURx8awqQ",
         "volume": 80,
         "position": 0
       }
@@ -3533,6 +3533,26 @@
           "createdAt": "2026-04-10T16:21:13.177Z",
           "distanceKm": 3.39,
           "calorieOverride": 133
+        },
+        {
+          "id": "c6683de4-ea95-4f69-840a-000e25cfe667",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-13",
+          "durationMin": 34,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-13T08:05:11.332Z",
+          "distanceKm": 2.78,
+          "calorieOverride": 109
+        },
+        {
+          "id": "46616900-daf2-4dd9-a0d5-ca16da9eda9d",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-14",
+          "durationMin": 36,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-14T04:48:56.471Z",
+          "distanceKm": 2.98,
+          "calorieOverride": 118
         }
       ]
     },
@@ -3725,6 +3745,16 @@
         {
           "date": "2026-04-11",
           "totalKrw": 33218779.849999998,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-13",
+          "totalKrw": 33127548.68,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-14",
+          "totalKrw": 33960384.805,
           "quality": "final"
         }
       ],
@@ -9192,6 +9222,7 @@
         "Dividends",
         "Cashback"
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9206,7 +9237,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -11181,7 +11211,7 @@
           "id": "34be3e0b-044b-40f6-88ba-718c9e27897c",
           "createdAt": 1773206485045,
           "date": "2026-03-11",
-          "category": "Other",
+          "category": "Cashback",
           "title": "체크카드 환급",
           "amount": 500,
           "kind": "income"
@@ -11226,7 +11256,7 @@
           "id": "f92a69c6-c8f5-4f00-b28a-01018ecd7fe4",
           "createdAt": 1773296986933,
           "date": "2026-03-12",
-          "category": "Transport",
+          "category": "Cashback",
           "title": "K-PASS 환급금",
           "amount": 50000,
           "kind": "income"
@@ -11621,7 +11651,7 @@
           "id": "910db596-942b-4cb5-8558-6dfc42c054d8",
           "createdAt": 1775838269303,
           "date": "2026-04-10",
-          "category": "Transport",
+          "category": "Cashback",
           "title": "K-PASS 환급금",
           "amount": 47250,
           "kind": "income"
@@ -11691,6 +11721,34 @@
           "title": "따릉이",
           "amount": 1000,
           "kind": "expense"
+        },
+        {
+          "id": "09968f2f-c8dc-4a1e-8be4-01a6305d93c9",
+          "createdAt": 1776055771381,
+          "date": "2026-04-12",
+          "category": "Snacks & Coffee",
+          "title": "스타벅스",
+          "amount": 8300,
+          "kind": "expense",
+          "memo": "말차 슈크림 라뗴 Venti"
+        },
+        {
+          "id": "5acc8951-f1fb-4710-baed-bbe4d92d6f7c",
+          "createdAt": 1776055809934,
+          "date": "2026-04-11",
+          "category": "Entertainment",
+          "title": "코인 노래방",
+          "amount": 3950,
+          "kind": "expense"
+        },
+        {
+          "id": "bb67e3e5-5f5c-42d5-9484-49a4c6b7e78e",
+          "createdAt": 1776055874438,
+          "date": "2026-04-12",
+          "category": "Cashback",
+          "title": "하나체크 환급",
+          "amount": 1000,
+          "kind": "income"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11858,6 +11916,10 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -11913,10 +11975,6 @@
           "createdAt": 1773157984491
         }
       ],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -12268,11 +12326,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 33218779.849999998,
-        "unrealizedPnlKrw": 3267602.2925999984,
-        "realizedPnlYtdKrw": 2210438.6988782603,
-        "dataQuality": "OK",
-        "updatedAt": 1775924273443
+        "totalValueKrw": 33966583.0936,
+        "unrealizedPnlKrw": 4072216.464080006,
+        "realizedPnlYtdKrw": 2207883.3233982604,
+        "dataQuality": "DEGRADED",
+        "updatedAt": 1776154288686
       }
     },
     "home": {
@@ -12961,6 +13019,13 @@
           "title": "대체공휴일",
           "date": "2026-05-25",
           "createdAt": 1775005165275,
+          "kind": "HOLIDAY"
+        },
+        {
+          "id": "c7f39f05-36c7-4d92-ac3c-c5845f5057f9",
+          "title": "연차",
+          "date": "2026-04-20",
+          "createdAt": 1776048464958,
           "kind": "HOLIDAY"
         }
       ],
@@ -18335,6 +18400,47 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "96e568e0-e537-472c-b929-276259ded4eb",
+          "postingId": "72be295a-fc4b-4eb9-8acd-c7e84b5e9bd0",
+          "appliedAt": "2026-04-13",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "45c66b58-9a41-4405-bd06-ed78a7c8f637",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-04-13",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "95c9e8d9-8eff-4280-88fb-64c35b1bd848",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "251ff35c-402d-4520-b306-b1f2bb0cffdb",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "2ebe8d3d-4b0c-4b61-8070-64899ceae11a",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "946c6da6-14ad-4aca-b49f-46eae01b224d",
           "postingId": "0da18e5f-7f85-4613-8b35-c1276009dccf",
           "appliedAt": "2026-04-01",
@@ -19056,7 +19162,7 @@
           "level": "인턴",
           "salaryKRW": 37000000,
           "isCurrent": true,
-          "remainingPTO": 4.75,
+          "remainingPTO": 3.75,
           "notes": ""
         },
         {
@@ -19692,8 +19798,8 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "lOrU0MH0bMk",
-        "queueIndex": 31,
+        "videoId": "P3YURx8awqQ",
+        "queueIndex": 47,
         "currentTime": 0,
         "repeatMode": "all",
         "shuffle": true
@@ -20054,9 +20160,15 @@
             "videoId": "19oT04OuBhg",
             "title": "이찬혁 (LEE CHANHYUK) - '멸종위기사랑' M/V",
             "url": "https://youtu.be/19oT04OuBhg?si=rr6AWjbol3aNQ4wg"
+          },
+          {
+            "id": "be3d09eb-f477-4aee-888c-7fb5b462955a",
+            "videoId": "DIPxnt5vnhU",
+            "title": "실리카겔 (Silica Gel) - T + Tik Tak Tok (feat. So!YoON!) [M/V]",
+            "url": "https://youtu.be/DIPxnt5vnhU?si=Ps-pYkD6nHCmMwQp"
           }
         ],
-        "currentIndex": 31,
+        "currentIndex": 47,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -20409,7 +20521,253 @@
           "sZxLJLj9o38": 5,
           "NOXRroYA8Tc": 5
         },
-        "playHistory": {}
+        "playHistory": {
+          "lOrU0MH0bMk": [
+            1776045748939,
+            1776053732774,
+            1776064691147,
+            1776068908987,
+            1776145081258,
+            1776149272274
+          ],
+          "3VlqlntAOt8": [
+            1776046005066,
+            1776061018324,
+            1776144868008
+          ],
+          "_Ngk-DCHfD0": [
+            1776046198015,
+            1776063301334,
+            1776069803918,
+            1776150430566
+          ],
+          "Aq_gsctWHtQ": [
+            1776046501866,
+            1776052738091,
+            1776053210046,
+            1776062203330,
+            1776070633945,
+            1776150734451
+          ],
+          "rMWUpRGtSo4": [
+            1776046768349,
+            1776048683876,
+            1776057249179,
+            1776143502474
+          ],
+          "H5jm8uQ6Fso": [
+            1776046978628,
+            1776049753647,
+            1776057459607,
+            1776065090582,
+            1776148660967
+          ],
+          "_0f5FjEQzsg": [
+            1776047190172,
+            1776145292909,
+            1776151774205
+          ],
+          "tq9Y62uJUfU": [
+            1776047511862,
+            1776052434013,
+            1776142337348
+          ],
+          "mW-V6C5eyIM": [
+            1776047727173
+          ],
+          "7mjg-7ibaQA": [
+            1776047963574,
+            1776061444449,
+            1776062439808,
+            1776063108192
+          ],
+          "JaIMSzE5yLA": [
+            1776048186378,
+            1776062662705,
+            1776143725354
+          ],
+          "Kv-Aqwttwzo": [
+            1776048417296,
+            1776058605720,
+            1776067981472
+          ],
+          "aZtZNW6P97E": [
+            1776048873892,
+            1776143915301
+          ],
+          "h0KIWaUEIgQ": [
+            1776049040738,
+            1776056814748
+          ],
+          "AOGhUcAdTKk": [
+            1776049273164,
+            1776049986229,
+            1776054398973,
+            1776144363005
+          ],
+          "Z2tv0GyQdL8": [
+            1776049543716,
+            1776150237560
+          ],
+          "1ZX1vEDTfY4": [
+            1776050147055,
+            1776148821651,
+            1776151371451
+          ],
+          "QIlzgNozXKw": [
+            1776050338130,
+            1776056648010,
+            1776151562501
+          ],
+          "FCsLikmxhV0": [
+            1776050572083
+          ],
+          "rHLGjbz-yls": [
+            1776050773590,
+            1776143236050,
+            1776148450843
+          ],
+          "_AAdae7diOU": [
+            1776051020875,
+            1776066602588
+          ],
+          "5g4KsIizYhQ": [
+            1776051287272,
+            1776060761877
+          ],
+          "IWYft_hOIgo": [
+            1776051597274,
+            1776053519750,
+            1776067101748,
+            1776069218502
+          ],
+          "YzJW3lJeZa0": [
+            1776051895297,
+            1776055255543,
+            1776058187966
+          ],
+          "56XiKr44a9U": [
+            1776052112117,
+            1776142813742,
+            1776147818045
+          ],
+          "z2DASn4UHqE": [
+            1776052905869,
+            1776056982426
+          ],
+          "P3YURx8awqQ": [
+            1776053957451,
+            1776057889838
+          ],
+          "NOXRroYA8Tc": [
+            1776054166226,
+            1776060266195,
+            1776062871657
+          ],
+          "IpFX2vq8HKw": [
+            1776054620951,
+            1776068440690,
+            1776149967181
+          ],
+          "4AJx9nNagr0": [
+            1776054763679,
+            1776065233226
+          ],
+          "TiOpGgCXeT0": [
+            1776054957735,
+            1776059544488,
+            1776148249521
+          ],
+          "tIvAQR9Zj8M": [
+            1776055400420,
+            1776063446195,
+            1776066355406
+          ],
+          "hAEfi_SKTEU": [
+            1776055600573,
+            1776059054429
+          ],
+          "DIPxnt5vnhU": [
+            1776056457187,
+            1776060057318,
+            1776064257684,
+            1776065921178,
+            1776067552138,
+            1776145743291
+          ],
+          "Bq2K9CqpRKg": [
+            1776057664987
+          ],
+          "h2TjzsvFX0s": [
+            1776058374792,
+            1776150921280
+          ],
+          "pRmsP7A-DtY": [
+            1776058854279
+          ],
+          "m3DZsBw5bnE": [
+            1776059350514,
+            1776070099843,
+            1776142015578
+          ],
+          "19oT04OuBhg": [
+            1776060495501
+          ],
+          "aF8OFSroHgg": [
+            1776061207949,
+            1776064880273,
+            1776066791957
+          ],
+          "0fN71Wtgoa8": [
+            1776061642811,
+            1776067750292,
+            1776069610796
+          ],
+          "4SrrieLwsOI": [
+            1776061899359
+          ],
+          "E5BLkMGxDgQ": [
+            1776063683641,
+            1776065470733,
+            1776068218903,
+            1776148055607,
+            1776149059184
+          ],
+          "DY6oa7CspBs": [
+            1776064478296,
+            1776143034560,
+            1776149492911
+          ],
+          "IPnUVZEyzdI": [
+            1776066210554,
+            1776151210688
+          ],
+          "aLTtvgXMZyA": [
+            1776068696079
+          ],
+          "lthsxQQhrDc": [
+            1776069412667
+          ],
+          "ujCdcX6o3e0": [
+            1776070329820
+          ],
+          "m_MuSyqkGJI": [
+            1776142596951
+          ],
+          "KpM6xNAgRoI": [
+            1776144130423
+          ],
+          "kIiW3XRP7bU": [
+            1776144611791,
+            1776152022863
+          ],
+          "74_yqNBhQbA": [
+            1776145998032
+          ],
+          "kPa7bsKwL-c": [
+            1776149745568
+          ]
+        }
       }
     },
     "shoppingList": {
@@ -20440,7 +20798,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-12T15:40:18.171Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-14T09:00:21.612Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -20616,6 +20974,36 @@
         "currentIndex": 4,
         "shuffle": false,
         "repeatMode": "off"
+      }
+    },
+    "assetGrowthSimulator": {
+      "lifnux.assetGrowthSimulator.state.v1": {
+        "startYear": 2026,
+        "planYears": 20,
+        "salaryMode": "AUTO_GROWTH",
+        "baseAnnualSalary": 35000000,
+        "annualSalaryGrowthPct": 6,
+        "manualAnnualSalaryByYear": {},
+        "initialSavings": 7000000,
+        "initialPensionIrp": 10000000,
+        "initialInvestments": 24000000,
+        "savingsAnnualRatePct": 3.5,
+        "savingsAllocationMode": "FIXED",
+        "investmentAllocationMode": "RATE",
+        "monthlySavingsRatePct": 20,
+        "monthlyInvestmentRatePct": 65,
+        "monthlySavingsFixed": 300000,
+        "monthlyInvestmentFixed": 1300000,
+        "monthlyPensionIrpFixed": 750000,
+        "pensionIrpReturnPct": 7,
+        "returnMode": "CUSTOM_CSV",
+        "cagrPct": 7,
+        "historicalMarket": "SP500",
+        "historicalStartYear": 2006,
+        "historicalEndYear": 2025,
+        "customCsvTicker": "S&P 500",
+        "customCsvSelectionMode": "RANDOM_NO_REPLACE",
+        "customCsvRandomSeed": 56
       }
     },
     "items_template": {
