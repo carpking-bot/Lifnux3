@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-13T15:32:22.366Z"
+    "exportedAt": "2026-04-16T15:58:32.177Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "m3DZsBw5bnE",
+        "trackId": "P3YURx8awqQ",
         "volume": 80,
         "position": 0
       }
@@ -3543,6 +3543,32 @@
           "createdAt": "2026-04-13T08:05:11.332Z",
           "distanceKm": 2.78,
           "calorieOverride": 109
+        },
+        {
+          "id": "46616900-daf2-4dd9-a0d5-ca16da9eda9d",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-14",
+          "durationMin": 36,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-14T04:48:56.471Z",
+          "distanceKm": 2.98,
+          "calorieOverride": 118
+        },
+        {
+          "id": "7c93e510-4269-48a4-9638-a0e45adfa6ae",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-14",
+          "durationMin": 50,
+          "memo": "32회차\n비염으로 인한 컨디션 난조 ㅜㅅㅜ",
+          "createdAt": "2026-04-14T14:08:31.824Z"
+        },
+        {
+          "id": "40b01536-e0a1-42ae-b6ce-420104018665",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-16",
+          "durationMin": 50,
+          "memo": "33회차\n킹대급 노재능",
+          "createdAt": "2026-04-16T15:24:02.914Z"
         }
       ]
     },
@@ -3741,10 +3767,20 @@
           "date": "2026-04-13",
           "totalKrw": 33127548.68,
           "quality": "final"
+        },
+        {
+          "date": "2026-04-14",
+          "totalKrw": 34061028.26,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-16",
+          "totalKrw": 35182218.8936,
+          "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -11774,10 +11810,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
-        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+        "selectedSongId": "28605697-04ec-4271-a610-ce3dd85b1a7e",
+        "selectedVideoId": "f808e27e-3efe-4ca5-ab8b-83b70b312c91",
         "loopEnabled": true,
-        "speed": 0.85,
+        "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -12150,6 +12186,14 @@
         {
           "dateKey": "2026-04-08",
           "createdAt": 1775745397649
+        },
+        {
+          "dateKey": "2026-04-14",
+          "createdAt": 1776181483600
+        },
+        {
+          "dateKey": "2026-04-16",
+          "createdAt": 1776351848367
         }
       ],
       "lifnux:guitar:videos": [
@@ -12311,11 +12355,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 33127548.68,
-        "unrealizedPnlKrw": 3152023.582079999,
-        "realizedPnlYtdKrw": 2211533.8597982605,
+        "totalValueKrw": 35192087.9057,
+        "unrealizedPnlKrw": 5289605.429340001,
+        "realizedPnlYtdKrw": 2208248.3770382605,
         "dataQuality": "DEGRADED",
-        "updatedAt": 1776063939874
+        "updatedAt": 1776349658951
       }
     },
     "home": {
@@ -19783,8 +19827,8 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "m3DZsBw5bnE",
-        "queueIndex": 34,
+        "videoId": "P3YURx8awqQ",
+        "queueIndex": 47,
         "currentTime": 0,
         "repeatMode": "all",
         "shuffle": true
@@ -20153,7 +20197,7 @@
             "url": "https://youtu.be/DIPxnt5vnhU?si=Ps-pYkD6nHCmMwQp"
           }
         ],
-        "currentIndex": 34,
+        "currentIndex": 47,
         "isPlaying": false,
         "shuffle": true,
         "repeatMode": "all",
@@ -20511,41 +20555,51 @@
             1776045748939,
             1776053732774,
             1776064691147,
-            1776068908987
+            1776068908987,
+            1776145081258,
+            1776149272274
           ],
           "3VlqlntAOt8": [
             1776046005066,
-            1776061018324
+            1776061018324,
+            1776144868008
           ],
           "_Ngk-DCHfD0": [
             1776046198015,
             1776063301334,
-            1776069803918
+            1776069803918,
+            1776150430566
           ],
           "Aq_gsctWHtQ": [
             1776046501866,
             1776052738091,
             1776053210046,
             1776062203330,
-            1776070633945
+            1776070633945,
+            1776150734451
           ],
           "rMWUpRGtSo4": [
             1776046768349,
             1776048683876,
-            1776057249179
+            1776057249179,
+            1776143502474
           ],
           "H5jm8uQ6Fso": [
             1776046978628,
             1776049753647,
             1776057459607,
-            1776065090582
+            1776065090582,
+            1776148660967
           ],
           "_0f5FjEQzsg": [
-            1776047190172
+            1776047190172,
+            1776145292909,
+            1776151774205
           ],
           "tq9Y62uJUfU": [
             1776047511862,
-            1776052434013
+            1776052434013,
+            1776142337348
           ],
           "mW-V6C5eyIM": [
             1776047727173
@@ -20558,7 +20612,8 @@
           ],
           "JaIMSzE5yLA": [
             1776048186378,
-            1776062662705
+            1776062662705,
+            1776143725354
           ],
           "Kv-Aqwttwzo": [
             1776048417296,
@@ -20566,7 +20621,8 @@
             1776067981472
           ],
           "aZtZNW6P97E": [
-            1776048873892
+            1776048873892,
+            1776143915301
           ],
           "h0KIWaUEIgQ": [
             1776049040738,
@@ -20575,23 +20631,30 @@
           "AOGhUcAdTKk": [
             1776049273164,
             1776049986229,
-            1776054398973
+            1776054398973,
+            1776144363005
           ],
           "Z2tv0GyQdL8": [
-            1776049543716
+            1776049543716,
+            1776150237560
           ],
           "1ZX1vEDTfY4": [
-            1776050147055
+            1776050147055,
+            1776148821651,
+            1776151371451
           ],
           "QIlzgNozXKw": [
             1776050338130,
-            1776056648010
+            1776056648010,
+            1776151562501
           ],
           "FCsLikmxhV0": [
             1776050572083
           ],
           "rHLGjbz-yls": [
-            1776050773590
+            1776050773590,
+            1776143236050,
+            1776148450843
           ],
           "_AAdae7diOU": [
             1776051020875,
@@ -20613,7 +20676,9 @@
             1776058187966
           ],
           "56XiKr44a9U": [
-            1776052112117
+            1776052112117,
+            1776142813742,
+            1776147818045
           ],
           "z2DASn4UHqE": [
             1776052905869,
@@ -20630,7 +20695,8 @@
           ],
           "IpFX2vq8HKw": [
             1776054620951,
-            1776068440690
+            1776068440690,
+            1776149967181
           ],
           "4AJx9nNagr0": [
             1776054763679,
@@ -20638,7 +20704,8 @@
           ],
           "TiOpGgCXeT0": [
             1776054957735,
-            1776059544488
+            1776059544488,
+            1776148249521
           ],
           "tIvAQR9Zj8M": [
             1776055400420,
@@ -20654,20 +20721,23 @@
             1776060057318,
             1776064257684,
             1776065921178,
-            1776067552138
+            1776067552138,
+            1776145743291
           ],
           "Bq2K9CqpRKg": [
             1776057664987
           ],
           "h2TjzsvFX0s": [
-            1776058374792
+            1776058374792,
+            1776150921280
           ],
           "pRmsP7A-DtY": [
             1776058854279
           ],
           "m3DZsBw5bnE": [
             1776059350514,
-            1776070099843
+            1776070099843,
+            1776142015578
           ],
           "19oT04OuBhg": [
             1776060495501
@@ -20688,13 +20758,18 @@
           "E5BLkMGxDgQ": [
             1776063683641,
             1776065470733,
-            1776068218903
+            1776068218903,
+            1776148055607,
+            1776149059184
           ],
           "DY6oa7CspBs": [
-            1776064478296
+            1776064478296,
+            1776143034560,
+            1776149492911
           ],
           "IPnUVZEyzdI": [
-            1776066210554
+            1776066210554,
+            1776151210688
           ],
           "aLTtvgXMZyA": [
             1776068696079
@@ -20704,6 +20779,22 @@
           ],
           "ujCdcX6o3e0": [
             1776070329820
+          ],
+          "m_MuSyqkGJI": [
+            1776142596951
+          ],
+          "KpM6xNAgRoI": [
+            1776144130423
+          ],
+          "kIiW3XRP7bU": [
+            1776144611791,
+            1776152022863
+          ],
+          "74_yqNBhQbA": [
+            1776145998032
+          ],
+          "kPa7bsKwL-c": [
+            1776149745568
           ]
         }
       }
@@ -20736,7 +20827,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-13T15:32:21.719Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-16T15:58:31.750Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -20912,6 +21003,36 @@
         "currentIndex": 4,
         "shuffle": false,
         "repeatMode": "off"
+      }
+    },
+    "assetGrowthSimulator": {
+      "lifnux.assetGrowthSimulator.state.v1": {
+        "startYear": 2026,
+        "planYears": 20,
+        "salaryMode": "AUTO_GROWTH",
+        "baseAnnualSalary": 35000000,
+        "annualSalaryGrowthPct": 6,
+        "manualAnnualSalaryByYear": {},
+        "initialSavings": 7000000,
+        "initialPensionIrp": 10000000,
+        "initialInvestments": 24000000,
+        "savingsAnnualRatePct": 3.5,
+        "savingsAllocationMode": "FIXED",
+        "investmentAllocationMode": "RATE",
+        "monthlySavingsRatePct": 20,
+        "monthlyInvestmentRatePct": 65,
+        "monthlySavingsFixed": 300000,
+        "monthlyInvestmentFixed": 1300000,
+        "monthlyPensionIrpFixed": 750000,
+        "pensionIrpReturnPct": 7,
+        "returnMode": "CUSTOM_CSV",
+        "cagrPct": 7,
+        "historicalMarket": "SP500",
+        "historicalStartYear": 2006,
+        "historicalEndYear": 2025,
+        "customCsvTicker": "S&P 500",
+        "customCsvSelectionMode": "RANDOM_NO_REPLACE",
+        "customCsvRandomSeed": 56
       }
     },
     "items_template": {
