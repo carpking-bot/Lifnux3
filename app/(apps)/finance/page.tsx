@@ -13,6 +13,7 @@ const HUB_REVEAL_KEY = "lifnux.finance.hub.reveal.v1";
 const ASSET_MONTHLY_SNAPSHOTS_KEY = "asset_monthly_snapshots";
 const ASSET_CATEGORY_SCHEMA_KEY = "lifnux.finance.asset.category.schema.v1";
 const EXPENSE_LEDGER_KEY = "lifnux.finance.expense.ledger.v1";
+const PORTFOLIO_PERFORMANCE_KEY = "investing.portfolio.performance.v1";
 const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 type AssetCategory = { id: string; name: string };
@@ -30,6 +31,12 @@ type ExpenseEntry = {
   memo?: string;
 };
 
+type PortfolioPerformanceSnapshot = {
+  totalValueKrw?: number | null;
+  unrealizedPnlKrw?: number | null;
+  updatedAt?: number;
+};
+
 const formatKrw = (value: number) => `\u20A9${Math.round(value).toLocaleString("ko-KR")}`;
 const formatPct = (value: number) => `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
 const normalizeEntryKind = (entry: ExpenseEntry): "expense" | "income" => (entry.kind === "income" ? "income" : "expense");
@@ -44,6 +51,7 @@ export default function FinancePage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [stocks, setStocks] = useState<StockItem[]>([]);
   const [fxRate, setFxRate] = useState<number | null>(null);
+  const [portfolioSnapshot, setPortfolioSnapshot] = useState<PortfolioPerformanceSnapshot | null>(null);
   const [transactionCardTab, setTransactionCardTab] = useState<"expense" | "income">("expense");
 
   const reloadFinanceHubState = () => {
@@ -51,6 +59,7 @@ export default function FinancePage() {
     setAssetSnapshots(loadState<AssetSnapshotMap>(ASSET_MONTHLY_SNAPSHOTS_KEY, {}));
     setAssetCategories(loadState<AssetCategory[]>(ASSET_CATEGORY_SCHEMA_KEY, []));
     setExpenseEntries(loadState<ExpenseEntry[]>(EXPENSE_LEDGER_KEY, []));
+    setPortfolioSnapshot(loadState<PortfolioPerformanceSnapshot | null>(PORTFOLIO_PERFORMANCE_KEY, null));
 
     const data = loadFinanceState();
     setHoldings(data.holdings);
@@ -140,12 +149,22 @@ export default function FinancePage() {
     const pnlKrw = totalKrw !== null ? totalKrw - costBasisKrw : null;
     const pnlPct = pnlKrw !== null && costBasisKrw > 0 ? (pnlKrw / costBasisKrw) * 100 : null;
 
-    return {
+    const liveSummary = {
       totalKrw: displayTotalKrw,
       pnlKrw,
       pnlPct
     };
-  }, [activeHoldings, fxRate, heldQuotes, stocks, useFx]);
+    const snapshotTotal = typeof portfolioSnapshot?.totalValueKrw === "number" ? portfolioSnapshot.totalValueKrw : null;
+    const snapshotPnl = typeof portfolioSnapshot?.unrealizedPnlKrw === "number" ? portfolioSnapshot.unrealizedPnlKrw : null;
+    if (snapshotTotal !== null) {
+      return {
+        totalKrw: snapshotTotal,
+        pnlKrw: snapshotPnl,
+        pnlPct: null
+      };
+    }
+    return liveSummary;
+  }, [activeHoldings, fxRate, heldQuotes, portfolioSnapshot, stocks, useFx]);
 
   const assetSummary = useMemo(() => {
     const debtCategoryIds = new Set(
@@ -299,7 +318,7 @@ export default function FinancePage() {
             </div>
           </Link>
 
-          <Link href="/investing" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">
+          <Link href="/finance/portfolio" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">
             <TrendingUp className="pointer-events-none absolute right-4 top-1/2 h-11 w-11 -translate-y-1/2 text-white/20" />
             <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Investing</div>
             <div className={`mt-3 text-2xl font-semibold tabular-nums ${sensitiveClass}`}>{formatKrw(investingSummary.totalKrw)}</div>
@@ -307,12 +326,16 @@ export default function FinancePage() {
               <div
                 className={`mt-2 text-sm tabular-nums ${sensitiveClass} ${investingSummary.pnlKrw >= 0 ? "text-emerald-300" : "text-rose-300"}`}
               >
-                {`${investingSummary.pnlKrw >= 0 ? "+" : "-"}${formatKrw(Math.abs(investingSummary.pnlKrw))} (${formatPct(investingSummary.pnlPct ?? 0)})`}
+                {`${investingSummary.pnlKrw >= 0 ? "+" : "-"}${formatKrw(Math.abs(investingSummary.pnlKrw))}${
+                  investingSummary.pnlPct !== null ? ` (${formatPct(investingSummary.pnlPct)})` : ""
+                }`}
               </div>
             ) : (
               <div className={`mt-2 text-sm tabular-nums ${sensitiveClass} text-[var(--ink-1)]`}>FX not ready</div>
             )}
-            <div className="mt-2 text-xs text-[var(--ink-1)]">Open investing dashboard</div>
+            <div className="mt-2 text-xs text-[var(--ink-1)]">
+              {portfolioSnapshot?.updatedAt ? `Portfolio synced ${new Date(portfolioSnapshot.updatedAt).toLocaleDateString()}` : "Open portfolio"}
+            </div>
           </Link>
         </div>
       </div>
