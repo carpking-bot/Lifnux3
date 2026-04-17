@@ -2,22 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
-    "exportedAt": "2026-04-16T15:58:32.177Z"
-========
-    "exportedAt": "2026-04-15T09:09:44.229Z"
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
+    "exportedAt": "2026-04-17T08:46:09.982Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
         "trackId": "P3YURx8awqQ",
-========
-        "trackId": "KpM6xNAgRoI",
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
         "volume": 80,
-        "position": 39.61518610108948
+        "position": 0
       }
     },
     "health": {
@@ -3571,23 +3563,12 @@
           "createdAt": "2026-04-14T14:08:31.824Z"
         },
         {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
           "id": "40b01536-e0a1-42ae-b6ce-420104018665",
           "typeId": "swimming",
           "loggedForDate": "2026-04-16",
           "durationMin": 50,
           "memo": "33회차\n킹대급 노재능",
           "createdAt": "2026-04-16T15:24:02.914Z"
-========
-          "id": "cf3a3754-1292-42ed-a61e-3db92eb6b4a6",
-          "typeId": "walking",
-          "loggedForDate": "2026-04-15",
-          "durationMin": 39,
-          "memo": "점심 산책",
-          "createdAt": "2026-04-15T05:15:31.885Z",
-          "distanceKm": 3.1,
-          "calorieOverride": 122
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
         }
       ]
     },
@@ -3793,13 +3774,13 @@
           "quality": "final"
         },
         {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
           "date": "2026-04-16",
           "totalKrw": 35182218.8936,
-========
-          "date": "2026-04-15",
-          "totalKrw": 34617773.019999996,
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-17",
+          "totalKrw": 35340116.6,
           "quality": "final"
         }
       ],
@@ -9248,7 +9229,19 @@
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
-      "lifnux.finance.trades.v100": [],
+      "lifnux.finance.trades.v100": [
+        {
+          "id": "f518aac2-2acd-403d-8db6-477dac82547d",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-0087f0",
+          "side": "BUY",
+          "price": 12095,
+          "qty": 1,
+          "executedAt": 1776401789269,
+          "realizedPnl": null,
+          "realizedPnlPercent": null
+        }
+      ],
       "lifnux.finance.expense.categories.v1": [
         "Food",
         "Transport",
@@ -10207,8 +10200,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-0087f0",
           "symbolKey": "0087F0",
-          "avgPrice": 10960,
-          "qty": 50,
+          "avgPrice": 10982.254901960785,
+          "qty": 51,
           "currency": "KRW",
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
@@ -10239,7 +10232,7 @@
           "sectorLabel": "AI Infra"
         }
       ],
-      "lifnux.finance.hub.reveal.v1": false,
+      "lifnux.finance.hub.reveal.v1": true,
       "lifnux.finance.asset.snapshot.logs.v1": [
         {
           "id": "534040c6-879f-4527-9b42-2153caa24f1e",
@@ -11796,23 +11789,24 @@
           "kind": "income"
         },
         {
-          "id": "2ae8f423-4ba8-43db-86ac-393c9d505869",
-          "createdAt": 1776228734883,
-          "date": "2026-04-14",
-          "category": "Transport",
-          "title": "카카오바이크",
-          "amount": 160,
-          "kind": "expense"
+          "id": "ac073795-353d-48dc-87d8-63a76c989f62",
+          "createdAt": 1776401751828,
+          "date": "2026-04-17",
+          "category": "Dividends",
+          "title": "배당금",
+          "amount": 11320,
+          "kind": "income",
+          "memo": "삼성전자"
         },
         {
-          "id": "af806bde-17d2-4e76-908a-cf23382e9fe4",
-          "createdAt": 1776228750035,
-          "date": "2026-04-15",
+          "id": "1ef66ad4-3f56-4b00-b555-2d401998c7a6",
+          "createdAt": 1776407226740,
+          "date": "2026-04-17",
           "category": "Shopping",
-          "title": "무신사",
-          "amount": 34880,
+          "title": "쿠팡",
+          "amount": 10700,
           "kind": "expense",
-          "memo": "OHP 반팔티"
+          "memo": "사실 엄마가 쓴건데 ㅠ-ㅠ"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11853,17 +11847,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
         "selectedSongId": "28605697-04ec-4271-a610-ce3dd85b1a7e",
         "selectedVideoId": "f808e27e-3efe-4ca5-ab8b-83b70b312c91",
         "loopEnabled": true,
         "speed": 1,
-========
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
-        "loopEnabled": true,
-        "speed": 0.8,
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -12240,13 +12227,10 @@
         {
           "dateKey": "2026-04-14",
           "createdAt": 1776181483600
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
         },
         {
           "dateKey": "2026-04-16",
           "createdAt": 1776351848367
-========
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
         }
       ],
       "lifnux:guitar:videos": [
@@ -12408,23 +12392,15 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
-        "totalValueKrw": 35192087.9057,
-        "unrealizedPnlKrw": 5289605.429340001,
-        "realizedPnlYtdKrw": 2208248.3770382605,
+        "totalValueKrw": 35348546.47,
+        "unrealizedPnlKrw": 5418512.299959999,
+        "realizedPnlYtdKrw": 2208978.4843182606,
         "dataQuality": "DEGRADED",
-        "updatedAt": 1776349658951
-========
-        "totalValueKrw": 34617773.019999996,
-        "unrealizedPnlKrw": 4731522.237319995,
-        "realizedPnlYtdKrw": 2207518.269758261,
-        "dataQuality": "OK",
-        "updatedAt": 1776244180382
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
+        "updatedAt": 1776406832042
       }
     },
     "home": {
-      "lifnux.home.background.theme": "Summer.png"
+      "lifnux.home.background.theme": "gradient"
     },
     "personalGrowth": {
       "lifnux.personalGrowth.weeklyChecklist.v1": [
@@ -19286,48 +19262,6 @@
       ],
       "career_job_postings": [
         {
-          "postingId": "f5f9d3fb-ea34-42ed-9c59-9153490c9a5b",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "크래프톤",
-          "postingTitle": "[Global Publishing Dept.3] Community Associate",
-          "role": "CM",
-          "contractType": "계약직",
-          "departmentInfo": "Global Publishing Dept. 3는 KRAFTON Global Publishing 소속의 게임 퍼블리싱 전문 조직입니다.\n게임의 상업적 성공 가능성을 높이기 위한 전략 수립부터 실행까지, 개발/유관 부서와 협업하며 프로젝트를 지원합니다.",
-          "responsibilities": "Project ZETA (https://store.steampowered.com/app/2778110/Project_ZETA/) Discord, Reddit, X(Twitter), Instagram, YouTube 등 공식 글로벌 커뮤니티 채널 일상 운영 및 모더레이션 \n커뮤니티 공지, 이벤트 게시물 작성 및 발행 \n유저 피드백 수집 및 정리, 내부 공유 \nWeekly Test 관련 커뮤니티 대응 지원 \n커뮤니티 지표 데이터 정리 및 리포팅 보조 \n글로벌 커뮤니티 매니저 업무 전반 서포트 ",
-          "requirements": "소셜 미디어 또는 온라인 커뮤니티 운영 경험 1년 이상 (인턴 경험 포함) \n영어로 기본적인 커뮤니티 커뮤니케이션 가능 \n커뮤니티 분위기를 빠르게 읽고 유연하게 대응하는 능력 \n꼼꼼한 데이터 정리 및 문서화 능력 \n해외 출장에 결격 사유가 없는 분",
-          "neededSkills": "",
-          "preferred": "게임 커뮤니티(Discord, Reddit 등) 활동 경험 또는 게임에 대한 높은 이해 \nPvP/MOBA/GaaS 장르 플레이 경험 \n커뮤니티 이벤트 기획 또는 운영 보조 경험 \n숏폼 콘텐츠 트렌드에 대한 관심 ",
-          "memo": "",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": true,
-          "link": "https://www.krafton.com/careers/recruit-detail/?var_page=2&job=4750&search_list_cnt=10",
-          "createdAt": "2026-04-15T07:16:01.147Z",
-          "updatedAt": "2026-04-15T07:16:18.475Z"
-        },
-        {
-          "postingId": "8646cc1a-e409-4490-a1e5-dfb5614db0a0",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "엔씨소프트",
-          "postingTitle": "[Horizon Steel Frontiers] 사업 PM",
-          "role": "사업PM",
-          "contractType": "정규직",
-          "departmentInfo": "Horizon IP를 활용하여 개발 중인 액션성 있는 전투와 다양한 내러티브를 갖춘 차세대 오픈월드 MMORPG 프로젝트입니다.\n글로벌 출시를 목표로 컨텐츠 인사이트를 도출 및 제안하고 글로벌향 상품 기획 및 서비스 방향을 설계합니다.\n컨텐츠 인사이트 도출, 다양한 데이터 분석, 신규 상품 제안 및 관리 등의 역할을 담당하게 됩니다.",
-          "responsibilities": "1. 프로젝트의 Key feature를 발굴 및 제안합니다.\n2. 글로벌 론칭 및 라이브 서비스를 위한 전략을 수립합니다.\n3. 컨텐츠 분석을 통해 개선사항을 도출하고 인사이트를 제안합니다.\n4. 글로벌향 상품을 기획하고 서비스 방향을 설계합니다.\n5. 각종 지표와 데이터를 기반으로 KPI 목표를 수립하고 관리합니다.",
-          "requirements": "- 문서 작성 능력이 뛰어나신 분\n- 국내외 MMORPG 게임 플레이 경험이 있으신 분\n- 유연한 커뮤니케이션 역량과 문서 작성 능력을 갖추신 분\n- 데이터 기반의 인사이트 도출 및 전략적 사고 능력을 갖추신 분\n- 해외 출장에 결격 사유가 없는 분",
-          "neededSkills": "",
-          "preferred": "- PC/모바일/콘솔 등의 플랫폼에서 글로벌 론칭 및 라이브 서비스 경험이 있으신 분\n- 파워포인트, 엑셀, 워드 활용 능력을 보유하신 분\n- 포토샵, 일러스트, 프리미어 활용 능력 보유하신 분\n- 데이터 쿼리 작성 및 추출 가능하신 분\n- 비즈니스 수준 이상의 영어 구사 능력",
-          "memo": "포트폴리오(필수)\n\n게임 플레이 이력(필수)",
-          "comment": "",
-          "deadline": "2026-05-31",
-          "importance": 8,
-          "isFavorite": true,
-          "link": "https://careers.ncsoft.com/apply/view/100665?companyId=NCH",
-          "createdAt": "2026-04-15T07:14:34.849Z",
-          "updatedAt": "2026-04-15T07:14:37.497Z"
-        },
-        {
           "postingId": "a034e6af-0590-498e-8fb6-d09ab07a95dd",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "웹젠",
@@ -19448,10 +19382,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": false,
+          "isFavorite": true,
           "link": "https://bigfiregames.career.greetinghr.com/ko/o/148313",
           "createdAt": "2026-03-27T14:38:27.293Z",
-          "updatedAt": "2026-04-15T07:11:15.599Z"
+          "updatedAt": "2026-04-03T14:14:12.828Z"
         },
         {
           "postingId": "15879091-7683-4612-bfa6-971e3ce4ef05",
@@ -19930,15 +19864,9 @@
         }
       ],
       "lifnux.music.resume.v110": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
         "videoId": "P3YURx8awqQ",
         "queueIndex": 47,
         "currentTime": 0,
-========
-        "videoId": "KpM6xNAgRoI",
-        "queueIndex": 3,
-        "currentTime": 39.61518610108948,
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
         "repeatMode": "all",
         "shuffle": true
       },
@@ -20304,21 +20232,10 @@
             "videoId": "DIPxnt5vnhU",
             "title": "실리카겔 (Silica Gel) - T + Tik Tak Tok (feat. So!YoON!) [M/V]",
             "url": "https://youtu.be/DIPxnt5vnhU?si=Ps-pYkD6nHCmMwQp"
-          },
-          {
-            "id": "4e06b83a-8950-4375-b7f5-4927e5bf99ee",
-            "videoId": "kuShoImM5jw",
-            "title": "실리카겔(Silica Gel) - Ryudejakeiru | 4K",
-            "url": "https://youtu.be/kuShoImM5jw?si=HAIuGqbDp-yBkzmb"
           }
         ],
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
         "currentIndex": 47,
         "isPlaying": false,
-========
-        "currentIndex": 3,
-        "isPlaying": true,
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -20677,35 +20594,18 @@
             1776064691147,
             1776068908987,
             1776145081258,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776149272274
-========
-            1776149272274,
-            1776229113815
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "3VlqlntAOt8": [
             1776046005066,
             1776061018324,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776144868008
-========
-            1776144868008,
-            1776218983016,
-            1776226450345,
-            1776243341875
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "_Ngk-DCHfD0": [
             1776046198015,
             1776063301334,
             1776069803918,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776150430566
-========
-            1776150430566,
-            1776225352893
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "Aq_gsctWHtQ": [
             1776046501866,
@@ -20713,49 +20613,25 @@
             1776053210046,
             1776062203330,
             1776070633945,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776150734451
-========
-            1776150734451,
-            1776228630488,
-            1776237136395
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "rMWUpRGtSo4": [
             1776046768349,
             1776048683876,
             1776057249179,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776143502474
-========
-            1776143502474,
-            1776229380196
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "H5jm8uQ6Fso": [
             1776046978628,
             1776049753647,
             1776057459607,
             1776065090582,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776148660967
-========
-            1776148660967,
-            1776219193267,
-            1776225943566,
-            1776233780131
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "_0f5FjEQzsg": [
             1776047190172,
             1776145292909,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776151774205
-========
-            1776151774205,
-            1776227175558,
-            1776240891375
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "tq9Y62uJUfU": [
             1776047511862,
@@ -20763,10 +20639,7 @@
             1776142337348
           ],
           "mW-V6C5eyIM": [
-            1776047727173,
-            1776223998814,
-            1776226963849,
-            1776232265597
+            1776047727173
           ],
           "7mjg-7ibaQA": [
             1776047963574,
@@ -20777,144 +20650,80 @@
           "JaIMSzE5yLA": [
             1776048186378,
             1776062662705,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776143725354
-========
-            1776143725354,
-            1776230444881
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "Kv-Aqwttwzo": [
             1776048417296,
             1776058605720,
-            1776067981472,
-            1776241267253
+            1776067981472
           ],
           "aZtZNW6P97E": [
             1776048873892,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776143915301
-========
-            1776143915301,
-            1776223012187
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "h0KIWaUEIgQ": [
             1776049040738,
-            1776056814748,
-            1776231634328,
-            1776235326219,
-            1776235978312
+            1776056814748
           ],
           "AOGhUcAdTKk": [
             1776049273164,
             1776049986229,
             1776054398973,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776144363005
           ],
           "Z2tv0GyQdL8": [
             1776049543716,
             1776150237560
-========
-            1776144363005,
-            1776235811474
-          ],
-          "Z2tv0GyQdL8": [
-            1776049543716,
-            1776150237560,
-            1776228900937,
-            1776240245448
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "1ZX1vEDTfY4": [
             1776050147055,
             1776148821651,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776151371451
-========
-            1776151371451,
-            1776219649792,
-            1776230820654,
-            1776236584032
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "QIlzgNozXKw": [
             1776050338130,
             1776056648010,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776151562501
-========
-            1776151562501,
-            1776224189877,
-            1776235159654
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "FCsLikmxhV0": [
-            1776050572083,
-            1776222524254
+            1776050572083
           ],
           "rHLGjbz-yls": [
             1776050773590,
             1776143236050,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776148450843
-========
-            1776148450843,
-            1776220324479,
-            1776241692594
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "_AAdae7diOU": [
             1776051020875,
-            1776066602588,
-            1776234532076,
-            1776236423059
+            1776066602588
           ],
           "5g4KsIizYhQ": [
             1776051287272,
-            1776060761877,
-            1776220590579,
-            1776224601404
+            1776060761877
           ],
           "IWYft_hOIgo": [
             1776051597274,
             1776053519750,
             1776067101748,
-            1776069218502,
-            1776224911086
+            1776069218502
           ],
           "YzJW3lJeZa0": [
             1776051895297,
             1776055255543,
-            1776058187966,
-            1776222822283,
-            1776226748545,
-            1776239329981
+            1776058187966
           ],
           "56XiKr44a9U": [
             1776052112117,
             1776142813742,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776147818045
-========
-            1776147818045,
-            1776221175486,
-            1776232482297
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "z2DASn4UHqE": [
             1776052905869,
-            1776056982426,
-            1776220758638,
-            1776229838021,
-            1776234699976,
-            1776239497711
+            1776056982426
           ],
           "P3YURx8awqQ": [
             1776053957451,
-            1776057889838,
-            1776220123173
+            1776057889838
           ],
           "NOXRroYA8Tc": [
             1776054166226,
@@ -20924,43 +20733,25 @@
           "IpFX2vq8HKw": [
             1776054620951,
             1776068440690,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776149967181
-========
-            1776149967181,
-            1776218474299,
-            1776222041703
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "4AJx9nNagr0": [
             1776054763679,
-            1776065233226,
-            1776242248141,
-            1776243085450
+            1776065233226
           ],
           "TiOpGgCXeT0": [
             1776054957735,
             1776059544488,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776148249521
-========
-            1776148249521,
-            1776233102388
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "tIvAQR9Zj8M": [
             1776055400420,
             1776063446195,
-            1776066355406,
-            1776224334924,
-            1776240390419,
-            1776241036349
+            1776066355406
           ],
           "hAEfi_SKTEU": [
             1776055600573,
-            1776059054429,
-            1776220958712,
-            1776243728986
+            1776059054429
           ],
           "DIPxnt5vnhU": [
             1776056457187,
@@ -20968,57 +20759,30 @@
             1776064257684,
             1776065921178,
             1776067552138,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776145743291
-========
-            1776145743291,
-            1776218252697
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "Bq2K9CqpRKg": [
-            1776057664987,
-            1776242942621
+            1776057664987
           ],
           "h2TjzsvFX0s": [
             1776058374792,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776150921280
-========
-            1776150921280,
-            1776225539586,
-            1776230222197,
-            1776232050463,
-            1776243528824
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "pRmsP7A-DtY": [
-            1776058854279,
-            1776219898294,
-            1776236832414
+            1776058854279
           ],
           "m3DZsBw5bnE": [
             1776059350514,
             1776070099843,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776142015578
-========
-            1776142015578,
-            1776219489062,
-            1776227822317
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "19oT04OuBhg": [
-            1776060495501,
-            1776223783819,
-            1776231863606,
-            1776234009337,
-            1776242477547
+            1776060495501
           ],
           "aF8OFSroHgg": [
             1776061207949,
             1776064880273,
-            1776066791957,
-            1776221820103
+            1776066791957
           ],
           "0fN71Wtgoa8": [
             1776061642811,
@@ -21026,55 +20790,31 @@
             1776069610796
           ],
           "4SrrieLwsOI": [
-            1776061899359,
-            1776239754335,
-            1776243985638
+            1776061899359
           ],
           "E5BLkMGxDgQ": [
             1776063683641,
             1776065470733,
             1776068218903,
             1776148055607,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776149059184
-========
-            1776149059184,
-            1776233339719
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "DY6oa7CspBs": [
             1776064478296,
             1776143034560,
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776149492911
           ],
           "IPnUVZEyzdI": [
             1776066210554,
             1776151210688
-========
-            1776149492911,
-            1776231243890,
-            1776239975069
-          ],
-          "IPnUVZEyzdI": [
-            1776066210554,
-            1776151210688,
-            1776223301738,
-            1776229669900,
-            1776240679746
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "aLTtvgXMZyA": [
-            1776068696079,
-            1776228077934
+            1776068696079
           ],
           "lthsxQQhrDc": [
-            1776069412667,
-            1776217517938,
-            1776225733447
+            1776069412667
           ],
           "ujCdcX6o3e0": [
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776070329820
           ],
           "m_MuSyqkGJI": [
@@ -21086,69 +20826,12 @@
           "kIiW3XRP7bU": [
             1776144611791,
             1776152022863
-========
-            1776070329820,
-            1776233569874
-          ],
-          "m_MuSyqkGJI": [
-            1776142596951,
-            1776242737369
-          ],
-          "KpM6xNAgRoI": [
-            1776144130423,
-            1776230659810,
-            1776241907662
-          ],
-          "kIiW3XRP7bU": [
-            1776144611791,
-            1776152022863,
-            1776222290276,
-            1776225159859,
-            1776228326516
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ],
           "74_yqNBhQbA": [
             1776145998032
           ],
           "kPa7bsKwL-c": [
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
             1776149745568
-========
-            1776149745568,
-            1776218726900,
-            1776221428317,
-            1776223554425,
-            1776234953012,
-            1776235579076
-          ],
-          "kuShoImM5jw": [
-            1776217075530,
-            1776217802343,
-            1776226194243
-          ],
-          "tKERw3_ked0": [
-            1776217323930
-          ],
-          "OgEwJ8a1OoY": [
-            1776221630695,
-            1776231023185,
-            1776232908435
-          ],
-          "9XttLI0oH0I": [
-            1776227373028,
-            1776230035473,
-            1776236175888,
-            1776242105272
-          ],
-          "LmZD-TU96q4": [
-            1776227526433,
-            1776244139088
-          ],
-          "oyXx7MDqZ-Q": [
-            1776231467472,
-            1776232705836,
-            1776241490932
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
           ]
         }
       }
@@ -21161,7 +20844,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 3115
+          "balance": 2340
         },
         {
           "accountId": "acc-us-1",
@@ -21181,11 +20864,7 @@
       ]
     },
     "data": {
-<<<<<<<< HEAD:exports/lifnux-export-2026-04-16T15-58-32-183Z.json
-      "lifnux:data.lastUpdatedAt": "2026-04-16T15:58:31.750Z"
-========
-      "lifnux:data.lastUpdatedAt": "2026-04-15T09:09:43.970Z"
->>>>>>>> aa2f091a817966de80fe43d529ff6de033a0621c:exports/lifnux-export-2026-04-15T09-09-44-235Z.json
+      "lifnux:data.lastUpdatedAt": "2026-04-17T08:46:09.780Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -22876,6 +22555,30 @@
           "side": "BUY",
           "qty": 3,
           "price": 17690,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "f5463715-e79e-416a-acad-f4b2235febf9",
+          "ts": 1776401774564,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 11320,
+          "memo": "삼성전자 배당금"
+        },
+        {
+          "id": "c85515af-54b4-41f9-b085-b65d16c63999",
+          "ts": 1776401789269,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0087F0",
+          "side": "BUY",
+          "qty": 1,
+          "price": 12095,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
