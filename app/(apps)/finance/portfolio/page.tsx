@@ -2556,7 +2556,6 @@ export default function PortfolioPage() {
       >
         <PortfolioHistoryChart
           data={history}
-          currentPnlPct={totals.unrealizedPnlPct}
           onDeleteLog={(date) => setHistory((prev) => prev.filter((entry) => entry.date !== date))}
         />
       </Modal>
@@ -3204,11 +3203,9 @@ function DonutChart({
 
 function PortfolioHistoryChart({
   data,
-  currentPnlPct,
   onDeleteLog
 }: {
   data: PortfolioHistoryPoint[];
-  currentPnlPct: number | null;
   onDeleteLog: (date: string) => void;
 }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -3518,12 +3515,6 @@ function PortfolioHistoryChart({
                 기간 자산 증액률{" "}
                 <span className={`break-all text-xl font-semibold ${rangeSummary.assetChangePct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
                   {formatPercent(rangeSummary.assetChangePct)}
-                </span>
-              </div>
-              <div className="flex flex-wrap items-baseline gap-2">
-                기간 투자 수익률{" "}
-                <span className={`break-all text-xl font-semibold ${currentPnlPct !== null && currentPnlPct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
-                  {currentPnlPct === null ? "-" : formatPercent(currentPnlPct)}
                 </span>
               </div>
               <div className="text-base text-[var(--ink-1)]">
