@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-21T09:03:06.858Z"
+    "exportedAt": "2026-04-23T15:28:35.795Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "kIiW3XRP7bU",
+        "trackId": "tKERw3_ked0",
         "volume": 80,
-        "position": 153.70999297711182
+        "position": 0
       }
     },
     "health": {
@@ -3589,6 +3589,22 @@
           "createdAt": "2026-04-21T07:21:19.079Z",
           "distanceKm": 2.97,
           "calorieOverride": 118
+        },
+        {
+          "id": "aaf23c18-00c5-459d-9c12-0c9d877c75d9",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-21",
+          "durationMin": 50,
+          "memo": "34회차\n킹대급 노재능",
+          "createdAt": "2026-04-22T00:38:03.305Z"
+        },
+        {
+          "id": "b9e4bdbb-b370-41f3-8d6a-5bfd8768bde3",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-23",
+          "durationMin": 50,
+          "memo": "35회차\n자유형 열심히 하는..중",
+          "createdAt": "2026-04-23T14:27:24.893Z"
         }
       ]
     },
@@ -3811,6 +3827,16 @@
         {
           "date": "2026-04-21",
           "totalKrw": 36051522.20110001,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-22",
+          "totalKrw": 36538495.7796,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-23",
+          "totalKrw": 36750317.885,
           "quality": "final"
         }
       ],
@@ -11935,9 +11961,19 @@
           "date": "2026-04-21",
           "category": "Shopping",
           "title": "유니폼",
-          "amount": 124187,
+          "amount": 123574,
           "kind": "expense",
           "memo": "25-26 베실바 홈"
+        },
+        {
+          "id": "c79683a9-412e-4d0c-9524-f2878b04521b",
+          "createdAt": 1776822146542,
+          "date": "2026-04-22",
+          "category": "Snacks & Coffee",
+          "title": "편의점",
+          "amount": 7200,
+          "kind": "expense",
+          "memo": "졸음껌 + 호올스"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -11978,10 +12014,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "28605697-04ec-4271-a610-ce3dd85b1a7e",
-        "selectedVideoId": "f808e27e-3efe-4ca5-ab8b-83b70b312c91",
+        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
+        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
-        "speed": 1,
+        "speed": 0.8,
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -12105,10 +12141,6 @@
         }
       ],
       "lifnux.guitar.attendance.v100": [],
-      "lifnux:guitar:v1": {
-        "songs": [],
-        "videos": []
-      },
       "lifnux:guitar:songs": [
         {
           "id": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
@@ -12164,6 +12196,10 @@
           "createdAt": 1773157984491
         }
       ],
+      "lifnux:guitar:v1": {
+        "songs": [],
+        "videos": []
+      },
       "lifnux.guitar.segments.v100": [],
       "lifnux.guitar.videos.v100": [],
       "lifnux:guitar:attendance": [
@@ -12362,6 +12398,18 @@
         {
           "dateKey": "2026-04-16",
           "createdAt": 1776351848367
+        },
+        {
+          "dateKey": "2026-04-21",
+          "createdAt": 1776818287553
+        },
+        {
+          "dateKey": "2026-04-22",
+          "createdAt": 1776868054655
+        },
+        {
+          "dateKey": "2026-04-23",
+          "createdAt": 1776955540914
         }
       ],
       "lifnux:guitar:videos": [
@@ -12523,15 +12571,15 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 36051522.20110001,
-        "unrealizedPnlKrw": 6202646.499460004,
-        "realizedPnlYtdKrw": 2205327.9479182605,
+        "totalValueKrw": 36750317.885,
+        "unrealizedPnlKrw": 6852747.102319997,
+        "realizedPnlYtdKrw": 2207518.269758261,
         "dataQuality": "OK",
-        "updatedAt": 1776760650106
+        "updatedAt": 1776954892445
       }
     },
     "home": {
-      "lifnux.home.background.theme": "gradient"
+      "lifnux.home.background.theme": "Music Cafe.png"
     },
     "personalGrowth": {
       "lifnux.personalGrowth.weeklyChecklist.v1": [
@@ -18723,15 +18771,15 @@
           "applicationId": "da1bd265-09cd-4a45-8286-8e9dad30a062",
           "postingId": "15879091-7683-4612-bfa6-971e3ce4ef05",
           "appliedAt": "2026-04-01",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "e803912e-ec2a-4959-9514-12d5571bb07d",
               "type": "DOCUMENT",
               "submittedAt": "2026-04-01",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-04-23",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -19434,6 +19482,48 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "1eaca745-6006-4164-8816-eda2e44d2723",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "쿡앱스",
+          "postingTitle": "<쿡앱스 인터랙티브> 사업 PM",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "Cookapps Interactive는 반복 가능한 성공을 글로벌과 중국 시장까지 확장하는 퍼블리셔로, <포트리스 사가>, <냥냥시노비> 등 글로벌에서 사랑받은 타이틀을 서비스하고 있습니다.\n\nCookapps Interactive는 올해 5월 말 쿡앱스의 자회사(독립 법인)로 분사할 예정입니다. 해당 포지션에 최종 합격시 자회사 소속으로 근무하게 됩니다. ",
+          "responsibilities": "포트리스사가, 냥냥시노비 등 쿡앱스 프로젝트에 대한 중국 혹은 글로벌 권역의 사업PM 업무를 담당합니다.\n\nBM 및 상품 기획을 통한 프로젝트의 수익화에 기여하고, 지표 분석, 서비스 개선 등 담당 프로젝트의 서비스를 위한 업무를 진행합니다.\n\n시장 리서치, 레퍼런스 조사 등 최신 트렌드를 파악하고, 사업 실무에 필요한 인사이트를 수립합니다.",
+          "requirements": "지표에 대해 잘 이해하고, 분석할 수 있으신 분\n방치형RPG, 로그라이크, 디펜스 등 미드코어 장르의 모바일 게임에 대한 이해와 관심이 있으신 분\n자신의 생각을 문서를 통해 잘 표현하실 수 있으신 분",
+          "neededSkills": "",
+          "preferred": "중국어, 일본어, 영어 등 외국어의 능숙한 활용이 가능하신 분\n\n게임산업 및 글로벌 게임 트렌드에 대한 이해도가 높으신 분\n\n원활한 커뮤니케이션 능력을 보유하신 분 ",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://career.cookapps.com/job_posting/lmmbi4BZ",
+          "createdAt": "2026-04-22T14:09:25.825Z",
+          "updatedAt": "2026-04-22T14:09:29.976Z"
+        },
+        {
+          "postingId": "4fb8878c-dccc-4738-a0ae-d3977b40048e",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "크래프톤",
+          "postingTitle": "[PUBG Publishing Div.] PUBG PC/Console LiveOps",
+          "role": "운영",
+          "contractType": "계약직",
+          "departmentInfo": "PUBG:BATTLEGROUNDS(PC/Console) 프로덕트의 글로벌 라이브 서비스 운영 업무를 담당하게 됩니다.\n전 세계 유저들에게 안정적이고 즐거운 게임 환경을 제공하기 위해 라이브 서비스 운영 전반을 담당하며, 리스크 검토, 서비스 품질 관리, 커뮤니티 및 데이터 기반의 개선 제안, 코드 관리, 아이템 지급 등 사업/마케팅 캠페인 운영 지원까지 폭넓게 수행합니다.",
+          "responsibilities": "글로벌 라이브 서비스 운영 및 이슈 대응\n신규 콘텐츠 정책 검토 및 운영 리스크 사전 점검\n운영툴 관리 및 기획\n인게임 아이템 및 재화 지급/관리\n글로벌 유저 커뮤니티 동향 파악 및 인사이트 도출\n불건전 이용자 데이터 확인 및 대응 진행",
+          "requirements": "PUBG: BATTLEGROUNDS 및 배틀로얄, FPS 게임에 대한 높은 이해도와 플레이 경험\n논리적 분석력 및 문제 해결력을 기반으로 한 다양한 유관 부서와의 원활한 커뮤니케이션 및 협업 능력\n운영 업무 수행에 필요한 지표 및 데이터 분석 능력\n글로벌 협업 부서와의 원활한 의사소통 및 서비스 공지 작성이 가능한 수준의 영어 능력\n해외 출장에 결격 사유가 없는 분",
+          "neededSkills": "",
+          "preferred": "FPS 및 다양한 장르 게임에 대한 높은 이해도와 플레이 경험\nSteam 및 Console 플랫폼에 대해 이해도 보유\n글로벌 서비스 운영 경험",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://job-boards.greenhouse.io/krafton/jobs/8503586002",
+          "createdAt": "2026-04-22T14:02:34.375Z",
+          "updatedAt": "2026-04-22T14:02:36.734Z"
+        },
+        {
           "postingId": "a034e6af-0590-498e-8fb6-d09ab07a95dd",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "웹젠",
@@ -20036,9 +20126,9 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "kIiW3XRP7bU",
-        "queueIndex": 7,
-        "currentTime": 153.70999297711182,
+        "videoId": "tKERw3_ked0",
+        "queueIndex": 9,
+        "currentTime": 0,
         "repeatMode": "all",
         "shuffle": true
       },
@@ -20406,7 +20496,7 @@
             "url": "https://youtu.be/DIPxnt5vnhU?si=Ps-pYkD6nHCmMwQp"
           }
         ],
-        "currentIndex": 7,
+        "currentIndex": 9,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -20785,13 +20875,15 @@
             1776053210046,
             1776062203330,
             1776070633945,
-            1776150734451
+            1776150734451,
+            1776819966202
           ],
           "rMWUpRGtSo4": [
             1776046768349,
             1776048683876,
             1776057249179,
-            1776143502474
+            1776143502474,
+            1776763069125
           ],
           "H5jm8uQ6Fso": [
             1776046978628,
@@ -20799,12 +20891,14 @@
             1776057459607,
             1776065090582,
             1776148660967,
-            1776760700688
+            1776760700688,
+            1776819209354
           ],
           "_0f5FjEQzsg": [
             1776047190172,
             1776145292909,
-            1776151774205
+            1776151774205,
+            1776763511205
           ],
           "tq9Y62uJUfU": [
             1776047511862,
@@ -20843,7 +20937,8 @@
             1776049273164,
             1776049986229,
             1776054398973,
-            1776144363005
+            1776144363005,
+            1776818999428
           ],
           "Z2tv0GyQdL8": [
             1776049543716,
@@ -20852,7 +20947,8 @@
           "1ZX1vEDTfY4": [
             1776050147055,
             1776148821651,
-            1776151371451
+            1776151371451,
+            1776820416369
           ],
           "QIlzgNozXKw": [
             1776050338130,
@@ -20873,13 +20969,16 @@
           ],
           "5g4KsIizYhQ": [
             1776051287272,
-            1776060761877
+            1776060761877,
+            1776762542896,
+            1776819662225
           ],
           "IWYft_hOIgo": [
             1776051597274,
             1776053519750,
             1776067101748,
-            1776069218502
+            1776069218502,
+            1776821346874
           ],
           "YzJW3lJeZa0": [
             1776051895297,
@@ -20904,12 +21003,15 @@
           "NOXRroYA8Tc": [
             1776054166226,
             1776060266195,
-            1776062871657
+            1776062871657,
+            1776821555925
           ],
           "IpFX2vq8HKw": [
             1776054620951,
             1776068440690,
-            1776149967181
+            1776149967181,
+            1776763732931,
+            1776820638119
           ],
           "4AJx9nNagr0": [
             1776054763679,
@@ -20940,11 +21042,13 @@
             1776758626270
           ],
           "Bq2K9CqpRKg": [
-            1776057664987
+            1776057664987,
+            1776821037121
           ],
           "h2TjzsvFX0s": [
             1776058374792,
-            1776150921280
+            1776150921280,
+            1776819396154
           ],
           "pRmsP7A-DtY": [
             1776058854279
@@ -20988,20 +21092,24 @@
           "IPnUVZEyzdI": [
             1776066210554,
             1776151210688,
-            1776760052458
+            1776760052458,
+            1776820255643
           ],
           "aLTtvgXMZyA": [
             1776068696079
           ],
           "lthsxQQhrDc": [
-            1776069412667
+            1776069412667,
+            1776820831893
           ],
           "ujCdcX6o3e0": [
-            1776070329820
+            1776070329820,
+            1776763299300
           ],
           "m_MuSyqkGJI": [
             1776142596951,
-            1776760960129
+            1776760960129,
+            1776762802643
           ],
           "KpM6xNAgRoI": [
             1776144130423,
@@ -21010,7 +21118,8 @@
           "kIiW3XRP7bU": [
             1776144611791,
             1776152022863,
-            1776761208883
+            1776761208883,
+            1776762276664
           ],
           "74_yqNBhQbA": [
             1776145998032
@@ -21022,7 +21131,8 @@
             1776761591759
           ],
           "odDxJliW2Fg": [
-            1776762028010
+            1776762028010,
+            1776821992177
           ]
         }
       }
@@ -21055,7 +21165,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-21T09:03:06.805Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-23T15:28:35.174Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
