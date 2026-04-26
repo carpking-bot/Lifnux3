@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-22T09:27:13.556Z"
+    "exportedAt": "2026-04-26T15:55:58.344Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "tKERw3_ked0",
+        "trackId": "19oT04OuBhg",
         "volume": 80,
         "position": 0
       }
@@ -3597,6 +3597,41 @@
           "durationMin": 50,
           "memo": "34회차\n킹대급 노재능",
           "createdAt": "2026-04-22T00:38:03.305Z"
+        },
+        {
+          "id": "94f53020-1a77-40c3-bb1f-3192e642eb3e",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-22",
+          "durationMin": 37,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-24T00:48:18.596Z",
+          "distanceKm": 3.05,
+          "calorieOverride": 198
+        },
+        {
+          "id": "5d76f37b-f9d6-48dd-abb3-29e9a1fd6a70",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-23",
+          "durationMin": 50,
+          "memo": "35회차\n팔뻗기",
+          "createdAt": "2026-04-24T00:48:36.156Z"
+        },
+        {
+          "id": "af455b8a-d6e7-4eaa-9bd2-36ac211358cc",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-26",
+          "durationMin": 65,
+          "memo": "산책",
+          "createdAt": "2026-04-26T15:51:34.819Z",
+          "distanceKm": 5.3,
+          "calorieOverride": 227
+        },
+        {
+          "id": "13b58a37-2c4e-49ce-b229-41e5af381bda",
+          "typeId": "home",
+          "loggedForDate": "2026-04-26",
+          "durationMin": 20,
+          "createdAt": "2026-04-26T15:55:49.853Z"
         }
       ]
     },
@@ -3824,6 +3859,11 @@
         {
           "date": "2026-04-22",
           "totalKrw": 36438428.7948,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-24",
+          "totalKrw": 38946572.7674,
           "quality": "final"
         }
       ],
@@ -9272,7 +9312,19 @@
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
-      "lifnux.finance.trades.v100": [],
+      "lifnux.finance.trades.v100": [
+        {
+          "id": "a55d4265-4593-48db-9b84-5a8bdedd0b0d",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "auto-us-nys:snow",
+          "side": "BUY",
+          "price": 136.59,
+          "qty": 1,
+          "executedAt": 1777041966058,
+          "realizedPnl": null,
+          "realizedPnlPercent": null
+        }
+      ],
       "lifnux.finance.expense.categories.v1": [
         "Food",
         "Transport",
@@ -10066,8 +10118,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nys:snow",
           "symbolKey": "NYS:SNOW",
-          "avgPrice": 178.13833333333332,
-          "qty": 6,
+          "avgPrice": 172.2028571428571,
+          "qty": 7,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "AI Software",
@@ -10078,8 +10130,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-379800",
           "symbolKey": "379800",
-          "avgPrice": 20847.103448275862,
-          "qty": 116,
+          "avgPrice": 21000.688524590165,
+          "qty": 122,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorLabel": "Index",
@@ -10090,8 +10142,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-379810",
           "symbolKey": "379810",
-          "avgPrice": 22406.423312883435,
-          "qty": 163,
+          "avgPrice": 22690.897142857142,
+          "qty": 175,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorLabel": "Index",
@@ -10171,8 +10223,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-009540",
           "symbolKey": "009540",
-          "avgPrice": 391500,
-          "qty": 2,
+          "avgPrice": 418166.6666666667,
+          "qty": 3,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Shipbuilding",
@@ -10183,8 +10235,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-stock-0072r0",
           "symbolKey": "0072R0",
-          "avgPrice": 15672.83076923077,
-          "qty": 65,
+          "avgPrice": 15617.985714285714,
+          "qty": 70,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Alternative Asset",
@@ -10219,8 +10271,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-016360",
           "symbolKey": "016360",
-          "avgPrice": 96185.71428571429,
-          "qty": 7,
+          "avgPrice": 98212.5,
+          "qty": 8,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorMajorLabel": "Non AI",
@@ -10255,8 +10307,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-0043y0",
           "symbolKey": "0043Y0",
-          "avgPrice": 17690,
-          "qty": 3,
+          "avgPrice": 19130,
+          "qty": 27,
           "currency": "KRW",
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
@@ -11961,6 +12013,61 @@
           "amount": 7200,
           "kind": "expense",
           "memo": "졸음껌 + 호올스"
+        },
+        {
+          "id": "904c1afe-4bb2-4d73-b7fc-f59d2f064f4a",
+          "createdAt": 1776992019956,
+          "date": "2026-04-22",
+          "category": "Snacks & Coffee",
+          "title": "빽다방",
+          "amount": 4700,
+          "kind": "expense",
+          "memo": "음료수. 팥머시기율무쉐이크 맛있당"
+        },
+        {
+          "id": "93114d97-ce4a-41af-b5d8-366d5797540a",
+          "createdAt": 1776995345890,
+          "date": "2026-04-24",
+          "category": "Other",
+          "title": "예비군 훈련비",
+          "amount": 18000,
+          "kind": "income"
+        },
+        {
+          "id": "e490e799-dddf-43b0-a1fc-ba51b09565de",
+          "createdAt": 1776995365778,
+          "date": "2026-04-24",
+          "category": "Wage",
+          "title": "4월 급여",
+          "amount": 2774370,
+          "kind": "income"
+        },
+        {
+          "id": "4a86b937-3992-47ee-b0a9-1addd9df7bb6",
+          "createdAt": 1777213621290,
+          "date": "2026-04-25",
+          "category": "Transport",
+          "title": "카카오바이크",
+          "amount": 2400,
+          "kind": "expense"
+        },
+        {
+          "id": "06375065-dbd6-4307-ae15-eccd01095194",
+          "createdAt": 1777213636585,
+          "date": "2026-04-26",
+          "category": "Subscription",
+          "title": "네이버MYBOX",
+          "amount": 1636,
+          "kind": "expense"
+        },
+        {
+          "id": "d126b420-4559-4344-8884-3c6ff432ae7c",
+          "createdAt": 1777213671209,
+          "date": "2026-04-26",
+          "category": "Other",
+          "title": "용돈",
+          "amount": 104000,
+          "kind": "income"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -12001,10 +12108,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
+        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
+        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
-        "speed": 1,
+        "speed": 0.8,
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -12389,6 +12496,18 @@
         {
           "dateKey": "2026-04-21",
           "createdAt": 1776818287553
+        },
+        {
+          "dateKey": "2026-04-22",
+          "createdAt": 1776991728140
+        },
+        {
+          "dateKey": "2026-04-23",
+          "createdAt": 1776991728332
+        },
+        {
+          "dateKey": "2026-04-25",
+          "createdAt": 1777087240635
         }
       ],
       "lifnux:guitar:videos": [
@@ -12550,15 +12669,15 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 36438428.7948,
-        "unrealizedPnlKrw": 6532742.165279999,
-        "realizedPnlYtdKrw": 2207883.3233982604,
+        "totalValueKrw": 38946572.7674,
+        "unrealizedPnlKrw": 7269606.984720003,
+        "realizedPnlYtdKrw": 2207518.269758261,
         "dataQuality": "OK",
-        "updatedAt": 1776846437645
+        "updatedAt": 1777049316947
       }
     },
     "home": {
-      "lifnux.home.background.theme": "Music Cafe.png"
+      "lifnux.home.background.theme": "gradient"
     },
     "personalGrowth": {
       "lifnux.personalGrowth.weeklyChecklist.v1": [
@@ -18624,6 +18743,47 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "404a28ba-2363-4e95-a8c8-1472862aa0f2",
+          "postingId": "a034e6af-0590-498e-8fb6-d09ab07a95dd",
+          "appliedAt": "2026-04-26",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "450893e6-137e-49c6-8c92-d6af14f19885",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-04-26",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "0ea3714f-4b87-466a-924c-ab98d3072531",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "11a32f85-3f50-46e3-be2a-98ea7d6865c6",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "7fb70971-a3ed-4a58-90de-8d8b4c957f56",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "36f5fd5c-eeb2-4d9b-8642-45b24a54d0d7",
           "postingId": "5d21ae7f-d988-4a67-a7c6-b654c7647acf",
           "appliedAt": "2026-04-20",
@@ -18750,15 +18910,15 @@
           "applicationId": "da1bd265-09cd-4a45-8286-8e9dad30a062",
           "postingId": "15879091-7683-4612-bfa6-971e3ce4ef05",
           "appliedAt": "2026-04-01",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "e803912e-ec2a-4959-9514-12d5571bb07d",
               "type": "DOCUMENT",
               "submittedAt": "2026-04-01",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-04-23",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -20063,8 +20223,8 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "tKERw3_ked0",
-        "queueIndex": 9,
+        "videoId": "19oT04OuBhg",
+        "queueIndex": 58,
         "currentTime": 0,
         "repeatMode": "all",
         "shuffle": true
@@ -20433,7 +20593,7 @@
             "url": "https://youtu.be/DIPxnt5vnhU?si=Ps-pYkD6nHCmMwQp"
           }
         ],
-        "currentIndex": 9,
+        "currentIndex": 58,
         "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
@@ -20793,18 +20953,26 @@
             1776064691147,
             1776068908987,
             1776145081258,
-            1776149272274
+            1776149272274,
+            1776996627372,
+            1776999539186
           ],
           "3VlqlntAOt8": [
             1776046005066,
             1776061018324,
-            1776144868008
+            1776144868008,
+            1777005037208,
+            1777005502688
           ],
           "_Ngk-DCHfD0": [
             1776046198015,
             1776063301334,
             1776069803918,
-            1776150430566
+            1776150430566,
+            1776997664633,
+            1776998303942,
+            1777004364530,
+            1777008509908
           ],
           "Aq_gsctWHtQ": [
             1776046501866,
@@ -20813,14 +20981,16 @@
             1776062203330,
             1776070633945,
             1776150734451,
-            1776819966202
+            1776819966202,
+            1777007197781
           ],
           "rMWUpRGtSo4": [
             1776046768349,
             1776048683876,
             1776057249179,
             1776143502474,
-            1776763069125
+            1776763069125,
+            1776999805638
           ],
           "H5jm8uQ6Fso": [
             1776046978628,
@@ -20829,33 +20999,44 @@
             1776065090582,
             1776148660967,
             1776760700688,
-            1776819209354
+            1776819209354,
+            1777001196696
           ],
           "_0f5FjEQzsg": [
             1776047190172,
             1776145292909,
             1776151774205,
-            1776763511205
+            1776763511205,
+            1776997073125,
+            1777003119115
           ],
           "tq9Y62uJUfU": [
             1776047511862,
             1776052434013,
-            1776142337348
+            1776142337348,
+            1776998873946,
+            1777004171477
           ],
           "mW-V6C5eyIM": [
             1776047727173,
-            1776759538036
+            1776759538036,
+            1777006016164
           ],
           "7mjg-7ibaQA": [
             1776047963574,
             1776061444449,
             1776062439808,
-            1776063108192
+            1776063108192,
+            1776996413988,
+            1777007625277,
+            1777008091911
           ],
           "JaIMSzE5yLA": [
             1776048186378,
             1776062662705,
-            1776143725354
+            1776143725354,
+            1777003849773,
+            1777009712690
           ],
           "Kv-Aqwttwzo": [
             1776048417296,
@@ -20875,11 +21056,15 @@
             1776049986229,
             1776054398973,
             1776144363005,
-            1776818999428
+            1776818999428,
+            1777001429199,
+            1777001932158,
+            1777002367235
           ],
           "Z2tv0GyQdL8": [
             1776049543716,
-            1776150237560
+            1776150237560,
+            1777001699727
           ],
           "1ZX1vEDTfY4": [
             1776050147055,
@@ -20890,15 +21075,18 @@
           "QIlzgNozXKw": [
             1776050338130,
             1776056648010,
-            1776151562501
+            1776151562501,
+            1777007388805
           ],
           "FCsLikmxhV0": [
-            1776050572083
+            1776050572083,
+            1776996861325
           ],
           "rHLGjbz-yls": [
             1776050773590,
             1776143236050,
-            1776148450843
+            1776148450843,
+            1777004780980
           ],
           "_AAdae7diOU": [
             1776051020875,
@@ -20915,12 +21103,14 @@
             1776053519750,
             1776067101748,
             1776069218502,
-            1776821346874
+            1776821346874,
+            1777002677065
           ],
           "YzJW3lJeZa0": [
             1776051895297,
             1776055255543,
-            1776058187966
+            1776058187966,
+            1777005800758
           ],
           "56XiKr44a9U": [
             1776052112117,
@@ -20935,20 +21125,24 @@
             1776053957451,
             1776057889838,
             1776758851331,
-            1776759762862
+            1776759762862,
+            1777008316974
           ],
           "NOXRroYA8Tc": [
             1776054166226,
             1776060266195,
             1776062871657,
-            1776821555925
+            1776821555925,
+            1777005246407,
+            1777008718832
           ],
           "IpFX2vq8HKw": [
             1776054620951,
             1776068440690,
             1776149967181,
             1776763732931,
-            1776820638119
+            1776820638119,
+            1777008940607
           ],
           "4AJx9nNagr0": [
             1776054763679,
@@ -20957,7 +21151,8 @@
           "TiOpGgCXeT0": [
             1776054957735,
             1776059544488,
-            1776148249521
+            1776148249521,
+            1776998110887
           ],
           "tIvAQR9Zj8M": [
             1776055400420,
@@ -20967,7 +21162,9 @@
           "hAEfi_SKTEU": [
             1776055600573,
             1776059054429,
-            1776760490312
+            1776760490312,
+            1776997273301,
+            1777000302089
           ],
           "DIPxnt5vnhU": [
             1776056457187,
@@ -20985,19 +21182,23 @@
           "h2TjzsvFX0s": [
             1776058374792,
             1776150921280,
-            1776819396154
+            1776819396154,
+            1777006639166
           ],
           "pRmsP7A-DtY": [
-            1776058854279
+            1776058854279,
+            1776998552317
           ],
           "m3DZsBw5bnE": [
             1776059350514,
             1776070099843,
-            1776142015578
+            1776142015578,
+            1777000101838
           ],
           "19oT04OuBhg": [
             1776060495501,
-            1776761438374
+            1776761438374,
+            1777000531424
           ],
           "aF8OFSroHgg": [
             1776061207949,
@@ -21007,11 +21208,15 @@
           "0fN71Wtgoa8": [
             1776061642811,
             1776067750292,
-            1776069610796
+            1776069610796,
+            1776997471579,
+            1777000986221
           ],
           "4SrrieLwsOI": [
             1776061899359,
-            1776759322834
+            1776759322834,
+            1777000788023,
+            1777009490014
           ],
           "E5BLkMGxDgQ": [
             1776063683641,
@@ -21041,7 +21246,9 @@
           ],
           "ujCdcX6o3e0": [
             1776070329820,
-            1776763299300
+            1776763299300,
+            1777002907215,
+            1777007855376
           ],
           "m_MuSyqkGJI": [
             1776142596951,
@@ -21050,7 +21257,10 @@
           ],
           "KpM6xNAgRoI": [
             1776144130423,
-            1776759066230
+            1776759066230,
+            1776995713352,
+            1777003334050,
+            1777004579429
           ],
           "kIiW3XRP7bU": [
             1776144611791,
@@ -21059,17 +21269,36 @@
             1776762276664
           ],
           "74_yqNBhQbA": [
-            1776145998032
+            1776145998032,
+            1776999128784,
+            1777006893896
           ],
           "kPa7bsKwL-c": [
-            1776149745568
+            1776149745568,
+            1776997917286,
+            1777009965364
           ],
           "LmZD-TU96q4": [
             1776761591759
           ],
           "odDxJliW2Fg": [
             1776762028010,
-            1776821992177
+            1776821992177,
+            1777006452517
+          ],
+          "tKERw3_ked0": [
+            1776995498306
+          ],
+          "OgEwJ8a1OoY": [
+            1776996177534,
+            1777002134718
+          ],
+          "9XttLI0oH0I": [
+            1776999326177
+          ],
+          "-tKVN2mAKRI": [
+            1777003627096,
+            1777009233534
           ]
         }
       }
@@ -21082,17 +21311,17 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 2340
+          "balance": 5000
         },
         {
           "accountId": "acc-us-1",
           "currency": "KRW",
-          "balance": 7159
+          "balance": 154
         },
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 9.949999999999896
+          "balance": 8.3599999999999
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -21102,7 +21331,7 @@
       ]
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-22T09:27:13.098Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-26T15:55:57.374Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -22817,6 +23046,131 @@
           "side": "BUY",
           "qty": 1,
           "price": 12095,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "bf7281ce-5563-4940-8721-945a8a259156",
+          "ts": 1776993801532,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 530000
+        },
+        {
+          "id": "c54f94f8-6244-4fb3-86a8-f1761de43429",
+          "ts": 1776994928762,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 1050000
+        },
+        {
+          "id": "2427263b-3a47-4b13-8aa3-40166ee88add",
+          "ts": 1776995074925,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "379810",
+          "side": "BUY",
+          "qty": 12,
+          "price": 26555,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "6cab9750-2f12-4ef7-986c-f51bb1113139",
+          "ts": 1776995085877,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "379800",
+          "side": "BUY",
+          "qty": 6,
+          "price": 23970,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "3e3fbb78-d5f0-49da-bc40-8b720a78d2fd",
+          "ts": 1776995097013,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0072R0",
+          "side": "BUY",
+          "qty": 5,
+          "price": 14905,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "d9a7e44c-18f7-4010-bd65-563a59ba57cc",
+          "ts": 1776995118741,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "009540",
+          "side": "BUY",
+          "qty": 1,
+          "price": 471500,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "6207746e-8214-4363-8d20-59d7f288a4cf",
+          "ts": 1776995131709,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "BUY",
+          "qty": 24,
+          "price": 19310,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "0ca46af6-e1ec-436e-bd9c-0badd90544c9",
+          "ts": 1776995140966,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "016360",
+          "side": "BUY",
+          "qty": 1,
+          "price": 112400,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "695b2aff-8d84-411e-9642-e904e231aef4",
+          "ts": 1777041947872,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 135
+        },
+        {
+          "id": "36a7ecdf-7a1c-478f-af42-878590c8fffc",
+          "ts": 1777041966058,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NYS:SNOW",
+          "side": "BUY",
+          "qty": 1,
+          "price": 136.59,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
