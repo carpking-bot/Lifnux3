@@ -457,6 +457,10 @@ def _extract_history_points(
     *,
     date_keys: List[str],
     close_keys: List[str],
+    open_keys: List[str] | None = None,
+    high_keys: List[str] | None = None,
+    low_keys: List[str] | None = None,
+    volume_keys: List[str] | None = None,
     start_date: str,
     end_date: str,
 ) -> List[Dict[str, Any]]:
@@ -478,7 +482,20 @@ def _extract_history_points(
             continue
         if date_key < start_date or date_key > end_date:
             continue
-        parsed.append({"date": date_key, "close": float(close)})
+        point: Dict[str, Any] = {"date": date_key, "close": float(close)}
+        open_value = _to_float(_find_value(row, open_keys or []))
+        high_value = _to_float(_find_value(row, high_keys or []))
+        low_value = _to_float(_find_value(row, low_keys or []))
+        volume_value = _to_float(_find_value(row, volume_keys or []))
+        if open_value is not None:
+            point["open"] = float(open_value)
+        if high_value is not None:
+            point["high"] = float(high_value)
+        if low_value is not None:
+            point["low"] = float(low_value)
+        if volume_value is not None:
+            point["volume"] = float(volume_value)
+        parsed.append(point)
 
     by_date: Dict[str, Dict[str, Any]] = {point["date"]: point for point in parsed}
     return [by_date[key] for key in sorted(by_date.keys())]
@@ -1033,6 +1050,10 @@ async def _fetch_kis_daily_history_kr(
                 data,
                 date_keys=["stck_bsop_date", "bsop_date", "date", "trd_dd", "bas_dt"],
                 close_keys=["stck_clpr", "clpr", "close", "last", "stck_prpr"],
+                open_keys=["stck_oprc", "oprc", "open", "open_price"],
+                high_keys=["stck_hgpr", "hgpr", "high", "high_price"],
+                low_keys=["stck_lwpr", "lwpr", "low", "low_price"],
+                volume_keys=["acml_vol", "volume", "vol", "trd_vol", "acc_trdvol"],
                 start_date=start_date,
                 end_date=end_date,
             )
@@ -1109,6 +1130,10 @@ async def _fetch_kis_daily_history_us(
             data,
             date_keys=["xymd", "date", "trd_dd", "bas_dt", "stck_bsop_date"],
             close_keys=["clos", "last", "ovrs_nmix_prpr", "ovrs_clpr", "close", "stck_clpr"],
+            open_keys=["open", "ovrs_oprc", "stck_oprc", "oprc", "open_price"],
+            high_keys=["high", "ovrs_hgpr", "stck_hgpr", "hgpr", "high_price"],
+            low_keys=["low", "ovrs_lwpr", "stck_lwpr", "lwpr", "low_price"],
+            volume_keys=["tvol", "evol", "acml_vol", "volume", "vol", "trd_vol"],
             start_date=start_date,
             end_date=end_date,
         )

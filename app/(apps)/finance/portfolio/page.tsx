@@ -22,12 +22,13 @@ import {
 } from "../../../(shared)/lib/finance";
 import { loadState, saveState } from "../../../(shared)/lib/storage";
 import { useQuotes } from "../../../../src/lib/quotes/useQuotes";
-import { Pencil } from "lucide-react";
+import { Eye, LineChart, Pencil, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const PORTFOLIO_LABEL_OPTIONS_KEY = "lifnux.finance.portfolio.labels.v100";
 const PORTFOLIO_HISTORY_KEY = "lifnux.finance.portfolio.history.v100";
 const PORTFOLIO_PERFORMANCE_KEY = "investing.portfolio.performance.v1";
+const STOCKTICON_CONFIG_KEY = "lifnux.finance.portfolio.stockticon.v100";
 const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 type PortfolioLabelOptions = {
@@ -44,6 +45,16 @@ type PortfolioHistoryPoint = {
 
 type PricingState = "VALID" | "STALE" | "FALLBACK" | "ERROR";
 type PortfolioQuality = "OK" | "DEGRADED" | "ERROR";
+type OperationsTab = "trade" | "cash" | "accounts";
+type InsightsTab = "assetHistory" | "ledger" | "analyze";
+type StockticonConfig = {
+  autoBenchmarksEnabled: boolean;
+  manualBenchmarks: Record<string, string>;
+  singleWarningPct: number;
+  singleCriticalPct: number;
+  sectorWarningPct: number;
+  sectorCriticalPct: number;
+};
 
 type AnalyzePeriodKey = "1W" | "2W" | "1M" | "3M" | "6M" | "1Y";
 type AnalyzeResult = {
@@ -52,8 +63,36 @@ type AnalyzeResult = {
   resolvedName: string | null;
   asOf: string;
   asOfClose: number;
-  points: Array<{ date: string; close: number }>;
+  points: StockticonHistoryPoint[];
   returns: Record<AnalyzePeriodKey, number | null>;
+};
+
+type StockticonHistoryPoint = {
+  date: string;
+  close: number;
+  open?: number;
+  high?: number;
+  low?: number;
+  volume?: number;
+};
+
+type StockticonIndicatorSnapshot = {
+  asOf: string;
+  close: number;
+  rsi14: number | null;
+  ma5: number | null;
+  ma20: number | null;
+  ma60: number | null;
+  ma120: number | null;
+  volatility20: number | null;
+  normalizedChange: number | null;
+  bollingerUpper20: number | null;
+  bollingerLower20: number | null;
+  bollingerPosition20: number | null;
+  bollingerUpperBreakout: boolean;
+  bollingerLowerBreakout: boolean;
+  volumeRatio20: number | null;
+  dataPointCount: number;
 };
 
 type LabelField = "countryLabel" | "sectorMajorLabel" | "sectorLabel";
@@ -66,6 +105,15 @@ const ANALYZE_PERIODS: Array<{ key: AnalyzePeriodKey; label: string; days: numbe
   { key: "6M", label: "6M", days: 180 },
   { key: "1Y", label: "1Y", days: 365 }
 ];
+
+const DEFAULT_STOCKTICON_CONFIG: StockticonConfig = {
+  autoBenchmarksEnabled: true,
+  manualBenchmarks: {},
+  singleWarningPct: 20,
+  singleCriticalPct: 30,
+  sectorWarningPct: 35,
+  sectorCriticalPct: 50
+};
 
 const isLikelySeededTwoYearHistory = (history: PortfolioHistoryPoint[]) => {
   if (history.length !== 730) return false;
@@ -84,13 +132,18 @@ export default function PortfolioPage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [stocks, setStocks] = useState<StockItem[]>([]);
   const [settings, setSettings] = useState({ blurSensitiveNumbers: true });
-  const [accountsOpen, setAccountsOpen] = useState(false);
+  const [operationsOpen, setOperationsOpen] = useState(false);
+  const [operationsTab, setOperationsTab] = useState<OperationsTab>("trade");
+  const [stockticonMode, setStockticonMode] = useState(false);
+  const [stockticonConfig, setStockticonConfig] = useState<StockticonConfig>(DEFAULT_STOCKTICON_CONFIG);
+  const [stockticonSettingsSymbol, setStockticonSettingsSymbol] = useState<string | null>(null);
+  const [stockticonHistory, setStockticonHistory] = useState<Record<string, StockticonHistoryPoint[]>>({});
+  const [stockticonHistoryLoading, setStockticonHistoryLoading] = useState(false);
   const [trades, setTrades] = useState<Trade[]>([]);
   const [cashBalances, setCashBalances] = useState<CashBalance[]>([]);
   const [ledgerRecords, setLedgerRecords] = useState<LedgerRecord[]>([]);
-  const [tradeOpen, setTradeOpen] = useState(false);
-  const [cashOpen, setCashOpen] = useState(false);
-  const [ledgerOpen, setLedgerOpen] = useState(false);
+  const [insightsOpen, setInsightsOpen] = useState(false);
+  const [insightsTab, setInsightsTab] = useState<InsightsTab>("assetHistory");
   const [ready, setReady] = useState(false);
   const [fxRate, setFxRate] = useState<number | null>(null);
   const [fxUpdatedAt, setFxUpdatedAt] = useState<number | null>(null);
@@ -100,7 +153,6 @@ export default function PortfolioPage() {
   const [ledgerDeleteConfirmOpen, setLedgerDeleteConfirmOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [historyOpen, setHistoryOpen] = useState(false);
   const [labelOptions, setLabelOptions] = useState<PortfolioLabelOptions>({ countries: ["KR", "US"], sectorMajors: [], sectors: [] });
   const [history, setHistory] = useState<PortfolioHistoryPoint[]>([]);
   const [newCountryLabel, setNewCountryLabel] = useState("");
@@ -148,7 +200,6 @@ export default function PortfolioPage() {
   const [realizedDetailOpen, setRealizedDetailOpen] = useState(false);
   const [realizedDetailSortKey, setRealizedDetailSortKey] = useState<"price" | "time">("time");
   const [realizedDetailSortDir, setRealizedDetailSortDir] = useState<"asc" | "desc">("desc");
-  const [analyzeOpen, setAnalyzeOpen] = useState(false);
   const [analyzeInput, setAnalyzeInput] = useState("");
   const [analyzeLoading, setAnalyzeLoading] = useState(false);
   const [analyzeError, setAnalyzeError] = useState<string | null>(null);
@@ -220,6 +271,7 @@ export default function PortfolioPage() {
       if (stock.sectorLabel?.trim()) sectorSet.add(stock.sectorLabel.trim());
     });
     const loadedHistory = loadState<PortfolioHistoryPoint[]>(PORTFOLIO_HISTORY_KEY, []);
+    const loadedStockticonConfig = loadState<StockticonConfig>(STOCKTICON_CONFIG_KEY, DEFAULT_STOCKTICON_CONFIG);
 
     setAccounts(normalizedAccounts);
     setHoldings(data.holdings);
@@ -232,6 +284,11 @@ export default function PortfolioPage() {
       sectors: Array.from(sectorSet)
     });
     setHistory(isLikelySeededTwoYearHistory(loadedHistory) ? [] : loadedHistory);
+    setStockticonConfig({
+      ...DEFAULT_STOCKTICON_CONFIG,
+      ...loadedStockticonConfig,
+      manualBenchmarks: loadedStockticonConfig.manualBenchmarks ?? {}
+    });
     setCashBalances(
       loadedCash.length
         ? loadedCash
@@ -333,6 +390,10 @@ export default function PortfolioPage() {
     if (!ready) return;
     saveState(PORTFOLIO_HISTORY_KEY, history);
   }, [history, ready]);
+  useEffect(() => {
+    if (!ready) return;
+    saveState(STOCKTICON_CONFIG_KEY, stockticonConfig);
+  }, [stockticonConfig, ready]);
 
 
   const activeHoldings = useMemo(() => holdings.filter((holding) => holding.qty > 0), [holdings]);
@@ -351,6 +412,53 @@ export default function PortfolioPage() {
   const heldSymbols = useMemo(() => heldStocks.map((stock) => getQuoteSymbol(stock)), [heldStocks]);
   const { bySymbol: heldQuotes } = useQuotes(heldSymbols);
   const useFx = !!fxRate;
+
+  useEffect(() => {
+    if (!stockticonMode || !heldSymbols.length) return;
+    let cancelled = false;
+    const fetchHistory = async () => {
+      const today = new Date().toISOString().slice(0, 10);
+      const start = shiftDate(today, -220);
+      setStockticonHistoryLoading(true);
+      try {
+        const response = await fetch(
+          `/api/history?symbols=${encodeURIComponent(heldSymbols.join(","))}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(today)}`,
+          { cache: "no-store" }
+        );
+        if (!response.ok) throw new Error("history fetch failed");
+        const data = (await response.json()) as {
+          series?: Array<{ symbol?: string; points?: Array<Partial<StockticonHistoryPoint>> }>;
+        };
+        const next: Record<string, StockticonHistoryPoint[]> = {};
+        (data.series ?? []).forEach((series) => {
+          const symbol = series.symbol?.toUpperCase();
+          if (!symbol) return;
+          const points = (series.points ?? [])
+            .filter((point): point is StockticonHistoryPoint => typeof point.date === "string" && typeof point.close === "number")
+            .map((point) => ({
+              date: point.date,
+              close: point.close,
+              open: typeof point.open === "number" ? point.open : undefined,
+              high: typeof point.high === "number" ? point.high : undefined,
+              low: typeof point.low === "number" ? point.low : undefined,
+              volume: typeof point.volume === "number" ? point.volume : undefined
+            }))
+            .sort((a, b) => a.date.localeCompare(b.date));
+          next[symbol] = points;
+        });
+        if (!cancelled) setStockticonHistory(next);
+      } catch {
+        if (!cancelled) setStockticonHistory({});
+      } finally {
+        if (!cancelled) setStockticonHistoryLoading(false);
+      }
+    };
+    void fetchHistory();
+    return () => {
+      cancelled = true;
+    };
+  }, [heldSymbols, stockticonMode]);
+
   const derivedHoldings = useMemo(() => {
     return activeHoldings.map((holding) => {
       const stock = stocks.find((item) => normalizeSymbol(item.symbol) === normalizeSymbol(holding.symbolKey));
@@ -1201,6 +1309,351 @@ export default function PortfolioPage() {
     if (cashTotal > 0) base.push({ label: "Cash", value: cashTotal });
     return base;
   }, [filteredCashRows, filteredDerivedHoldings]);
+
+  const stockticonRows = useMemo(() => {
+    const equityBaseKrw = filteredDerivedHoldings.reduce((sum, entry) => sum + (entry.marketValueKrw ?? 0), 0);
+    const sectorTotals = new Map<string, number>();
+    filteredDerivedHoldings.forEach((entry) => {
+      const sector = entry.holding.sectorLabel?.trim() || "Unlabeled";
+      if (sector.toLowerCase() === "index") return;
+      sectorTotals.set(sector, (sectorTotals.get(sector) ?? 0) + (entry.marketValueKrw ?? 0));
+    });
+
+    const resolveAutoBenchmark = (stock: StockItem | undefined, holding: Holding) => {
+      if (stock?.market === "KR" || holding.currency === "KRW") {
+        const exchange = stock?.exchange?.toUpperCase() ?? "";
+        const symbol = stock?.symbol?.toUpperCase() ?? holding.symbolKey.toUpperCase();
+        return exchange.includes("KOSDAQ") || symbol.endsWith(".KQ") ? "KOSDAQ" : "KOSPI";
+      }
+      const labels = `${stock?.sectorMajorLabel ?? holding.sectorMajorLabel ?? ""} ${stock?.sectorLabel ?? holding.sectorLabel ?? ""}`.toLowerCase();
+      return /tech|software|semiconductor|ai|growth/.test(labels) ? "NASDAQ" : "S&P 500";
+    };
+
+    return filteredDerivedHoldings.map((entry) => {
+      const symbolKey = normalizeSymbol(entry.holding.symbolKey);
+      const stock = entry.stock;
+      const holdingLabel = stock?.label ?? stock?.symbol ?? entry.holding.symbolKey;
+      const sector = entry.holding.sectorLabel?.trim() || "Unlabeled";
+      const valueKrw = entry.marketValueKrw ?? 0;
+      const singleWeightPct = equityBaseKrw > 0 ? (valueKrw / equityBaseKrw) * 100 : null;
+      const sectorWeightPct =
+        equityBaseKrw > 0 && sector.toLowerCase() !== "index" ? ((sectorTotals.get(sector) ?? 0) / equityBaseKrw) * 100 : null;
+      const manualBenchmarkText = stockticonConfig.manualBenchmarks[symbolKey] ?? "";
+      const manualBenchmarks = manualBenchmarkText
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
+      const benchmarks = [
+        ...(stockticonConfig.autoBenchmarksEnabled ? [resolveAutoBenchmark(stock, entry.holding)] : []),
+        ...manualBenchmarks
+      ];
+      const historySymbol = stock ? getQuoteSymbol(stock).toUpperCase() : "";
+      const changePct = entry.quote?.changePercent ?? stock?.changePct ?? null;
+      const indicators = historySymbol ? computeStockticonIndicators(stockticonHistory[historySymbol] ?? [], changePct) : null;
+      const reasons: string[] = [];
+      const warnings: string[] = [];
+      const attentionDetails = ["기본 감시 점수 +15"];
+      const biasDetails: string[] = [];
+      let attention = 15;
+      let bias = 0;
+      let noSignalReason: string | null = null;
+
+      if (entry.pricingState === "ERROR") {
+        warnings.push("Price unavailable");
+        noSignalReason = "DATA UNAVAILABLE";
+        attentionDetails.push("현재가 조회 실패로 시그널 산출 안 함");
+      } else if (entry.pricingState !== "VALID") {
+        warnings.push("Price is estimated");
+        attentionDetails.push("현재가 추정/지연 상태. 점수 가점 없음");
+      }
+
+      if (typeof changePct !== "number") {
+        warnings.push("Daily move unavailable");
+        noSignalReason = noSignalReason ?? "DATA UNAVAILABLE";
+        attentionDetails.push("당일 등락률 없음으로 시그널 산출 안 함");
+        biasDetails.push("당일 등락률 없음");
+      }
+
+      if (!indicators) {
+        warnings.push(stockticonHistoryLoading ? "History loading" : "History unavailable");
+        noSignalReason = noSignalReason ?? (stockticonHistoryLoading ? "DATA LOADING" : "DATA UNAVAILABLE");
+        attentionDetails.push(stockticonHistoryLoading ? "히스토리 로딩 중" : "히스토리 데이터 없음");
+      } else {
+        if (indicators.dataPointCount < 60) {
+          warnings.push(`History ${indicators.dataPointCount}d only`);
+          noSignalReason = noSignalReason ?? "INSUFFICIENT HISTORY";
+          attentionDetails.push(`히스토리 ${indicators.dataPointCount}개로 최소 60일 미만. 시그널 산출 안 함`);
+        }
+
+        if (typeof indicators.normalizedChange === "number") {
+          const absNormalized = Math.abs(indicators.normalizedChange);
+          if (absNormalized >= 3) {
+            attention += 24;
+            reasons.push(`변동성 대비 등락 ${indicators.normalizedChange.toFixed(2)}σ`);
+            attentionDetails.push(`normalizedChange ${indicators.normalizedChange.toFixed(2)}로 3σ 이상 +24`);
+          } else if (absNormalized >= 2) {
+            attention += 18;
+            reasons.push(`변동성 대비 등락 ${indicators.normalizedChange.toFixed(2)}σ`);
+            attentionDetails.push(`normalizedChange ${indicators.normalizedChange.toFixed(2)}로 2σ 이상 +18`);
+          } else if (absNormalized >= 1) {
+            attention += 10;
+            reasons.push(`변동성 대비 등락 ${indicators.normalizedChange.toFixed(2)}σ`);
+            attentionDetails.push(`normalizedChange ${indicators.normalizedChange.toFixed(2)}로 1σ 이상 +10`);
+          } else {
+            attentionDetails.push(`normalizedChange ${indicators.normalizedChange.toFixed(2)}로 변동성 대비 특이 움직임 없음`);
+          }
+          const changeBias = Math.max(-18, Math.min(18, indicators.normalizedChange * 5));
+          bias += changeBias;
+          biasDetails.push(`normalizedChange 기반 방향성 ${changeBias >= 0 ? "+" : ""}${changeBias.toFixed(0)}`);
+        } else {
+          warnings.push("Volatility unavailable");
+          noSignalReason = noSignalReason ?? "DATA UNAVAILABLE";
+          attentionDetails.push("volatility20 또는 normalizedChange 산출 불가. 시그널 산출 안 함");
+          biasDetails.push("normalizedChange 산출 불가");
+        }
+
+        if (typeof indicators.rsi14 === "number") {
+          if (indicators.rsi14 < 30) {
+            attention += 12;
+            bias += 6;
+            reasons.push(`RSI 14 ${indicators.rsi14.toFixed(1)} 과매도`);
+            attentionDetails.push(`RSI 14 ${indicators.rsi14.toFixed(1)}로 과매도 감지 +12`);
+            biasDetails.push(`RSI 과매도 가능성 +6`);
+          } else if (indicators.rsi14 > 75) {
+            attention += 8;
+            bias -= 6;
+            reasons.push(`RSI 14 ${indicators.rsi14.toFixed(1)} 과열`);
+            attentionDetails.push(`RSI 14 ${indicators.rsi14.toFixed(1)}로 과열 감지 +8`);
+            biasDetails.push(`RSI 과열로 방향성 -6`);
+          } else {
+            attentionDetails.push(`RSI 14 ${indicators.rsi14.toFixed(1)}로 극단 구간 아님`);
+          }
+        }
+
+        if (indicators.ma20 && indicators.ma60) {
+          if (indicators.close > indicators.ma20 && indicators.ma20 > indicators.ma60) {
+            bias += 8;
+            reasons.push("20일선 > 60일선, 종가 20일선 상회");
+            biasDetails.push("종가 > MA20 및 MA20 > MA60 +8");
+          }
+          if (indicators.ma120 && indicators.close > indicators.ma60 && indicators.ma60 > indicators.ma120) {
+            bias += 8;
+            biasDetails.push("종가 > MA60 및 MA60 > MA120 +8");
+          }
+          if (indicators.close < indicators.ma20) {
+            attention += 6;
+            bias -= 6;
+            reasons.push("종가 20일선 하회");
+            attentionDetails.push("종가 < MA20 +6");
+            biasDetails.push("종가 < MA20 -6");
+          }
+          if (indicators.close < indicators.ma60) {
+            attention += 8;
+            bias -= 8;
+            reasons.push("종가 60일선 하회");
+            attentionDetails.push("종가 < MA60 +8");
+            biasDetails.push("종가 < MA60 -8");
+          }
+          if (indicators.ma120 && indicators.close < indicators.ma120) {
+            attention += 10;
+            bias -= 10;
+            attentionDetails.push("종가 < MA120 +10");
+            biasDetails.push("종가 < MA120 -10");
+          }
+          if (indicators.ma20 < indicators.ma60) {
+            attention += 6;
+            attentionDetails.push("MA20 < MA60 배열 악화 +6");
+          }
+          if (indicators.ma120 && indicators.ma60 < indicators.ma120) {
+            attention += 8;
+            attentionDetails.push("MA60 < MA120 배열 악화 +8");
+          }
+          if (indicators.ma120 && indicators.ma20 > indicators.ma60 && indicators.ma60 > indicators.ma120) {
+            bias += 12;
+            reasons.push("완전 상승 이평 배열");
+            biasDetails.push("MA20 > MA60 > MA120 +12");
+          }
+          if (indicators.ma120 && indicators.ma20 < indicators.ma60 && indicators.ma60 < indicators.ma120) {
+            bias -= 12;
+            reasons.push("완전 하락 이평 배열");
+            biasDetails.push("MA20 < MA60 < MA120 -12");
+          }
+        }
+
+        if (typeof indicators.bollingerPosition20 === "number") {
+          if (indicators.bollingerPosition20 <= 0.1) {
+            attention += 8;
+            bias += 4;
+            reasons.push("볼린저 하단 근접");
+            attentionDetails.push("볼린저밴드 하단 근접 +8");
+            biasDetails.push("볼린저 하단 과매도 가능성 +4");
+          } else if (indicators.bollingerPosition20 >= 0.9) {
+            attention += 8;
+            bias -= 4;
+            reasons.push("볼린저 상단 근접");
+            attentionDetails.push("볼린저밴드 상단 근접 +8");
+            biasDetails.push("볼린저 상단 과열 후보 -4");
+          }
+        }
+        if (indicators.bollingerLowerBreakout) {
+          attention += 14;
+          bias += 6;
+          reasons.push("볼린저 하단 이탈");
+          attentionDetails.push("종가 < 볼린저 하단 +14");
+          biasDetails.push("하단 이탈 과매도 가능성 +6");
+        }
+        if (indicators.bollingerUpperBreakout) {
+          attention += 12;
+          bias -= 6;
+          reasons.push("볼린저 상단 돌파");
+          attentionDetails.push("종가 > 볼린저 상단 +12");
+          biasDetails.push("상단 돌파 과열 가능성 -6");
+        }
+
+        if (typeof indicators.volumeRatio20 === "number") {
+          if (indicators.volumeRatio20 >= 3) {
+            attention += 20;
+            reasons.push(`거래량 20일 평균 대비 ${indicators.volumeRatio20.toFixed(1)}배`);
+            attentionDetails.push(`거래량이 20일 평균의 ${indicators.volumeRatio20.toFixed(1)}배 +20`);
+          } else if (indicators.volumeRatio20 >= 2) {
+            attention += 14;
+            reasons.push(`거래량 20일 평균 대비 ${indicators.volumeRatio20.toFixed(1)}배`);
+            attentionDetails.push(`거래량이 20일 평균의 ${indicators.volumeRatio20.toFixed(1)}배 +14`);
+          } else if (indicators.volumeRatio20 >= 1.5) {
+            attention += 8;
+            reasons.push(`거래량 20일 평균 대비 ${indicators.volumeRatio20.toFixed(1)}배`);
+            attentionDetails.push(`거래량이 20일 평균의 ${indicators.volumeRatio20.toFixed(1)}배 +8`);
+          } else {
+            attentionDetails.push(`거래량 20일 평균 대비 ${indicators.volumeRatio20.toFixed(1)}배`);
+          }
+          if (typeof indicators.normalizedChange === "number") {
+            if (indicators.volumeRatio20 >= 3 && indicators.normalizedChange < -2) {
+              bias -= 14;
+              biasDetails.push("거래량 3배 이상 + 큰 하락 -14");
+            } else if (indicators.volumeRatio20 >= 3 && indicators.normalizedChange > 2) {
+              bias += 14;
+              biasDetails.push("거래량 3배 이상 + 큰 상승 +14");
+            } else if (indicators.volumeRatio20 >= 2 && indicators.normalizedChange < -1) {
+              bias -= 8;
+              biasDetails.push("거래량 2배 이상 + 하락 -8");
+            } else if (indicators.volumeRatio20 >= 2 && indicators.normalizedChange > 1) {
+              bias += 8;
+              biasDetails.push("거래량 2배 이상 + 상승 +8");
+            }
+          }
+        } else {
+          warnings.push("Volume unavailable");
+          attentionDetails.push("거래량 데이터 없음. 거래량 룰만 스킵");
+        }
+      }
+
+      if (singleWeightPct !== null) {
+        if (singleWeightPct >= stockticonConfig.singleCriticalPct) {
+          warnings.push(`Single ${singleWeightPct.toFixed(1)}% critical`);
+          attention += 22;
+          attentionDetails.push(`단일 종목 비중 ${singleWeightPct.toFixed(1)}%로 critical 기준 초과 +22`);
+        } else if (singleWeightPct >= stockticonConfig.singleWarningPct) {
+          warnings.push(`Single ${singleWeightPct.toFixed(1)}% warning`);
+          attention += 12;
+          attentionDetails.push(`단일 종목 비중 ${singleWeightPct.toFixed(1)}%로 warning 기준 초과 +12`);
+        } else {
+          attentionDetails.push(`단일 종목 비중 ${singleWeightPct.toFixed(1)}%로 집중도 가점 없음`);
+        }
+      }
+
+      if (sectorWeightPct !== null) {
+        if (sectorWeightPct >= stockticonConfig.sectorCriticalPct) {
+          warnings.push(`${sector} ${sectorWeightPct.toFixed(1)}% critical`);
+          attention += 20;
+          attentionDetails.push(`소분류 섹터 ${sector} 비중 ${sectorWeightPct.toFixed(1)}%로 critical 기준 초과 +20`);
+        } else if (sectorWeightPct >= stockticonConfig.sectorWarningPct) {
+          warnings.push(`${sector} ${sectorWeightPct.toFixed(1)}% warning`);
+          attention += 10;
+          attentionDetails.push(`소분류 섹터 ${sector} 비중 ${sectorWeightPct.toFixed(1)}%로 warning 기준 초과 +10`);
+        } else {
+          attentionDetails.push(`소분류 섹터 ${sector} 비중 ${sectorWeightPct.toFixed(1)}%로 집중도 가점 없음`);
+        }
+      }
+
+      if (!benchmarks.length) {
+        warnings.push("Benchmark not set");
+      }
+      if (!indicators) {
+        reasons.push("RSI / 이평선 / 볼린저 / 거래량 대기");
+      }
+
+      const score = Math.max(0, Math.min(100, Math.round(attention)));
+      const clampedBias = Math.max(-100, Math.min(100, Math.round(bias)));
+      const criticalConcentration = warnings.some((item) => item.includes("critical"));
+      const signal = noSignalReason
+        ? "NO SIGNAL"
+        : criticalConcentration
+          ? "CONCENTRATION WARNING"
+          : score >= 70 && clampedBias <= -15
+            ? "URGENT RISK WATCH"
+            : score >= 70 && clampedBias >= 15
+              ? "URGENT OPPORTUNITY WATCH"
+              : score >= 50 && clampedBias <= -10
+                ? "RISK WATCH"
+                : score >= 50 && clampedBias >= 10
+                  ? "OPPORTUNITY WATCH"
+                  : score >= 50
+                    ? "HIGH ATTENTION"
+                    : score >= 30
+                      ? "WATCH"
+                      : "QUIET";
+      const signalDetails = [
+        `Attention ${score}`,
+        `Bias ${clampedBias >= 0 ? "+" : ""}${clampedBias}`,
+        noSignalReason
+          ? `${noSignalReason} 상태라 NO SIGNAL로 표시`
+          : criticalConcentration
+            ? "critical 집중도 경고가 있어 CONCENTRATION WARNING"
+            : score >= 70 && clampedBias <= -15
+              ? "Attention 70 이상, Bias -15 이하로 URGENT RISK WATCH"
+              : score >= 70 && clampedBias >= 15
+                ? "Attention 70 이상, Bias +15 이상으로 URGENT OPPORTUNITY WATCH"
+                : score >= 50 && clampedBias <= -10
+                  ? "Attention 50 이상, Bias -10 이하로 RISK WATCH"
+                  : score >= 50 && clampedBias >= 10
+                    ? "Attention 50 이상, Bias +10 이상으로 OPPORTUNITY WATCH"
+                    : score >= 50
+                      ? "Attention 50 이상으로 HIGH ATTENTION"
+                      : score >= 30
+                        ? "Attention 30 이상으로 WATCH"
+                        : "Attention 30 미만으로 QUIET",
+        indicators?.normalizedChange !== null && indicators?.normalizedChange !== undefined
+          ? `normalizedChange ${indicators.normalizedChange.toFixed(2)} = 당일 등락률 / volatility20`
+          : "normalizedChange 없음",
+        "거래량 없음은 거래량 룰만 스킵"
+      ];
+
+      return {
+        symbolKey,
+        holdingLabel,
+        sector,
+        score,
+        bias: clampedBias,
+        signal,
+        reasons,
+        warnings,
+        benchmarks,
+        singleWeightPct,
+        sectorWeightPct,
+        manualBenchmarkText,
+        indicators,
+        attentionDetails,
+        biasDetails,
+        signalDetails
+      };
+    });
+  }, [filteredDerivedHoldings, stockticonConfig, stockticonHistory, stockticonHistoryLoading]);
+
+  const stockticonSettingsRow = useMemo(
+    () => stockticonRows.find((row) => row.symbolKey === stockticonSettingsSymbol) ?? null,
+    [stockticonRows, stockticonSettingsSymbol]
+  );
+
   const editingHolding = useMemo(
     () => (editingId ? holdings.find((entry) => entry.id === editingId) ?? null : null),
     [editingId, holdings]
@@ -1219,7 +1672,8 @@ export default function PortfolioPage() {
       fee: "",
       memo: ""
     });
-    setTradeOpen(true);
+    setOperationsTab("trade");
+    setOperationsOpen(true);
   };
 
   const openCash = () => {
@@ -1230,7 +1684,18 @@ export default function PortfolioPage() {
       amount: "",
       memo: ""
     });
-    setCashOpen(true);
+    setOperationsTab("cash");
+    setOperationsOpen(true);
+  };
+
+  const openAccounts = () => {
+    setOperationsTab("accounts");
+    setOperationsOpen(true);
+  };
+
+  const openInsights = (tab: InsightsTab) => {
+    setInsightsTab(tab);
+    setInsightsOpen(true);
   };
 
   const openEditHolding = (holding: Holding) => {
@@ -1440,7 +1905,7 @@ export default function PortfolioPage() {
         costBasis
       }
     ]);
-    setTradeOpen(false);
+    setOperationsOpen(false);
   };
 
   const applyCashflow = () => {
@@ -1475,7 +1940,7 @@ export default function PortfolioPage() {
         memo: trimmedMemo || undefined
       }
     ]);
-    setCashOpen(false);
+    setOperationsOpen(false);
   };
 
   const requestLedgerDelete = (record: LedgerRecord) => {
@@ -1636,23 +2101,33 @@ export default function PortfolioPage() {
               />
             </div>
             <div className="flex items-center gap-3 text-xs text-[var(--ink-1)]">
-              <button className="rounded-full border border-white/10 px-3 py-1" onClick={openTrade}>
-                Trade
+              <button
+                className={`rounded-full border p-2 transition ${
+                  stockticonMode
+                    ? "border-cyan-300/60 bg-cyan-300/10 text-cyan-200"
+                    : "border-white/10 hover:border-cyan-300/40 hover:text-cyan-100"
+                }`}
+                onClick={() => setStockticonMode((prev) => !prev)}
+                aria-label="Toggle Stockticon monitor"
+                title="Stockticon"
+              >
+                <Eye className="h-4 w-4" />
               </button>
-              <button className="rounded-full border border-white/10 px-3 py-1" onClick={openCash}>
-                Add Cash
+              <button
+                className="rounded-full border border-white/10 p-2 transition hover:border-white/25 hover:text-white"
+                onClick={openAccounts}
+                aria-label="Manage portfolio operations"
+                title="Manage"
+              >
+                <Settings className="h-4 w-4" />
               </button>
-              <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setAccountsOpen(true)}>
-                Manage Accounts
-              </button>
-              <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setHistoryOpen(true)}>
-                Asset History
-              </button>
-              <button className="rounded-full border border-emerald-400/40 px-3 py-1 text-emerald-200" onClick={() => setAnalyzeOpen(true)}>
-                Analyze
-              </button>
-              <button className="rounded-full border border-white/10 px-3 py-1" onClick={() => setLedgerOpen(true)}>
-                History
+              <button
+                className="rounded-full border border-emerald-400/40 p-2 text-emerald-200 transition hover:border-emerald-300/60 hover:text-emerald-100"
+                onClick={() => openInsights("assetHistory")}
+                aria-label="Open portfolio charts and analysis"
+                title="Insights"
+              >
+                <LineChart className="h-4 w-4" />
               </button>
               <button
                 className={`rounded-full border px-3 py-1 ${
@@ -1667,6 +2142,168 @@ export default function PortfolioPage() {
             </div>
           </div>
 
+          {stockticonMode ? (
+            <div className="mt-4 space-y-4">
+              <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/5 p-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <div className="text-xs uppercase tracking-[0.2em] text-cyan-200">Stockticon Draft</div>
+                    <div className="mt-1 text-sm text-[var(--ink-1)]">
+                      손익률은 제외하고, 벤치마크 설정과 단일 종목/섹터 집중도 경고를 먼저 감시합니다.
+                    </div>
+                  </div>
+                  <label className="flex items-center gap-2 rounded-full border border-white/10 px-3 py-2 text-xs text-[var(--ink-1)]">
+                    <input
+                      type="checkbox"
+                      checked={stockticonConfig.autoBenchmarksEnabled}
+                      onChange={(event) =>
+                        setStockticonConfig((prev) => ({ ...prev, autoBenchmarksEnabled: event.target.checked }))
+                      }
+                    />
+                    Auto benchmark
+                  </label>
+                </div>
+                <div className="mt-4 grid gap-3 md:grid-cols-4">
+                  {[
+                    { key: "singleWarningPct", label: "Single Warning" },
+                    { key: "singleCriticalPct", label: "Single Critical" },
+                    { key: "sectorWarningPct", label: "Sector Warning" },
+                    { key: "sectorCriticalPct", label: "Sector Critical" }
+                  ].map((item) => (
+                    <label key={item.key} className="text-[10px] uppercase tracking-[0.16em] text-[var(--ink-1)]">
+                      {item.label}
+                      <div className="mt-1 flex items-center gap-2">
+                        <input
+                          className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white"
+                          type="number"
+                          min="0"
+                          max="100"
+                          value={stockticonConfig[item.key as keyof Pick<StockticonConfig, "singleWarningPct" | "singleCriticalPct" | "sectorWarningPct" | "sectorCriticalPct">]}
+                          onChange={(event) => {
+                            const next = Number(event.target.value);
+                            setStockticonConfig((prev) => ({ ...prev, [item.key]: Number.isFinite(next) ? next : 0 }));
+                          }}
+                        />
+                        <span className="text-xs text-[var(--ink-1)]">%</span>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <div className="min-w-[1120px] space-y-2 text-sm">
+                  <div className="grid grid-cols-[1.25fr_1.15fr_0.75fr_0.7fr_1.5fr_1.45fr_0.45fr] gap-3 text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">
+                    <div>Stock</div>
+                    <div className="relative inline-block w-fit cursor-help group">
+                      Signal
+                      <div className="pointer-events-none absolute left-0 top-5 z-30 hidden w-72 rounded-xl border border-white/15 bg-black/95 p-3 text-left text-[11px] normal-case tracking-normal text-white shadow-xl group-hover:block">
+                        Signal은 Attention, Bias, 집중도 경고를 조합한 감시 상태입니다. 데이터가 부족하면 NO SIGNAL로 표시하고 매수/매도 추천 표현은 쓰지 않습니다.
+                      </div>
+                    </div>
+                    <div className="relative inline-block w-fit cursor-help group">
+                      Attention
+                      <div className="pointer-events-none absolute left-0 top-5 z-30 hidden w-72 rounded-xl border border-white/15 bg-black/95 p-3 text-left text-[11px] normal-case tracking-normal text-white shadow-xl group-hover:block">
+                        Attention은 지금 봐야 하는 우선순위입니다. 기본 15점에서 normalizedChange, RSI, MA20/60/120, 볼린저밴드, 거래량, 집중도 기준을 더합니다.
+                      </div>
+                    </div>
+                    <div className="relative inline-block w-fit cursor-help group">
+                      Bias
+                      <div className="pointer-events-none absolute left-0 top-5 z-30 hidden w-72 rounded-xl border border-white/15 bg-black/95 p-3 text-left text-[11px] normal-case tracking-normal text-white shadow-xl group-hover:block">
+                        Bias는 방향성 기울기입니다. normalizedChange, RSI, MA 배열/하회, 볼린저밴드 위치, 거래량 동반 방향성을 반영합니다.
+                      </div>
+                    </div>
+                    <div className="text-center">Warnings</div>
+                    <div>Reasons</div>
+                    <div className="text-right">Config</div>
+                  </div>
+                  {stockticonRows.map((row) => (
+                    <div
+                      key={row.symbolKey}
+                      className="grid grid-cols-[1.25fr_1.15fr_0.75fr_0.7fr_1.5fr_1.45fr_0.45fr] gap-3 rounded-xl border border-white/10 bg-black/20 px-3 py-3"
+                    >
+                      <div>
+                        <div className="font-medium">{row.holdingLabel}</div>
+                        <div className="mt-1 text-[10px] text-[var(--ink-1)]">{row.symbolKey}</div>
+                        <div className="mt-1 text-[10px] text-[var(--ink-1)]">{row.sector}</div>
+                      </div>
+                      <div>
+                        <span
+                          className={`group relative inline-flex w-fit cursor-help rounded-full border px-2 py-1 text-[10px] ${getStockticonSignalClass(row.signal)}`}
+                        >
+                          {row.signal}
+                          <div className="pointer-events-none absolute left-0 top-6 z-30 hidden w-80 rounded-xl border border-white/15 bg-black/95 p-3 text-left text-[11px] normal-case tracking-normal text-white shadow-xl group-hover:block">
+                            {row.signalDetails.map((detail) => (
+                              <div key={detail} className="mb-1 last:mb-0">
+                                {detail}
+                              </div>
+                            ))}
+                          </div>
+                        </span>
+                      </div>
+                      <div
+                        className="group relative w-fit cursor-help text-cyan-200"
+                      >
+                        {row.score}
+                        <div className="pointer-events-none absolute left-0 top-5 z-30 hidden w-80 rounded-xl border border-white/15 bg-black/95 p-3 text-left text-[11px] text-white shadow-xl group-hover:block">
+                          {row.attentionDetails.map((detail) => (
+                            <div key={detail} className="mb-1 last:mb-0">
+                              {detail}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div
+                        className={`group relative w-fit cursor-help ${row.bias >= 0 ? "text-emerald-300" : "text-rose-300"}`}
+                      >
+                        {row.bias >= 0 ? "+" : ""}
+                        {row.bias.toFixed(0)}
+                        <div className="pointer-events-none absolute left-0 top-5 z-30 hidden w-80 rounded-xl border border-white/15 bg-black/95 p-3 text-left text-[11px] text-white shadow-xl group-hover:block">
+                          {row.biasDetails.map((detail) => (
+                            <div key={detail} className="mb-1 last:mb-0">
+                              {detail}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex min-h-8 flex-wrap items-center justify-center gap-1 text-center">
+                        {row.warnings.length ? (
+                          row.warnings.map((warning) => (
+                            <span key={warning} className="rounded-full border border-amber-400/30 px-2 py-[2px] text-[10px] text-amber-200">
+                              {warning}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-[10px] text-[var(--ink-1)]">No concentration warning</span>
+                        )}
+                      </div>
+                      <div className="space-y-1 text-[10px] text-[var(--ink-1)]">
+                        {row.reasons.slice(0, 3).map((reason) => (
+                          <div key={reason}>{reason}</div>
+                        ))}
+                      </div>
+                      <div className="flex justify-end">
+                        <button
+                          className="rounded-full border border-white/10 p-2 text-[var(--ink-1)] transition hover:border-cyan-300/40 hover:text-cyan-100"
+                          onClick={() => setStockticonSettingsSymbol(row.symbolKey)}
+                          aria-label={`Configure Stockticon for ${row.holdingLabel}`}
+                          title="Configure benchmarks and monitor rules"
+                          type="button"
+                        >
+                          <Settings className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {!stockticonRows.length ? (
+                    <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-3 text-sm text-[var(--ink-1)]">
+                      No holdings to monitor.
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ) : (
           <div className="mt-4 overflow-x-auto">
             <div className="min-w-[1080px] space-y-2 text-sm">
               <div className="grid grid-cols-[1.2fr_1.2fr_1.2fr_1.2fr_0.7fr_1fr_1.2fr_0.8fr_0.7fr] gap-3 text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">
@@ -1896,6 +2533,7 @@ export default function PortfolioPage() {
               ) : null}
             </div>
           </div>
+          )}
 
           <div className="mt-6 grid gap-4 md:grid-cols-[1.35fr_0.85fr]">
             <DonutCard
@@ -2196,291 +2834,388 @@ export default function PortfolioPage() {
       </Modal>
 
       <Modal
-        open={accountsOpen}
-        title="Manage Accounts"
-        onClose={() => setAccountsOpen(false)}
+        open={!!stockticonSettingsRow}
+        title={stockticonSettingsRow ? `Stockticon Config · ${stockticonSettingsRow.holdingLabel}` : "Stockticon Config"}
+        onClose={() => setStockticonSettingsSymbol(null)}
         actions={
-          <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setAccountsOpen(false)}>
+          <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setStockticonSettingsSymbol(null)}>
             Close
           </button>
         }
       >
-        <div className="space-y-3">
-          {accounts.map((account) => (
-            <div key={account.id} className="rounded-xl border border-white/10 bg-black/20 p-3 text-sm">
-              <div className="grid grid-cols-2 gap-3">
-                <input
-                  className="rounded-md border border-white/10 bg-black/20 px-2 py-1 text-xs"
-                  value={account.brokerName}
-                  onChange={(event) =>
-                    setAccounts((prev) =>
-                      prev.map((entry) =>
-                        entry.id === account.id ? { ...entry, brokerName: event.target.value } : entry
-                      )
-                    )
-                  }
-                />
-                <Select
-                  value={account.countryType}
-                  options={countryOptions}
-                  onChange={(value) =>
-                    setAccounts((prev) =>
-                      prev.map((entry) =>
-                        entry.id === account.id ? { ...entry, countryType: value as "KR" | "US" } : entry
-                      )
-                    )
-                  }
-                  buttonClassName="px-2 py-1 text-xs"
-                />
-              </div>
-              <div className="mt-2 grid grid-cols-2 gap-3">
-                <Select
-                  value={account.currency ?? (account.countryType === "US" ? "USD" : "KRW")}
-                  options={currencyOptions}
-                  onChange={(value) =>
-                    setAccounts((prev) =>
-                      prev.map((entry) =>
-                        entry.id === account.id ? { ...entry, currency: value as "KRW" | "USD" } : entry
-                      )
-                    )
-                  }
-                  buttonClassName="px-2 py-1 text-xs"
-                />
-                <input
-                  className="rounded-md border border-white/10 bg-black/20 px-2 py-1 text-xs"
-                  value={account.memo ?? ""}
-                  placeholder="Memo"
-                  onChange={(event) =>
-                    setAccounts((prev) =>
-                      prev.map((entry) => (entry.id === account.id ? { ...entry, memo: event.target.value } : entry))
-                    )
-                  }
-                />
-              </div>
-              <div className="mt-2 text-right">
-                <button
-                  className="text-xs text-[var(--ink-1)]"
-                  onClick={() => setAccounts((prev) => prev.filter((entry) => entry.id !== account.id))}
-                >
-                  Remove
-                </button>
+        {stockticonSettingsRow ? (
+          <div className="space-y-4 text-sm">
+            <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Manual Benchmarks</div>
+              <input
+                className="mt-2 w-full rounded-lg border border-white/10 bg-black/25 px-3 py-2 text-sm"
+                placeholder="예: NASDAQ, SOXX, AMD"
+                value={stockticonSettingsRow.manualBenchmarkText}
+                onChange={(event) =>
+                  setStockticonConfig((prev) => ({
+                    ...prev,
+                    manualBenchmarks: {
+                      ...prev.manualBenchmarks,
+                      [stockticonSettingsRow.symbolKey]: event.target.value
+                    }
+                  }))
+                }
+              />
+              <div className="mt-2 text-xs text-[var(--ink-1)]">쉼표로 여러 지수/종목/ETF 티커를 입력합니다.</div>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+              <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Active Benchmarks</div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {stockticonSettingsRow.benchmarks.length ? (
+                  stockticonSettingsRow.benchmarks.map((benchmark) => (
+                    <span key={benchmark} className="rounded-full border border-cyan-300/30 px-2 py-1 text-xs text-cyan-100">
+                      {benchmark}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-xs text-[var(--ink-1)]">No benchmark configured.</span>
+                )}
               </div>
             </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+                <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Single Weight</div>
+                <div className="mt-2 text-lg text-white">
+                  {stockticonSettingsRow.singleWeightPct !== null ? `${stockticonSettingsRow.singleWeightPct.toFixed(1)}%` : "-"}
+                </div>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+                <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Sub-sector Weight</div>
+                <div className="mt-2 text-lg text-white">
+                  {stockticonSettingsRow.sectorWeightPct !== null ? `${stockticonSettingsRow.sectorWeightPct.toFixed(1)}%` : "-"}
+                </div>
+                <div className="mt-1 text-xs text-[var(--ink-1)]">{stockticonSettingsRow.sector}</div>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </Modal>
+
+      <Modal
+        open={operationsOpen}
+        title="Manage"
+        onClose={() => setOperationsOpen(false)}
+        panelClassName="!w-[92vw] !max-w-[760px] pt-8"
+        actions={
+          operationsTab === "trade" ? (
+            <>
+              <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setOperationsOpen(false)}>
+                Cancel
+              </button>
+              <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={applyTrade}>
+                Save
+              </button>
+            </>
+          ) : operationsTab === "cash" ? (
+            <>
+              <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setOperationsOpen(false)}>
+                Cancel
+              </button>
+              <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={applyCashflow}>
+                Save
+              </button>
+            </>
+          ) : (
+            <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setOperationsOpen(false)}>
+              Close
+            </button>
+          )
+        }
+      >
+        <div className="mb-4 flex flex-wrap gap-2 text-xs">
+          {[
+            { key: "trade", label: "Trade" },
+            { key: "cash", label: "Add Cash" },
+            { key: "accounts", label: "Accounts" }
+          ].map((tab) => (
+            <button
+              key={tab.key}
+              className={`rounded-full border px-3 py-1 ${
+                operationsTab === tab.key ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10 text-[var(--ink-1)]"
+              }`}
+              onClick={() => {
+                if (tab.key === "trade") openTrade();
+                else if (tab.key === "cash") openCash();
+                else setOperationsTab("accounts");
+              }}
+              type="button"
+            >
+              {tab.label}
+            </button>
           ))}
-          <button
-            className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-[var(--ink-1)]"
-            onClick={() =>
-              setAccounts((prev) => [
-                ...prev,
-                { id: crypto.randomUUID(), brokerName: "New Broker", countryType: "KR", currency: "KRW", memo: "" }
-              ])
-            }
-          >
-            Add Account
-          </button>
         </div>
-      </Modal>
 
-      <Modal
-        open={tradeOpen}
-        title="Trade"
-        onClose={() => setTradeOpen(false)}
-        actions={
-          <>
-            <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setTradeOpen(false)}>
-              Cancel
-            </button>
-            <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={applyTrade}>
-              Save
-            </button>
-          </>
-        }
-      >
-        <div className="space-y-3 text-sm">
-          <label className="block text-xs uppercase tracking-wide">
-            Account
-            <Select
-              value={tradeForm.accountId}
-              options={accountOptions}
-              onChange={(value) => setTradeForm((prev) => ({ ...prev, accountId: value }))}
-              className="mt-1"
-            />
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Stock
-            <Select
-              value={tradeForm.stockId}
-              options={tradeStockOptions}
-              onChange={(value) => setTradeForm((prev) => ({ ...prev, stockId: value }))}
-              className="mt-1"
-              enableSearch
-              maxVisibleItems={8}
-            />
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Side
-            <div className="mt-1 flex gap-2">
-              {(["BUY", "SELL"] as const).map((side) => (
-                <button
-                  key={side}
-                  className={`rounded-full border px-4 py-2 text-xs ${
-                    tradeForm.side === side ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10"
-                  }`}
-                  onClick={() => setTradeForm((prev) => ({ ...prev, side }))}
-                  type="button"
-                >
-                  {side}
-                </button>
-              ))}
-            </div>
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Price ({tradeCurrency ?? "—"})
-            <div className="mt-1 flex items-center gap-2">
-              <input
-                className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
-                type="text"
-                inputMode="decimal"
-                value={tradeForm.price}
-                onChange={(event) =>
-                  setTradeForm((prev) => ({
-                    ...prev,
-                    price: formatInputNumber(event.target.value, tradeCurrency === "KRW" ? 0 : 2)
-                  }))
-                }
-              />
-              <span className="text-xs text-[var(--ink-1)]">{tradeCurrency ?? ""}</span>
-            </div>
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Quantity
-            <input
-              className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
-              type="text"
-              inputMode="numeric"
-              value={tradeForm.qty}
-              onChange={(event) =>
-                setTradeForm((prev) => ({ ...prev, qty: formatInputNumber(event.target.value, 0) }))
+        {operationsTab === "accounts" ? (
+          <div className="space-y-3">
+            {accounts.map((account) => (
+              <div key={account.id} className="rounded-xl border border-white/10 bg-black/20 p-3 text-sm">
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    className="rounded-md border border-white/10 bg-black/20 px-2 py-1 text-xs"
+                    value={account.brokerName}
+                    onChange={(event) =>
+                      setAccounts((prev) =>
+                        prev.map((entry) =>
+                          entry.id === account.id ? { ...entry, brokerName: event.target.value } : entry
+                        )
+                      )
+                    }
+                  />
+                  <Select
+                    value={account.countryType}
+                    options={countryOptions}
+                    onChange={(value) =>
+                      setAccounts((prev) =>
+                        prev.map((entry) =>
+                          entry.id === account.id ? { ...entry, countryType: value as "KR" | "US" } : entry
+                        )
+                      )
+                    }
+                    buttonClassName="px-2 py-1 text-xs"
+                  />
+                </div>
+                <div className="mt-2 grid grid-cols-2 gap-3">
+                  <Select
+                    value={account.currency ?? (account.countryType === "US" ? "USD" : "KRW")}
+                    options={currencyOptions}
+                    onChange={(value) =>
+                      setAccounts((prev) =>
+                        prev.map((entry) =>
+                          entry.id === account.id ? { ...entry, currency: value as "KRW" | "USD" } : entry
+                        )
+                      )
+                    }
+                    buttonClassName="px-2 py-1 text-xs"
+                  />
+                  <input
+                    className="rounded-md border border-white/10 bg-black/20 px-2 py-1 text-xs"
+                    value={account.memo ?? ""}
+                    placeholder="Memo"
+                    onChange={(event) =>
+                      setAccounts((prev) =>
+                        prev.map((entry) => (entry.id === account.id ? { ...entry, memo: event.target.value } : entry))
+                      )
+                    }
+                  />
+                </div>
+                <div className="mt-2 text-right">
+                  <button
+                    className="text-xs text-[var(--ink-1)]"
+                    onClick={() => setAccounts((prev) => prev.filter((entry) => entry.id !== account.id))}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-[var(--ink-1)]"
+              onClick={() =>
+                setAccounts((prev) => [
+                  ...prev,
+                  { id: crypto.randomUUID(), brokerName: "New Broker", countryType: "KR", currency: "KRW", memo: "" }
+                ])
               }
-            />
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Fee (Optional, {tradeCurrency ?? "—"})
-            <div className="mt-1 flex items-center gap-2">
+            >
+              Add Account
+            </button>
+          </div>
+        ) : operationsTab === "trade" ? (
+          <div className="space-y-3 text-sm">
+            <label className="block text-xs uppercase tracking-wide">
+              Account
+              <Select
+                value={tradeForm.accountId}
+                options={accountOptions}
+                onChange={(value) => setTradeForm((prev) => ({ ...prev, accountId: value }))}
+                className="mt-1"
+              />
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Stock
+              <Select
+                value={tradeForm.stockId}
+                options={tradeStockOptions}
+                onChange={(value) => setTradeForm((prev) => ({ ...prev, stockId: value }))}
+                className="mt-1"
+                enableSearch
+                maxVisibleItems={8}
+              />
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Side
+              <div className="mt-1 flex gap-2">
+                {(["BUY", "SELL"] as const).map((side) => (
+                  <button
+                    key={side}
+                    className={`rounded-full border px-4 py-2 text-xs ${
+                      tradeForm.side === side ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10"
+                    }`}
+                    onClick={() => setTradeForm((prev) => ({ ...prev, side }))}
+                    type="button"
+                  >
+                    {side}
+                  </button>
+                ))}
+              </div>
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Price ({tradeCurrency ?? "-"})
+              <div className="mt-1 flex items-center gap-2">
+                <input
+                  className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                  type="text"
+                  inputMode="decimal"
+                  value={tradeForm.price}
+                  onChange={(event) =>
+                    setTradeForm((prev) => ({
+                      ...prev,
+                      price: formatInputNumber(event.target.value, tradeCurrency === "KRW" ? 0 : 2)
+                    }))
+                  }
+                />
+                <span className="text-xs text-[var(--ink-1)]">{tradeCurrency ?? ""}</span>
+              </div>
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Quantity
               <input
-                className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
                 type="text"
-                inputMode="decimal"
-                value={tradeForm.fee}
+                inputMode="numeric"
+                value={tradeForm.qty}
                 onChange={(event) =>
-                  setTradeForm((prev) => ({
-                    ...prev,
-                    fee: formatInputNumber(event.target.value, tradeCurrency === "KRW" ? 0 : 2)
-                  }))
+                  setTradeForm((prev) => ({ ...prev, qty: formatInputNumber(event.target.value, 0) }))
                 }
               />
-              <span className="text-xs text-[var(--ink-1)]">{tradeCurrency ?? ""}</span>
-            </div>
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Memo (Optional)
-            <textarea
-              className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
-              rows={3}
-              value={tradeForm.memo}
-              onChange={(event) => setTradeForm((prev) => ({ ...prev, memo: event.target.value }))}
-            />
-          </label>
-        </div>
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Fee (Optional, {tradeCurrency ?? "-"})
+              <div className="mt-1 flex items-center gap-2">
+                <input
+                  className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                  type="text"
+                  inputMode="decimal"
+                  value={tradeForm.fee}
+                  onChange={(event) =>
+                    setTradeForm((prev) => ({
+                      ...prev,
+                      fee: formatInputNumber(event.target.value, tradeCurrency === "KRW" ? 0 : 2)
+                    }))
+                  }
+                />
+                <span className="text-xs text-[var(--ink-1)]">{tradeCurrency ?? ""}</span>
+              </div>
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Memo (Optional)
+              <textarea
+                className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                rows={3}
+                value={tradeForm.memo}
+                onChange={(event) => setTradeForm((prev) => ({ ...prev, memo: event.target.value }))}
+              />
+            </label>
+          </div>
+        ) : (
+          <div className="space-y-3 text-sm">
+            <label className="block text-xs uppercase tracking-wide">
+              Account
+              <Select
+                value={cashForm.accountId}
+                options={accountOptions}
+                onChange={(value) => setCashForm((prev) => ({ ...prev, accountId: value }))}
+                className="mt-1"
+              />
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Direction
+              <div className="mt-1 flex gap-2">
+                {(["DEPOSIT", "WITHDRAW"] as const).map((direction) => (
+                  <button
+                    key={direction}
+                    className={`rounded-full border px-4 py-2 text-xs ${
+                      cashForm.direction === direction ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10"
+                    }`}
+                    onClick={() => setCashForm((prev) => ({ ...prev, direction }))}
+                    type="button"
+                  >
+                    {direction}
+                  </button>
+                ))}
+              </div>
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Amount ({cashFormCurrency})
+              <div className="mt-1 flex items-center gap-2">
+                <input
+                  className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                  type="text"
+                  inputMode="decimal"
+                  value={cashForm.amount}
+                  onChange={(event) =>
+                    setCashForm((prev) => ({
+                      ...prev,
+                      amount: formatInputNumber(event.target.value, cashFormCurrency === "KRW" ? 0 : 2)
+                    }))
+                  }
+                />
+                <span className="text-xs text-[var(--ink-1)]">{cashFormCurrency}</span>
+              </div>
+            </label>
+            <label className="block text-xs uppercase tracking-wide">
+              Memo (Optional)
+              <textarea
+                className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
+                rows={3}
+                value={cashForm.memo}
+                onChange={(event) => setCashForm((prev) => ({ ...prev, memo: event.target.value }))}
+              />
+            </label>
+          </div>
+        )}
       </Modal>
 
       <Modal
-        open={cashOpen}
-        title="Add Cash"
-        onClose={() => setCashOpen(false)}
-        actions={
-          <>
-            <button className="rounded-full border border-white/10 px-4 py-2 text-xs" onClick={() => setCashOpen(false)}>
-              Cancel
-            </button>
-            <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={applyCashflow}>
-              Save
-            </button>
-          </>
-        }
-      >
-        <div className="space-y-3 text-sm">
-          <label className="block text-xs uppercase tracking-wide">
-            Account
-            <Select
-              value={cashForm.accountId}
-              options={accountOptions}
-              onChange={(value) => setCashForm((prev) => ({ ...prev, accountId: value }))}
-              className="mt-1"
-            />
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Direction
-            <div className="mt-1 flex gap-2">
-              {(["DEPOSIT", "WITHDRAW"] as const).map((direction) => (
-                <button
-                  key={direction}
-                  className={`rounded-full border px-4 py-2 text-xs ${
-                    cashForm.direction === direction ? "border-[var(--accent-1)] text-[var(--accent-1)]" : "border-white/10"
-                  }`}
-                  onClick={() => setCashForm((prev) => ({ ...prev, direction }))}
-                  type="button"
-                >
-                  {direction}
-                </button>
-              ))}
-            </div>
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Amount ({cashFormCurrency})
-            <div className="mt-1 flex items-center gap-2">
-              <input
-                className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
-                type="text"
-                inputMode="decimal"
-                value={cashForm.amount}
-                onChange={(event) =>
-                  setCashForm((prev) => ({
-                    ...prev,
-                    amount: formatInputNumber(event.target.value, cashFormCurrency === "KRW" ? 0 : 2)
-                  }))
-                }
-              />
-              <span className="text-xs text-[var(--ink-1)]">{cashFormCurrency}</span>
-            </div>
-          </label>
-          <label className="block text-xs uppercase tracking-wide">
-            Memo (Optional)
-            <textarea
-              className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm"
-              rows={3}
-              value={cashForm.memo}
-              onChange={(event) => setCashForm((prev) => ({ ...prev, memo: event.target.value }))}
-            />
-          </label>
-        </div>
-      </Modal>
-
-      <Modal
-        open={analyzeOpen}
-        title="Symbol Analyze"
-        onClose={() => setAnalyzeOpen(false)}
+        open={insightsOpen && insightsTab === "analyze"}
+        title="Insights"
+        onClose={() => setInsightsOpen(false)}
         panelClassName="!w-[92vw] !max-w-[900px] min-h-[40vh] pt-8"
         titleClassName="text-3xl font-semibold tracking-tight"
         contentClassName="text-base md:text-lg"
         closeButtonClassName="p-2 text-base text-white/80 hover:text-white"
         actions={
-          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setAnalyzeOpen(false)}>
+          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setInsightsOpen(false)}>
             Close
           </button>
         }
       >
         <div className="space-y-4">
+          <div className="flex flex-wrap gap-2 text-xs">
+            {[
+              { key: "assetHistory", label: "Asset History" },
+              { key: "ledger", label: "History" },
+              { key: "analyze", label: "Analyze" }
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                className={`rounded-full border px-3 py-1 ${
+                  insightsTab === tab.key ? "border-emerald-400/50 text-emerald-200" : "border-white/10 text-[var(--ink-1)]"
+                }`}
+                onClick={() => setInsightsTab(tab.key as InsightsTab)}
+                type="button"
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
           <div className="grid gap-2 md:grid-cols-[1fr_auto]">
             <input
               className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-base text-white outline-none"
@@ -2541,40 +3276,78 @@ export default function PortfolioPage() {
       </Modal>
 
       <Modal
-        open={historyOpen}
-        title="Asset History"
-        onClose={() => setHistoryOpen(false)}
+        open={insightsOpen && insightsTab === "assetHistory"}
+        title="Insights"
+        onClose={() => setInsightsOpen(false)}
         panelClassName="!w-[96vw] !max-w-[1400px] min-h-[70vh] pt-8"
         titleClassName="text-3xl font-semibold tracking-tight"
         contentClassName="text-base md:text-lg"
         closeButtonClassName="p-2 text-base text-white/80 hover:text-white"
         actions={
-          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setHistoryOpen(false)}>
-            Close
-          </button>
-        }
-      >
-        <PortfolioHistoryChart
-          data={history}
-          onDeleteLog={(date) => setHistory((prev) => prev.filter((entry) => entry.date !== date))}
-        />
-      </Modal>
-
-      <Modal
-        open={ledgerOpen}
-        title="History"
-        onClose={() => setLedgerOpen(false)}
-        panelClassName="!w-[96vw] !max-w-[1200px] min-h-[60vh] pt-8"
-        titleClassName="text-3xl font-semibold tracking-tight"
-        contentClassName="text-base md:text-lg"
-        closeButtonClassName="p-2 text-base text-white/80 hover:text-white"
-        actions={
-          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setLedgerOpen(false)}>
+          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setInsightsOpen(false)}>
             Close
           </button>
         }
       >
         <div className="space-y-4">
+          <div className="flex flex-wrap gap-2 text-xs">
+            {[
+              { key: "assetHistory", label: "Asset History" },
+              { key: "ledger", label: "History" },
+              { key: "analyze", label: "Analyze" }
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                className={`rounded-full border px-3 py-1 ${
+                  insightsTab === tab.key ? "border-emerald-400/50 text-emerald-200" : "border-white/10 text-[var(--ink-1)]"
+                }`}
+                onClick={() => setInsightsTab(tab.key as InsightsTab)}
+                type="button"
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          <PortfolioHistoryChart
+            data={history}
+            onDeleteLog={(date) => setHistory((prev) => prev.filter((entry) => entry.date !== date))}
+          />
+        </div>
+      </Modal>
+
+      <Modal
+        open={insightsOpen && insightsTab === "ledger"}
+        title="Insights"
+        onClose={() => setInsightsOpen(false)}
+        panelClassName="!w-[96vw] !max-w-[1200px] min-h-[60vh] pt-8"
+        titleClassName="text-3xl font-semibold tracking-tight"
+        contentClassName="text-base md:text-lg"
+        closeButtonClassName="p-2 text-base text-white/80 hover:text-white"
+        actions={
+          <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/85" onClick={() => setInsightsOpen(false)}>
+            Close
+          </button>
+        }
+      >
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2 text-xs">
+            {[
+              { key: "assetHistory", label: "Asset History" },
+              { key: "ledger", label: "History" },
+              { key: "analyze", label: "Analyze" }
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                className={`rounded-full border px-3 py-1 ${
+                  insightsTab === tab.key ? "border-emerald-400/50 text-emerald-200" : "border-white/10 text-[var(--ink-1)]"
+                }`}
+                onClick={() => setInsightsTab(tab.key as InsightsTab)}
+                type="button"
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
           <div className="grid gap-3 md:grid-cols-5">
             <label className="text-xs uppercase tracking-wide text-[var(--ink-1)]">
               Account
@@ -2850,6 +3623,122 @@ export default function PortfolioPage() {
       />
     </AppShell>
   );
+}
+
+function average(values: number[]) {
+  if (!values.length) return null;
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function computeMa(values: number[], period: number) {
+  if (values.length < period) return null;
+  return average(values.slice(-period));
+}
+
+function computeRsi(values: number[], period = 14) {
+  if (values.length <= period) return null;
+  let gains = 0;
+  let losses = 0;
+  const start = values.length - period;
+  for (let index = start; index < values.length; index += 1) {
+    const delta = values[index] - values[index - 1];
+    if (delta >= 0) gains += delta;
+    else losses += Math.abs(delta);
+  }
+  const avgGain = gains / period;
+  const avgLoss = losses / period;
+  if (avgLoss === 0) return 100;
+  const rs = avgGain / avgLoss;
+  return 100 - 100 / (1 + rs);
+}
+
+function computeStockticonIndicators(points: StockticonHistoryPoint[], changePct: number | null | undefined): StockticonIndicatorSnapshot | null {
+  const sorted = [...points]
+    .filter((point) => typeof point.close === "number" && Number.isFinite(point.close))
+    .sort((a, b) => a.date.localeCompare(b.date));
+  if (!sorted.length) return null;
+  const closes = sorted.map((point) => point.close);
+  const latest = sorted[sorted.length - 1];
+  const ma5 = computeMa(closes, 5);
+  const ma20 = computeMa(closes, 20);
+  const ma60 = computeMa(closes, 60);
+  const ma120 = computeMa(closes, 120);
+  const returns = closes
+    .slice(1)
+    .map((close, index) => {
+      const previous = closes[index];
+      return previous > 0 ? ((close - previous) / previous) * 100 : null;
+    })
+    .filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+  const last20Returns = returns.slice(-20);
+  const meanReturn20 = average(last20Returns);
+  const volatility20 =
+    last20Returns.length === 20 && meanReturn20 !== null
+      ? Math.sqrt(last20Returns.reduce((sum, value) => sum + (value - meanReturn20) ** 2, 0) / last20Returns.length)
+      : null;
+  const normalizedChange =
+    typeof changePct === "number" && volatility20 !== null && volatility20 > 0 ? changePct / volatility20 : null;
+  const last20 = closes.slice(-20);
+  const std20 =
+    last20.length === 20 && ma20 !== null
+      ? Math.sqrt(last20.reduce((sum, close) => sum + (close - ma20) ** 2, 0) / last20.length)
+      : null;
+  const bollingerUpper20 = ma20 !== null && std20 !== null ? ma20 + std20 * 2 : null;
+  const bollingerLower20 = ma20 !== null && std20 !== null ? ma20 - std20 * 2 : null;
+  const bollingerPosition20 =
+    bollingerUpper20 !== null && bollingerLower20 !== null && bollingerUpper20 !== bollingerLower20
+      ? (latest.close - bollingerLower20) / (bollingerUpper20 - bollingerLower20)
+      : null;
+  const bollingerUpperBreakout = bollingerUpper20 !== null ? latest.close > bollingerUpper20 : false;
+  const bollingerLowerBreakout = bollingerLower20 !== null ? latest.close < bollingerLower20 : false;
+  const volumePoints = sorted.filter((point) => typeof point.volume === "number" && Number.isFinite(point.volume));
+  const latestVolume = typeof latest.volume === "number" && Number.isFinite(latest.volume) ? latest.volume : null;
+  const avgVolume20 = average(volumePoints.slice(-20).map((point) => point.volume as number));
+  const volumeRatio20 = latestVolume !== null && avgVolume20 && avgVolume20 > 0 ? latestVolume / avgVolume20 : null;
+
+  return {
+    asOf: latest.date,
+    close: latest.close,
+    rsi14: computeRsi(closes, 14),
+    ma5,
+    ma20,
+    ma60,
+    ma120,
+    volatility20,
+    normalizedChange,
+    bollingerUpper20,
+    bollingerLower20,
+    bollingerPosition20,
+    bollingerUpperBreakout,
+    bollingerLowerBreakout,
+    volumeRatio20,
+    dataPointCount: sorted.length
+  };
+}
+
+function getStockticonSignalClass(signal: string) {
+  switch (signal) {
+    case "NO SIGNAL":
+      return "border-white/10 text-zinc-500";
+    case "QUIET":
+      return "border-slate-400/25 text-slate-300";
+    case "WATCH":
+      return "border-cyan-400/35 text-cyan-200";
+    case "HIGH ATTENTION":
+      return "border-amber-300/45 text-amber-200";
+    case "OPPORTUNITY WATCH":
+      return "border-emerald-400/45 text-emerald-200";
+    case "URGENT OPPORTUNITY WATCH":
+      return "border-lime-300/60 text-lime-200";
+    case "RISK WATCH":
+      return "border-orange-400/50 text-orange-200";
+    case "URGENT RISK WATCH":
+      return "border-rose-400/60 text-rose-200";
+    case "CONCENTRATION WARNING":
+      return "border-fuchsia-300/50 text-fuchsia-200";
+    default:
+      return "border-white/10 text-[var(--ink-1)]";
+  }
 }
 
 function AnalyzePriceChart({ points }: { points: Array<{ date: string; close: number }> }) {
@@ -3384,7 +4273,6 @@ function PortfolioHistoryChart({
           {selected ? (
             <foreignObject x={tooltipX} y={tooltipY} width={tooltipWidth} height={tooltipHeight}>
               <div
-                xmlns="http://www.w3.org/1999/xhtml"
                 className="h-full max-w-[360px] overflow-hidden rounded-xl border border-white/15 bg-black/90 px-3 py-2 text-white"
               >
                 <div className="truncate text-xs text-white/75">{selected.date}</div>

@@ -5,7 +5,8 @@ import {
   Landmark,
   Activity,
   BriefcaseBusiness,
-  Sparkles
+  Sparkles,
+  Map
 } from "lucide-react";
 import type { OrbitApp } from "../components/LifnuxOrbit";
 
@@ -16,5 +17,6 @@ export const coreApps: OrbitApp[] = [
   { key: "finance", label: "FINANCE", href: "/finance", icon: Landmark },
   { key: "health", label: "HEALTH", href: "/health", icon: Activity },
   { key: "career", label: "CAREER", href: "/career", icon: BriefcaseBusiness },
-  { key: "growth", label: "PERSONAL GROWTH", href: "/personal-growth", icon: Sparkles }
+  { key: "growth", label: "PERSONAL GROWTH", href: "/personal-growth", icon: Sparkles },
+  { key: "world-generator", label: "WORLD GENERATOR", href: "/world-generator", icon: Map }
 ];

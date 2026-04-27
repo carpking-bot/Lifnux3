@@ -3,11 +3,12 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { BookOpen, FolderLock, Wand2, Guitar, Newspaper, X, LineChart } from "lucide-react";
+import { BookOpen, FolderLock, Wand2, Guitar, Newspaper, X, LineChart, Map } from "lucide-react";
 
 const extraApps = [
   { id: "news", name: "News", href: "/news", icon: Newspaper },
   { id: "guitar", name: "Guitar Practice", href: "/guitar", icon: Guitar },
+  { id: "world-generator", name: "World Generator", href: "/world-generator", icon: Map },
   { id: "asset-growth-simulator", name: "Asset Growth", href: "/asset-growth-simulator", icon: LineChart },
   { id: "notes", name: "NOTES", href: "/notes", icon: BookOpen },
   { id: "vault", name: "VAULT", href: "/vault", icon: FolderLock },
