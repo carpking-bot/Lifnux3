@@ -16,8 +16,10 @@ const LOCAL_DATA_UPDATED_AT_KEY = "lifnux:data.lastUpdatedAt";
 const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 const SYNC_EXACT_KEYS = new Set(["portfolio.positions", "investing.portfolio.performance.v1"]);
 const SYNC_PREFIXES = ["lifnux", "investing_", "asset_", "music.", "career_", "news_"];
+const EXCLUDED_KEYS = new Set(["lifnux_world_generator_state_v1", "lifnux_world_generator_state_v2"]);
 
 function isLifnuxKey(key: string) {
+  if (EXCLUDED_KEYS.has(key)) return false;
   if (SYNC_EXACT_KEYS.has(key)) return true;
   return SYNC_PREFIXES.some((prefix) => key.startsWith(prefix));
 }
@@ -278,4 +280,40 @@ export function updateAutoBackup() {
   if (!isAutoBackupEnabled()) return;
   const payload = buildLifnuxExport();
   window.localStorage.setItem(BACKUP_KEY, JSON.stringify(payload));
+}
+
+export function cleanupExcludedLocalData() {
+  if (typeof window === "undefined") return false;
+  let changed = false;
+  EXCLUDED_KEYS.forEach((key) => {
+    if (window.localStorage.getItem(key) !== null) {
+      window.localStorage.removeItem(key);
+      changed = true;
+    }
+  });
+  if (changed) {
+    try {
+      window.localStorage.setItem(LOCAL_DATA_UPDATED_AT_KEY, new Date().toISOString());
+    } catch {
+      // Ignore storage write issues during cleanup.
+    }
+    try {
+      if (isAutoBackupEnabled()) {
+        updateAutoBackup();
+      } else if (window.localStorage.getItem(BACKUP_KEY) !== null) {
+        const backup = getBackupExport();
+        if (backup?.data) {
+          Object.values(backup.data).forEach((group) => {
+            EXCLUDED_KEYS.forEach((key) => {
+              delete (group as Record<string, unknown>)[key];
+            });
+          });
+          window.localStorage.setItem(BACKUP_KEY, JSON.stringify(backup));
+        }
+      }
+    } catch {
+      // Ignore backup cleanup failures.
+    }
+  }
+  return changed;
 }

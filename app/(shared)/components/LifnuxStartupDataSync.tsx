@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ConfirmModal } from "./ConfirmModal";
-import { getLocalDataLastUpdatedAt, importLifnuxExport, validateLifnuxExport } from "../lib/persistence";
+import { cleanupExcludedLocalData, getLocalDataLastUpdatedAt, importLifnuxExport, validateLifnuxExport } from "../lib/persistence";
 
 type LatestExportResponse = {
   hasExport: boolean;
@@ -60,6 +60,7 @@ export function LifnuxStartupDataSync() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    cleanupExcludedLocalData();
     if (sessionStorage.getItem(AUTO_SYNC_CHECK_KEY) === "done") return;
 
     const run = async () => {
