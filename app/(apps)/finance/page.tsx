@@ -318,7 +318,7 @@ export default function FinancePage() {
             </div>
           </Link>
 
-          <Link href="/finance/portfolio" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">
+          <Link href="/investing" className="lifnux-glass relative overflow-hidden rounded-2xl p-6 transition hover:border-white/20">
             <TrendingUp className="pointer-events-none absolute right-4 top-1/2 h-11 w-11 -translate-y-1/2 text-white/20" />
             <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Investing</div>
             <div className={`mt-3 text-2xl font-semibold tabular-nums ${sensitiveClass}`}>{formatKrw(investingSummary.totalKrw)}</div>
@@ -334,7 +334,7 @@ export default function FinancePage() {
               <div className={`mt-2 text-sm tabular-nums ${sensitiveClass} text-[var(--ink-1)]`}>FX not ready</div>
             )}
             <div className="mt-2 text-xs text-[var(--ink-1)]">
-              {portfolioSnapshot?.updatedAt ? `Portfolio synced ${new Date(portfolioSnapshot.updatedAt).toLocaleDateString()}` : "Open portfolio"}
+              {portfolioSnapshot?.updatedAt ? `Portfolio synced ${new Date(portfolioSnapshot.updatedAt).toLocaleDateString()}` : "Open investing"}
             </div>
           </Link>
         </div>
