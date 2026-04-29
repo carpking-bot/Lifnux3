@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "../../(shared)/components/AppShell";
@@ -330,7 +330,7 @@ function AssetGrowthChart({ rows }: { rows: SimulationRow[] }) {
   const points = rows.map((row, i) => `${x(i)},${y(row.endTotal)}`).join(" ");
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+    <div className="rounded-2xl border border-white/10 bg-[#08111c]/85 p-4">
       <div className="mb-3 flex items-center gap-2 text-sm text-white/90">
         <LineChart className="h-4 w-4" />
         Asset Growth
@@ -358,7 +358,7 @@ function AssetGrowthChart({ rows }: { rows: SimulationRow[] }) {
 
 function StatCard({ title, value, positive = true }: { title: string; value: string; positive?: boolean }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+    <div className="rounded-2xl border border-white/10 bg-[#08111c]/85 p-4">
       <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">{title}</div>
       <div className={`mt-2 text-2xl font-semibold ${title === "Net Gain" ? (positive ? "text-emerald-300" : "text-rose-300") : ""}`}>{value}</div>
     </div>
@@ -392,7 +392,7 @@ function NumberField({
         min={min}
         max={max}
         step={step}
-        className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-[#08111c]/85 px-3 py-2"
         style={DARK_FIELD_STYLE}
         value={displayValue}
         onChange={(event) => {
@@ -423,7 +423,7 @@ function SelectField({
     <label className="block text-xs text-[var(--ink-1)]">
       {label}
       <select
-        className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-[#08111c]/85 px-3 py-2"
         style={DARK_FIELD_STYLE}
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -692,7 +692,7 @@ export default function AssetGrowthSimulatorPage() {
           </button>
         </div>
 
-        <section className="rounded-2xl border border-white/10 bg-black/20 p-4">
+        <section className="rounded-2xl border border-white/10 bg-[#08111c]/85 p-4">
           <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">A. Plan Control</div>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-white/80">
             <span className="rounded-full border border-white/10 px-3 py-1">
@@ -717,7 +717,7 @@ export default function AssetGrowthSimulatorPage() {
           </div>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4 rounded-2xl border border-white/10 bg-black/20 p-4">
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4 rounded-2xl border border-white/10 bg-[#08111c]/85 p-4">
           <div className="col-span-full text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">B. Overall Data</div>
           <StatCard title="Start Asset" value={summary ? formatKrw(summary.startTotal) : "-"} />
           <StatCard title="End Asset" value={summary ? formatKrw(summary.endTotal) : "-"} />
@@ -735,7 +735,7 @@ export default function AssetGrowthSimulatorPage() {
                 : "-"
             }
           />
-          <div className="md:col-span-2 xl:col-span-4 rounded-xl border border-white/10 bg-black/20 p-3 text-xs">
+          <div className="md:col-span-2 xl:col-span-4 rounded-xl border border-white/10 bg-[#08111c]/85 p-3 text-xs">
             <div className="text-[var(--ink-1)]">End Asset Breakdown</div>
             <div className="mt-1 text-[var(--ink-1)]">
               Total Contributions (salary deposits): {summary ? formatKrw(summary.totalContributions) : "-"}
@@ -760,11 +760,11 @@ export default function AssetGrowthSimulatorPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-white/10 bg-black/20 p-4">
+        <section className="rounded-2xl border border-white/10 bg-[#08111c]/85 p-4">
           <div className="mb-3 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">C. Growth Chart</div>
           <AssetGrowthChart rows={simulationRows} />
           {state.returnMode === "HISTORICAL" ? (
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-3">
+            <div className="mt-4 rounded-xl border border-white/10 bg-[#08111c]/85 p-3">
               <div className="mb-2 flex items-center gap-2 text-sm text-white/90">
                 <Database className="h-4 w-4" />
                 Historical Yearly Returns
@@ -776,7 +776,7 @@ export default function AssetGrowthSimulatorPage() {
                   {historicalYears.map((year) => {
                     const value = historicalAnnualReturns.get(year) ?? 0;
                     return (
-                      <div key={year} className="rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-xs">
+                      <div key={year} className="rounded-lg border border-white/10 bg-[#08111c]/85 px-3 py-2 text-xs">
                         <div className="text-[var(--ink-1)]">{year}</div>
                         <div className={value >= 0 ? "text-emerald-300" : "text-rose-300"}>{formatPct(value)}</div>
                       </div>
@@ -787,7 +787,7 @@ export default function AssetGrowthSimulatorPage() {
             </div>
           ) : null}
           {state.returnMode === "CUSTOM_CSV" ? (
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-3 text-xs">
+            <div className="mt-4 rounded-xl border border-white/10 bg-[#08111c]/85 p-3 text-xs">
               <div className="text-[var(--ink-1)]">Custom CSV Return Data</div>
               <div className="mt-1 text-white/90">
                 {customCsvFileName
@@ -798,7 +798,7 @@ export default function AssetGrowthSimulatorPage() {
           ) : null}
         </section>
 
-        <section className="rounded-2xl border border-white/10 bg-black/20 p-4">
+        <section className="rounded-2xl border border-white/10 bg-[#08111c]/85 p-4">
           <div className="mb-3 text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">D. Detail Data</div>
           <div className="overflow-auto">
             <table className="min-w-[1240px] text-xs">
@@ -989,7 +989,7 @@ export default function AssetGrowthSimulatorPage() {
               onChange={(v) => setState((prev) => ({ ...prev, pensionIrpReturnPct: v }))}
             />
             {state.returnMode === "HISTORICAL" ? (
-              <div className="space-y-2 rounded-xl border border-white/10 bg-black/20 p-3">
+              <div className="space-y-2 rounded-xl border border-white/10 bg-[#08111c]/85 p-3">
                 <SelectField
                   label="Market"
                   value={state.historicalMarket}
@@ -1024,12 +1024,12 @@ export default function AssetGrowthSimulatorPage() {
               </div>
             ) : null}
             {state.returnMode === "CUSTOM_CSV" ? (
-              <div className="space-y-2 rounded-xl border border-white/10 bg-black/20 p-3">
+              <div className="space-y-2 rounded-xl border border-white/10 bg-[#08111c]/85 p-3">
                 <div className="text-xs text-[var(--ink-1)]">CSV format: `year,&lt;ticker columns...&gt;` with percent cells (e.g. `16.39%`).</div>
                 <input
                   type="file"
                   accept=".csv,text/csv"
-                  className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-xs"
+                  className="w-full rounded-lg border border-white/10 bg-[#08111c]/85 px-3 py-2 text-xs"
                   style={DARK_FIELD_STYLE}
                   onChange={(event) => {
                     const file = event.target.files?.[0];
@@ -1083,7 +1083,7 @@ export default function AssetGrowthSimulatorPage() {
                 <input
                   type="text"
                   inputMode="numeric"
-                  className="mt-1 w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-[#08111c]/85 px-3 py-2"
                   style={DARK_FIELD_STYLE}
                   value={(state.manualAnnualSalaryByYear[String(year)] ?? 0).toLocaleString("ko-KR")}
                   onChange={(event) =>

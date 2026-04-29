@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-28T09:08:42.915Z"
+    "exportedAt": "2026-04-29T09:29:30.624Z"
   },
   "data": {
     "lastState": {
@@ -3652,6 +3652,24 @@
           "createdAt": "2026-04-28T07:20:13.778Z",
           "distanceKm": 3.25,
           "calorieOverride": 128
+        },
+        {
+          "id": "38d79a1b-3a98-474d-9204-a608fa83b372",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-28",
+          "durationMin": 50,
+          "memo": "36회차",
+          "createdAt": "2026-04-28T14:16:01.809Z"
+        },
+        {
+          "id": "ad0f2119-eb3b-498d-98c6-d77a3e2a57a7",
+          "typeId": "walking",
+          "loggedForDate": "2026-04-29",
+          "durationMin": 43,
+          "memo": "점심 산책",
+          "createdAt": "2026-04-29T05:05:12.983Z",
+          "distanceKm": 3.45,
+          "calorieOverride": 136
         }
       ]
     },
@@ -3893,12 +3911,17 @@
         },
         {
           "date": "2026-04-28",
-          "totalKrw": 38999651.76,
+          "totalKrw": 38864254.25,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-29",
+          "totalKrw": 38931848.33,
           "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -9370,7 +9393,6 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9385,6 +9407,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10109,8 +10132,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:flnc",
           "symbolKey": "NAS:FLNC",
-          "avgPrice": 20.889897599999998,
-          "qty": 25,
+          "avgPrice": 19.476581333333332,
+          "qty": 30,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Energy/Grid",
@@ -10304,18 +10327,6 @@
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Big Tech"
-        },
-        {
-          "id": "4ca11595-d3ba-4ba9-8395-a66ce15565b3",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-stock-nas:amd",
-          "symbolKey": "NAS:AMD",
-          "avgPrice": 209.26666666666665,
-          "qty": 3,
-          "currency": "USD",
-          "countryLabel": "US",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
         },
         {
           "id": "755881fd-2618-4d6c-b9f9-c91e1e166bc7",
@@ -12135,7 +12146,9 @@
         "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
         "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
         "loopEnabled": true,
-        "speed": 0.8,
+        "aSec": 165,
+        "bSec": 265,
+        "speed": 0.75,
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -12536,6 +12549,10 @@
         {
           "dateKey": "2026-04-27",
           "createdAt": 1777301823650
+        },
+        {
+          "dateKey": "2026-04-28",
+          "createdAt": 1777386354011
         }
       ],
       "lifnux:guitar:videos": [
@@ -12697,15 +12714,12 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 38999651.76,
-        "unrealizedPnlKrw": 7254045.877839997,
-        "realizedPnlYtdKrw": 2299815.748838261,
+        "totalValueKrw": 38916359.33,
+        "unrealizedPnlKrw": 6624754.76732,
+        "realizedPnlYtdKrw": 2822157.0497582606,
         "dataQuality": "DEGRADED",
-        "updatedAt": 1777361047533
+        "updatedAt": 1777439074310
       }
-    },
-    "home": {
-      "lifnux.home.background.theme": "gradient"
     },
     "personalGrowth": {
       "lifnux.personalGrowth.weeklyChecklist.v1": [
@@ -19673,6 +19687,27 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "8fafbd58-f21b-476a-920d-71f113e95de0",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "베이글코드",
+          "postingTitle": "[신작팀] 신입 운영담당자 (CRM Specialist)",
+          "role": "운",
+          "contractType": "정규직",
+          "departmentInfo": "베이글코드는 소셜카지노 장르 뿐만 아니라 국내/외 여러 스튜디오를 운영하며 다수의 캐주얼 장르 게임을 개발하고 있습니다.\n우리 신작 개발 스튜디오는 작고 빠른 개발, 데이터 기반의 다양한 검증으로 성공 가능성이 높은 게임을 개발하고 있습니다.\n수평적 조직, 개발 문화 아래 원활한 소통과 효율적인 개발이 가능하도록 지원을 아끼지 않고 있습니다.",
+          "responsibilities": "◎ 고객 문의 처리 및 유관부서 협업\n- CS 티켓 처리 및 관리\n- 커뮤니티, CS 유저 피드백 정리 및 공유 (일일/주간/월간 리포트)\n- 패치노트 준비 및 다국어 번역, 검수 관리\n◎ 글로벌 커뮤니티 운영\n- 글로벌 유저 대상 영문 공지, 이벤트 콘텐츠 작성 및 게시\n- 해외 유저 VOC 수집 분류 및 내부 팀 전달\n◎ CRM 캠페인 운영\n- 유저 세그먼트(신규·복귀·이탈 위험·과금 유저 등) 기반 캠페인 기획·운영\n- 앱 푸시, 인앱 메시지, 카카오 알림톡, 이메일 등 멀티 채널 CRM 운영\n- 리텐션 향상 및 이탈 방지를 위한 개인화 메시지 전략 수립\n- 캠페인 성과(오픈율, CTR, 복귀율 등) 분석 및 개선 리포트 작성\n◎ 리서치&전략 수립\n- 글로벌 모바일 게임 경쟁사 분석 및 라이브 운영 트렌드 조사\n- 분석 결과를 실행 가능한 운영 전략으로 전환/제안\n◎ 운영 체계 정비 (장기 로드맵)\n- 라이브 서비스 운영 경험을 통한 정책 고도화\n- 인게임 이벤트·프로모션 등의 콘텐츠 스케줄링 및 운영\n- 장애 대응 등 운영 표준 정의 및 문서화\n- 다양한 프로젝트의 운영 업무를 수행할 수 있는 운영 시스템 구축",
+          "requirements": "게임에 대한 깊은 애정과 이해를 갖추신 분\n퍼즐, 캐주얼 등 모바일 게임을 즐겨 플레이하며, 해당 장르의 트렌드와 유저 경험에 익숙하신 분\nAI 도구를 업무에 적극적으로 활용하며, 반복 업무 자동화나 문서 작성 효율화 경험이 있으신 분\n다양한 배경의 유저와 열린 자세로 소통하며, 비판적 피드백도 균형 있게 수용하실 수 있는 분",
+          "neededSkills": "",
+          "preferred": "CRM 세팅(푸시·인앱 알림 등) 캠페인 기획·운영 경험 보유\n운영 프로세스 개선 또는 협업 경험 (운영 가이드, 워크플로우 등 설계 경험자)\nSQL 또는 BigQuery를 활용한 유저 데이터 추출 분석 가능자\n모바일 게임 라이브 운영, 퍼블리싱 또는 유저 직무 경험 보유자\n인게임 이벤트 운영 또는 유저 커뮤니티 관리 실무 경험 보유\n비즈니스 수준의 영어 커뮤니케이션 능력 (영문 공지 작성, 유관 부서 미팅 대응 가능)",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://career.bagelcode.com/ko/o/214807",
+          "createdAt": "2026-04-29T08:13:31.541Z",
+          "updatedAt": "2026-04-29T08:13:36.910Z"
+        },
+        {
           "postingId": "244b8166-e675-447a-9486-6e22346f8020",
           "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
           "companyName": "카카오페이",
@@ -21381,6 +21416,9 @@
     "shoppingList": {
       "lifnux.shoppingList": []
     },
+    "background": {
+      "lifnux:background:theme": "Summer.png"
+    },
     "ing_cash_balances": {
       "investing_cash_balances": [
         {
@@ -21396,20 +21434,14 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 8.3599999999999
+          "balance": 1197.82
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
           "currency": "USD",
-          "balance": 270.93
+          "balance": 0
         }
       ]
-    },
-    "crap_instruction_presets": {
-      "news_scrap_instruction_presets": {
-        "GAME": "",
-        "STOCK": ""
-      }
     },
     "eyword_presets": {
       "news_keyword_presets": {
@@ -21427,8 +21459,14 @@
         }
       }
     },
+    "crap_instruction_presets": {
+      "news_scrap_instruction_presets": {
+        "GAME": "",
+        "STOCK": ""
+      }
+    },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-28T09:08:42.792Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-29T09:29:30.039Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -21638,6 +21676,136 @@
         "customCsvSelectionMode": "SEQUENTIAL",
         "customCsvRandomSeed": 42
       }
+    },
+    "stockResearch": {
+      "lifnux:stockResearch:tagOptions": [
+        "AI",
+        "Cloud",
+        "Dividend",
+        "Energy",
+        "GPU",
+        "NASDAQ",
+        "NYSE",
+        "Semiconductor"
+      ],
+      "lifnux:stockResearch:reports": [
+        {
+          "id": "97f9c176-0fc3-4768-aa91-1b20badb994b",
+          "company": "BLOOM",
+          "ticker": "BE",
+          "sector": "Energy",
+          "market": "US NYSE",
+          "price": "USD 261.63",
+          "rating": "buy",
+          "tags": [
+            "AI",
+            "Energy"
+          ],
+          "metrics": [
+            {
+              "id": "3e516abf-8c15-42fd-af15-183a84994135",
+              "label": "PER",
+              "value": "52.1"
+            },
+            {
+              "id": "33992fac-f008-4bd5-b8b0-abaf697fe776",
+              "label": "Forward PER",
+              "value": "31.4"
+            },
+            {
+              "id": "002da2b9-ab8e-4cee-9597-b442652c4d77",
+              "label": "Market Cap",
+              "value": "$2.1T"
+            }
+          ],
+          "thesis": "AI infrastructure demand remains the core investment driver. Track data center growth, supply constraints, and margin durability together.",
+          "evidence": "Data center revenue growth, CUDA ecosystem lock-in, high switching costs, and cloud CAPEX plans are the primary evidence points to monitor.",
+          "risks": "Valuation pressure, custom AI chip adoption, export controls, and supply bottlenecks can compress the multiple.",
+          "catalysts": "Quarterly earnings, Blackwell supply updates, hyperscaler CAPEX guidance, and margin commentary.",
+          "revenueTotal": "",
+          "revenueCurrency": "USD",
+          "revenueUnit": "M",
+          "revenueItems": [
+            {
+              "id": "8cdad597-a3b5-43a5-a8ad-974c7652eef2",
+              "label": "제품",
+              "amount": "653.3",
+              "percent": "87"
+            },
+            {
+              "id": "537c810f-4b59-4193-a7ce-911ea830549f",
+              "label": "설치",
+              "amount": "25.9",
+              "percent": "3.5"
+            },
+            {
+              "id": "1400fa2e-3521-4579-8e8a-affbe2ca08f8",
+              "label": "서비스",
+              "amount": "61.9",
+              "percent": "8.2"
+            },
+            {
+              "id": "3f595a7f-fcea-4588-a585-b202814f4bf8",
+              "label": "전기판매",
+              "amount": "9.9",
+              "percent": "1.3"
+            }
+          ],
+          "earnings": [
+            {
+              "id": "c30a8e7a-c2c4-4ea1-a13a-7c23694f3040",
+              "period": "Q4 2024",
+              "revenue": "$572.4M",
+              "profit": "$104.7M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "22276ffa-2f88-4590-89e5-7da28d8fceef",
+              "period": "Q1 2025",
+              "revenue": "$326.0M",
+              "profit": "-$19.1M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "cfa1237f-738a-49c8-92f1-87bbdf3fec19",
+              "period": "Q2 2025",
+              "revenue": "$401.2M",
+              "profit": "-$3.5M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "99906998-7f5e-4781-b16b-5737002c177f",
+              "period": "Q3 2025",
+              "revenue": "$519.0M",
+              "profit": "$7.8M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "c4dca4ec-1f6b-41fb-ab96-e4eca81c2abd",
+              "period": "Q4 2025",
+              "revenue": "$777.7M",
+              "profit": "$87.5M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "88b372c8-0bcb-4c00-9405-8c231912f74b",
+              "period": "Q1 2026",
+              "revenue": "$751.1M",
+              "profit": "$72.M",
+              "eps": "",
+              "growth": ""
+            }
+          ],
+          "earningsCall": "Management highlighted broad AI infrastructure demand across cloud, enterprise, and sovereign AI customers. Supply ramp and next-generation GPU transition remain key checkpoints.",
+          "sources": "Paste Deep Research links, transcripts, filings, and analyst notes here.",
+          "updatedAt": "2026-04-29T09:26:31.597Z"
+        }
+      ]
     },
     "crap_instruction": {
       "news_scrap_instruction": ""
@@ -23294,6 +23462,52 @@
           "realizedPnl": 63.36000000000003,
           "realizedPnlPercent": 30.524642289348186,
           "costBasis": 207.57
+        },
+        {
+          "id": "b2e6bd3a-5200-4450-ac52-6473c653e96b",
+          "ts": 1777385914054,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:AMD",
+          "side": "SELL",
+          "qty": 3,
+          "price": 326.86,
+          "realizedPnl": 352.7800000000001,
+          "realizedPnlPercent": 56.19305511309336,
+          "costBasis": 627.8
+        },
+        {
+          "id": "9d2a88f0-dae2-41c3-99c7-6554dc3ec8b0",
+          "ts": 1777385951235,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 5,
+          "price": 12.41,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "380cd860-d6f1-435b-b761-6f0085ab0662",
+          "ts": 1777428610645,
+          "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "WITHDRAW",
+          "amount": 270.93
+        },
+        {
+          "id": "fdd0a83a-279a-4d92-ae06-343366bc4737",
+          "ts": 1777428619685,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 270.93
         }
       ]
     },

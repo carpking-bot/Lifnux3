@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { loadState, saveState } from "../lib/storage";
 
-const HOME_BACKGROUND_STORAGE_KEY = "lifnux.home.background.theme";
+const HOME_BACKGROUND_STORAGE_KEY = "lifnux:background:theme";
+const LEGACY_HOME_BACKGROUND_STORAGE_KEY = "lifnux.home.background.theme";
+const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
 
 type HomeBackground = {
   id: string;
@@ -14,6 +17,16 @@ export function GlobalBackgroundTheme() {
   const [backgrounds, setBackgrounds] = useState<HomeBackground[]>([]);
   const [selectedThemeId, setSelectedThemeId] = useState("gradient");
   const [backgroundLoadFailed, setBackgroundLoadFailed] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  const resolveSavedThemeId = (themes: HomeBackground[]) => {
+    const savedThemeId =
+      loadState<string>(HOME_BACKGROUND_STORAGE_KEY, "") ||
+      (typeof window !== "undefined" ? window.localStorage.getItem(LEGACY_HOME_BACKGROUND_STORAGE_KEY) : null) ||
+      "gradient";
+    const availableThemeIds = new Set(["gradient", ...themes.map((theme) => theme.id)]);
+    return availableThemeIds.has(savedThemeId) ? savedThemeId : "gradient";
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -22,6 +35,11 @@ export function GlobalBackgroundTheme() {
       try {
         const response = await fetch("/api/home-backgrounds", { cache: "no-store" });
         if (!response.ok) {
+          if (!cancelled) {
+            setBackgrounds([]);
+            setSelectedThemeId(resolveSavedThemeId([]));
+            setHydrated(true);
+          }
           return;
         }
         const data = (await response.json()) as { backgrounds?: HomeBackground[] };
@@ -30,13 +48,13 @@ export function GlobalBackgroundTheme() {
         }
         const themes = Array.isArray(data.backgrounds) ? data.backgrounds : [];
         setBackgrounds(themes);
-
-        const savedThemeId = window.localStorage.getItem(HOME_BACKGROUND_STORAGE_KEY) ?? "gradient";
-        const availableThemeIds = new Set(["gradient", ...themes.map((theme) => theme.id)]);
-        setSelectedThemeId(availableThemeIds.has(savedThemeId) ? savedThemeId : "gradient");
+        setSelectedThemeId(resolveSavedThemeId(themes));
+        setHydrated(true);
       } catch {
         if (!cancelled) {
           setBackgrounds([]);
+          setSelectedThemeId(resolveSavedThemeId([]));
+          setHydrated(true);
         }
       }
     };
@@ -48,8 +66,22 @@ export function GlobalBackgroundTheme() {
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem(HOME_BACKGROUND_STORAGE_KEY, selectedThemeId);
-  }, [selectedThemeId]);
+    if (!hydrated) return;
+    saveState(HOME_BACKGROUND_STORAGE_KEY, selectedThemeId);
+    try {
+      window.localStorage.removeItem(LEGACY_HOME_BACKGROUND_STORAGE_KEY);
+    } catch {
+      // Ignore storage cleanup failures.
+    }
+  }, [hydrated, selectedThemeId]);
+
+  useEffect(() => {
+    const reloadTheme = () => {
+      setSelectedThemeId(resolveSavedThemeId(backgrounds));
+    };
+    window.addEventListener(LOCAL_DATA_IMPORTED_EVENT, reloadTheme);
+    return () => window.removeEventListener(LOCAL_DATA_IMPORTED_EVENT, reloadTheme);
+  }, [backgrounds]);
 
   const selectedBackground = backgrounds.find((background) => background.id === selectedThemeId);
   const themeIds = ["gradient", ...backgrounds.map((background) => background.id)];
@@ -78,7 +110,7 @@ export function GlobalBackgroundTheme() {
           onError={() => setBackgroundLoadFailed(true)}
         />
       ) : null}
-      <div className="pointer-events-none fixed inset-0 z-0 bg-black/35" />
+      <div className={`pointer-events-none fixed inset-0 z-0 ${selectedBackground && !backgroundLoadFailed ? "bg-black/60" : "bg-black/35"}`} />
       <div className="pointer-events-none fixed -top-40 left-10 z-0 h-96 w-96 rounded-full bg-[radial-gradient(circle,_rgba(90,214,208,0.25)_0%,_transparent_70%)] blur-2xl" />
       <div className="pointer-events-none fixed bottom-0 right-0 z-0 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,_rgba(90,120,214,0.22)_0%,_transparent_70%)] blur-2xl" />
 
