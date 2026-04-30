@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-29T09:29:30.624Z"
+    "exportedAt": "2026-04-30T09:00:46.838Z"
   },
   "data": {
     "lastState": {
@@ -3916,7 +3916,12 @@
         },
         {
           "date": "2026-04-29",
-          "totalKrw": 38931848.33,
+          "totalKrw": 38965970.190000005,
+          "quality": "final"
+        },
+        {
+          "date": "2026-04-30",
+          "totalKrw": 38773936.28,
           "quality": "final"
         }
       ],
@@ -9080,7 +9085,7 @@
             "name": "우리SUPER주거래통장",
             "categoryId": "dataset-cat-cash",
             "subcategoryId": "dataset-sub-cash-0",
-            "amountKRW": 120303,
+            "amountKRW": 131627,
             "source": "manual"
           },
           {
@@ -9088,7 +9093,7 @@
             "name": "KB나라사랑우대통장",
             "categoryId": "dataset-cat-cash",
             "subcategoryId": "dataset-sub-cash-0",
-            "amountKRW": 698107,
+            "amountKRW": 934153,
             "source": "manual"
           },
           {
@@ -9112,7 +9117,7 @@
             "name": "네이버페이 머니",
             "categoryId": "dataset-cat-cash",
             "subcategoryId": "dataset-sub-cash-3",
-            "amountKRW": 8238,
+            "amountKRW": 9666,
             "source": "manual"
           },
           {
@@ -9136,7 +9141,7 @@
             "name": "주택청약종합저축(농협)",
             "categoryId": "dataset-cat-saving",
             "subcategoryId": "dataset-sub-saving-0",
-            "amountKRW": 5920000,
+            "amountKRW": 5940000,
             "source": "manual"
           },
           {
@@ -9144,7 +9149,7 @@
             "name": "KB청년도약계좌",
             "categoryId": "dataset-cat-saving",
             "subcategoryId": "dataset-sub-saving-1",
-            "amountKRW": 900000,
+            "amountKRW": 1600000,
             "note": "만기 2030.11.03",
             "source": "manual"
           },
@@ -9161,7 +9166,7 @@
             "name": "카드값 (KB)",
             "categoryId": "dataset-cat-debt",
             "subcategoryId": "dataset-sub-debt-0",
-            "amountKRW": 484545,
+            "amountKRW": 523816,
             "source": "manual"
           },
           {
@@ -9169,45 +9174,35 @@
             "name": "나라사랑 하나통장",
             "categoryId": "dataset-cat-cash",
             "subcategoryId": "dataset-sub-cash-0",
-            "amountKRW": 149635,
+            "amountKRW": 90104,
             "source": "manual"
           },
           {
-            "id": "3b6ba982-df5a-4004-8ab1-ef06f080222e",
+            "id": "c0cb3402-4479-4d52-90e1-7dbd71333881",
             "name": "메리츠 (synced)",
             "categoryId": "dataset-cat-investing",
             "subcategoryId": "dataset-sub-investing-0",
-            "amountKRW": 12108104,
+            "amountKRW": 13569687,
             "note": "Investing Portfolio mirror",
             "source": "investing",
             "investingAccountId": "eebd4146-6541-4507-9242-ff316f3ac721"
           },
           {
-            "id": "88fefac6-2f12-470d-8d5e-0658faa43a27",
-            "name": "TOSS (synced)",
-            "categoryId": "dataset-cat-investing",
-            "subcategoryId": "dataset-sub-investing-0",
-            "amountKRW": 295206,
-            "note": "Investing Portfolio mirror",
-            "source": "investing",
-            "investingAccountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a"
-          },
-          {
-            "id": "b814c7d7-e6fe-474f-b789-b78db965d39a",
+            "id": "05d42d86-5bd3-4cb9-90e1-1d322b19df66",
             "name": "NH증권 (synced)",
             "categoryId": "dataset-cat-investing",
             "subcategoryId": "dataset-sub-investing-0",
-            "amountKRW": 9632735,
+            "amountKRW": 14935290,
             "note": "Investing Portfolio mirror",
             "source": "investing",
             "investingAccountId": "acc-kr-1"
           },
           {
-            "id": "4c6f5b75-f162-465f-9fd3-9083591b7996",
+            "id": "81fa8330-b943-4bb3-92e6-8b460c71218d",
             "name": "메리츠 (synced)",
             "categoryId": "dataset-cat-investing",
             "subcategoryId": "dataset-sub-investing-0",
-            "amountKRW": 9207539,
+            "amountKRW": 10359704,
             "note": "Investing Portfolio mirror",
             "source": "investing",
             "investingAccountId": "acc-us-1"
@@ -9215,8 +9210,7 @@
         ]
       },
       "lifnux.finance.expense.budget.v1": {
-        "2026-02": 700000,
-        "2026-04": 700000
+        "2026-02": 700000
       },
       "lifnux.finance.accounts.v100": [
         {
@@ -9249,7 +9243,8 @@
         }
       ],
       "lifnux.finance.asset.investing.sync.logs.v1": {
-        "2026-03": 1775007000084
+        "2026-03": 1775007000084,
+        "2026-04": 1777528974554
       },
       "lifnux.finance.expense.review.v1": {
         "2010-09": {
@@ -9335,6 +9330,46 @@
             }
           },
           "updatedAt": 1775006001206
+        },
+        "2026-04": {
+          "month": "2026-04",
+          "overallRating": "Good",
+          "overallComment": "유니폼 구매땜에 Great 까진 못가지만. 딱 쓸꺼만 썼다 느낌",
+          "categoryReviews": {
+            "Shopping": {
+              "rating": "Good",
+              "comment": "심지어 유니폼 + 반팔티가 섞여서 그렇지 거의 안썼음 bb"
+            },
+            "Transport": {
+              "rating": "Good",
+              "comment": "카카오바이크 떔에 쪼-끔 더 늘은 정도"
+            },
+            "Other": {
+              "rating": "Great",
+              "comment": "기타 레슨비 (+회비) 외 0"
+            },
+            "Subscription": {
+              "rating": "Great",
+              "comment": "GPT 월 결제비가 빠짐 (카카오톡 Pro 구매로) + SPOTV 결제 (챔스)"
+            },
+            "Snacks & Coffee": {
+              "rating": "Great",
+              "comment": "엄카 돌려막기 bbb. 근데 별개로 좀 음료수 먹는거 줄일 필요는 있음"
+            },
+            "Food": {
+              "rating": "Great",
+              "comment": "걍 필요한거 씀 "
+            },
+            "Game": {
+              "rating": "Great",
+              "comment": "걍 쓸돈 씀"
+            },
+            "Entertainment": {
+              "rating": "Great",
+              "comment": "굿"
+            }
+          },
+          "updatedAt": 1777528760417
         }
       },
       "lifnux.finance.portfolio.labels.v100": {
@@ -9393,6 +9428,7 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9407,7 +9443,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -9427,25 +9462,6 @@
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Software"
-        },
-        {
-          "id": "auto-us-nas:poet",
-          "symbol": "NAS:POET",
-          "market": "US",
-          "label": "POET",
-          "name": "POET",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 244,
-          "changePct": -0.52,
-          "changeAbs": -1.2688000000000001,
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1770776916076,
-          "countryLabel": "US",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
         },
         {
           "id": "auto-kr-138080",
@@ -9483,25 +9499,6 @@
           "sectorLabel": "Semiconductor"
         },
         {
-          "id": "auto-kr-102970",
-          "symbol": "102970",
-          "market": "KR",
-          "label": "KODEX 증권",
-          "name": "102970",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 113487,
-          "changePct": 1.87,
-          "changeAbs": 2122.2069,
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1770776916076,
-          "countryLabel": "KR",
-          "sectorMajorLabel": "Non AI",
-          "sectorLabel": "Financials"
-        },
-        {
           "id": "auto-us-nas:amzn",
           "symbol": "NAS:AMZN",
           "market": "US",
@@ -9519,25 +9516,6 @@
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Big Tech"
-        },
-        {
-          "id": "auto-us-nas:pltr",
-          "symbol": "NAS:PLTR",
-          "market": "US",
-          "label": "PLTR",
-          "name": "PLTR",
-          "watchlisted": true,
-          "mktCapRank": 9999,
-          "last": 254,
-          "changePct": -0.32,
-          "changeAbs": -0.8128,
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1770776916076,
-          "countryLabel": "US",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Software"
         },
         {
           "id": "auto-us-nas:flnc",
@@ -9857,22 +9835,6 @@
           "sectorLabel": "Index"
         },
         {
-          "id": "kr-stock-0163y0",
-          "label": "KoAct 코스닥액티브",
-          "symbol": "0163Y0",
-          "market": "KR",
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1773129034044,
-          "last": 122309,
-          "changePct": 0.09,
-          "changeAbs": 110.07809999999999,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": true
-        },
-        {
           "id": "kr-stock-0087f0",
           "label": "ACE 차이나AI빅테크2+액티브",
           "symbol": "0087F0",
@@ -9930,20 +9892,23 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "kr-stock-117700",
-          "label": "KODEX 건설",
-          "symbol": "117700",
-          "market": "KR",
+          "id": "us-stock-nas:meta",
+          "label": "META",
+          "symbol": "NAS:META",
+          "market": "US",
           "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1775462398053,
-          "last": 103824,
-          "changePct": 1.24,
-          "changeAbs": 1287.4176,
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1777474930653,
+          "last": 312.5,
+          "changePct": 0.85,
+          "changeAbs": 2.65625,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true
+          "watchlisted": true,
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Big Tech"
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -10120,8 +10085,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:amzn",
           "symbolKey": "NAS:AMZN",
-          "avgPrice": 207.76995833333334,
-          "qty": 12,
+          "avgPrice": 212.22919230769233,
+          "qty": 13,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Big Tech",
@@ -10132,8 +10097,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:flnc",
           "symbolKey": "NAS:FLNC",
-          "avgPrice": 19.476581333333332,
-          "qty": 30,
+          "avgPrice": 18.371355428571427,
+          "qty": 35,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Energy/Grid",
@@ -10192,24 +10157,12 @@
           "accountId": "acc-us-1",
           "stockId": "kr-441800",
           "symbolKey": "441800",
-          "avgPrice": 18506.666666666668,
-          "qty": 30,
+          "avgPrice": 23544,
+          "qty": 50,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Index",
           "sectorMajorLabel": "Index"
-        },
-        {
-          "id": "7238d303-944b-495e-9c07-916db959d74b",
-          "accountId": "acc-us-1",
-          "stockId": "kr-463050",
-          "symbolKey": "463050",
-          "avgPrice": 12894,
-          "qty": 48,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Biotech",
-          "sectorMajorLabel": "Non AI"
         },
         {
           "id": "3650ecf5-f89c-47be-afce-9c26d91d60e5",
@@ -10273,8 +10226,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-stock-0072r0",
           "symbolKey": "0072R0",
-          "avgPrice": 15617.985714285714,
-          "qty": 70,
+          "avgPrice": 15376.080459770115,
+          "qty": 87,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Alternative Asset",
@@ -10339,10 +10292,29 @@
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "3b92978a-00d1-4b22-acb3-9f841fc00f3f",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-nas:meta",
+          "symbolKey": "NAS:META",
+          "avgPrice": 671.23,
+          "qty": 1,
+          "currency": "USD",
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Big Tech"
         }
       ],
       "lifnux.finance.hub.reveal.v1": false,
       "lifnux.finance.asset.snapshot.logs.v1": [
+        {
+          "id": "4b6ff667-6f91-4868-9944-0312ef70eb66",
+          "month": "2026-04",
+          "type": "OVERWRITE",
+          "at": 1777528988036,
+          "source": "manual"
+        },
         {
           "id": "534040c6-879f-4527-9b42-2153caa24f1e",
           "month": "2026-04",
@@ -12103,6 +12075,15 @@
           "title": "유튜브 프리미엄",
           "amount": 14900,
           "kind": "expense"
+        },
+        {
+          "id": "ecf70f41-a5d7-4942-8c42-7b2215349550",
+          "createdAt": 1777518765564,
+          "date": "2026-04-30",
+          "category": "Game",
+          "title": "카제나 이벤트 패스",
+          "amount": 5900,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -12148,7 +12129,7 @@
         "loopEnabled": true,
         "aSec": 165,
         "bSec": 265,
-        "speed": 0.75,
+        "speed": 0.5,
         "shadowing": false,
         "attendanceCursor": "2026-03-31T15:00:00.000Z"
       },
@@ -12553,6 +12534,10 @@
         {
           "dateKey": "2026-04-28",
           "createdAt": 1777386354011
+        },
+        {
+          "dateKey": "2026-04-29",
+          "createdAt": 1777475701198
         }
       ],
       "lifnux:guitar:videos": [
@@ -12714,11 +12699,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 38916359.33,
-        "unrealizedPnlKrw": 6624754.76732,
-        "realizedPnlYtdKrw": 2822157.0497582606,
-        "dataQuality": "DEGRADED",
-        "updatedAt": 1777439074310
+        "totalValueKrw": 38773936.28,
+        "unrealizedPnlKrw": 6177561.796280008,
+        "realizedPnlYtdKrw": 3079612.211598261,
+        "dataQuality": "OK",
+        "updatedAt": 1777533409909
       }
     },
     "personalGrowth": {
@@ -12782,7 +12767,7 @@
           "id": "46b3f776-f62e-43be-a1af-1a3393360082",
           "scope": "YEARLY",
           "domainId": "db1ab12f-7f42-438d-be32-9786fed20c48",
-          "title": "러닝 마일리지 : 400km",
+          "title": "러닝 마일리지 : 300km",
           "details": "",
           "notes": "",
           "links": [],
@@ -12793,7 +12778,7 @@
           "displayMode": "TRACKER",
           "metric": {
             "unit": "km",
-            "targetValue": 400,
+            "targetValue": 300,
             "startValue": 0
           },
           "checklistItems": [],
@@ -13067,6 +13052,13 @@
           "loggedForDate": "2026-03-11",
           "summary": "2026.01.14 ~ 2026.03.11 6개 기본 앱 및 2개 추가앱 구현 완료",
           "createdAt": "2026-03-11T05:29:07.031Z"
+        },
+        {
+          "id": "57e3a3d1-23d8-44f2-8034-603c17271f5d",
+          "goalId": "d050d7bd-564f-481a-b2cc-f6e892cb692b",
+          "loggedForDate": "2026-04-30",
+          "summary": "5-12월 매월 +162.5만원",
+          "createdAt": "2026-04-30T06:06:08.099Z"
         }
       ],
       "lifnux.personalGrowth.seeded.v1": true,
@@ -18654,8 +18646,7 @@
               "investingAccountId": "acc-us-1"
             }
           ],
-          "updatedAt": 1775007275433,
-          "source": "manual"
+          "updatedAt": 1775007275433
         },
         "2026-04": {
           "month": "2026-04",
@@ -18665,7 +18656,7 @@
               "name": "우리SUPER주거래통장",
               "categoryId": "dataset-cat-cash",
               "subcategoryId": "dataset-sub-cash-0",
-              "amountKRW": 120303,
+              "amountKRW": 131627,
               "source": "manual"
             },
             {
@@ -18673,7 +18664,7 @@
               "name": "KB나라사랑우대통장",
               "categoryId": "dataset-cat-cash",
               "subcategoryId": "dataset-sub-cash-0",
-              "amountKRW": 698107,
+              "amountKRW": 934153,
               "source": "manual"
             },
             {
@@ -18697,7 +18688,7 @@
               "name": "네이버페이 머니",
               "categoryId": "dataset-cat-cash",
               "subcategoryId": "dataset-sub-cash-3",
-              "amountKRW": 8238,
+              "amountKRW": 9666,
               "source": "manual"
             },
             {
@@ -18721,7 +18712,7 @@
               "name": "주택청약종합저축(농협)",
               "categoryId": "dataset-cat-saving",
               "subcategoryId": "dataset-sub-saving-0",
-              "amountKRW": 5920000,
+              "amountKRW": 5940000,
               "source": "manual"
             },
             {
@@ -18729,7 +18720,7 @@
               "name": "KB청년도약계좌",
               "categoryId": "dataset-cat-saving",
               "subcategoryId": "dataset-sub-saving-1",
-              "amountKRW": 900000,
+              "amountKRW": 1600000,
               "note": "만기 2030.11.03",
               "source": "manual"
             },
@@ -18746,7 +18737,7 @@
               "name": "카드값 (KB)",
               "categoryId": "dataset-cat-debt",
               "subcategoryId": "dataset-sub-debt-0",
-              "amountKRW": 484545,
+              "amountKRW": 523816,
               "source": "manual"
             },
             {
@@ -18754,51 +18745,41 @@
               "name": "나라사랑 하나통장",
               "categoryId": "dataset-cat-cash",
               "subcategoryId": "dataset-sub-cash-0",
-              "amountKRW": 149635,
+              "amountKRW": 90104,
               "source": "manual"
             },
             {
-              "id": "3b6ba982-df5a-4004-8ab1-ef06f080222e",
+              "id": "c0cb3402-4479-4d52-90e1-7dbd71333881",
               "name": "메리츠 (synced)",
               "categoryId": "dataset-cat-investing",
               "subcategoryId": "dataset-sub-investing-0",
-              "amountKRW": 12108104,
+              "amountKRW": 13569687,
               "note": "Investing Portfolio mirror",
               "source": "investing",
               "investingAccountId": "eebd4146-6541-4507-9242-ff316f3ac721"
             },
             {
-              "id": "88fefac6-2f12-470d-8d5e-0658faa43a27",
-              "name": "TOSS (synced)",
-              "categoryId": "dataset-cat-investing",
-              "subcategoryId": "dataset-sub-investing-0",
-              "amountKRW": 295206,
-              "note": "Investing Portfolio mirror",
-              "source": "investing",
-              "investingAccountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a"
-            },
-            {
-              "id": "b814c7d7-e6fe-474f-b789-b78db965d39a",
+              "id": "05d42d86-5bd3-4cb9-90e1-1d322b19df66",
               "name": "NH증권 (synced)",
               "categoryId": "dataset-cat-investing",
               "subcategoryId": "dataset-sub-investing-0",
-              "amountKRW": 9632735,
+              "amountKRW": 14935290,
               "note": "Investing Portfolio mirror",
               "source": "investing",
               "investingAccountId": "acc-kr-1"
             },
             {
-              "id": "4c6f5b75-f162-465f-9fd3-9083591b7996",
+              "id": "81fa8330-b943-4bb3-92e6-8b460c71218d",
               "name": "메리츠 (synced)",
               "categoryId": "dataset-cat-investing",
               "subcategoryId": "dataset-sub-investing-0",
-              "amountKRW": 9207539,
+              "amountKRW": 10359704,
               "note": "Investing Portfolio mirror",
               "source": "investing",
               "investingAccountId": "acc-us-1"
             }
           ],
-          "updatedAt": 1775007304738,
+          "updatedAt": 1777528988035,
           "source": "manual"
         }
       }
@@ -21417,7 +21398,7 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "Summer.png"
+      "lifnux:background:theme": "Semiconductor Map.png"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
@@ -21429,12 +21410,12 @@
         {
           "accountId": "acc-us-1",
           "currency": "KRW",
-          "balance": 154
+          "balance": 5374
         },
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 1197.82
+          "balance": 202.14999999999986
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -21466,7 +21447,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-29T09:29:30.039Z"
+      "lifnux:data.lastUpdatedAt": "2026-04-30T09:00:46.360Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -21644,6 +21625,330 @@
         "repeatMode": "off"
       }
     },
+    "stockResearch": {
+      "lifnux:stockResearch:profileOptions": {
+        "markets": [
+          "US NASDAQ",
+          "US NYSE",
+          "US AMEX",
+          "KR KOSPI",
+          "KR KOSDAQ"
+        ],
+        "sectors": [
+          "반도체",
+          "소프트웨어",
+          "클라우드",
+          "에너지",
+          "금융",
+          "헬스케어",
+          "소비재",
+          "산업재",
+          "게임"
+        ]
+      },
+      "lifnux:stockResearch:tagOptions": [
+        "AI",
+        "Energy",
+        "게임"
+      ],
+      "lifnux:stockResearch:reports": [
+        {
+          "id": "714a9b5a-9508-45ab-9bb0-1cf1dc3b2080",
+          "company": "크래프톤",
+          "ticker": "259960",
+          "sector": "게임",
+          "market": "KR KOSPI",
+          "price": "KRW 265,000",
+          "rating": "watch",
+          "tags": [
+            "AI",
+            "게임"
+          ],
+          "metrics": [
+            {
+              "id": "c8cf716c-c169-4471-90d9-70c9968b7ee3",
+              "label": "PER",
+              "value": "18.0"
+            },
+            {
+              "id": "5f781235-220a-465e-87b8-6093914e9b13",
+              "label": "Forward PER",
+              "value": ""
+            },
+            {
+              "id": "143479b9-ad5d-444a-8378-43fe50fa619b",
+              "label": "투자 적합도",
+              "value": ""
+            }
+          ],
+          "researchScores": [
+            {
+              "id": "47d9ce8f-7a24-454a-88c2-33c52e33172c",
+              "model": "Gemini",
+              "variant": "Deep Research",
+              "date": "2026-04-30",
+              "score": "75",
+              "memo": ""
+            },
+            {
+              "id": "f51294e9-555f-462b-9249-fc2cce965e50",
+              "model": "GPT",
+              "variant": "Pro",
+              "date": "2026-04-30",
+              "score": "68",
+              "memo": ""
+            }
+          ],
+          "thesis": "PUBG라는 글로벌 슈팅 IP를 PC·모바일·인도·e스포츠·컬래버레이션·AI 캐릭터까지 확장하는 IP 운영사",
+          "evidence": "",
+          "risks": "높은 PUBG IP 의존도\n신작 모멘텀 부재",
+          "catalysts": "PUBG IP 기반의 견조한 실적\nAI 퍼스트 전략",
+          "revenueTotal": "",
+          "revenueCurrency": "KRW",
+          "revenueUnit": "억",
+          "revenueSource": "1Q26 실적 발표",
+          "revenueItems": [
+            {
+              "id": "09abd0b7-cf82-437c-9a7c-c313b201a6d3",
+              "label": "PC",
+              "amount": "3639",
+              "percent": ""
+            },
+            {
+              "id": "79ed9e66-900f-4638-879f-be01757c7fd5",
+              "label": "모바일",
+              "amount": "7027",
+              "percent": ""
+            },
+            {
+              "id": "22316d3b-f83f-4813-8f8d-6057fa957511",
+              "label": "콘솔",
+              "amount": "138",
+              "percent": ""
+            },
+            {
+              "id": "9c7bc265-7f88-40fa-84f2-1c4185579d14",
+              "label": "기타",
+              "amount": "2910",
+              "percent": ""
+            }
+          ],
+          "earnings": [
+            {
+              "id": "081ab7c3-f0e1-4d2b-a245-addc6e5c615d",
+              "period": "1Q26",
+              "revenue": "13714",
+              "profit": "5616",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "007d0bd7-299f-4fa5-9c49-f9e87f431037",
+              "period": "4Q25",
+              "revenue": "9197",
+              "profit": "24",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "818f6918-17de-40e9-960f-47405be0c72a",
+              "period": "3Q25",
+              "revenue": "8706",
+              "profit": "3486",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "4d30c6a4-e767-42cf-8902-565325c6c451",
+              "period": "2Q25",
+              "revenue": "6620",
+              "profit": "2460",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "e470c0b4-569a-47dd-a5f4-ce88baa3f075",
+              "period": "1Q25",
+              "revenue": "8741",
+              "profit": "4572",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "7915689e-6c41-470b-8ef0-18ab65d9e4c3",
+              "period": "4Q24",
+              "revenue": "6175",
+              "profit": "2154",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "cfe2cc3d-0477-4023-a09e-5b1e783b6e22",
+              "period": "3Q24",
+              "revenue": "7192",
+              "profit": "3244",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "8902252d-861c-4c62-86f6-3622bb07220c",
+              "period": "2Q24",
+              "revenue": "7070",
+              "profit": "3321",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "7b1133cb-5c47-4199-85f9-7585e391a514",
+              "period": "1Q24",
+              "revenue": "6659",
+              "profit": "3105",
+              "eps": "",
+              "growth": ""
+            }
+          ],
+          "conferenceCalls": [
+            {
+              "id": "6625839e-f25b-4fed-a3fe-813af8ad2fe4",
+              "source": "1Q26 실적 발표",
+              "date": "2026-04-30",
+              "content": "[PC] 애스턴마틴 컬래버레이션 콘텐츠 재출시로 매출이 큰 폭으로 성장 \n[모바일] 프리미엄 콘텐츠와 IP 협업이 매출 신기록에 기여\n[기타] ADK 그룹 실적이 반영 (2,859억)\n[BGMI] 이용자 접근성 확대 및 결제 이용자 수 증가\n[inZOI] UGC 기반의 라이브 서비스를 통한 장기 PL 도약 노력\n[신작] 서브노티카2 - 얼리 억세스 준비 중\n[AI] \n- 멀티모달 '라온' 4종을 자사 게임에 적용 예정\n- PUBG Ally를 베타 서비스로 선보일 예정\n- 쏘카 자율 주행 법인 설립에 650억원 규모 전략적 투자 단행 \n→ 자율 주행 데이터를 피지컬 AI에 활용 예정\n[주주 환원] 2분기 자사주 1,000억 추가 취득 및 소각 예정",
+              "sources": ""
+            }
+          ],
+          "earningsCall": "",
+          "sources": "",
+          "updatedAt": "2026-04-30T08:59:16.727Z"
+        },
+        {
+          "id": "97f9c176-0fc3-4768-aa91-1b20badb994b",
+          "company": "BLOOM",
+          "ticker": "BE",
+          "sector": "Energy",
+          "market": "US NYSE",
+          "price": "USD 261.63",
+          "rating": "buy",
+          "tags": [
+            "AI",
+            "Energy"
+          ],
+          "metrics": [
+            {
+              "id": "277b31c3-fccb-4cd4-8bb8-c03f284d771f",
+              "label": "PER",
+              "value": "52.1"
+            },
+            {
+              "id": "ccff2104-f19f-4165-96c3-3a964f93adc1",
+              "label": "Forward PER",
+              "value": "31.4"
+            },
+            {
+              "id": "967619ef-d18f-4d2d-bcca-f333dd60a8c3",
+              "label": "Market Cap",
+              "value": "$2.1T"
+            }
+          ],
+          "researchScores": [],
+          "thesis": "AI infrastructure demand remains the core investment driver. Track data center growth, supply constraints, and margin durability together.",
+          "evidence": "Data center revenue growth, CUDA ecosystem lock-in, high switching costs, and cloud CAPEX plans are the primary evidence points to monitor.",
+          "risks": "Valuation pressure, custom AI chip adoption, export controls, and supply bottlenecks can compress the multiple.",
+          "catalysts": "Quarterly earnings, Blackwell supply updates, hyperscaler CAPEX guidance, and margin commentary.",
+          "revenueTotal": "",
+          "revenueCurrency": "USD",
+          "revenueUnit": "M",
+          "revenueSource": "",
+          "revenueItems": [
+            {
+              "id": "3fbbeb10-fa62-4286-bdd8-d2f2a0476dc0",
+              "label": "제품",
+              "amount": "653.3",
+              "percent": "87"
+            },
+            {
+              "id": "c4014b2b-d405-452b-9770-a27dc4ee69cf",
+              "label": "설치",
+              "amount": "25.9",
+              "percent": "3.5"
+            },
+            {
+              "id": "8d9f907d-f6b8-43cf-9624-d4d693542b33",
+              "label": "서비스",
+              "amount": "61.9",
+              "percent": "8.2"
+            },
+            {
+              "id": "0fef6720-60b6-4b8a-b62b-02e15f228ff9",
+              "label": "전기판매",
+              "amount": "9.9",
+              "percent": "1.3"
+            }
+          ],
+          "earnings": [
+            {
+              "id": "b6a0cd64-e0ad-4c27-bbae-d2aa610fae50",
+              "period": "Q4 2024",
+              "revenue": "$572.4M",
+              "profit": "$104.7M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "70385bc5-78c4-47dc-9aa7-6f3bcd835e50",
+              "period": "Q1 2025",
+              "revenue": "$326.0M",
+              "profit": "-$19.1M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "ce9c83ba-d26c-45a9-afa1-4128d4ff3673",
+              "period": "Q2 2025",
+              "revenue": "$401.2M",
+              "profit": "-$3.5M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "9d4803af-9d36-46fb-9b69-dd93454f0e78",
+              "period": "Q3 2025",
+              "revenue": "$519.0M",
+              "profit": "$7.8M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "31230d7b-23d6-46e5-837c-c4d93a2d3718",
+              "period": "Q4 2025",
+              "revenue": "$777.7M",
+              "profit": "$87.5M",
+              "eps": "",
+              "growth": ""
+            },
+            {
+              "id": "316d9cda-18e7-435a-a0ab-b5874af39bc8",
+              "period": "Q1 2026",
+              "revenue": "$751.1M",
+              "profit": "$72.M",
+              "eps": "",
+              "growth": ""
+            }
+          ],
+          "conferenceCalls": [
+            {
+              "id": "173e9a89-f4ba-46ce-9847-8907a265d2dd",
+              "source": "",
+              "date": "",
+              "content": "Management highlighted broad AI infrastructure demand across cloud, enterprise, and sovereign AI customers. Supply ramp and next-generation GPU transition remain key checkpoints.",
+              "sources": "Paste Deep Research links, transcripts, filings, and analyst notes here."
+            }
+          ],
+          "earningsCall": "Management highlighted broad AI infrastructure demand across cloud, enterprise, and sovereign AI customers. Supply ramp and next-generation GPU transition remain key checkpoints.",
+          "sources": "Paste Deep Research links, transcripts, filings, and analyst notes here.",
+          "updatedAt": "2026-04-29T09:26:31.597Z"
+        }
+      ]
+    },
     "andidates_cache": {
       "news_candidates_cache": []
     },
@@ -21677,159 +21982,29 @@
         "customCsvRandomSeed": 42
       }
     },
-    "stockResearch": {
-      "lifnux:stockResearch:tagOptions": [
-        "AI",
-        "Cloud",
-        "Dividend",
-        "Energy",
-        "GPU",
-        "NASDAQ",
-        "NYSE",
-        "Semiconductor"
-      ],
-      "lifnux:stockResearch:reports": [
-        {
-          "id": "97f9c176-0fc3-4768-aa91-1b20badb994b",
-          "company": "BLOOM",
-          "ticker": "BE",
-          "sector": "Energy",
-          "market": "US NYSE",
-          "price": "USD 261.63",
-          "rating": "buy",
-          "tags": [
-            "AI",
-            "Energy"
-          ],
-          "metrics": [
-            {
-              "id": "3e516abf-8c15-42fd-af15-183a84994135",
-              "label": "PER",
-              "value": "52.1"
-            },
-            {
-              "id": "33992fac-f008-4bd5-b8b0-abaf697fe776",
-              "label": "Forward PER",
-              "value": "31.4"
-            },
-            {
-              "id": "002da2b9-ab8e-4cee-9597-b442652c4d77",
-              "label": "Market Cap",
-              "value": "$2.1T"
-            }
-          ],
-          "thesis": "AI infrastructure demand remains the core investment driver. Track data center growth, supply constraints, and margin durability together.",
-          "evidence": "Data center revenue growth, CUDA ecosystem lock-in, high switching costs, and cloud CAPEX plans are the primary evidence points to monitor.",
-          "risks": "Valuation pressure, custom AI chip adoption, export controls, and supply bottlenecks can compress the multiple.",
-          "catalysts": "Quarterly earnings, Blackwell supply updates, hyperscaler CAPEX guidance, and margin commentary.",
-          "revenueTotal": "",
-          "revenueCurrency": "USD",
-          "revenueUnit": "M",
-          "revenueItems": [
-            {
-              "id": "8cdad597-a3b5-43a5-a8ad-974c7652eef2",
-              "label": "제품",
-              "amount": "653.3",
-              "percent": "87"
-            },
-            {
-              "id": "537c810f-4b59-4193-a7ce-911ea830549f",
-              "label": "설치",
-              "amount": "25.9",
-              "percent": "3.5"
-            },
-            {
-              "id": "1400fa2e-3521-4579-8e8a-affbe2ca08f8",
-              "label": "서비스",
-              "amount": "61.9",
-              "percent": "8.2"
-            },
-            {
-              "id": "3f595a7f-fcea-4588-a585-b202814f4bf8",
-              "label": "전기판매",
-              "amount": "9.9",
-              "percent": "1.3"
-            }
-          ],
-          "earnings": [
-            {
-              "id": "c30a8e7a-c2c4-4ea1-a13a-7c23694f3040",
-              "period": "Q4 2024",
-              "revenue": "$572.4M",
-              "profit": "$104.7M",
-              "eps": "",
-              "growth": ""
-            },
-            {
-              "id": "22276ffa-2f88-4590-89e5-7da28d8fceef",
-              "period": "Q1 2025",
-              "revenue": "$326.0M",
-              "profit": "-$19.1M",
-              "eps": "",
-              "growth": ""
-            },
-            {
-              "id": "cfa1237f-738a-49c8-92f1-87bbdf3fec19",
-              "period": "Q2 2025",
-              "revenue": "$401.2M",
-              "profit": "-$3.5M",
-              "eps": "",
-              "growth": ""
-            },
-            {
-              "id": "99906998-7f5e-4781-b16b-5737002c177f",
-              "period": "Q3 2025",
-              "revenue": "$519.0M",
-              "profit": "$7.8M",
-              "eps": "",
-              "growth": ""
-            },
-            {
-              "id": "c4dca4ec-1f6b-41fb-ab96-e4eca81c2abd",
-              "period": "Q4 2025",
-              "revenue": "$777.7M",
-              "profit": "$87.5M",
-              "eps": "",
-              "growth": ""
-            },
-            {
-              "id": "88b372c8-0bcb-4c00-9405-8c231912f74b",
-              "period": "Q1 2026",
-              "revenue": "$751.1M",
-              "profit": "$72.M",
-              "eps": "",
-              "growth": ""
-            }
-          ],
-          "earningsCall": "Management highlighted broad AI infrastructure demand across cloud, enterprise, and sovereign AI customers. Supply ramp and next-generation GPU transition remain key checkpoints.",
-          "sources": "Paste Deep Research links, transcripts, filings, and analyst notes here.",
-          "updatedAt": "2026-04-29T09:26:31.597Z"
-        }
-      ]
-    },
     "crap_instruction": {
       "news_scrap_instruction": ""
     },
     "items_template": {
       "asset_items_template": [
         {
-          "id": "afe089fc-6c8c-4667-979e-e1e34ac81237",
+          "id": "85110961-7a66-4166-aa2e-e2c79cb2a87f",
           "name": "우리SUPER주거래통장",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-0",
-          "amountKRW": 120303,
+          "amountKRW": 131627,
           "source": "manual"
         },
         {
-          "id": "5a46652f-afab-4b68-bd91-f9cd70ff22cb",
+          "id": "03421cee-b2b2-4035-bf3f-f4e85f614842",
           "name": "KB나라사랑우대통장",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-0",
-          "amountKRW": 698107,
+          "amountKRW": 934153,
           "source": "manual"
         },
         {
-          "id": "afdb24c7-9990-43dd-a5b2-6a4a33063d31",
+          "id": "b3d2bb8b-94a3-4aff-8407-f1fd18aef277",
           "name": "현금",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-1",
@@ -21837,7 +22012,7 @@
           "source": "manual"
         },
         {
-          "id": "b6a974b8-26c5-4011-9b5c-ba4fa92e0de0",
+          "id": "16c84076-93ae-4a38-b1ab-07b9f4eec848",
           "name": "업비트(코인)",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-2",
@@ -21845,15 +22020,15 @@
           "source": "manual"
         },
         {
-          "id": "05650531-bdcd-4a95-a758-69f9570bdcd8",
+          "id": "d02cfec2-2627-4207-a8ba-b90aa4fe5927",
           "name": "네이버페이 머니",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-3",
-          "amountKRW": 8238,
+          "amountKRW": 9666,
           "source": "manual"
         },
         {
-          "id": "fdbf5214-6c1b-40fa-843b-aceb046f1059",
+          "id": "9eafb083-949d-489f-b6f2-075e412c5b94",
           "name": "카카오페이 머니",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-3",
@@ -21861,7 +22036,7 @@
           "source": "manual"
         },
         {
-          "id": "8861b845-2075-44bd-bca2-ea5f20e52df9",
+          "id": "c8c21ac9-76f4-4206-bfa1-6d617cd17b2f",
           "name": "토스페이 머니",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-3",
@@ -21869,24 +22044,24 @@
           "source": "manual"
         },
         {
-          "id": "fda2e559-89e4-4f75-b31d-b1ca23c97853",
+          "id": "53f34c8c-4837-4587-9fcf-7fbf73c8a2b2",
           "name": "주택청약종합저축(농협)",
           "categoryId": "dataset-cat-saving",
           "subcategoryId": "dataset-sub-saving-0",
-          "amountKRW": 5920000,
+          "amountKRW": 5940000,
           "source": "manual"
         },
         {
-          "id": "e422a821-b69e-4695-a122-d5d6d48b343f",
+          "id": "ca503e1d-b6fe-4135-be28-32efe4c9090e",
           "name": "KB청년도약계좌",
           "categoryId": "dataset-cat-saving",
           "subcategoryId": "dataset-sub-saving-1",
-          "amountKRW": 900000,
+          "amountKRW": 1600000,
           "note": "만기 2030.11.03",
           "source": "manual"
         },
         {
-          "id": "7d15ad7c-e719-44c5-b39e-8657911a950c",
+          "id": "fad651f5-03c5-46cf-b078-006992a3c30a",
           "name": "카드값 (우리)",
           "categoryId": "dataset-cat-debt",
           "subcategoryId": "dataset-sub-debt-0",
@@ -21894,19 +22069,19 @@
           "source": "manual"
         },
         {
-          "id": "0fb524df-3734-458b-89d8-d118c33d963b",
+          "id": "b848edc6-f08d-4ac1-a266-7c4a9a19f3f7",
           "name": "카드값 (KB)",
           "categoryId": "dataset-cat-debt",
           "subcategoryId": "dataset-sub-debt-0",
-          "amountKRW": 484545,
+          "amountKRW": 523816,
           "source": "manual"
         },
         {
-          "id": "b0d362cc-198e-428f-aedb-d3443d5d1817",
+          "id": "2344cbed-d662-458c-a90c-588d3ccd3d26",
           "name": "나라사랑 하나통장",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-0",
-          "amountKRW": 149635,
+          "amountKRW": 90104,
           "source": "manual"
         }
       ]
@@ -23508,6 +23683,90 @@
           "currency": "USD",
           "direction": "DEPOSIT",
           "amount": 270.93
+        },
+        {
+          "id": "3a6214ab-3eb1-4e42-bb0f-bc58991b78bb",
+          "ts": 1777473259095,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 5,
+          "price": 11.74,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "8ad5517b-8825-4b7b-8d65-c30486d7a70a",
+          "ts": 1777473280583,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:AMZN",
+          "side": "BUY",
+          "qty": 1,
+          "price": 265.74,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "91077b1a-f3de-4159-8053-b9c87adf739b",
+          "ts": 1777475007653,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:META",
+          "side": "BUY",
+          "qty": 1,
+          "price": 671.23,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "64e146da-0184-463c-8a3c-4b14c0021e4f",
+          "ts": 1777509581367,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "463050",
+          "side": "SELL",
+          "qty": 48,
+          "price": 18160,
+          "realizedPnl": 252768,
+          "realizedPnlPercent": 40.84070110128742,
+          "costBasis": 618912
+        },
+        {
+          "id": "873b8285-952c-4daa-8932-929f8d4b8f28",
+          "ts": 1777509651529,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "441800",
+          "side": "BUY",
+          "qty": 20,
+          "price": 31100,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "9aad6c5c-dfaf-474b-a001-2ece401524fe",
+          "ts": 1777509808501,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0072R0",
+          "side": "BUY",
+          "qty": 17,
+          "price": 14380,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },
