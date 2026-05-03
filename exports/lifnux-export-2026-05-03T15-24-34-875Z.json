@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-04-30T09:00:46.838Z"
+    "exportedAt": "2026-05-03T15:24:34.868Z"
   },
   "data": {
     "lastState": {
@@ -3670,6 +3670,78 @@
           "createdAt": "2026-04-29T05:05:12.983Z",
           "distanceKm": 3.45,
           "calorieOverride": 136
+        },
+        {
+          "id": "3d3e99b4-c0fd-4981-8603-7d17f81d8541",
+          "typeId": "swimming",
+          "loggedForDate": "2026-04-30",
+          "durationMin": 50,
+          "memo": "37회차\n자유수영",
+          "createdAt": "2026-04-30T14:09:48.105Z"
+        },
+        {
+          "id": "df89eece-86af-4aa8-8194-38f1d5893be1",
+          "typeId": "bicycle",
+          "loggedForDate": "2026-05-01",
+          "durationMin": 34,
+          "createdAt": "2026-05-01T17:16:53.383Z",
+          "distanceKm": 6.19,
+          "calorieOverride": 189
+        },
+        {
+          "id": "0287d658-be66-4860-af2f-562a3b398c11",
+          "typeId": "running",
+          "loggedForDate": "2026-05-01",
+          "durationMin": 58,
+          "memo": "위례 to 월드타워 Run",
+          "createdAt": "2026-05-01T17:17:46.690Z",
+          "distanceKm": 8.02,
+          "paceText": "07'14\"",
+          "cadence": 130,
+          "maxSpeedKmh": 341,
+          "calorieOverride": 634
+        },
+        {
+          "id": "662fd331-02d3-48b2-93fa-39e154b51d36",
+          "typeId": "home",
+          "loggedForDate": "2026-05-01",
+          "durationMin": 20,
+          "createdAt": "2026-05-01T17:19:13.665Z"
+        },
+        {
+          "id": "ea106004-6fc5-4828-adc8-63676cee88d9",
+          "typeId": "bicycle",
+          "loggedForDate": "2026-05-02",
+          "durationMin": 30,
+          "createdAt": "2026-05-03T05:49:44.327Z",
+          "distanceKm": 3.17,
+          "calorieOverride": 133
+        },
+        {
+          "id": "55b737d2-be00-428c-a357-c348798c2662",
+          "typeId": "bicycle",
+          "loggedForDate": "2026-05-03",
+          "durationMin": 33,
+          "createdAt": "2026-05-03T05:50:00.504Z",
+          "distanceKm": 5.25,
+          "calorieOverride": 169
+        },
+        {
+          "id": "53173651-2640-42a0-94f3-c46fdd9026d8",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-03",
+          "durationMin": 35,
+          "memo": "암튼 걸음",
+          "createdAt": "2026-05-03T05:50:24.278Z",
+          "distanceKm": 2.85,
+          "calorieOverride": 111
+        },
+        {
+          "id": "dc4044b5-92b7-4a4b-b41b-22b783031c9d",
+          "typeId": "home",
+          "loggedForDate": "2026-05-03",
+          "durationMin": 20,
+          "createdAt": "2026-05-03T14:38:32.711Z"
         }
       ]
     },
@@ -3921,7 +3993,12 @@
         },
         {
           "date": "2026-04-30",
-          "totalKrw": 38773936.28,
+          "totalKrw": 38709862.263799995,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-01",
+          "totalKrw": 39055182.7801,
           "quality": "final"
         }
       ],
@@ -9178,36 +9255,37 @@
             "source": "manual"
           },
           {
-            "id": "c0cb3402-4479-4d52-90e1-7dbd71333881",
+            "id": "88dddca1-06b5-4fff-a929-f17a30427a64",
             "name": "메리츠 (synced)",
             "categoryId": "dataset-cat-investing",
             "subcategoryId": "dataset-sub-investing-0",
-            "amountKRW": 13569687,
+            "amountKRW": 13451612,
             "note": "Investing Portfolio mirror",
             "source": "investing",
             "investingAccountId": "eebd4146-6541-4507-9242-ff316f3ac721"
           },
           {
-            "id": "05d42d86-5bd3-4cb9-90e1-1d322b19df66",
+            "id": "8d906204-2703-4578-a64a-bdd4d269869d",
             "name": "NH증권 (synced)",
             "categoryId": "dataset-cat-investing",
             "subcategoryId": "dataset-sub-investing-0",
-            "amountKRW": 14935290,
+            "amountKRW": 14840700,
             "note": "Investing Portfolio mirror",
             "source": "investing",
             "investingAccountId": "acc-kr-1"
           },
           {
-            "id": "81fa8330-b943-4bb3-92e6-8b460c71218d",
+            "id": "c91b4a6e-3db4-4b5f-8e4b-246a3aa16810",
             "name": "메리츠 (synced)",
             "categoryId": "dataset-cat-investing",
             "subcategoryId": "dataset-sub-investing-0",
-            "amountKRW": 10359704,
+            "amountKRW": 10363549,
             "note": "Investing Portfolio mirror",
             "source": "investing",
             "investingAccountId": "acc-us-1"
           }
-        ]
+        ],
+        "2026-05": []
       },
       "lifnux.finance.expense.budget.v1": {
         "2026-02": 700000
@@ -9244,7 +9322,7 @@
       ],
       "lifnux.finance.asset.investing.sync.logs.v1": {
         "2026-03": 1775007000084,
-        "2026-04": 1777528974554
+        "2026-04": 1777563708796
       },
       "lifnux.finance.expense.review.v1": {
         "2010-09": {
@@ -9428,7 +9506,6 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9443,6 +9520,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10292,18 +10370,6 @@
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
-        },
-        {
-          "id": "3b92978a-00d1-4b22-acb3-9f841fc00f3f",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-stock-nas:meta",
-          "symbolKey": "NAS:META",
-          "avgPrice": 671.23,
-          "qty": 1,
-          "currency": "USD",
-          "countryLabel": "US",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "Big Tech"
         }
       ],
       "lifnux.finance.hub.reveal.v1": false,
@@ -12084,6 +12150,79 @@
           "title": "카제나 이벤트 패스",
           "amount": 5900,
           "kind": "expense"
+        },
+        {
+          "id": "9f7e1c21-1f5d-485f-8cb1-1150e95388c2",
+          "createdAt": 1777821384410,
+          "date": "2026-04-28",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "59d5297b-6cb4-4a0d-9192-a05d2c5f97f1",
+          "createdAt": 1777821401491,
+          "date": "2026-04-30",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "653822ce-80f8-497e-818d-0067d7d406eb",
+          "createdAt": 1777821434443,
+          "date": "2026-05-02",
+          "category": "Other",
+          "title": "Fun&Fun 회비",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "01cb0584-f429-4482-9cf7-d2e3a51cbfaa",
+          "createdAt": 1777821442170,
+          "date": "2026-05-02",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "6eca6415-4bc7-475f-825b-0ac6bc841b47",
+          "createdAt": 1777821452875,
+          "date": "2026-05-03",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "92235012-c59b-402a-9b7e-b963386faf9a",
+          "createdAt": 1777821479531,
+          "date": "2026-05-03",
+          "category": "Snacks & Coffee",
+          "title": "메가커피",
+          "amount": 3300,
+          "kind": "expense",
+          "memo": "레몬티"
+        },
+        {
+          "id": "e50c5e3a-27e2-4aad-b057-9d322b4eb8c9",
+          "createdAt": 1777821546920,
+          "date": "2026-05-02",
+          "category": "Entertainment",
+          "title": "코인노래방",
+          "amount": 4488,
+          "kind": "expense"
+        },
+        {
+          "id": "27dcd194-a917-4a6d-a567-3aa0e68c62f1",
+          "createdAt": 1777821554052,
+          "date": "2026-05-03",
+          "category": "Entertainment",
+          "title": "코인노래방",
+          "amount": 1996,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -12126,12 +12265,12 @@
       "lifnux:guitar:state": {
         "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
         "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
-        "loopEnabled": true,
-        "aSec": 165,
-        "bSec": 265,
-        "speed": 0.5,
+        "loopEnabled": false,
+        "aSec": 0,
+        "bSec": 35,
+        "speed": 0.9,
         "shadowing": false,
-        "attendanceCursor": "2026-03-31T15:00:00.000Z"
+        "attendanceCursor": "2026-04-30T15:00:00.000Z"
       },
       "lifnux:guitar:segments": [
         {
@@ -12250,6 +12389,15 @@
           "endSec": 260,
           "speed": 0.85,
           "createdAt": 1775140087531
+        },
+        {
+          "id": "f8fb4c64-102f-43ef-9bc4-4f754b5e26b2",
+          "videoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
+          "name": "Part 1",
+          "startSec": 0,
+          "endSec": 35,
+          "speed": 1,
+          "createdAt": 1777734488459
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -12310,6 +12458,14 @@
           "artist": "실리카겔",
           "difficulty": 4,
           "createdAt": 1773157984491
+        },
+        {
+          "id": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
+          "title": "Love (사랑으로)",
+          "artist": "wave to earth",
+          "difficulty": 2,
+          "bpm": 62,
+          "createdAt": 1777733843787
         }
       ],
       "lifnux.guitar.segments.v100": [],
@@ -12538,6 +12694,10 @@
         {
           "dateKey": "2026-04-29",
           "createdAt": 1777475701198
+        },
+        {
+          "dateKey": "2026-05-02",
+          "createdAt": 1777733785192
         }
       ],
       "lifnux:guitar:videos": [
@@ -12694,16 +12854,25 @@
           "customTitle": "[Backing] Desert Eagle",
           "youtubeTitle": "실리카겔 - 데저트이글 백킹트랙, 기타제거, 기타연습",
           "createdAt": 1773158040055
+        },
+        {
+          "id": "8ee4d79d-c420-4399-8553-3965e33a66f2",
+          "songId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
+          "youtubeId": "fmqHntCK7xk",
+          "kind": "TAB",
+          "customTitle": "[TAB] 사랑으로",
+          "youtubeTitle": "[TAB] 사랑으로 (love.) - wave to earth (기타커버) [Guitar Cover]",
+          "createdAt": 1777733862524
         }
       ]
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 38773936.28,
-        "unrealizedPnlKrw": 6177561.796280008,
-        "realizedPnlYtdKrw": 3079612.211598261,
+        "totalValueKrw": 39055182.7801,
+        "unrealizedPnlKrw": 6629159.294780005,
+        "realizedPnlYtdKrw": 2988119.1451982604,
         "dataQuality": "OK",
-        "updatedAt": 1777533409909
+        "updatedAt": 1777659206705
       }
     },
     "personalGrowth": {
@@ -21398,7 +21567,7 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "Semiconductor Map.png"
+      "lifnux:background:theme": "Cyberpunk.png"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
@@ -21415,7 +21584,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 202.14999999999986
+          "balance": 816.5699999999998
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -21447,7 +21616,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-04-30T09:00:46.360Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-03T15:24:34.351Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -23767,6 +23936,20 @@
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
+        },
+        {
+          "id": "a202ae87-a27a-417a-ba6d-04a9301df1b1",
+          "ts": 1777655773734,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:META",
+          "side": "SELL",
+          "qty": 1,
+          "price": 614.42,
+          "realizedPnl": -56.81000000000006,
+          "realizedPnlPercent": -8.463566884674412,
+          "costBasis": 671.23
         }
       ]
     },
