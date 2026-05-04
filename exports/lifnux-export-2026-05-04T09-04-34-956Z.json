@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-03T14:38:34.866Z"
+    "exportedAt": "2026-05-04T09:04:34.951Z"
   },
   "data": {
     "lastState": {
@@ -3742,6 +3742,16 @@
           "loggedForDate": "2026-05-03",
           "durationMin": 20,
           "createdAt": "2026-05-03T14:38:32.711Z"
+        },
+        {
+          "id": "595691b0-733d-4021-b0b9-d86d3eb25284",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-04",
+          "durationMin": 33,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-04T04:42:43.687Z",
+          "distanceKm": 2.72,
+          "calorieOverride": 106
         }
       ]
     },
@@ -3999,6 +4009,11 @@
         {
           "date": "2026-05-01",
           "totalKrw": 39055182.7801,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-04",
+          "totalKrw": 40357424.559999995,
           "quality": "final"
         }
       ],
@@ -12150,6 +12165,126 @@
           "title": "카제나 이벤트 패스",
           "amount": 5900,
           "kind": "expense"
+        },
+        {
+          "id": "9f7e1c21-1f5d-485f-8cb1-1150e95388c2",
+          "createdAt": 1777821384410,
+          "date": "2026-04-28",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "59d5297b-6cb4-4a0d-9192-a05d2c5f97f1",
+          "createdAt": 1777821401491,
+          "date": "2026-04-30",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "653822ce-80f8-497e-818d-0067d7d406eb",
+          "createdAt": 1777821434443,
+          "date": "2026-05-02",
+          "category": "Other",
+          "title": "Fun&Fun 회비",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "01cb0584-f429-4482-9cf7-d2e3a51cbfaa",
+          "createdAt": 1777821442170,
+          "date": "2026-05-02",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "6eca6415-4bc7-475f-825b-0ac6bc841b47",
+          "createdAt": 1777821452875,
+          "date": "2026-05-03",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "92235012-c59b-402a-9b7e-b963386faf9a",
+          "createdAt": 1777821479531,
+          "date": "2026-05-03",
+          "category": "Snacks & Coffee",
+          "title": "메가커피",
+          "amount": 3300,
+          "kind": "expense",
+          "memo": "레몬티"
+        },
+        {
+          "id": "e50c5e3a-27e2-4aad-b057-9d322b4eb8c9",
+          "createdAt": 1777821546920,
+          "date": "2026-05-02",
+          "category": "Entertainment",
+          "title": "코인노래방",
+          "amount": 4488,
+          "kind": "expense"
+        },
+        {
+          "id": "27dcd194-a917-4a6d-a567-3aa0e68c62f1",
+          "createdAt": 1777821554052,
+          "date": "2026-05-03",
+          "category": "Entertainment",
+          "title": "코인노래방",
+          "amount": 1996,
+          "kind": "expense"
+        },
+        {
+          "id": "ff0edbc0-b81a-484a-82fb-87a469999be6",
+          "createdAt": 1777865436212,
+          "date": "2026-05-04",
+          "category": "Game",
+          "title": "카제나 월간 보급",
+          "amount": 5900,
+          "kind": "expense"
+        },
+        {
+          "id": "71593c9f-e78e-4c58-9452-bf7188e1ce92",
+          "createdAt": 1777865587677,
+          "date": "2026-05-04",
+          "category": "Game",
+          "title": "카제나 패스",
+          "amount": 12000,
+          "kind": "expense"
+        },
+        {
+          "id": "93dc4479-c397-49e4-acf4-af0d12f62b4a",
+          "createdAt": 1777878347734,
+          "date": "2026-05-04",
+          "category": "Dividends",
+          "title": "배당금",
+          "amount": 1560,
+          "kind": "income",
+          "memo": "SOL 조선TOP3 플러스"
+        },
+        {
+          "id": "cf1b9fe2-4167-4b00-b12f-b94f38620a3f",
+          "createdAt": 1777882751803,
+          "date": "2026-05-04",
+          "category": "Other",
+          "title": "리도어 콘서트",
+          "amount": 132000,
+          "kind": "expense"
+        },
+        {
+          "id": "8e57f449-062d-43fa-9698-e5980d38e4d6",
+          "createdAt": 1777882779027,
+          "date": "2026-05-03",
+          "category": "Other",
+          "title": "생일 선물",
+          "amount": 13900,
+          "kind": "expense",
+          "memo": "이우재"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -12190,8 +12325,8 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
-        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
+        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
         "loopEnabled": false,
         "aSec": 0,
         "bSec": 35,
@@ -12625,6 +12760,10 @@
         {
           "dateKey": "2026-05-02",
           "createdAt": 1777733785192
+        },
+        {
+          "dateKey": "2026-05-03",
+          "createdAt": 1777860412784
         }
       ],
       "lifnux:guitar:videos": [
@@ -12795,11 +12934,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 39055182.7801,
-        "unrealizedPnlKrw": 6629159.294780005,
-        "realizedPnlYtdKrw": 2988119.1451982604,
+        "totalValueKrw": 40357424.559999995,
+        "unrealizedPnlKrw": 7991672.3125599995,
+        "realizedPnlYtdKrw": 2983048.459718261,
         "dataQuality": "OK",
-        "updatedAt": 1777659206705
+        "updatedAt": 1777878252768
       }
     },
     "personalGrowth": {
@@ -21494,7 +21633,7 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "Cyberpunk.png"
+      "lifnux:background:theme": "Music Cafe.png"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
@@ -21543,7 +21682,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-03T14:38:34.348Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-04T09:04:34.576Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -21762,24 +21901,24 @@
           ],
           "metrics": [
             {
-              "id": "c8cf716c-c169-4471-90d9-70c9968b7ee3",
+              "id": "b955c8b5-ee36-469e-a2b8-96eb1eda54ca",
               "label": "PER",
               "value": "18.0"
             },
             {
-              "id": "5f781235-220a-465e-87b8-6093914e9b13",
+              "id": "d878ed88-b89f-411a-a1b6-d649726d063b",
               "label": "Forward PER",
               "value": ""
             },
             {
-              "id": "143479b9-ad5d-444a-8378-43fe50fa619b",
+              "id": "d17ed028-8d5a-4ed4-8fbf-9f6a3a21f3a3",
               "label": "투자 적합도",
               "value": ""
             }
           ],
           "researchScores": [
             {
-              "id": "47d9ce8f-7a24-454a-88c2-33c52e33172c",
+              "id": "1d5dde0b-359c-412a-99a3-1cc2b89b6647",
               "model": "Gemini",
               "variant": "Deep Research",
               "date": "2026-04-30",
@@ -21787,7 +21926,7 @@
               "memo": ""
             },
             {
-              "id": "f51294e9-555f-462b-9249-fc2cce965e50",
+              "id": "44002abe-b1e4-4308-9723-080eff53c225",
               "model": "GPT",
               "variant": "Pro",
               "date": "2026-04-30",
@@ -21805,25 +21944,25 @@
           "revenueSource": "1Q26 실적 발표",
           "revenueItems": [
             {
-              "id": "09abd0b7-cf82-437c-9a7c-c313b201a6d3",
+              "id": "246db008-3d7f-4ce5-a0b5-c54514bdf422",
               "label": "PC",
               "amount": "3639",
               "percent": ""
             },
             {
-              "id": "79ed9e66-900f-4638-879f-be01757c7fd5",
+              "id": "11067eb5-f98b-4252-aa9e-d4abfe924d95",
               "label": "모바일",
               "amount": "7027",
               "percent": ""
             },
             {
-              "id": "22316d3b-f83f-4813-8f8d-6057fa957511",
+              "id": "facb3ae4-4679-4db8-9943-c959ee3a18b8",
               "label": "콘솔",
               "amount": "138",
               "percent": ""
             },
             {
-              "id": "9c7bc265-7f88-40fa-84f2-1c4185579d14",
+              "id": "4974e099-d583-462f-87b8-a2f5c6475739",
               "label": "기타",
               "amount": "2910",
               "percent": ""
@@ -21831,7 +21970,7 @@
           ],
           "earnings": [
             {
-              "id": "081ab7c3-f0e1-4d2b-a245-addc6e5c615d",
+              "id": "36f8596c-c5e5-444c-94a0-b122851a5360",
               "period": "1Q26",
               "revenue": "13714",
               "profit": "5616",
@@ -21839,7 +21978,7 @@
               "growth": ""
             },
             {
-              "id": "007d0bd7-299f-4fa5-9c49-f9e87f431037",
+              "id": "1c299487-6e22-494f-98d8-c07eb05014db",
               "period": "4Q25",
               "revenue": "9197",
               "profit": "24",
@@ -21847,7 +21986,7 @@
               "growth": ""
             },
             {
-              "id": "818f6918-17de-40e9-960f-47405be0c72a",
+              "id": "27de027d-7a89-4e47-99fe-d30000eaa5d5",
               "period": "3Q25",
               "revenue": "8706",
               "profit": "3486",
@@ -21855,7 +21994,7 @@
               "growth": ""
             },
             {
-              "id": "4d30c6a4-e767-42cf-8902-565325c6c451",
+              "id": "ad006fe3-ae37-42c2-b70e-4736b3bc1c4b",
               "period": "2Q25",
               "revenue": "6620",
               "profit": "2460",
@@ -21863,7 +22002,7 @@
               "growth": ""
             },
             {
-              "id": "e470c0b4-569a-47dd-a5f4-ce88baa3f075",
+              "id": "8959a8f2-32df-41a2-b7ab-d34fad5459d3",
               "period": "1Q25",
               "revenue": "8741",
               "profit": "4572",
@@ -21871,7 +22010,7 @@
               "growth": ""
             },
             {
-              "id": "7915689e-6c41-470b-8ef0-18ab65d9e4c3",
+              "id": "7d3f7294-41a4-4a0d-b3c8-3a764de31c9b",
               "period": "4Q24",
               "revenue": "6175",
               "profit": "2154",
@@ -21879,7 +22018,7 @@
               "growth": ""
             },
             {
-              "id": "cfe2cc3d-0477-4023-a09e-5b1e783b6e22",
+              "id": "9bf5517d-6daf-4fff-895a-471eff833d23",
               "period": "3Q24",
               "revenue": "7192",
               "profit": "3244",
@@ -21887,7 +22026,7 @@
               "growth": ""
             },
             {
-              "id": "8902252d-861c-4c62-86f6-3622bb07220c",
+              "id": "3cae3a7f-8962-4545-aefd-9769f1a66c86",
               "period": "2Q24",
               "revenue": "7070",
               "profit": "3321",
@@ -21895,7 +22034,7 @@
               "growth": ""
             },
             {
-              "id": "7b1133cb-5c47-4199-85f9-7585e391a514",
+              "id": "a0af6f71-4de2-4fd3-9e48-f1bacbcb4995",
               "period": "1Q24",
               "revenue": "6659",
               "profit": "3105",
@@ -21905,7 +22044,7 @@
           ],
           "conferenceCalls": [
             {
-              "id": "6625839e-f25b-4fed-a3fe-813af8ad2fe4",
+              "id": "ac9d8312-ab3f-412b-8547-264655ab2fda",
               "source": "1Q26 실적 발표",
               "date": "2026-04-30",
               "content": "[PC] 애스턴마틴 컬래버레이션 콘텐츠 재출시로 매출이 큰 폭으로 성장 \n[모바일] 프리미엄 콘텐츠와 IP 협업이 매출 신기록에 기여\n[기타] ADK 그룹 실적이 반영 (2,859억)\n[BGMI] 이용자 접근성 확대 및 결제 이용자 수 증가\n[inZOI] UGC 기반의 라이브 서비스를 통한 장기 PL 도약 노력\n[신작] 서브노티카2 - 얼리 억세스 준비 중\n[AI] \n- 멀티모달 '라온' 4종을 자사 게임에 적용 예정\n- PUBG Ally를 베타 서비스로 선보일 예정\n- 쏘카 자율 주행 법인 설립에 650억원 규모 전략적 투자 단행 \n→ 자율 주행 데이터를 피지컬 AI에 활용 예정\n[주주 환원] 2분기 자사주 1,000억 추가 취득 및 소각 예정",
@@ -21930,17 +22069,17 @@
           ],
           "metrics": [
             {
-              "id": "277b31c3-fccb-4cd4-8bb8-c03f284d771f",
+              "id": "b447cf54-f8ba-44ff-9ebc-7f2778a9c379",
               "label": "PER",
               "value": "52.1"
             },
             {
-              "id": "ccff2104-f19f-4165-96c3-3a964f93adc1",
+              "id": "7f073446-2621-468b-b0d2-81b9c047cec1",
               "label": "Forward PER",
               "value": "31.4"
             },
             {
-              "id": "967619ef-d18f-4d2d-bcca-f333dd60a8c3",
+              "id": "1940323d-43af-4e32-962d-e51f9981f3ae",
               "label": "Market Cap",
               "value": "$2.1T"
             }
@@ -21956,25 +22095,25 @@
           "revenueSource": "",
           "revenueItems": [
             {
-              "id": "3fbbeb10-fa62-4286-bdd8-d2f2a0476dc0",
+              "id": "f01a02f5-6fd6-4d57-a1d1-356a25d88642",
               "label": "제품",
               "amount": "653.3",
               "percent": "87"
             },
             {
-              "id": "c4014b2b-d405-452b-9770-a27dc4ee69cf",
+              "id": "f2364478-3e80-4eac-ae72-8ddb63c75665",
               "label": "설치",
               "amount": "25.9",
               "percent": "3.5"
             },
             {
-              "id": "8d9f907d-f6b8-43cf-9624-d4d693542b33",
+              "id": "8a99b17a-fb79-468a-82eb-7fd62706c43b",
               "label": "서비스",
               "amount": "61.9",
               "percent": "8.2"
             },
             {
-              "id": "0fef6720-60b6-4b8a-b62b-02e15f228ff9",
+              "id": "86f0d7da-430c-4f5d-bc6b-dc3673ed9e5f",
               "label": "전기판매",
               "amount": "9.9",
               "percent": "1.3"
@@ -21982,7 +22121,7 @@
           ],
           "earnings": [
             {
-              "id": "b6a0cd64-e0ad-4c27-bbae-d2aa610fae50",
+              "id": "8fa4245d-ca2a-4b00-ae84-0257e0756b9a",
               "period": "Q4 2024",
               "revenue": "$572.4M",
               "profit": "$104.7M",
@@ -21990,7 +22129,7 @@
               "growth": ""
             },
             {
-              "id": "70385bc5-78c4-47dc-9aa7-6f3bcd835e50",
+              "id": "ecacfa22-a225-4b3c-8f65-88bc05abb2a7",
               "period": "Q1 2025",
               "revenue": "$326.0M",
               "profit": "-$19.1M",
@@ -21998,7 +22137,7 @@
               "growth": ""
             },
             {
-              "id": "ce9c83ba-d26c-45a9-afa1-4128d4ff3673",
+              "id": "1565bed5-c87d-45f6-aa0f-ec5a91db405e",
               "period": "Q2 2025",
               "revenue": "$401.2M",
               "profit": "-$3.5M",
@@ -22006,7 +22145,7 @@
               "growth": ""
             },
             {
-              "id": "9d4803af-9d36-46fb-9b69-dd93454f0e78",
+              "id": "9b8f60a2-621b-4e86-8e4b-4c17ec643b5d",
               "period": "Q3 2025",
               "revenue": "$519.0M",
               "profit": "$7.8M",
@@ -22014,7 +22153,7 @@
               "growth": ""
             },
             {
-              "id": "31230d7b-23d6-46e5-837c-c4d93a2d3718",
+              "id": "f597a1f6-d9ef-432c-ad63-6f927c71168e",
               "period": "Q4 2025",
               "revenue": "$777.7M",
               "profit": "$87.5M",
@@ -22022,7 +22161,7 @@
               "growth": ""
             },
             {
-              "id": "316d9cda-18e7-435a-a0ab-b5874af39bc8",
+              "id": "d0e97b6f-5a63-4c4d-b84e-bb854b614367",
               "period": "Q1 2026",
               "revenue": "$751.1M",
               "profit": "$72.M",
@@ -22032,7 +22171,7 @@
           ],
           "conferenceCalls": [
             {
-              "id": "173e9a89-f4ba-46ce-9847-8907a265d2dd",
+              "id": "b55d7f16-4368-4235-bba7-2875435fb753",
               "source": "",
               "date": "",
               "content": "Management highlighted broad AI infrastructure demand across cloud, enterprise, and sovereign AI customers. Supply ramp and next-generation GPU transition remain key checkpoints.",
