@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-04T09:04:34.951Z"
+    "exportedAt": "2026-05-05T16:05:25.905Z"
   },
   "data": {
     "lastState": {
@@ -3752,6 +3752,13 @@
           "createdAt": "2026-05-04T04:42:43.687Z",
           "distanceKm": 2.72,
           "calorieOverride": 106
+        },
+        {
+          "id": "084fcbdd-61c4-4862-85fb-60df2512e069",
+          "typeId": "home",
+          "loggedForDate": "2026-05-05",
+          "durationMin": 20,
+          "createdAt": "2026-05-05T16:05:17.839Z"
         }
       ]
     },
@@ -4013,7 +4020,12 @@
         },
         {
           "date": "2026-05-04",
-          "totalKrw": 40357424.559999995,
+          "totalKrw": 40621121.75,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-05",
+          "totalKrw": 40660102.3988,
           "quality": "final"
         }
       ],
@@ -12325,8 +12337,8 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
+        "selectedSongId": "9217dd76-2abf-4e39-8828-82497d8a913f",
+        "selectedVideoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
         "loopEnabled": false,
         "aSec": 0,
         "bSec": 35,
@@ -12764,6 +12776,10 @@
         {
           "dateKey": "2026-05-03",
           "createdAt": 1777860412784
+        },
+        {
+          "dateKey": "2026-05-05",
+          "createdAt": 1777994768712
         }
       ],
       "lifnux:guitar:videos": [
@@ -12934,11 +12950,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 40357424.559999995,
-        "unrealizedPnlKrw": 7991672.3125599995,
-        "realizedPnlYtdKrw": 2983048.459718261,
-        "dataQuality": "OK",
-        "updatedAt": 1777878252768
+        "totalValueKrw": 40654262.9884,
+        "unrealizedPnlKrw": 8271290.3872799985,
+        "realizedPnlYtdKrw": 2984497.2269982607,
+        "dataQuality": "DEGRADED",
+        "updatedAt": 1777997073537
       }
     },
     "personalGrowth": {
@@ -21682,7 +21698,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-04T09:04:34.576Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-05T16:05:25.546Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
