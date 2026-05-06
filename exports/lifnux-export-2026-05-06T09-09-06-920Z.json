@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-05T16:04:44.187Z"
+    "exportedAt": "2026-05-06T09:09:06.915Z"
   },
   "data": {
     "lastState": {
@@ -3752,6 +3752,23 @@
           "createdAt": "2026-05-04T04:42:43.687Z",
           "distanceKm": 2.72,
           "calorieOverride": 106
+        },
+        {
+          "id": "084fcbdd-61c4-4862-85fb-60df2512e069",
+          "typeId": "home",
+          "loggedForDate": "2026-05-05",
+          "durationMin": 20,
+          "createdAt": "2026-05-05T16:05:17.839Z"
+        },
+        {
+          "id": "91eea1da-084b-4bc1-b0de-1d9aa93d9b0a",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-06",
+          "durationMin": 43,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-06T04:55:01.230Z",
+          "distanceKm": 3.33,
+          "calorieOverride": 132
         }
       ]
     },
@@ -4020,10 +4037,15 @@
           "date": "2026-05-05",
           "totalKrw": 40660102.3988,
           "quality": "final"
+        },
+        {
+          "date": "2026-05-06",
+          "totalKrw": 46869646.54,
+          "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": false
+        "blurSensitiveNumbers": true
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -4094,6 +4116,10 @@
             {
               "id": "dataset-sub-debt-0",
               "name": "카드값"
+            },
+            {
+              "id": "698c4f14-189d-4817-ac91-e0b54cb0bc48",
+              "name": "대출 원금"
             }
           ]
         }
@@ -9305,7 +9331,154 @@
             "investingAccountId": "acc-us-1"
           }
         ],
-        "2026-05": []
+        "2026-05": [
+          {
+            "id": "421cc4de-981d-49af-a86a-7e5218943c23",
+            "name": "우리SUPER주거래통장",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-0",
+            "amountKRW": 131627,
+            "source": "manual"
+          },
+          {
+            "id": "de157e98-7eee-4317-add5-4df250eef8ac",
+            "name": "KB나라사랑우대통장",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-0",
+            "amountKRW": 934153,
+            "source": "manual"
+          },
+          {
+            "id": "41fb3482-66d6-43e5-ae3e-14fa6463986a",
+            "name": "현금",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-1",
+            "amountKRW": 20000,
+            "source": "manual"
+          },
+          {
+            "id": "455a3671-404d-476b-b074-195126e3daac",
+            "name": "업비트(코인)",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-2",
+            "amountKRW": 0,
+            "source": "manual"
+          },
+          {
+            "id": "0792dc05-471f-4175-9d85-af73a8c2ae81",
+            "name": "네이버페이 머니",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-3",
+            "amountKRW": 9666,
+            "source": "manual"
+          },
+          {
+            "id": "8966a071-dde1-4c81-94ce-307117e0fb0d",
+            "name": "카카오페이 머니",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-3",
+            "amountKRW": 0,
+            "source": "manual"
+          },
+          {
+            "id": "ec43a7a6-8b05-4cd3-9781-b23b6a8cc523",
+            "name": "토스페이 머니",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-3",
+            "amountKRW": 12163,
+            "source": "manual"
+          },
+          {
+            "id": "9faa0075-c7d1-4c7c-97d0-20fccaa7b836",
+            "name": "주택청약종합저축(농협)",
+            "categoryId": "dataset-cat-saving",
+            "subcategoryId": "dataset-sub-saving-0",
+            "amountKRW": 5940000,
+            "source": "manual"
+          },
+          {
+            "id": "f71aa708-0919-4d00-8359-2bda14df3c13",
+            "name": "KB청년도약계좌",
+            "categoryId": "dataset-cat-saving",
+            "subcategoryId": "dataset-sub-saving-1",
+            "amountKRW": 1600000,
+            "note": "만기 2030.11.03",
+            "source": "manual"
+          },
+          {
+            "id": "22872e2c-4c64-4303-8ed3-fe643ed438c0",
+            "name": "카드값 (우리)",
+            "categoryId": "dataset-cat-debt",
+            "subcategoryId": "dataset-sub-debt-0",
+            "amountKRW": 0,
+            "source": "manual"
+          },
+          {
+            "id": "c02c6761-5258-4f5a-aabd-01ee4d8b01ca",
+            "name": "카드값 (KB)",
+            "categoryId": "dataset-cat-debt",
+            "subcategoryId": "dataset-sub-debt-0",
+            "amountKRW": 523816,
+            "source": "manual"
+          },
+          {
+            "id": "f6911306-4516-4e09-a5a8-78916ea4ceaa",
+            "name": "나라사랑 하나통장",
+            "categoryId": "dataset-cat-cash",
+            "subcategoryId": "dataset-sub-cash-0",
+            "amountKRW": 90104,
+            "source": "manual"
+          },
+          {
+            "id": "56d78d23-6265-46c5-993f-7003bb6e8975",
+            "name": "주택청약예금담보대출",
+            "categoryId": "dataset-cat-debt",
+            "subcategoryId": "698c4f14-189d-4817-ac91-e0b54cb0bc48",
+            "amountKRW": 5300000,
+            "source": "manual",
+            "note": "만기일 : 2027년 5월 6일"
+          },
+          {
+            "id": "78ccf3db-bc95-4e9a-95c9-20816dd7501d",
+            "name": "메리츠 (synced)",
+            "categoryId": "dataset-cat-investing",
+            "subcategoryId": "dataset-sub-investing-0",
+            "amountKRW": 12761889,
+            "note": "Investing Portfolio mirror",
+            "source": "investing",
+            "investingAccountId": "eebd4146-6541-4507-9242-ff316f3ac721"
+          },
+          {
+            "id": "45aab976-6676-454f-b27b-a2108c87d3cf",
+            "name": "NH증권 (synced)",
+            "categoryId": "dataset-cat-investing",
+            "subcategoryId": "dataset-sub-investing-0",
+            "amountKRW": 17249695,
+            "note": "Investing Portfolio mirror",
+            "source": "investing",
+            "investingAccountId": "acc-kr-1"
+          },
+          {
+            "id": "148bbb9e-6e33-4181-9368-65db2353941b",
+            "name": "메리츠 (synced)",
+            "categoryId": "dataset-cat-investing",
+            "subcategoryId": "dataset-sub-investing-0",
+            "amountKRW": 10652684,
+            "note": "Investing Portfolio mirror",
+            "source": "investing",
+            "investingAccountId": "acc-us-1"
+          },
+          {
+            "id": "241c875b-e7bb-4f03-afc5-c60abcbe621d",
+            "name": "TOSS (synced)",
+            "categoryId": "dataset-cat-investing",
+            "subcategoryId": "dataset-sub-investing-0",
+            "amountKRW": 5934871,
+            "note": "Investing Portfolio mirror",
+            "source": "investing",
+            "investingAccountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940"
+          }
+        ]
       },
       "lifnux.finance.expense.budget.v1": {
         "2026-02": 700000
@@ -9338,11 +9511,19 @@
           "countryType": "US",
           "memo": "텐배거용",
           "currency": "USD"
+        },
+        {
+          "id": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "brokerName": "TOSS",
+          "countryType": "KR",
+          "currency": "KRW",
+          "memo": "국내 액티브"
         }
       ],
       "lifnux.finance.asset.investing.sync.logs.v1": {
         "2026-03": 1775007000084,
-        "2026-04": 1777563708796
+        "2026-04": 1777563708796,
+        "2026-05": 1778028965017
       },
       "lifnux.finance.expense.review.v1": {
         "2010-09": {
@@ -9526,6 +9707,7 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9540,7 +9722,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10007,6 +10188,41 @@
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Big Tech"
+        },
+        {
+          "id": "kr-stock-0167a0",
+          "label": "SOL AI반도체TOP2플러스",
+          "symbol": "0167A0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1778028350390,
+          "last": 125409,
+          "changePct": 1.09,
+          "changeAbs": 1366.9581,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "kr-stock-456600",
+          "label": "TIME 글로벌AI인공지능액티브",
+          "symbol": "456600",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1778028366937,
+          "last": 134609,
+          "changePct": -2.91,
+          "changeAbs": -3917.1219,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -10390,10 +10606,48 @@
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "7790a6e0-f0f1-4a5c-8230-82c060dc98c2",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-000660",
+          "symbolKey": "000660",
+          "avgPrice": 1594000,
+          "qty": 1,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
+        },
+        {
+          "id": "87e3cfa9-57a1-47bb-98ae-57d27f91c7d7",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-456600",
+          "symbolKey": "456600",
+          "avgPrice": 60360,
+          "qty": 5,
+          "currency": "KRW",
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
         }
       ],
-      "lifnux.finance.hub.reveal.v1": false,
+      "lifnux.finance.hub.reveal.v1": true,
       "lifnux.finance.asset.snapshot.logs.v1": [
+        {
+          "id": "325e6ab6-7701-4bec-b406-3d4afca2f2be",
+          "month": "2026-05",
+          "type": "OVERWRITE",
+          "at": 1778029039931,
+          "source": "manual"
+        },
+        {
+          "id": "873f3bc8-bd0a-4026-bb63-5b07a0d9f7fa",
+          "month": "2026-05",
+          "type": "SAVED",
+          "at": 1778028978762,
+          "source": "manual"
+        },
         {
           "id": "4b6ff667-6f91-4868-9944-0312ef70eb66",
           "month": "2026-04",
@@ -12290,6 +12544,45 @@
           "amount": 13900,
           "kind": "expense",
           "memo": "이우재"
+        },
+        {
+          "id": "17fee1dc-d0c4-4d6f-8650-b92d042144d2",
+          "createdAt": 1778043770411,
+          "date": "2026-05-06",
+          "category": "Dividends",
+          "title": "분배금",
+          "amount": 14396,
+          "kind": "income",
+          "memo": "미국 S&P 500"
+        },
+        {
+          "id": "0452f253-1440-4208-ba6c-67a68ea35e3e",
+          "createdAt": 1778044421464,
+          "date": "2026-05-06",
+          "category": "Dividends",
+          "title": "분배금",
+          "amount": 11900,
+          "kind": "income",
+          "memo": "미국나스닥100"
+        },
+        {
+          "id": "c8f06b8e-53fb-42c2-8a2e-53175c387213",
+          "createdAt": 1778044434696,
+          "date": "2026-05-06",
+          "category": "Dividends",
+          "title": "분배금",
+          "amount": 4620,
+          "kind": "income",
+          "memo": "Korea 플러스 배당 액티브"
+        },
+        {
+          "id": "114304e0-5894-4e06-9d11-efe472fcf3e8",
+          "createdAt": 1778058536006,
+          "date": "2026-05-06",
+          "category": "Other",
+          "title": "한발 OB 월회비",
+          "amount": 20000,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -12943,11 +13236,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 40654262.9884,
-        "unrealizedPnlKrw": 8271290.3872799985,
-        "realizedPnlYtdKrw": 2984497.2269982607,
-        "dataQuality": "DEGRADED",
-        "updatedAt": 1777997073537
+        "totalValueKrw": 46869646.54,
+        "unrealizedPnlKrw": 9850984.414639995,
+        "realizedPnlYtdKrw": 2943055.8560382603,
+        "dataQuality": "OK",
+        "updatedAt": 1778042998196
       }
     },
     "personalGrowth": {
@@ -13607,6 +13900,18 @@
           "labelId": "f9d034cb-f271-47c0-b853-6b3e554151b9",
           "location": "월곡 제1구장",
           "memo": ""
+        },
+        {
+          "id": "250466d1-8666-4c37-a49f-5487c01056b3",
+          "title": "SERIES.L: 리도어 콘서트",
+          "date": "2026-06-03",
+          "type": "TIMED",
+          "startTime": "19:30",
+          "endTime": "21:30",
+          "importance": "CRITICAL",
+          "labelId": "704abcad-3de3-455f-9eef-ab3b80154812",
+          "location": "롯데콘서트홀",
+          "memo": ""
         }
       ],
       "lifnux.calendar.holidays.v100": [
@@ -13671,6 +13976,13 @@
           "title": "연차",
           "date": "2026-04-20",
           "createdAt": 1776048464958,
+          "kind": "HOLIDAY"
+        },
+        {
+          "id": "23b7cff7-546b-4f1f-a08f-0fce4d4741a6",
+          "title": "지방 선거",
+          "date": "2026-06-03",
+          "createdAt": 1778032783588,
           "kind": "HOLIDAY"
         }
       ],
@@ -19023,7 +19335,159 @@
               "investingAccountId": "acc-us-1"
             }
           ],
-          "updatedAt": 1777528988035,
+          "updatedAt": 1777528988035
+        },
+        "2026-05": {
+          "month": "2026-05",
+          "items": [
+            {
+              "id": "421cc4de-981d-49af-a86a-7e5218943c23",
+              "name": "우리SUPER주거래통장",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-0",
+              "amountKRW": 131627,
+              "source": "manual"
+            },
+            {
+              "id": "de157e98-7eee-4317-add5-4df250eef8ac",
+              "name": "KB나라사랑우대통장",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-0",
+              "amountKRW": 934153,
+              "source": "manual"
+            },
+            {
+              "id": "41fb3482-66d6-43e5-ae3e-14fa6463986a",
+              "name": "현금",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-1",
+              "amountKRW": 20000,
+              "source": "manual"
+            },
+            {
+              "id": "455a3671-404d-476b-b074-195126e3daac",
+              "name": "업비트(코인)",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-2",
+              "amountKRW": 0,
+              "source": "manual"
+            },
+            {
+              "id": "0792dc05-471f-4175-9d85-af73a8c2ae81",
+              "name": "네이버페이 머니",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-3",
+              "amountKRW": 9666,
+              "source": "manual"
+            },
+            {
+              "id": "8966a071-dde1-4c81-94ce-307117e0fb0d",
+              "name": "카카오페이 머니",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-3",
+              "amountKRW": 0,
+              "source": "manual"
+            },
+            {
+              "id": "ec43a7a6-8b05-4cd3-9781-b23b6a8cc523",
+              "name": "토스페이 머니",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-3",
+              "amountKRW": 12163,
+              "source": "manual"
+            },
+            {
+              "id": "9faa0075-c7d1-4c7c-97d0-20fccaa7b836",
+              "name": "주택청약종합저축(농협)",
+              "categoryId": "dataset-cat-saving",
+              "subcategoryId": "dataset-sub-saving-0",
+              "amountKRW": 5940000,
+              "source": "manual"
+            },
+            {
+              "id": "f71aa708-0919-4d00-8359-2bda14df3c13",
+              "name": "KB청년도약계좌",
+              "categoryId": "dataset-cat-saving",
+              "subcategoryId": "dataset-sub-saving-1",
+              "amountKRW": 1600000,
+              "note": "만기 2030.11.03",
+              "source": "manual"
+            },
+            {
+              "id": "22872e2c-4c64-4303-8ed3-fe643ed438c0",
+              "name": "카드값 (우리)",
+              "categoryId": "dataset-cat-debt",
+              "subcategoryId": "dataset-sub-debt-0",
+              "amountKRW": 0,
+              "source": "manual"
+            },
+            {
+              "id": "c02c6761-5258-4f5a-aabd-01ee4d8b01ca",
+              "name": "카드값 (KB)",
+              "categoryId": "dataset-cat-debt",
+              "subcategoryId": "dataset-sub-debt-0",
+              "amountKRW": 523816,
+              "source": "manual"
+            },
+            {
+              "id": "f6911306-4516-4e09-a5a8-78916ea4ceaa",
+              "name": "나라사랑 하나통장",
+              "categoryId": "dataset-cat-cash",
+              "subcategoryId": "dataset-sub-cash-0",
+              "amountKRW": 90104,
+              "source": "manual"
+            },
+            {
+              "id": "56d78d23-6265-46c5-993f-7003bb6e8975",
+              "name": "주택청약예금담보대출",
+              "categoryId": "dataset-cat-debt",
+              "subcategoryId": "698c4f14-189d-4817-ac91-e0b54cb0bc48",
+              "amountKRW": 5300000,
+              "source": "manual",
+              "note": "만기일 : 2027년 5월 6일"
+            },
+            {
+              "id": "78ccf3db-bc95-4e9a-95c9-20816dd7501d",
+              "name": "메리츠 (synced)",
+              "categoryId": "dataset-cat-investing",
+              "subcategoryId": "dataset-sub-investing-0",
+              "amountKRW": 12761889,
+              "note": "Investing Portfolio mirror",
+              "source": "investing",
+              "investingAccountId": "eebd4146-6541-4507-9242-ff316f3ac721"
+            },
+            {
+              "id": "45aab976-6676-454f-b27b-a2108c87d3cf",
+              "name": "NH증권 (synced)",
+              "categoryId": "dataset-cat-investing",
+              "subcategoryId": "dataset-sub-investing-0",
+              "amountKRW": 17249695,
+              "note": "Investing Portfolio mirror",
+              "source": "investing",
+              "investingAccountId": "acc-kr-1"
+            },
+            {
+              "id": "148bbb9e-6e33-4181-9368-65db2353941b",
+              "name": "메리츠 (synced)",
+              "categoryId": "dataset-cat-investing",
+              "subcategoryId": "dataset-sub-investing-0",
+              "amountKRW": 10652684,
+              "note": "Investing Portfolio mirror",
+              "source": "investing",
+              "investingAccountId": "acc-us-1"
+            },
+            {
+              "id": "241c875b-e7bb-4f03-afc5-c60abcbe621d",
+              "name": "TOSS (synced)",
+              "categoryId": "dataset-cat-investing",
+              "subcategoryId": "dataset-sub-investing-0",
+              "amountKRW": 5934871,
+              "note": "Investing Portfolio mirror",
+              "source": "investing",
+              "investingAccountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940"
+            }
+          ],
+          "updatedAt": 1778029039929,
           "source": "manual"
         }
       }
@@ -19160,15 +19624,15 @@
           "applicationId": "946c6da6-14ad-4aca-b49f-46eae01b224d",
           "postingId": "0da18e5f-7f85-4613-8b35-c1276009dccf",
           "appliedAt": "2026-04-01",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "UNANNOUNCED",
           "stages": [
             {
               "stageId": "60c350c7-9529-42fe-88c7-30dee21c8d10",
               "type": "DOCUMENT",
               "submittedAt": "2026-04-01",
               "resultAt": null,
-              "result": "PENDING",
+              "result": "UNANNOUNCED",
               "notes": ""
             },
             {
@@ -20872,7 +21336,7 @@
           }
         ],
         "currentIndex": 8,
-        "isPlaying": true,
+        "isPlaying": false,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -21659,12 +22123,17 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 816.5699999999998
+          "balance": 0.5699999999998226
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
           "currency": "USD",
           "balance": 0
+        },
+        {
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "currency": "KRW",
+          "balance": 4046896
         }
       ]
     },
@@ -21691,7 +22160,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-05T16:04:43.540Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-06T09:09:05.990Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -22232,7 +22701,7 @@
     "items_template": {
       "asset_items_template": [
         {
-          "id": "85110961-7a66-4166-aa2e-e2c79cb2a87f",
+          "id": "4128dc5c-a9dc-47d9-9a6f-3c4d15fbd4c2",
           "name": "우리SUPER주거래통장",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-0",
@@ -22240,7 +22709,7 @@
           "source": "manual"
         },
         {
-          "id": "03421cee-b2b2-4035-bf3f-f4e85f614842",
+          "id": "1af74895-dd12-486f-839d-321e8750b6d4",
           "name": "KB나라사랑우대통장",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-0",
@@ -22248,7 +22717,7 @@
           "source": "manual"
         },
         {
-          "id": "b3d2bb8b-94a3-4aff-8407-f1fd18aef277",
+          "id": "2265af62-1152-4548-a558-6001505fe36d",
           "name": "현금",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-1",
@@ -22256,7 +22725,7 @@
           "source": "manual"
         },
         {
-          "id": "16c84076-93ae-4a38-b1ab-07b9f4eec848",
+          "id": "a76fce32-b55d-42c8-abc8-1bbe952311f3",
           "name": "업비트(코인)",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-2",
@@ -22264,7 +22733,7 @@
           "source": "manual"
         },
         {
-          "id": "d02cfec2-2627-4207-a8ba-b90aa4fe5927",
+          "id": "9a6701ca-1fa7-4bc5-b1ab-94460162a9a0",
           "name": "네이버페이 머니",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-3",
@@ -22272,7 +22741,7 @@
           "source": "manual"
         },
         {
-          "id": "9eafb083-949d-489f-b6f2-075e412c5b94",
+          "id": "02a2341f-fa02-492b-a595-1ac795ab345c",
           "name": "카카오페이 머니",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-3",
@@ -22280,7 +22749,7 @@
           "source": "manual"
         },
         {
-          "id": "c8c21ac9-76f4-4206-bfa1-6d617cd17b2f",
+          "id": "26b4fcd3-5a07-4fda-8d87-1a477bd5fbd3",
           "name": "토스페이 머니",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-3",
@@ -22288,7 +22757,7 @@
           "source": "manual"
         },
         {
-          "id": "53f34c8c-4837-4587-9fcf-7fbf73c8a2b2",
+          "id": "1e35271b-86c0-4c6f-b6b6-e1ca140a8082",
           "name": "주택청약종합저축(농협)",
           "categoryId": "dataset-cat-saving",
           "subcategoryId": "dataset-sub-saving-0",
@@ -22296,7 +22765,7 @@
           "source": "manual"
         },
         {
-          "id": "ca503e1d-b6fe-4135-be28-32efe4c9090e",
+          "id": "ed7ceeb4-ebf2-4ce1-a9ee-2e4e7b692bf2",
           "name": "KB청년도약계좌",
           "categoryId": "dataset-cat-saving",
           "subcategoryId": "dataset-sub-saving-1",
@@ -22305,7 +22774,7 @@
           "source": "manual"
         },
         {
-          "id": "fad651f5-03c5-46cf-b078-006992a3c30a",
+          "id": "938d4c24-e05c-44c8-b61f-dfa19ab83d05",
           "name": "카드값 (우리)",
           "categoryId": "dataset-cat-debt",
           "subcategoryId": "dataset-sub-debt-0",
@@ -22313,7 +22782,7 @@
           "source": "manual"
         },
         {
-          "id": "b848edc6-f08d-4ac1-a266-7c4a9a19f3f7",
+          "id": "1cc34b13-b1b9-41ab-87f2-38d859df8faf",
           "name": "카드값 (KB)",
           "categoryId": "dataset-cat-debt",
           "subcategoryId": "dataset-sub-debt-0",
@@ -22321,12 +22790,21 @@
           "source": "manual"
         },
         {
-          "id": "2344cbed-d662-458c-a90c-588d3ccd3d26",
+          "id": "d2963106-1b62-4401-9742-ca7555ee8ace",
           "name": "나라사랑 하나통장",
           "categoryId": "dataset-cat-cash",
           "subcategoryId": "dataset-sub-cash-0",
           "amountKRW": 90104,
           "source": "manual"
+        },
+        {
+          "id": "5dd30ff3-90db-4548-ada6-335ea30ae8eb",
+          "name": "주택청약예금담보대출",
+          "categoryId": "dataset-cat-debt",
+          "subcategoryId": "698c4f14-189d-4817-ac91-e0b54cb0bc48",
+          "amountKRW": 5300000,
+          "source": "manual",
+          "note": "만기일 : 2027년 5월 6일"
         }
       ]
     },
@@ -24025,6 +24503,89 @@
           "realizedPnl": -56.81000000000006,
           "realizedPnlPercent": -8.463566884674412,
           "costBasis": 671.23
+        },
+        {
+          "id": "abaafd5a-51ba-4fea-848a-1e7fdc797db6",
+          "ts": 1778028218923,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "WITHDRAW",
+          "amount": 816
+        },
+        {
+          "id": "0da89a98-bd05-454d-8cd4-2bd892735e38",
+          "ts": 1778028255923,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 1973996
+        },
+        {
+          "id": "e12c10b5-714c-48c7-9dba-ec76821fb34e",
+          "ts": 1778028271682,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 4000000
+        },
+        {
+          "id": "f4faad20-94bc-4c33-9874-99851ce20392",
+          "ts": 1778028292380,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "000660",
+          "side": "BUY",
+          "qty": 1,
+          "price": 1594000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "8a367d8f-d3aa-4d0a-8b44-bae43b34fb3f",
+          "ts": 1778028397644,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0167A0",
+          "side": "BUY",
+          "qty": 20,
+          "price": 18245,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "6c5e575d-c38c-45a7-a5b1-199ed3cf31af",
+          "ts": 1778028422613,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0167A0",
+          "side": "SELL",
+          "qty": 20,
+          "price": 16680,
+          "realizedPnl": -31300,
+          "realizedPnlPercent": -8.57769251849822,
+          "costBasis": 364900
+        },
+        {
+          "id": "3a0f3db2-305f-4888-88c8-3ba0629373de",
+          "ts": 1778028489517,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "456600",
+          "side": "BUY",
+          "qty": 5,
+          "price": 60360,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },

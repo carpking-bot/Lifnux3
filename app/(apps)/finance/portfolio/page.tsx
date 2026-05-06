@@ -47,6 +47,7 @@ type PricingState = "VALID" | "STALE" | "FALLBACK" | "ERROR";
 type PortfolioQuality = "OK" | "DEGRADED" | "ERROR";
 type OperationsTab = "trade" | "cash" | "accounts";
 type InsightsTab = "assetHistory" | "ledger" | "analyze";
+type PortfolioCountryFilter = "ALL" | BrokerAccount["countryType"];
 type StockticonConfig = {
   autoBenchmarksEnabled: boolean;
   manualBenchmarks: Record<string, string>;
@@ -195,6 +196,7 @@ export default function PortfolioPage() {
   const [sortKey, setSortKey] = useState<"weight" | "pnl" | "value" | "cost" | "account" | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [portfolioAccountFilter, setPortfolioAccountFilter] = useState<string>("ALL");
+  const [portfolioCountryFilter, setPortfolioCountryFilter] = useState<PortfolioCountryFilter>("ALL");
   const [sectorViewMode, setSectorViewMode] = useState<"major" | "minor">("minor");
   const [realizedRange, setRealizedRange] = useState<"MTD" | "YTD" | "ALL">("MTD");
   const [realizedDetailOpen, setRealizedDetailOpen] = useState(false);
@@ -530,14 +532,20 @@ export default function PortfolioPage() {
   }, [accounts, cashByAccount, fxRate, useFx]);
 
   const filteredDerivedHoldings = useMemo(() => {
-    if (portfolioAccountFilter === "ALL") return derivedHoldings;
-    return derivedHoldings.filter((entry) => entry.holding.accountId === portfolioAccountFilter);
-  }, [derivedHoldings, portfolioAccountFilter]);
+    return derivedHoldings.filter((entry) => {
+      if (portfolioAccountFilter !== "ALL" && entry.holding.accountId !== portfolioAccountFilter) return false;
+      if (portfolioCountryFilter === "ALL") return true;
+      return accounts.find((account) => account.id === entry.holding.accountId)?.countryType === portfolioCountryFilter;
+    });
+  }, [accounts, derivedHoldings, portfolioAccountFilter, portfolioCountryFilter]);
 
   const filteredCashRows = useMemo(() => {
-    if (portfolioAccountFilter === "ALL") return cashRows;
-    return cashRows.filter((entry) => entry.account.id === portfolioAccountFilter);
-  }, [cashRows, portfolioAccountFilter]);
+    return cashRows.filter((entry) => {
+      if (portfolioAccountFilter !== "ALL" && entry.account.id !== portfolioAccountFilter) return false;
+      if (portfolioCountryFilter === "ALL") return true;
+      return entry.account.countryType === portfolioCountryFilter;
+    });
+  }, [cashRows, portfolioAccountFilter, portfolioCountryFilter]);
 
   const summarizeTotals = (
     holdingEntries: typeof derivedHoldings,
@@ -920,8 +928,21 @@ export default function PortfolioPage() {
     [accountOptions]
   );
   const portfolioAccountOptions = useMemo(
-    () => [{ value: "ALL", label: "All Accounts" }, ...accountOptions],
-    [accountOptions]
+    () => [
+      { value: "ALL", label: portfolioCountryFilter === "ALL" ? "All Accounts" : `All ${portfolioCountryFilter} Accounts` },
+      ...accounts
+        .filter((account) => portfolioCountryFilter === "ALL" || account.countryType === portfolioCountryFilter)
+        .map((account) => ({ value: account.id, label: formatAccountName(account) }))
+    ],
+    [accounts, portfolioCountryFilter]
+  );
+  const portfolioCountryOptions = useMemo(
+    () => [
+      { value: "ALL", label: "All Countries" },
+      { value: "KR", label: "KR Accounts" },
+      { value: "US", label: "US Accounts" }
+    ],
+    []
   );
   const stockOptions = useMemo(
     () => stocks.map((item) => ({ value: item.id, label: `${item.label ?? item.symbol} (${item.symbol})` })),
@@ -957,10 +978,10 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     if (portfolioAccountFilter === "ALL") return;
-    if (!accounts.some((account) => account.id === portfolioAccountFilter)) {
+    if (!accounts.some((account) => account.id === portfolioAccountFilter && (portfolioCountryFilter === "ALL" || account.countryType === portfolioCountryFilter))) {
       setPortfolioAccountFilter("ALL");
     }
-  }, [accounts, portfolioAccountFilter]);
+  }, [accounts, portfolioAccountFilter, portfolioCountryFilter]);
 
   const tradeCurrency = useMemo(() => {
     const stock = stocks.find((item) => item.id === tradeForm.stockId);
@@ -2091,8 +2112,14 @@ export default function PortfolioPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">Holdings</div>
+              <Select
+                className="min-w-[150px]"
+                value={portfolioCountryFilter}
+                options={portfolioCountryOptions}
+                onChange={(value) => setPortfolioCountryFilter(value as PortfolioCountryFilter)}
+              />
               <Select
                 className="min-w-[210px]"
                 value={portfolioAccountFilter}
