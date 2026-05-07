@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-06T09:09:06.915Z"
+    "exportedAt": "2026-05-07T15:55:19.418Z"
   },
   "data": {
     "lastState": {
@@ -3769,6 +3769,20 @@
           "createdAt": "2026-05-06T04:55:01.230Z",
           "distanceKm": 3.33,
           "calorieOverride": 132
+        },
+        {
+          "id": "9fb10b58-e52f-47c9-8234-8a85b7cd7faa",
+          "typeId": "home",
+          "loggedForDate": "2026-05-06",
+          "durationMin": 20,
+          "createdAt": "2026-05-06T15:29:00.149Z"
+        },
+        {
+          "id": "389c87be-956d-4fd3-bac4-34e2af00a9df",
+          "typeId": "home",
+          "loggedForDate": "2026-05-07",
+          "durationMin": 20,
+          "createdAt": "2026-05-07T15:53:56.448Z"
         }
       ]
     },
@@ -4040,12 +4054,17 @@
         },
         {
           "date": "2026-05-06",
-          "totalKrw": 46869646.54,
+          "totalKrw": 46762340.789799996,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-07",
+          "totalKrw": 47937770.32,
           "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -9707,7 +9726,6 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9722,6 +9740,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -12583,6 +12602,25 @@
           "title": "한발 OB 월회비",
           "amount": 20000,
           "kind": "expense"
+        },
+        {
+          "id": "f5979416-3515-4f90-8b66-6d849c8ec2e6",
+          "createdAt": 1778169276007,
+          "date": "2026-05-07",
+          "category": "Food",
+          "title": "점심",
+          "amount": 15500,
+          "kind": "expense",
+          "memo": "백소정"
+        },
+        {
+          "id": "3ad03bb6-c067-4f7f-9001-f6444c33ec5e",
+          "createdAt": 1778169285615,
+          "date": "2026-05-07",
+          "category": "Entertainment",
+          "title": "코인노래방",
+          "amount": 1986,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -12623,12 +12661,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "9217dd76-2abf-4e39-8828-82497d8a913f",
-        "selectedVideoId": "9369a784-3a08-44cb-ace1-9fd680abe4d6",
-        "loopEnabled": false,
-        "aSec": 0,
-        "bSec": 35,
-        "speed": 0.9,
+        "selectedSongId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
+        "selectedVideoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
+        "loopEnabled": true,
+        "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-04-30T15:00:00.000Z"
       },
@@ -13066,6 +13102,14 @@
         {
           "dateKey": "2026-05-05",
           "createdAt": 1777994768712
+        },
+        {
+          "dateKey": "2026-05-06",
+          "createdAt": 1778075425758
+        },
+        {
+          "dateKey": "2026-05-07",
+          "createdAt": 1778169055346
         }
       ],
       "lifnux:guitar:videos": [
@@ -13236,11 +13280,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 46869646.54,
-        "unrealizedPnlKrw": 9850984.414639995,
+        "totalValueKrw": 47937770.32,
+        "unrealizedPnlKrw": 10919108.194639996,
         "realizedPnlYtdKrw": 2943055.8560382603,
         "dataQuality": "OK",
-        "updatedAt": 1778042998196
+        "updatedAt": 1778169315240
       }
     },
     "personalGrowth": {
@@ -19501,15 +19545,15 @@
           "applicationId": "404a28ba-2363-4e95-a8c8-1472862aa0f2",
           "postingId": "a034e6af-0590-498e-8fb6-d09ab07a95dd",
           "appliedAt": "2026-04-26",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "450893e6-137e-49c6-8c92-d6af14f19885",
               "type": "DOCUMENT",
               "submittedAt": "2026-04-26",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-05-07",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -19556,7 +19600,7 @@
             {
               "stageId": "4825aaf4-1f40-4bf4-89f8-ee4b9e267ded",
               "type": "INTERVIEW_1",
-              "submittedAt": null,
+              "submittedAt": "2026-05-07",
               "resultAt": null,
               "result": "PENDING",
               "notes": ""
@@ -20375,6 +20419,27 @@
         }
       ],
       "career_job_postings": [
+        {
+          "postingId": "3937cfc3-8b14-4a27-bda0-607adac7be11",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "NC소프트",
+          "postingTitle": "해외 유명 IP 기반의 신규 프로젝트 PM",
+          "role": "PM",
+          "contractType": "단기계약직",
+          "departmentInfo": "해외 유명 IP 기반으로 CCG 프로젝트를 개발 중입니다.\n\n",
+          "responsibilities": "1. AI 기반 업무 효율화\n- 최신 AI 기술을 활용하여 사내 각종 업무 프로세스를 자동화하고 혁신적으로 개선합니다.\n\n2. 협업 플랫폼 최적화\n- Confluence의 다양한 애드온을 도입 및 관리하여 문서화 작업과 정보 공유 시스템을 편리하게 개선합니다.\n\n3. 직속 업무 지원\n- 조직 운영과 관련된 주요 업무를 서포트하고, 필요한 경우 유관 부서와의 커뮤니케이션을 담당합니다.",
+          "requirements": "- AI 활용 능력을 갖추신 분\n- 자기 주도적 문제 해결 역량을 보유하신 분",
+          "neededSkills": "",
+          "preferred": "- 고급 영어 능력\n- CCG 장르 및 게임 개발에 대한 이해도가 있으신 분\n- 유니티(Unity) 엔진에 대한 이해도를 갖추신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://careers.ncsoft.com/apply/view/100744?companyId=NCH",
+          "createdAt": "2026-05-07T08:59:51.317Z",
+          "updatedAt": "2026-05-07T09:00:07.126Z"
+        },
         {
           "postingId": "8fafbd58-f21b-476a-920d-71f113e95de0",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
@@ -21336,7 +21401,7 @@
           }
         ],
         "currentIndex": 8,
-        "isPlaying": false,
+        "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -22160,7 +22225,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-06T09:09:05.990Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-07T15:55:19.409Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
