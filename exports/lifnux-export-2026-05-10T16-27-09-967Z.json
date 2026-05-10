@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-06T15:29:05.682Z"
+    "exportedAt": "2026-05-10T16:27:09.959Z"
   },
   "data": {
     "lastState": {
@@ -3776,6 +3776,57 @@
           "loggedForDate": "2026-05-06",
           "durationMin": 20,
           "createdAt": "2026-05-06T15:29:00.149Z"
+        },
+        {
+          "id": "389c87be-956d-4fd3-bac4-34e2af00a9df",
+          "typeId": "home",
+          "loggedForDate": "2026-05-07",
+          "durationMin": 20,
+          "createdAt": "2026-05-07T15:53:56.448Z"
+        },
+        {
+          "id": "f6379234-4c87-46c6-bc5b-ce3b966310ee",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-08",
+          "durationMin": 40,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-08T04:41:54.800Z",
+          "distanceKm": 3.26,
+          "calorieOverride": 127
+        },
+        {
+          "id": "515739cc-b17e-4d67-b5b1-bc2d77b73919",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-08",
+          "durationMin": 63,
+          "memo": "밤 산책",
+          "createdAt": "2026-05-08T17:39:29.393Z",
+          "distanceKm": 5.5,
+          "calorieOverride": 214
+        },
+        {
+          "id": "047151a4-ab09-4ec3-9c79-9f2d03ff9e8c",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-10",
+          "durationMin": 62,
+          "memo": "밤 산책",
+          "createdAt": "2026-05-10T16:18:20.288Z",
+          "distanceKm": 5.43,
+          "calorieOverride": 212
+        },
+        {
+          "id": "ff48a1d2-c3a8-427c-b707-8429395589a8",
+          "typeId": "home",
+          "loggedForDate": "2026-05-08",
+          "durationMin": 20,
+          "createdAt": "2026-05-10T16:18:49.348Z"
+        },
+        {
+          "id": "656eeec6-c78d-423f-965b-87d03e727c9a",
+          "typeId": "home",
+          "loggedForDate": "2026-05-10",
+          "durationMin": 20,
+          "createdAt": "2026-05-10T16:23:46.725Z"
         }
       ]
     },
@@ -4047,7 +4098,17 @@
         },
         {
           "date": "2026-05-06",
-          "totalKrw": 46786310.199999996,
+          "totalKrw": 46762340.789799996,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-07",
+          "totalKrw": 47937770.32,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-08",
+          "totalKrw": 49066913.84,
           "quality": "final"
         }
       ],
@@ -9683,7 +9744,8 @@
           "Biotech",
           "Shipbuilding",
           "Alternative Asset",
-          "Robotics"
+          "Robotics",
+          "Inverse"
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
@@ -9714,7 +9776,6 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9729,6 +9790,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10210,7 +10272,10 @@
           "changeAbs": 1366.9581,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true
+          "watchlisted": true,
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
         },
         {
           "id": "kr-stock-456600",
@@ -10230,6 +10295,25 @@
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "kr-stock-252670",
+          "label": "KODEX 200선물인버스2X",
+          "symbol": "252670",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1778215136629,
+          "last": 117360,
+          "changePct": -1.4,
+          "changeAbs": -1643.04,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Inverse"
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -10418,8 +10502,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:flnc",
           "symbolKey": "NAS:FLNC",
-          "avgPrice": 18.371355428571427,
-          "qty": 35,
+          "avgPrice": 19.828832000000002,
+          "qty": 45,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Energy/Grid",
@@ -10442,8 +10526,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nys:snow",
           "symbolKey": "NYS:SNOW",
-          "avgPrice": 172.2028571428571,
-          "qty": 7,
+          "avgPrice": 169.14499999999998,
+          "qty": 8,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "AI Software",
@@ -10567,36 +10651,12 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "3a00a9ae-1617-4fbf-8045-822e97acfe5d",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-466920",
-          "symbolKey": "466920",
-          "avgPrice": 35446.666666666664,
-          "qty": 30,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorLabel": "Shipbuilding",
-          "sectorMajorLabel": "Non AI"
-        },
-        {
-          "id": "2a8854bc-9e19-4378-8dd4-cd3dcaea9be7",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-016360",
-          "symbolKey": "016360",
-          "avgPrice": 98212.5,
-          "qty": 8,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "Non AI",
-          "sectorLabel": "Financials"
-        },
-        {
           "id": "58ea7805-1cf8-46fe-94f5-3c0f2a934625",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-0087f0",
           "symbolKey": "0087F0",
-          "avgPrice": 10982.254901960785,
-          "qty": 51,
+          "avgPrice": 11224.166666666666,
+          "qty": 60,
           "currency": "KRW",
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
@@ -10607,8 +10667,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-0043y0",
           "symbolKey": "0043Y0",
-          "avgPrice": 19130,
-          "qty": 27,
+          "avgPrice": 19281,
+          "qty": 30,
           "currency": "KRW",
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
@@ -10631,12 +10691,36 @@
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "stockId": "kr-stock-456600",
           "symbolKey": "456600",
-          "avgPrice": 60360,
-          "qty": 5,
+          "avgPrice": 59995,
+          "qty": 10,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "e0f4c3c3-dc5d-4d5f-90d5-40c85db5b62d",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-0167a0",
+          "symbolKey": "0167A0",
+          "avgPrice": 17170,
+          "qty": 20,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
+        },
+        {
+          "id": "4f0a73cf-f89f-46a6-963a-ba42164d9261",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-252670",
+          "symbolKey": "252670",
+          "avgPrice": 127,
+          "qty": 8116,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Inverse"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -12590,6 +12674,88 @@
           "title": "한발 OB 월회비",
           "amount": 20000,
           "kind": "expense"
+        },
+        {
+          "id": "f5979416-3515-4f90-8b66-6d849c8ec2e6",
+          "createdAt": 1778169276007,
+          "date": "2026-05-07",
+          "category": "Food",
+          "title": "점심",
+          "amount": 15500,
+          "kind": "expense",
+          "memo": "백소정"
+        },
+        {
+          "id": "3ad03bb6-c067-4f7f-9001-f6444c33ec5e",
+          "createdAt": 1778169285615,
+          "date": "2026-05-07",
+          "category": "Entertainment",
+          "title": "코인노래방",
+          "amount": 1986,
+          "kind": "expense"
+        },
+        {
+          "id": "fecee640-2743-4580-9b2f-84d1e4cd459e",
+          "createdAt": 1778206336633,
+          "date": "2026-05-08",
+          "category": "Wage",
+          "title": "4월 추가 급여",
+          "amount": 83420,
+          "kind": "income"
+        },
+        {
+          "id": "477b8e56-4e4e-48b2-9334-1b31776e0b57",
+          "createdAt": 1778215058705,
+          "date": "2026-05-08",
+          "category": "Subscription",
+          "title": "카카오 이모티콘 플러스",
+          "amount": 3900,
+          "kind": "expense"
+        },
+        {
+          "id": "c5610cb1-9d78-4bc6-a941-d5b3ae1dda38",
+          "createdAt": 1778430308964,
+          "date": "2026-05-09",
+          "category": "Subscription",
+          "title": "쿠팡플레이",
+          "amount": 9900,
+          "kind": "expense"
+        },
+        {
+          "id": "84a16bc9-0d82-4986-b6fa-cb28e975c338",
+          "createdAt": 1778430319516,
+          "date": "2026-05-10",
+          "category": "Transport",
+          "title": "카카오바이크 패스",
+          "amount": 38900,
+          "kind": "expense"
+        },
+        {
+          "id": "6a1277f4-3eec-44d1-ba9e-170ef91273f7",
+          "createdAt": 1778430344997,
+          "date": "2026-05-10",
+          "category": "Subscription",
+          "title": "쿠팡와우",
+          "amount": 7890,
+          "kind": "expense"
+        },
+        {
+          "id": "06378b95-4992-45e0-8120-55cd3490d33e",
+          "createdAt": 1778430375380,
+          "date": "2026-05-09",
+          "category": "Interest",
+          "title": "결산이자(KB)",
+          "amount": 82,
+          "kind": "income"
+        },
+        {
+          "id": "1dfe9185-ed9c-4b7f-b2f9-29f4042e5779",
+          "createdAt": 1778430423604,
+          "date": "2026-05-08",
+          "category": "Transport",
+          "title": "카카오바이크",
+          "amount": 160,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -12630,10 +12796,10 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "853b9ea3-5f1e-429d-a8f4-25be5226c81c",
-        "selectedVideoId": "7da4e061-0b1e-44ff-a580-b6ff79cd56b6",
+        "selectedSongId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
+        "selectedVideoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
         "loopEnabled": true,
-        "speed": 0.85,
+        "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-04-30T15:00:00.000Z"
       },
@@ -13075,6 +13241,10 @@
         {
           "dateKey": "2026-05-06",
           "createdAt": 1778075425758
+        },
+        {
+          "dateKey": "2026-05-07",
+          "createdAt": 1778169055346
         }
       ],
       "lifnux:guitar:videos": [
@@ -13245,11 +13415,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 46786310.199999996,
-        "unrealizedPnlKrw": 9822207.312519997,
-        "realizedPnlYtdKrw": 2937985.1705582608,
+        "totalValueKrw": 49066913.84,
+        "unrealizedPnlKrw": 10930488.93992,
+        "realizedPnlYtdKrw": 3404050.9251582604,
         "dataQuality": "OK",
-        "updatedAt": 1778081301327
+        "updatedAt": 1778262813892
       }
     },
     "personalGrowth": {
@@ -19510,15 +19680,15 @@
           "applicationId": "404a28ba-2363-4e95-a8c8-1472862aa0f2",
           "postingId": "a034e6af-0590-498e-8fb6-d09ab07a95dd",
           "appliedAt": "2026-04-26",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "450893e6-137e-49c6-8c92-d6af14f19885",
               "type": "DOCUMENT",
               "submittedAt": "2026-04-26",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-05-07",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -19565,7 +19735,7 @@
             {
               "stageId": "4825aaf4-1f40-4bf4-89f8-ee4b9e267ded",
               "type": "INTERVIEW_1",
-              "submittedAt": null,
+              "submittedAt": "2026-05-07",
               "resultAt": null,
               "result": "PENDING",
               "notes": ""
@@ -20384,6 +20554,48 @@
         }
       ],
       "career_job_postings": [
+        {
+          "postingId": "7a778856-203d-4489-831a-8517a3d0315c",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "모비데이즈",
+          "postingTitle": "24기 인턴 (사업기획ㆍ전략)",
+          "role": "사업전략",
+          "contractType": "인턴",
+          "departmentInfo": "비마케팅사업본부에서 회사의 성장 기회를 찾고 실행하는 포지션이에요.\n모비데이즈 본사와 자회사를 넘나들면서, 사업 전체의 그림을 보는 역할을 해요.\n\n신규 사업의 타당성을 검증하고, 자회사의 밸류업 포인트를 찾아내고, 시장과 경쟁사를 분석해 전략적 판단의 근거를 만드는 일을 해요. 고정된 업무가 아니라, 회사의 성장에 필요한 프로젝트가 곧 업무가 돼요. 이 과정에서 AI는 사람이 혼자서는 커버하기 어려운 범위의 시장 데이터를 빠르게 수집·구조화하고, 패턴을 찾아내는 데 쓰여요.",
+          "responsibilities": "신규 비즈니스 모델의 가설을 세우고, AI로 시장 데이터를 수집해서 타당성을 검증해요\n자회사의 사업 현황을 분석하고, 밸류업 포인트를 도출해요\n시장·경쟁사 리서치를 AI로 빠르게 구조화하고, 전략 판단의 근거를 만들어요\n사업부별 실적 지표를 트래킹하고, 데이터에서 개선 포인트를 찾아요\n경영진에게 보고할 전략 자료를 직접 만들어요\n\n“이 시장에 진입할 만한가?”라는 질문에 답하기 위해 AI로 시장 규모, 경쟁 구도, 진입 장벽을 리서치하고 검토 보고서를 만들어요\n자회사의 매출·비용 구조를 분석하고, “어디를 건드리면 수익성이 개선되는지” 데이터 기반으로 제안해요\n신규 사업 아이디어의 수익 모델을 설계하고, AI로 유사 사례와 벤치마크를 조사해서 타당성을 검증해요\n전사 전략 회의에 쓸 산업 동향 리포트를 AI 리서치 기반으로 작성해요",
+          "requirements": "AI로 실제 문제를 풀어본 경험이 있는 사람: “써봤다”가 아니라 “이걸로 뭘 해결했다”를 말할 수 있는 사람\n“나라면 저 사업 이렇게 키울 텐데”를 근거 있게 말할 수 있는 사람\n복잡한 문제를 논리적으로 쪼개고, 구조화해서 정리하는 게 자연스러운 사람\n기획서에서 끝내지 않고, 직접 실행까지 가고 싶은 사람",
+          "neededSkills": "“이 시장에 진입할 만한가?”라는 질문에 답하기 위해 AI로 시장 규모, 경쟁 구도, 진입 장벽을 리서치하고 검토 보고서를 만들어요\n자회사의 매출·비용 구조를 분석하고, “어디를 건드리면 수익성이 개선되는지” 데이터 기반으로 제안해요\n신규 사업 아이디어의 수익 모델을 설계하고, AI로 유사 사례와 벤치마크를 조사해서 타당성을 검증해요\n전사 전략 회의에 쓸 산업 동향 리포트를 AI 리서치 기반으로 작성해요",
+          "preferred": "",
+          "memo": "",
+          "comment": "",
+          "deadline": "2026-05-24",
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://recruit.mobidays.com/internship34",
+          "createdAt": "2026-05-08T01:03:40.601Z",
+          "updatedAt": "2026-05-08T04:58:22.261Z"
+        },
+        {
+          "postingId": "3937cfc3-8b14-4a27-bda0-607adac7be11",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "NC소프트",
+          "postingTitle": "해외 유명 IP 기반의 신규 프로젝트 PM",
+          "role": "PM",
+          "contractType": "단기계약직",
+          "departmentInfo": "해외 유명 IP 기반으로 CCG 프로젝트를 개발 중입니다.\n\n",
+          "responsibilities": "1. AI 기반 업무 효율화\n- 최신 AI 기술을 활용하여 사내 각종 업무 프로세스를 자동화하고 혁신적으로 개선합니다.\n\n2. 협업 플랫폼 최적화\n- Confluence의 다양한 애드온을 도입 및 관리하여 문서화 작업과 정보 공유 시스템을 편리하게 개선합니다.\n\n3. 직속 업무 지원\n- 조직 운영과 관련된 주요 업무를 서포트하고, 필요한 경우 유관 부서와의 커뮤니케이션을 담당합니다.",
+          "requirements": "- AI 활용 능력을 갖추신 분\n- 자기 주도적 문제 해결 역량을 보유하신 분",
+          "neededSkills": "",
+          "preferred": "- 고급 영어 능력\n- CCG 장르 및 게임 개발에 대한 이해도가 있으신 분\n- 유니티(Unity) 엔진에 대한 이해도를 갖추신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://careers.ncsoft.com/apply/view/100744?companyId=NCH",
+          "createdAt": "2026-05-07T08:59:51.317Z",
+          "updatedAt": "2026-05-07T09:00:07.126Z"
+        },
         {
           "postingId": "8fafbd58-f21b-476a-920d-71f113e95de0",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
@@ -22122,7 +22334,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 5000
+          "balance": 1103293
         },
         {
           "accountId": "acc-us-1",
@@ -22132,7 +22344,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 0.5699999999998226
+          "balance": 3.8099999999998317
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -22142,7 +22354,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 4046896
+          "balance": 3420346
         }
       ]
     },
@@ -22169,7 +22381,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-06T15:29:05.244Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-10T16:27:09.911Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -24592,6 +24804,195 @@
           "side": "BUY",
           "qty": 5,
           "price": 60360,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "014d1348-f2e6-4a94-81ab-83b4c8f2a414",
+          "ts": 1778201276691,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0167A0",
+          "side": "BUY",
+          "qty": 20,
+          "price": 17170,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "6f706c7c-fbfb-49ff-80b2-a1aa9d7a5cdb",
+          "ts": 1778201302739,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "456600",
+          "side": "BUY",
+          "qty": 5,
+          "price": 59630,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "4b1cf6ea-a259-4334-a123-c741e9ef654b",
+          "ts": 1778208579358,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "466920",
+          "side": "SELL",
+          "qty": 30,
+          "price": 39930,
+          "realizedPnl": 134500.00000000006,
+          "realizedPnlPercent": 12.6481098363739,
+          "costBasis": 1063400
+        },
+        {
+          "id": "a66119e8-a0a0-4a14-bcfa-496dbc4276a0",
+          "ts": 1778208668901,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0087F0",
+          "side": "BUY",
+          "qty": 9,
+          "price": 12595,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "62b01d4c-0a09-4692-aa38-00252bb28d45",
+          "ts": 1778208688350,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "BUY",
+          "qty": 3,
+          "price": 20640,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "0206c23f-c242-497b-9b51-3edbe2046499",
+          "ts": 1778215193621,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "016360",
+          "side": "SELL",
+          "qty": 8,
+          "price": 138300,
+          "realizedPnl": 320700,
+          "realizedPnlPercent": 40.817105765559376,
+          "costBasis": 785700
+        },
+        {
+          "id": "43f1d4b0-ef3d-4064-8a97-93bebad091ce",
+          "ts": 1778215219262,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "252670",
+          "side": "BUY",
+          "qty": 8116,
+          "price": 127,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "1f888bce-dcd8-483b-8ed9-9afe42bc25d9",
+          "ts": 1778228530853,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 204.03
+        },
+        {
+          "id": "aa929d0e-def3-4b29-ab38-1947cb765f7d",
+          "ts": 1778228610286,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 1.36
+        },
+        {
+          "id": "8c127151-9a4d-4ff7-9270-916d4f58f32e",
+          "ts": 1778254336210,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 65000
+        },
+        {
+          "id": "7749c6bd-a8b9-41ea-9fd1-eb4d3722a97d",
+          "ts": 1778254381572,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 44.43
+        },
+        {
+          "id": "3e366f34-0a3a-4907-abf1-28a2f92580fe",
+          "ts": 1778254402392,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 10,
+          "price": 24.93,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "43dac2a8-dacd-447b-83f7-262c5546daea",
+          "ts": 1778254508097,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 300000
+        },
+        {
+          "id": "115c9713-eb81-48ea-a73c-782cf38ff55a",
+          "ts": 1778254719513,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 220000
+        },
+        {
+          "id": "74b6d1e8-2f5f-4ea0-bf36-df985115c538",
+          "ts": 1778254729681,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 150.46
+        },
+        {
+          "id": "0771a1e8-8fad-4934-b29e-ed1c075905b0",
+          "ts": 1778254764005,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NYS:SNOW",
+          "side": "BUY",
+          "qty": 1,
+          "price": 147.74,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
