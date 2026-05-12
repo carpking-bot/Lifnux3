@@ -5,6 +5,7 @@ import time
 import random
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Tuple
+from urllib.parse import quote as url_quote
 
 import httpx
 from dotenv import load_dotenv
@@ -17,6 +18,14 @@ app = FastAPI()
 KIS_TOKEN_PATH = "/oauth2/tokenP"
 KIS_PRICE_PATH = "/uapi/domestic-stock/v1/quotations/inquire-price"
 KIS_TR_ID_PRICE = "FHKST01010100"
+KIS_INDEX_PRICE_PATH = (
+    os.getenv("KIS_INDEX_PRICE_PATH", "/uapi/domestic-stock/v1/quotations/inquire-index-price").strip()
+)
+KIS_TR_ID_INDEX_PRICE = os.getenv("KIS_TR_ID_INDEX_PRICE", "FHPUP02100000").strip()
+KIS_INVESTOR_PATH = (
+    os.getenv("KIS_INVESTOR_PATH", "/uapi/domestic-stock/v1/quotations/inquire-investor").strip()
+)
+KIS_TR_ID_INVESTOR = os.getenv("KIS_TR_ID_INVESTOR", "FHKST01010900").strip()
 KIS_ETF_ETN_PRICE_PATH = (
     os.getenv("KIS_ETF_ETN_PRICE_PATH", "/uapi/domestic-etf/v1/quotations/inquire-price").strip()
 )
@@ -36,6 +45,7 @@ NAVER_FX_URL = (
     "https://m.search.naver.com/p/csearch/content/qapirender.nhn"
     "?key=calculator&pkid=141&q=%ED%99%98%EC%9C%A8&where=m&u1=keb&u6=standardUnit&u7=0&u3=USD&u4=KRW&u8=down&u2=1"
 )
+YAHOO_CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1d&interval=1m"
 
 DEFAULT_TTL = 30
 DEFAULT_CONCURRENCY = 6
@@ -52,6 +62,7 @@ QUOTE_STATUS_STALE = "STALE"
 QUOTE_STATUS_ERROR = "ERROR"
 
 _cache: Dict[str, Tuple[float, List[Dict[str, Any]]]] = {}
+_investor_flow_cache: Dict[str, Tuple[float, List[Dict[str, Any]]]] = {}
 _search_cache: Dict[str, Tuple[float, List[Dict[str, Any]]]] = {}
 _fx_cache: Dict[str, Tuple[float, Dict[str, Any]]] = {}
 _fx_last_good: Dict[str, Dict[str, Any]] = {}
@@ -59,6 +70,33 @@ _env_logged = False
 _kis_token: Dict[str, Any] = {"access_token": "", "expires_at": 0.0}
 _kis_token_lock = asyncio.Lock()
 _last_good_quotes: Dict[str, Dict[str, Any]] = {}
+
+KR_INDEX_ALIASES: Dict[str, Dict[str, str]] = {
+    "KOSPI": {"code": "0001", "name": "KOSPI"},
+    "KS11": {"code": "0001", "name": "KOSPI"},
+    "^KS11": {"code": "0001", "name": "KOSPI"},
+    "KOSDAQ": {"code": "1001", "name": "KOSDAQ"},
+    "KQ11": {"code": "1001", "name": "KOSDAQ"},
+    "^KQ11": {"code": "1001", "name": "KOSDAQ"},
+}
+
+YAHOO_INDEX_ALIASES: Dict[str, Dict[str, str]] = {
+    "KOSPI": {"yahoo": "^KS11", "name": "KOSPI", "currency": "KRW"},
+    "KS11": {"yahoo": "^KS11", "name": "KOSPI", "currency": "KRW"},
+    "^KS11": {"yahoo": "^KS11", "name": "KOSPI", "currency": "KRW"},
+    "KOSDAQ": {"yahoo": "^KQ11", "name": "KOSDAQ", "currency": "KRW"},
+    "KQ11": {"yahoo": "^KQ11", "name": "KOSDAQ", "currency": "KRW"},
+    "^KQ11": {"yahoo": "^KQ11", "name": "KOSDAQ", "currency": "KRW"},
+    "NASDAQ": {"yahoo": "^IXIC", "name": "NASDAQ"},
+    "IXIC": {"yahoo": "^IXIC", "name": "NASDAQ"},
+    "^IXIC": {"yahoo": "^IXIC", "name": "NASDAQ"},
+    "S&P500": {"yahoo": "^GSPC", "name": "S&P 500"},
+    "S&P 500": {"yahoo": "^GSPC", "name": "S&P 500"},
+    "SP500": {"yahoo": "^GSPC", "name": "S&P 500"},
+    "SPX": {"yahoo": "^GSPC", "name": "S&P 500"},
+    "GSPC": {"yahoo": "^GSPC", "name": "S&P 500"},
+    "^GSPC": {"yahoo": "^GSPC", "name": "S&P 500"},
+}
 
 
 def _get_kis_config() -> Tuple[str, str, str]:
@@ -181,6 +219,22 @@ def _normalize_symbols(symbols: List[str]) -> List[str]:
     return list(dict.fromkeys(normalized))
 
 
+def _normalize_index_alias(symbol: str) -> str:
+    return re.sub(r"\s+", " ", symbol.strip().upper())
+
+
+def _kr_index_definition(symbol: str) -> Dict[str, str] | None:
+    return KR_INDEX_ALIASES.get(_normalize_index_alias(symbol))
+
+
+def _us_index_definition(symbol: str) -> Dict[str, str] | None:
+    return YAHOO_INDEX_ALIASES.get(_normalize_index_alias(symbol))
+
+
+def _is_index_symbol(symbol: str) -> bool:
+    return _kr_index_definition(symbol) is not None or _us_index_definition(symbol) is not None
+
+
 def _cache_key(symbols: List[str]) -> str:
     return ",".join(sorted(symbols))
 
@@ -238,6 +292,16 @@ def _normalize_kr_code(symbol: str) -> str:
     if re.fullmatch(r"A\d{6}", raw):
         return raw[1:]
     return raw
+
+
+def _parse_kospi_stock_code(symbol: str) -> str | None:
+    raw = symbol.strip().upper()
+    if raw.startswith("KR:"):
+        raw = raw.split(":", 1)[1].strip()
+    if raw.endswith(".KQ"):
+        return None
+    code = _normalize_kr_code(raw)
+    return code if _is_kr_stock_code(code) else None
 
 
 def _is_kr_stock_code(code: str) -> bool:
@@ -531,6 +595,113 @@ def _parse_kis_quote(
     name_value = _find_value(data, name_keys)
     name = str(name_value).strip() if isinstance(name_value, str) and name_value.strip() else None
     return price, change, change_percent, name
+
+
+def _parse_kis_index_quote(data: Dict[str, Any]) -> Tuple[float | None, float | None, float | None, str | None]:
+    price_keys = ["bstp_nmix_prpr", "prpr", "price", "current_price"]
+    change_keys = ["bstp_nmix_prdy_vrss", "prdy_vrss", "change", "price_change"]
+    change_percent_keys = ["bstp_nmix_prdy_ctrt", "prdy_ctrt", "change_percent", "change_rate"]
+    name_keys = ["bstp_cls_code_name", "bstp_kor_isnm", "hts_kor_isnm", "name"]
+    price = _to_float(_find_value(data, price_keys))
+    change = _to_float(_find_value(data, change_keys))
+    change_percent = _to_float(_find_value(data, change_percent_keys))
+    name_value = _find_value(data, name_keys)
+    name = str(name_value).strip() if isinstance(name_value, str) and name_value.strip() else None
+    return price, change, change_percent, name
+
+
+def _parse_yahoo_chart_quote(symbol: str, name: str, currency: str, data: Dict[str, Any]) -> Dict[str, Any] | None:
+    result = _find_value(data, ["result"])
+    if not isinstance(result, list) or not result:
+        return None
+    first = result[0]
+    if not isinstance(first, dict):
+        return None
+    meta = first.get("meta")
+    if not isinstance(meta, dict):
+        return None
+    price = _to_float(meta.get("regularMarketPrice"))
+    previous = _to_float(meta.get("chartPreviousClose") or meta.get("previousClose"))
+    if price is None:
+        return None
+    change = price - previous if previous is not None else None
+    change_percent = (change / previous) * 100 if change is not None and previous else None
+    market_time = _iso_time(float(meta.get("regularMarketTime"))) if _to_float(meta.get("regularMarketTime")) else _iso_time(time.time())
+    return {
+        "symbol": symbol,
+        "price": float(price),
+        "change": change,
+        "changePercent": change_percent,
+        "currency": currency,
+        "marketTime": market_time,
+        "source": "yahoo",
+        "name": name,
+    }
+
+
+def _parse_investor_side(row: Dict[str, Any], *, buy_keys: List[str], sell_keys: List[str], net_keys: List[str], amount_keys: List[str]) -> Dict[str, Any]:
+    return {
+        "buyQty": _to_float(_find_value(row, buy_keys)),
+        "sellQty": _to_float(_find_value(row, sell_keys)),
+        "netQty": _to_float(_find_value(row, net_keys)),
+        "netAmount": _to_float(_find_value(row, amount_keys)),
+    }
+
+
+def _parse_kis_investor_flows(symbol: str, payload: Dict[str, Any]) -> List[Dict[str, Any]]:
+    candidates: List[Dict[str, Any]] = []
+    for key in ("output", "output2", "data", "items", "results"):
+        value = payload.get(key)
+        if isinstance(value, list):
+            candidates.extend([row for row in value if isinstance(row, dict)])
+    if not candidates and isinstance(payload.get("output"), dict):
+        candidates = [payload["output"]]
+
+    parsed: List[Dict[str, Any]] = []
+    for row in candidates:
+        date_key = _normalize_date_key(_find_value(row, ["stck_bsop_date", "date", "bsop_date"]))
+        if not date_key:
+            continue
+        individual = _parse_investor_side(
+            row,
+            buy_keys=["prsn_shnu_vol", "PRSN_SHNU_VOL", "individual_buy_qty"],
+            sell_keys=["prsn_seln_vol", "PRSN_SELN_VOL", "individual_sell_qty"],
+            net_keys=["prsn_ntby_qty", "PRSN_NTBY_QTY", "individual_net_qty"],
+            amount_keys=["prsn_ntby_tr_pbmn", "PRSN_NTBY_TR_PBMN", "individual_net_amount"],
+        )
+        foreigner = _parse_investor_side(
+            row,
+            buy_keys=["frgn_shnu_vol", "FRGN_SHNU_VOL", "foreign_buy_qty"],
+            sell_keys=["frgn_seln_vol", "FRGN_SELN_VOL", "foreign_sell_qty"],
+            net_keys=["frgn_ntby_qty", "FRGN_NTBY_QTY", "foreign_net_qty"],
+            amount_keys=["frgn_ntby_tr_pbmn", "FRGN_NTBY_TR_PBMN", "foreign_net_amount"],
+        )
+        institution = _parse_investor_side(
+            row,
+            buy_keys=["orgn_shnu_vol", "ORGN_SHNU_VOL", "institution_buy_qty"],
+            sell_keys=["orgn_seln_vol", "ORGN_SELN_VOL", "institution_sell_qty"],
+            net_keys=["orgn_ntby_qty", "ORGN_NTBY_QTY", "institution_net_qty"],
+            amount_keys=["orgn_ntby_tr_pbmn", "ORGN_NTBY_TR_PBMN", "institution_net_amount"],
+        )
+        etc_net = _to_float(_find_value(row, ["etc_ntby_qty", "ETC_NTBY_QTY", "etc_net_qty"]))
+        if etc_net is None:
+            net_values = [individual.get("netQty"), foreigner.get("netQty"), institution.get("netQty")]
+            if all(value is not None for value in net_values):
+                etc_net = -sum(float(value) for value in net_values if value is not None)
+        parsed.append(
+            {
+                "date": date_key,
+                "symbol": symbol,
+                "market": "KOSPI",
+                "individual": individual,
+                "foreigner": foreigner,
+                "institution": institution,
+                "etc": {"netQty": etc_net},
+            }
+        )
+
+    by_date: Dict[str, Dict[str, Any]] = {point["date"]: point for point in parsed}
+    return [by_date[key] for key in sorted(by_date.keys(), reverse=True)]
 
 
 def _parse_kis_overseas_quote(
@@ -882,6 +1053,229 @@ async def _fetch_kis_quote(
             break
 
         return _fallback_quote_from_last_good(symbol, latest_reasons or ["price-unavailable"], source="kis")
+
+
+async def _fetch_kis_index_quote(
+    client: httpx.AsyncClient,
+    symbol: str,
+    token: str,
+    app_key: str,
+    app_secret: str,
+    base_url: str,
+    sem: asyncio.Semaphore,
+) -> Dict[str, Any]:
+    async with sem:
+        definition = _kr_index_definition(symbol)
+        if not definition:
+            return _empty_quote_with_source(symbol, "kis")
+
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "U",
+            "FID_INPUT_ISCD": definition["code"],
+        }
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "appkey": app_key,
+            "appsecret": app_secret,
+            "tr_id": KIS_TR_ID_INDEX_PRICE,
+            "content-type": "application/json",
+        }
+
+        async def _request(access_token: str) -> httpx.Response:
+            request_headers = {**headers, "Authorization": f"Bearer {access_token}"}
+            return await client.get(
+                f"{base_url}{KIS_INDEX_PRICE_PATH}", params=params, headers=request_headers, timeout=10.0
+            )
+
+        try:
+            resp = await _request(token)
+        except Exception as exc:
+            print("[KIS INDEX ERROR]", symbol, repr(exc))
+            return _fallback_quote_from_last_good(symbol, ["request-failed"], source="kis")
+
+        if resp.status_code in (401, 403):
+            await _invalidate_kis_token()
+            refreshed = await _get_kis_token(client)
+            if refreshed:
+                try:
+                    resp = await _request(refreshed)
+                except Exception as exc:
+                    print("[KIS INDEX RETRY ERROR]", symbol, repr(exc))
+                    return _fallback_quote_from_last_good(symbol, ["request-failed"], source="kis")
+
+        if resp.status_code != 200:
+            print(
+                f"[KIS INDEX HTTP ERROR] symbol={symbol} path={KIS_INDEX_PRICE_PATH} tr_id={KIS_TR_ID_INDEX_PRICE} status={resp.status_code} body={resp.text[:200]}"
+            )
+            return _fallback_quote_from_last_good(symbol, ["http-error"], source="kis")
+
+        try:
+            data = resp.json()
+        except Exception as exc:
+            print("[KIS INDEX JSON ERROR]", symbol, repr(exc))
+            return _fallback_quote_from_last_good(symbol, ["json-error"], source="kis")
+
+        price, change, change_percent, name = _parse_kis_index_quote(data)
+        if price is None:
+            print("[KIS INDEX MISSING PRICE]", symbol, "keys=", ",".join(sorted(data.keys())))
+            return _fallback_quote_from_last_good(symbol, ["price-unavailable"], source="kis")
+
+        accepted = _with_guard_fields(
+            {
+                "symbol": symbol,
+                "price": float(price),
+                "change": change,
+                "changePercent": change_percent,
+                "currency": "KRW",
+                "marketTime": _iso_time(time.time()),
+                "source": "kis",
+                "name": name or definition["name"],
+            },
+            status=QUOTE_STATUS_VALID,
+            guard_reason=None,
+            warning=None,
+            stale_age_sec=None,
+        )
+        _remember_last_good_quote(symbol, accepted)
+        return accepted
+
+
+async def _fetch_us_index_quote(
+    client: httpx.AsyncClient,
+    symbol: str,
+    sem: asyncio.Semaphore,
+) -> Dict[str, Any]:
+    async with sem:
+        definition = _us_index_definition(symbol)
+        if not definition:
+            return _empty_quote_with_source(symbol, "yahoo")
+        encoded = url_quote(definition["yahoo"], safe="")
+        url = YAHOO_CHART_URL.format(symbol=encoded)
+        try:
+            resp = await client.get(
+                url,
+                headers={
+                    "Accept": "application/json,text/plain,*/*",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                },
+                timeout=10.0,
+            )
+        except Exception as exc:
+            print("[YAHOO INDEX ERROR]", symbol, repr(exc))
+            return _fallback_quote_from_last_good(symbol, ["request-failed"], source="yahoo")
+        if resp.status_code != 200:
+            print("[YAHOO INDEX HTTP ERROR]", symbol, resp.status_code, resp.text[:120])
+            return _fallback_quote_from_last_good(symbol, ["http-error"], source="yahoo")
+        try:
+            data = resp.json()
+        except Exception as exc:
+            print("[YAHOO INDEX JSON ERROR]", symbol, repr(exc))
+            return _fallback_quote_from_last_good(symbol, ["json-error"], source="yahoo")
+        quote = _parse_yahoo_chart_quote(symbol, definition["name"], definition.get("currency", "USD"), data)
+        if not quote:
+            return _fallback_quote_from_last_good(symbol, ["price-unavailable"], source="yahoo")
+        accepted = _with_guard_fields(
+            quote,
+            status=QUOTE_STATUS_VALID,
+            guard_reason=None,
+            warning=None,
+            stale_age_sec=None,
+        )
+        _remember_last_good_quote(symbol, accepted)
+        return accepted
+
+
+async def _fetch_kis_investor_flows(
+    client: httpx.AsyncClient,
+    symbol: str,
+    token: str,
+    app_key: str,
+    app_secret: str,
+    base_url: str,
+    sem: asyncio.Semaphore,
+) -> Dict[str, Any]:
+    async with sem:
+        code = _parse_kospi_stock_code(symbol)
+        if not code:
+            return {
+                "symbol": symbol,
+                "market": "KOSPI",
+                "flows": [],
+                "source": "kis",
+                "warning": "unsupported-symbol",
+            }
+
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "appkey": app_key,
+            "appsecret": app_secret,
+            "tr_id": KIS_TR_ID_INVESTOR,
+            "content-type": "application/json",
+        }
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": code,
+        }
+
+        async def _request(access_token: str) -> httpx.Response:
+            request_headers = {**headers, "Authorization": f"Bearer {access_token}"}
+            return await client.get(
+                f"{base_url}{KIS_INVESTOR_PATH}",
+                params=params,
+                headers=request_headers,
+                timeout=10.0,
+            )
+
+        try:
+            resp = await _request(token)
+        except Exception as exc:
+            print("[KIS INVESTOR ERROR]", symbol, repr(exc))
+            return {"symbol": symbol, "market": "KOSPI", "flows": [], "source": "kis", "warning": "request-failed"}
+
+        if resp.status_code in (401, 403):
+            await _invalidate_kis_token()
+            refreshed = await _get_kis_token(client)
+            if refreshed:
+                try:
+                    resp = await _request(refreshed)
+                except Exception as exc:
+                    print("[KIS INVESTOR RETRY ERROR]", symbol, repr(exc))
+                    return {"symbol": symbol, "market": "KOSPI", "flows": [], "source": "kis", "warning": "request-failed"}
+
+        if resp.status_code != 200:
+            print(
+                f"[KIS INVESTOR HTTP ERROR] symbol={symbol} path={KIS_INVESTOR_PATH} tr_id={KIS_TR_ID_INVESTOR} status={resp.status_code} body={resp.text[:200]}"
+            )
+            return {"symbol": symbol, "market": "KOSPI", "flows": [], "source": "kis", "warning": "http-error"}
+
+        try:
+            data = resp.json()
+        except Exception as exc:
+            print("[KIS INVESTOR JSON ERROR]", symbol, repr(exc))
+            return {"symbol": symbol, "market": "KOSPI", "flows": [], "source": "kis", "warning": "json-error"}
+
+        if str(data.get("rt_cd", "0")) not in ("0", ""):
+            summary = _extract_error_summary(data)
+            print(
+                f"[KIS INVESTOR API ERROR] symbol={symbol} path={KIS_INVESTOR_PATH} tr_id={KIS_TR_ID_INVESTOR} message={summary}"
+            )
+            return {
+                "symbol": symbol,
+                "market": "KOSPI",
+                "flows": [],
+                "source": "kis",
+                "warning": summary or "api-error",
+            }
+
+        flows = _parse_kis_investor_flows(code, data)
+        return {
+            "symbol": symbol,
+            "code": code,
+            "market": "KOSPI",
+            "flows": flows,
+            "source": "kis",
+            "warning": None if flows else "no-data",
+        }
 
 
 async def _fetch_kis_overseas_quote(
@@ -1239,15 +1633,17 @@ async def get_quotes(symbols: str = Query("", description="Comma-separated symbo
         return {"quotes": cached[1]}
 
     fx_symbols = [symbol for symbol in normalized if symbol.strip().upper() == "USD/KRW"]
-    kr_symbols = [symbol for symbol in normalized if _parse_symbol(symbol)[0] == "KR"]
+    kr_index_symbols = [symbol for symbol in normalized if _kr_index_definition(symbol) and not _us_index_definition(symbol)]
+    us_index_symbols = [symbol for symbol in normalized if _us_index_definition(symbol)]
+    kr_symbols = [symbol for symbol in normalized if not _is_index_symbol(symbol) and _parse_symbol(symbol)[0] == "KR"]
     us_symbols = [
         symbol
         for symbol in normalized
-        if _parse_symbol(symbol)[0] == "US" and symbol.strip().upper() != "USD/KRW"
+        if not _is_index_symbol(symbol) and _parse_symbol(symbol)[0] == "US" and symbol.strip().upper() != "USD/KRW"
     ]
 
     app_key, app_secret, base_url = _get_kis_config()
-    if (kr_symbols or us_symbols) and not (app_key and app_secret and base_url):
+    if (kr_symbols or us_symbols or kr_index_symbols) and not (app_key and app_secret and base_url):
         raise HTTPException(status_code=500, detail="KIS credentials not configured")
 
     sem = asyncio.Semaphore(_get_concurrency())
@@ -1257,27 +1653,68 @@ async def get_quotes(symbols: str = Query("", description="Comma-separated symbo
     async with httpx.AsyncClient(headers={"Accept": "application/json"}, verify=ssl_verify) as client:
         tasks: List[asyncio.Task] = []
 
-        kis_token = await _get_kis_token(client)
-        if not kis_token:
-            raise HTTPException(status_code=500, detail="KIS token acquisition failed")
+        kis_token = ""
+        if kr_symbols or us_symbols or kr_index_symbols:
+            kis_token = await _get_kis_token(client)
+            if not kis_token:
+                for symbol in kr_index_symbols:
+                    tasks.append(
+                        asyncio.create_task(
+                            asyncio.sleep(
+                                0,
+                                result=_with_guard_fields(
+                                    {
+                                        "symbol": symbol,
+                                        "price": None,
+                                        "change": None,
+                                        "changePercent": None,
+                                        "currency": "KRW",
+                                        "marketTime": None,
+                                        "source": "kis",
+                                        "name": _kr_index_definition(symbol)["name"] if _kr_index_definition(symbol) else None,
+                                    },
+                                    status=QUOTE_STATUS_ERROR,
+                                    guard_reason="token-unavailable",
+                                    warning="kis-token-unavailable",
+                                    stale_age_sec=None,
+                                ),
+                            )
+                        )
+                    )
+                for symbol in [*kr_symbols, *us_symbols]:
+                    tasks.append(asyncio.create_task(asyncio.sleep(0, result=_empty_quote_with_source(symbol, "kis"))))
 
-        for symbol in kr_symbols:
-            tasks.append(
-                asyncio.create_task(
-                    _fetch_kis_quote(
-                        client, symbol, kis_token, app_key, app_secret, base_url, sem
+        if kis_token:
+            for symbol in kr_index_symbols:
+                tasks.append(
+                    asyncio.create_task(
+                        _fetch_kis_index_quote(
+                            client, symbol, kis_token, app_key, app_secret, base_url, sem
+                        )
                     )
                 )
-            )
 
-        for symbol in us_symbols:
-            tasks.append(
-                asyncio.create_task(
-                    _fetch_kis_overseas_quote(
-                        client, symbol, kis_token, app_key, app_secret, base_url, sem
+        for symbol in us_index_symbols:
+            tasks.append(asyncio.create_task(_fetch_us_index_quote(client, symbol, sem)))
+
+        if kis_token:
+            for symbol in kr_symbols:
+                tasks.append(
+                    asyncio.create_task(
+                        _fetch_kis_quote(
+                            client, symbol, kis_token, app_key, app_secret, base_url, sem
+                        )
                     )
                 )
-            )
+
+            for symbol in us_symbols:
+                tasks.append(
+                    asyncio.create_task(
+                        _fetch_kis_overseas_quote(
+                            client, symbol, kis_token, app_key, app_secret, base_url, sem
+                        )
+                    )
+                )
 
         if fx_symbols:
             fx_result = await _get_usd_krw_rate(client)
@@ -1375,6 +1812,64 @@ async def get_history(
         "asOf": _iso_time(time.time()),
         "series": ordered,
     }
+
+
+@app.get("/investor-flows")
+async def get_investor_flows(
+    symbols: str = Query("", description="Comma-separated KOSPI stock symbols, e.g. 005930,000660"),
+) -> Dict[str, Any]:
+    raw_symbols = symbols.split(",") if symbols else []
+    normalized = _normalize_symbols(raw_symbols)
+    if not normalized:
+        return {"series": [], "asOf": _iso_time(time.time())}
+
+    valid_symbols = [symbol for symbol in normalized if _parse_kospi_stock_code(symbol)]
+    invalid_symbols = [symbol for symbol in normalized if symbol not in valid_symbols]
+    if invalid_symbols:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "message": "Only KOSPI individual stock symbols are supported",
+                "unsupportedSymbols": invalid_symbols,
+            },
+        )
+
+    key = f"investor:{_cache_key(valid_symbols)}"
+    now = time.time()
+    cached = _investor_flow_cache.get(key)
+    if cached and cached[0] > now:
+        return {"series": cached[1], "asOf": _iso_time(now), "cached": True}
+
+    app_key, app_secret, base_url = _get_kis_config()
+    if not (app_key and app_secret and base_url):
+        raise HTTPException(status_code=500, detail="KIS credentials not configured")
+
+    sem = asyncio.Semaphore(_get_concurrency())
+    ssl_verify = _get_ssl_verify()
+    if not ssl_verify:
+        print("[INVESTOR FLOW SERVICE WARNING] SSL verification disabled")
+
+    async with httpx.AsyncClient(headers={"Accept": "application/json"}, verify=ssl_verify) as client:
+        token = await _get_kis_token(client)
+        if not token:
+            raise HTTPException(status_code=500, detail="KIS token acquisition failed")
+
+        tasks = [
+            asyncio.create_task(
+                _fetch_kis_investor_flows(client, symbol, token, app_key, app_secret, base_url, sem)
+            )
+            for symbol in valid_symbols
+        ]
+        fetched = await asyncio.gather(*tasks)
+        by_symbol = {item["symbol"].upper(): item for item in fetched}
+        series = [
+            by_symbol.get(symbol.upper())
+            or {"symbol": symbol, "market": "KOSPI", "flows": [], "source": "kis", "warning": "not-found"}
+            for symbol in valid_symbols
+        ]
+
+    _investor_flow_cache[key] = (now + _get_ttl_seconds(), series)
+    return {"series": series, "asOf": _iso_time(time.time()), "cached": False}
 
 
 @app.get("/search")

@@ -129,6 +129,8 @@ export default function FinanceWatchlistPage() {
   const { bySymbol: watchQuotes } = useQuotes(watchSymbols);
 
   const visibleIndices = useMemo(() => indices, [indices]);
+  const indexSymbols = useMemo(() => visibleIndices.map((item) => item.symbol), [visibleIndices]);
+  const { bySymbol: indexQuotes } = useQuotes(indexSymbols);
 
   const resolveCurrency = (symbol: string, market: "KR" | "US", quoteCurrency?: string | null) => {
     if (quoteCurrency) return quoteCurrency;
@@ -527,7 +529,12 @@ export default function FinanceWatchlistPage() {
               </div>
 
               <div className="mt-4 max-h-[520px] space-y-2 overflow-y-auto pr-2 lifnux-scroll">
-                {visibleIndices.map((item, index) => (
+                {visibleIndices.map((item, index) => {
+                  const quote = indexQuotes.get(item.symbol.toUpperCase());
+                  const liveLast = typeof quote?.price === "number" ? quote.price : item.last;
+                  const liveChangePct = typeof quote?.changePercent === "number" ? quote.changePercent : item.changePct;
+                  const statusLabel = quote?.status === "STALE" ? "Stale" : quote?.source ? quote.source.toUpperCase() : "Saved";
+                  return (
                   <div
                     key={item.id}
                     draggable
@@ -548,9 +555,10 @@ export default function FinanceWatchlistPage() {
                       <div className="font-medium">
                         {item.name} <span className="text-[var(--ink-1)]">({item.symbol})</span>
                       </div>
-                      <div className={`text-xs ${item.changePct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
-                        {item.changePct >= 0 ? "+" : ""}
-                        {item.changePct.toFixed(2)}% · {item.last.toLocaleString()}
+                      <div className={`text-xs ${liveChangePct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
+                        {liveChangePct >= 0 ? "+" : ""}
+                        {liveChangePct.toFixed(2)}% · {liveLast.toLocaleString()}
+                        <span className="ml-2 text-[10px] uppercase text-[var(--ink-1)]">{statusLabel}</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -562,7 +570,8 @@ export default function FinanceWatchlistPage() {
                       </button>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
                 {visibleIndices.length === 0 ? <div className="text-sm text-[var(--ink-1)]">No indices.</div> : null}
               </div>
             </>

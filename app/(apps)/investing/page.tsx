@@ -10,6 +10,15 @@ import { loadFinanceState, normalizeSymbol, saveIndices, saveStocks } from "../.
 import { useQuotes } from "../../../src/lib/quotes/useQuotes";
 import { Eye, EyeOff, Pencil } from "lucide-react";
 
+const BENCHMARK_INDICES: IndexItem[] = [
+  { id: "benchmark-kospi", name: "KOSPI", symbol: "KS11", region: "KR", last: 2654.2, changePct: 0.64, changeAbs: 16.9, updatedAt: 0, visible: true },
+  { id: "benchmark-kosdaq", name: "KOSDAQ", symbol: "KQ11", region: "KR", last: 846.8, changePct: -0.42, changeAbs: -3.6, updatedAt: 0, visible: true },
+  { id: "benchmark-nasdaq", name: "NASDAQ", symbol: "IXIC", region: "US", last: 18234.1, changePct: 0.72, changeAbs: 130.4, updatedAt: 0, visible: true },
+  { id: "benchmark-sp500", name: "S&P 500", symbol: "SPX", region: "US", last: 5112.3, changePct: -0.18, changeAbs: -9.2, updatedAt: 0, visible: true }
+];
+
+const BENCHMARK_SYMBOLS = new Set(BENCHMARK_INDICES.map((item) => item.symbol));
+
 export default function InvestingPage() {
   const router = useRouter();
   const [indices, setIndices] = useState<IndexItem[]>([]);
@@ -36,7 +45,14 @@ export default function InvestingPage() {
     saveStocks(stocks);
   }, [stocks, ready]);
 
-  const visibleIndices = useMemo(() => indices.slice(0, 10), [indices]);
+  const visibleIndices = useMemo(
+    () =>
+      BENCHMARK_INDICES.map((benchmark) => {
+        const saved = indices.find((item) => item.symbol.toUpperCase() === benchmark.symbol);
+        return saved ? { ...benchmark, ...saved, name: benchmark.name, symbol: benchmark.symbol, region: benchmark.region } : benchmark;
+      }).filter((item) => BENCHMARK_SYMBOLS.has(item.symbol)),
+    [indices]
+  );
   const indexSymbols = useMemo(() => visibleIndices.map((item) => item.symbol), [visibleIndices]);
   const { bySymbol: indexQuotes } = useQuotes(indexSymbols);
 
@@ -163,21 +179,23 @@ export default function InvestingPage() {
                 <div className="text-sm text-[var(--ink-1)]">Global benchmarks overview.</div>
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
+            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
               {visibleIndices.map((item) => {
                 const quote = indexQuotes.get(item.symbol.toUpperCase());
-                const price = quote?.price ?? null;
-                const changePct = quote?.changePercent ?? null;
-                const changeAbs = quote?.change ?? null;
+                const price = quote?.price ?? (item.last > 0 ? item.last : null);
+                const changePct = quote?.changePercent ?? item.changePct;
+                const changeAbs = quote?.change ?? item.changeAbs;
+                const sourceLabel = quote?.status === "STALE" ? "STALE" : quote?.source ? quote.source.toUpperCase() : "SAVED";
                 return (
                 <div key={item.id} className="rounded-xl border border-white/10 bg-black/20 px-3 py-3">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">{item.symbol}</div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-1)]">{item.region}</div>
                   <div className="text-sm">{item.name}</div>
                   <div className="mt-2 text-lg">{price !== null ? price.toLocaleString() : "--"}</div>
-                  <div className={`text-xs ${changePct !== null && changePct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
-                    {changePct === null ? "--" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(2)}%`}
+                  <div className={`text-xs ${changePct >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
+                    {`${changePct >= 0 ? "+" : ""}${changePct.toFixed(2)}%`}
                     {" · "}
-                    {changeAbs === null ? "--" : `${changeAbs >= 0 ? "+" : ""}${changeAbs.toFixed(2)}`}
+                    {`${changeAbs >= 0 ? "+" : ""}${changeAbs.toFixed(2)}`}
+                    <span className="ml-2 text-[10px] uppercase text-[var(--ink-1)]">{sourceLabel}</span>
                   </div>
                 </div>
               );
