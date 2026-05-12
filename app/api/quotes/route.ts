@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const DEFAULT_SERVICE_URL = "http://127.0.0.1:8002";
+const DEFAULT_SERVICE_URL = "http://127.0.0.1:8000";
 
 type Quote = {
   symbol: string;

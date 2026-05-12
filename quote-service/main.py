@@ -142,6 +142,10 @@ def _get_concurrency() -> int:
     return max(1, min(8, limit))
 
 
+def _get_history_max_pages() -> int:
+    return _get_int_env("QUOTE_HISTORY_MAX_PAGES", 8, 1, 20)
+
+
 def _get_float_env(name: str, fallback: float, min_value: float, max_value: float) -> float:
     raw = os.getenv(name, "").strip()
     if not raw:
@@ -502,6 +506,20 @@ def _normalize_date_key(value: Any) -> str | None:
 
 def _to_ymd_compact(value: str) -> str:
     return value.replace("-", "")
+
+
+def _date_before(value: str) -> str:
+    return (datetime.strptime(value, "%Y-%m-%d") - timedelta(days=1)).strftime("%Y-%m-%d")
+
+
+def _merge_history_pages(pages: List[List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
+    by_date: Dict[str, Dict[str, Any]] = {}
+    for points in pages:
+        for point in points:
+            date = point.get("date")
+            if isinstance(date, str):
+                by_date[date] = point
+    return [by_date[key] for key in sorted(by_date.keys())]
 
 
 def _resolve_history_range(start: str | None, end: str | None) -> Tuple[str, str]:
@@ -1404,55 +1422,69 @@ async def _fetch_kis_daily_history_kr(
         if market != "KR":
             return {"symbol": symbol, "points": [], "source": "kis", "warning": "invalid-market"}
 
-        ymd_start = _to_ymd_compact(start_date)
-        ymd_end = _to_ymd_compact(end_date)
         endpoint_attempts = [("J", KIS_DAILY_PRICE_PATH), ("Q", KIS_DAILY_PRICE_PATH)]
+        max_pages = _get_history_max_pages()
 
         for market_code, path in endpoint_attempts:
-            params = {
-                "FID_COND_MRKT_DIV_CODE": market_code,
-                "FID_INPUT_ISCD": code,
-                "FID_INPUT_DATE_1": ymd_start,
-                "FID_INPUT_DATE_2": ymd_end,
-                "FID_PERIOD_DIV_CODE": "D",
-                "FID_ORG_ADJ_PRC": "1",
-            }
-            headers = {
-                "Authorization": f"Bearer {token}",
-                "appkey": app_key,
-                "appsecret": app_secret,
-                "tr_id": KIS_TR_ID_DAILY_PRICE,
-                "content-type": "application/json",
-            }
-            try:
-                resp = await client.get(f"{base_url}{path}", params=params, headers=headers, timeout=12.0)
-            except Exception as exc:
-                print("[KIS DAILY KR ERROR]", symbol, repr(exc))
-                continue
-            if resp.status_code != 200:
-                print(
-                    f"[KIS DAILY KR REQ] symbol={symbol} path={path} tr_id={KIS_TR_ID_DAILY_PRICE} params={params} status={resp.status_code}"
-                )
-                continue
-            try:
-                data = resp.json()
-            except Exception as exc:
-                print("[KIS DAILY KR JSON ERROR]", symbol, repr(exc))
-                continue
+            pages: List[List[Dict[str, Any]]] = []
+            cursor_end = end_date
+            for _ in range(max_pages):
+                params = {
+                    "FID_COND_MRKT_DIV_CODE": market_code,
+                    "FID_INPUT_ISCD": code,
+                    "FID_INPUT_DATE_1": _to_ymd_compact(start_date),
+                    "FID_INPUT_DATE_2": _to_ymd_compact(cursor_end),
+                    "FID_PERIOD_DIV_CODE": "D",
+                    "FID_ORG_ADJ_PRC": "1",
+                }
+                headers = {
+                    "Authorization": f"Bearer {token}",
+                    "appkey": app_key,
+                    "appsecret": app_secret,
+                    "tr_id": KIS_TR_ID_DAILY_PRICE,
+                    "content-type": "application/json",
+                }
+                try:
+                    resp = await client.get(f"{base_url}{path}", params=params, headers=headers, timeout=12.0)
+                except Exception as exc:
+                    print("[KIS DAILY KR ERROR]", symbol, repr(exc))
+                    break
+                if resp.status_code != 200:
+                    print(
+                        f"[KIS DAILY KR REQ] symbol={symbol} path={path} tr_id={KIS_TR_ID_DAILY_PRICE} params={params} status={resp.status_code}"
+                    )
+                    break
+                try:
+                    data = resp.json()
+                except Exception as exc:
+                    print("[KIS DAILY KR JSON ERROR]", symbol, repr(exc))
+                    break
 
-            points = _extract_history_points(
-                data,
-                date_keys=["stck_bsop_date", "bsop_date", "date", "trd_dd", "bas_dt"],
-                close_keys=["stck_clpr", "clpr", "close", "last", "stck_prpr"],
-                open_keys=["stck_oprc", "oprc", "open", "open_price"],
-                high_keys=["stck_hgpr", "hgpr", "high", "high_price"],
-                low_keys=["stck_lwpr", "lwpr", "low", "low_price"],
-                volume_keys=["acml_vol", "volume", "vol", "trd_vol", "acc_trdvol"],
-                start_date=start_date,
-                end_date=end_date,
-            )
-            if points:
-                return {"symbol": symbol, "points": points, "source": "kis"}
+                points = _extract_history_points(
+                    data,
+                    date_keys=["stck_bsop_date", "bsop_date", "date", "trd_dd", "bas_dt"],
+                    close_keys=["stck_clpr", "clpr", "close", "last", "stck_prpr"],
+                    open_keys=["stck_oprc", "oprc", "open", "open_price"],
+                    high_keys=["stck_hgpr", "hgpr", "high", "high_price"],
+                    low_keys=["stck_lwpr", "lwpr", "low", "low_price"],
+                    volume_keys=["acml_vol", "volume", "vol", "trd_vol", "acc_trdvol"],
+                    start_date=start_date,
+                    end_date=cursor_end,
+                )
+                if not points:
+                    break
+                pages.append(points)
+                earliest = points[0]["date"]
+                if earliest <= start_date:
+                    break
+                next_cursor = _date_before(earliest)
+                if next_cursor >= cursor_end:
+                    break
+                cursor_end = next_cursor
+
+            merged = _merge_history_pages(pages)
+            if merged:
+                return {"symbol": symbol, "points": merged, "source": "kis"}
 
         return {"symbol": symbol, "points": [], "source": "kis", "warning": "no-history"}
 
@@ -1473,16 +1505,15 @@ async def _fetch_kis_daily_history_us(
         if market != "US" or not excd or not symb:
             return {"symbol": symbol, "points": [], "source": "kis", "warning": "invalid-market"}
 
-        params = {
-            "AUTH": "",
-            "EXCD": excd,
-            "SYMB": symb,
-            "GUBN": "0",
-            "BYMD": _to_ymd_compact(end_date),
-            "MODP": "0",
-        }
-
-        async def _request_history(access_token: str) -> httpx.Response:
+        async def _request_history(access_token: str, cursor_end: str) -> httpx.Response:
+            params = {
+                "AUTH": "",
+                "EXCD": excd,
+                "SYMB": symb,
+                "GUBN": "0",
+                "BYMD": _to_ymd_compact(cursor_end),
+                "MODP": "0",
+            }
             headers = {
                 "Authorization": f"Bearer {access_token}",
                 "appkey": app_key,
@@ -1494,46 +1525,63 @@ async def _fetch_kis_daily_history_us(
                 f"{base_url}{KIS_OVERSEAS_DAILY_PRICE_PATH}", params=params, headers=headers, timeout=12.0
             )
 
-        try:
-            resp = await _request_history(token)
-        except Exception as exc:
-            print("[KIS DAILY US ERROR]", symbol, repr(exc))
-            return {"symbol": symbol, "points": [], "source": "kis", "warning": "request-failed"}
+        pages: List[List[Dict[str, Any]]] = []
+        cursor_end = end_date
+        access_token = token
+        for _ in range(_get_history_max_pages()):
+            try:
+                resp = await _request_history(access_token, cursor_end)
+            except Exception as exc:
+                print("[KIS DAILY US ERROR]", symbol, repr(exc))
+                return {"symbol": symbol, "points": [], "source": "kis", "warning": "request-failed"}
 
-        if resp.status_code in (401, 403):
-            await _invalidate_kis_token()
-            refreshed = await _get_kis_token(client)
-            if refreshed:
-                try:
-                    resp = await _request_history(refreshed)
-                except Exception as exc:
-                    print("[KIS DAILY US RETRY ERROR]", symbol, repr(exc))
-                    return {"symbol": symbol, "points": [], "source": "kis", "warning": "request-failed"}
+            if resp.status_code in (401, 403):
+                await _invalidate_kis_token()
+                refreshed = await _get_kis_token(client)
+                if refreshed:
+                    access_token = refreshed
+                    try:
+                        resp = await _request_history(access_token, cursor_end)
+                    except Exception as exc:
+                        print("[KIS DAILY US RETRY ERROR]", symbol, repr(exc))
+                        return {"symbol": symbol, "points": [], "source": "kis", "warning": "request-failed"}
 
-        if resp.status_code != 200:
-            print("[KIS DAILY US HTTP ERROR]", symbol, resp.status_code, resp.text[:200])
-            return {"symbol": symbol, "points": [], "source": "kis", "warning": "http-error"}
+            if resp.status_code != 200:
+                print("[KIS DAILY US HTTP ERROR]", symbol, resp.status_code, resp.text[:200])
+                return {"symbol": symbol, "points": [], "source": "kis", "warning": "http-error"}
 
-        try:
-            data = resp.json()
-        except Exception as exc:
-            print("[KIS DAILY US JSON ERROR]", symbol, repr(exc))
-            return {"symbol": symbol, "points": [], "source": "kis", "warning": "json-error"}
+            try:
+                data = resp.json()
+            except Exception as exc:
+                print("[KIS DAILY US JSON ERROR]", symbol, repr(exc))
+                return {"symbol": symbol, "points": [], "source": "kis", "warning": "json-error"}
 
-        points = _extract_history_points(
-            data,
-            date_keys=["xymd", "date", "trd_dd", "bas_dt", "stck_bsop_date"],
-            close_keys=["clos", "last", "ovrs_nmix_prpr", "ovrs_clpr", "close", "stck_clpr"],
-            open_keys=["open", "ovrs_oprc", "stck_oprc", "oprc", "open_price"],
-            high_keys=["high", "ovrs_hgpr", "stck_hgpr", "hgpr", "high_price"],
-            low_keys=["low", "ovrs_lwpr", "stck_lwpr", "lwpr", "low_price"],
-            volume_keys=["tvol", "evol", "acml_vol", "volume", "vol", "trd_vol"],
-            start_date=start_date,
-            end_date=end_date,
-        )
-        if not points:
+            points = _extract_history_points(
+                data,
+                date_keys=["xymd", "date", "trd_dd", "bas_dt", "stck_bsop_date"],
+                close_keys=["clos", "last", "ovrs_nmix_prpr", "ovrs_clpr", "close", "stck_clpr"],
+                open_keys=["open", "ovrs_oprc", "stck_oprc", "oprc", "open_price"],
+                high_keys=["high", "ovrs_hgpr", "stck_hgpr", "hgpr", "high_price"],
+                low_keys=["low", "stck_lwpr", "ovrs_lwpr", "lwpr", "low_price"],
+                volume_keys=["tvol", "evol", "acml_vol", "volume", "vol", "trd_vol"],
+                start_date=start_date,
+                end_date=cursor_end,
+            )
+            if not points:
+                break
+            pages.append(points)
+            earliest = points[0]["date"]
+            if earliest <= start_date:
+                break
+            next_cursor = _date_before(earliest)
+            if next_cursor >= cursor_end:
+                break
+            cursor_end = next_cursor
+
+        merged = _merge_history_pages(pages)
+        if not merged:
             return {"symbol": symbol, "points": [], "source": "kis", "warning": "no-history"}
-        return {"symbol": symbol, "points": points, "source": "kis"}
+        return {"symbol": symbol, "points": merged, "source": "kis"}
 
 
 async def _get_usd_krw_rate(client: httpx.AsyncClient) -> Dict[str, Any]:
