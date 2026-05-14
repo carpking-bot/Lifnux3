@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-13T09:15:17.980Z"
+    "exportedAt": "2026-05-14T15:44:36.814Z"
   },
   "data": {
     "lastState": {
@@ -3864,6 +3864,24 @@
           "createdAt": "2026-05-12T16:12:47.811Z",
           "distanceKm": 1.96,
           "calorieOverride": 73
+        },
+        {
+          "id": "ac4894f8-cb31-442d-a292-f2ecead1c1be",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-14",
+          "durationMin": 37,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-14T04:29:40.964Z",
+          "distanceKm": 3.05,
+          "calorieOverride": 120
+        },
+        {
+          "id": "d220d6b0-a06d-4373-a1e6-cdff0d69ae4a",
+          "typeId": "swimming",
+          "loggedForDate": "2026-05-14",
+          "durationMin": 50,
+          "memo": "39회차 수영",
+          "createdAt": "2026-05-14T15:44:17.282Z"
         }
       ]
     },
@@ -4160,7 +4178,12 @@
         },
         {
           "date": "2026-05-13",
-          "totalKrw": 51069084.532,
+          "totalKrw": 51062344.219,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-14",
+          "totalKrw": 51676541.072,
           "quality": "final"
         }
       ],
@@ -10713,6 +10736,30 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Inverse"
+        },
+        {
+          "id": "17daf546-ee8b-447e-b8b2-f1313577b94d",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-0087f0",
+          "symbolKey": "0087F0",
+          "avgPrice": 13680,
+          "qty": 40,
+          "currency": "KRW",
+          "countryLabel": "CN",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Big Tech"
+        },
+        {
+          "id": "16638456-e196-483d-9cc4-586da0085851",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-0043y0",
+          "symbolKey": "0043Y0",
+          "avgPrice": 23205,
+          "qty": 30,
+          "currency": "KRW",
+          "countryLabel": "CN",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -12818,6 +12865,8 @@
         "selectedSongId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
         "selectedVideoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
         "loopEnabled": true,
+        "aSec": 0,
+        "bSec": 35,
         "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-04-30T15:00:00.000Z"
@@ -13264,6 +13313,10 @@
         {
           "dateKey": "2026-05-07",
           "createdAt": 1778169055346
+        },
+        {
+          "dateKey": "2026-05-14",
+          "createdAt": 1778768849392
         }
       ],
       "lifnux:guitar:videos": [
@@ -13434,11 +13487,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 51069084.532,
-        "unrealizedPnlKrw": 12156374.526,
+        "totalValueKrw": 51676541.072,
+        "unrealizedPnlKrw": 12763831.066000007,
         "realizedPnlYtdKrw": 3971173.981478261,
         "dataQuality": "OK",
-        "updatedAt": 1778663691286
+        "updatedAt": 1778747468031
       }
     },
     "personalGrowth": {
@@ -22470,7 +22523,7 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "gradient"
+      "lifnux:background:theme": "Cyberpunk.png"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
@@ -22497,7 +22550,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 6311071
+          "balance": 5067721
         }
       ]
     },
@@ -22524,7 +22577,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-13T09:15:17.196Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-14T15:44:36.700Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -22743,24 +22796,24 @@
           ],
           "metrics": [
             {
-              "id": "b955c8b5-ee36-469e-a2b8-96eb1eda54ca",
+              "id": "feae1df9-a6b6-41e2-b57f-4035feb221ac",
               "label": "PER",
               "value": "18.0"
             },
             {
-              "id": "d878ed88-b89f-411a-a1b6-d649726d063b",
+              "id": "155bbf31-6efa-41a8-9eff-eb51daba47c0",
               "label": "Forward PER",
               "value": ""
             },
             {
-              "id": "d17ed028-8d5a-4ed4-8fbf-9f6a3a21f3a3",
+              "id": "606ba295-b782-4e04-8ba6-a6031c27b829",
               "label": "투자 적합도",
               "value": ""
             }
           ],
           "researchScores": [
             {
-              "id": "1d5dde0b-359c-412a-99a3-1cc2b89b6647",
+              "id": "2cc046c5-8b4d-4c17-8378-b5b6ed276584",
               "model": "Gemini",
               "variant": "Deep Research",
               "date": "2026-04-30",
@@ -22768,7 +22821,7 @@
               "memo": ""
             },
             {
-              "id": "44002abe-b1e4-4308-9723-080eff53c225",
+              "id": "ff9e2d93-4a96-45b1-aaa6-3e4da44f03d8",
               "model": "GPT",
               "variant": "Pro",
               "date": "2026-04-30",
@@ -22786,25 +22839,25 @@
           "revenueSource": "1Q26 실적 발표",
           "revenueItems": [
             {
-              "id": "246db008-3d7f-4ce5-a0b5-c54514bdf422",
+              "id": "c70f9c80-b702-4fbb-906c-b58cad498e25",
               "label": "PC",
               "amount": "3639",
               "percent": ""
             },
             {
-              "id": "11067eb5-f98b-4252-aa9e-d4abfe924d95",
+              "id": "6fbb117e-ab30-4b71-9864-e0b47523d12c",
               "label": "모바일",
               "amount": "7027",
               "percent": ""
             },
             {
-              "id": "facb3ae4-4679-4db8-9943-c959ee3a18b8",
+              "id": "8a5815d7-309e-4120-a760-73bef4cb22c6",
               "label": "콘솔",
               "amount": "138",
               "percent": ""
             },
             {
-              "id": "4974e099-d583-462f-87b8-a2f5c6475739",
+              "id": "74567375-9411-4636-9be3-975a22bad050",
               "label": "기타",
               "amount": "2910",
               "percent": ""
@@ -22812,7 +22865,7 @@
           ],
           "earnings": [
             {
-              "id": "36f8596c-c5e5-444c-94a0-b122851a5360",
+              "id": "22359beb-be18-4ed2-893d-520a402e4d6e",
               "period": "1Q26",
               "revenue": "13714",
               "profit": "5616",
@@ -22820,7 +22873,7 @@
               "growth": ""
             },
             {
-              "id": "1c299487-6e22-494f-98d8-c07eb05014db",
+              "id": "726386ff-4b28-44e7-9cc5-268c233664f4",
               "period": "4Q25",
               "revenue": "9197",
               "profit": "24",
@@ -22828,7 +22881,7 @@
               "growth": ""
             },
             {
-              "id": "27de027d-7a89-4e47-99fe-d30000eaa5d5",
+              "id": "b16244e0-9e9b-47c0-a254-7125cbe1b06e",
               "period": "3Q25",
               "revenue": "8706",
               "profit": "3486",
@@ -22836,7 +22889,7 @@
               "growth": ""
             },
             {
-              "id": "ad006fe3-ae37-42c2-b70e-4736b3bc1c4b",
+              "id": "b3e6c714-022a-4e14-a63b-b56082b897df",
               "period": "2Q25",
               "revenue": "6620",
               "profit": "2460",
@@ -22844,7 +22897,7 @@
               "growth": ""
             },
             {
-              "id": "8959a8f2-32df-41a2-b7ab-d34fad5459d3",
+              "id": "06ff6c30-b2e6-4bf4-9559-b5d945893ab5",
               "period": "1Q25",
               "revenue": "8741",
               "profit": "4572",
@@ -22852,7 +22905,7 @@
               "growth": ""
             },
             {
-              "id": "7d3f7294-41a4-4a0d-b3c8-3a764de31c9b",
+              "id": "5419a0e8-2dad-410a-a647-cc30f1071e58",
               "period": "4Q24",
               "revenue": "6175",
               "profit": "2154",
@@ -22860,7 +22913,7 @@
               "growth": ""
             },
             {
-              "id": "9bf5517d-6daf-4fff-895a-471eff833d23",
+              "id": "04d7f27c-3c9f-46fc-9232-f5cc5d52ca76",
               "period": "3Q24",
               "revenue": "7192",
               "profit": "3244",
@@ -22868,7 +22921,7 @@
               "growth": ""
             },
             {
-              "id": "3cae3a7f-8962-4545-aefd-9769f1a66c86",
+              "id": "e02d7ede-7a18-4eef-8cb7-d821f2943b39",
               "period": "2Q24",
               "revenue": "7070",
               "profit": "3321",
@@ -22876,7 +22929,7 @@
               "growth": ""
             },
             {
-              "id": "a0af6f71-4de2-4fd3-9e48-f1bacbcb4995",
+              "id": "bd27a296-be5f-4718-a558-32a771e8d651",
               "period": "1Q24",
               "revenue": "6659",
               "profit": "3105",
@@ -22886,7 +22939,7 @@
           ],
           "conferenceCalls": [
             {
-              "id": "ac9d8312-ab3f-412b-8547-264655ab2fda",
+              "id": "d3d09971-f5b4-40ec-8635-54663b5c5b1a",
               "source": "1Q26 실적 발표",
               "date": "2026-04-30",
               "content": "[PC] 애스턴마틴 컬래버레이션 콘텐츠 재출시로 매출이 큰 폭으로 성장 \n[모바일] 프리미엄 콘텐츠와 IP 협업이 매출 신기록에 기여\n[기타] ADK 그룹 실적이 반영 (2,859억)\n[BGMI] 이용자 접근성 확대 및 결제 이용자 수 증가\n[inZOI] UGC 기반의 라이브 서비스를 통한 장기 PL 도약 노력\n[신작] 서브노티카2 - 얼리 억세스 준비 중\n[AI] \n- 멀티모달 '라온' 4종을 자사 게임에 적용 예정\n- PUBG Ally를 베타 서비스로 선보일 예정\n- 쏘카 자율 주행 법인 설립에 650억원 규모 전략적 투자 단행 \n→ 자율 주행 데이터를 피지컬 AI에 활용 예정\n[주주 환원] 2분기 자사주 1,000억 추가 취득 및 소각 예정",
@@ -22911,17 +22964,17 @@
           ],
           "metrics": [
             {
-              "id": "b447cf54-f8ba-44ff-9ebc-7f2778a9c379",
+              "id": "42cbce67-d186-4354-bced-05bc2acc2080",
               "label": "PER",
               "value": "52.1"
             },
             {
-              "id": "7f073446-2621-468b-b0d2-81b9c047cec1",
+              "id": "2cd61613-3067-4870-bfc7-1aaf3690d7b8",
               "label": "Forward PER",
               "value": "31.4"
             },
             {
-              "id": "1940323d-43af-4e32-962d-e51f9981f3ae",
+              "id": "e8f29c1e-dfa7-4446-9721-5aed96f05540",
               "label": "Market Cap",
               "value": "$2.1T"
             }
@@ -22937,25 +22990,25 @@
           "revenueSource": "",
           "revenueItems": [
             {
-              "id": "f01a02f5-6fd6-4d57-a1d1-356a25d88642",
+              "id": "20c187b7-1068-409d-8ff9-7410282e254f",
               "label": "제품",
               "amount": "653.3",
               "percent": "87"
             },
             {
-              "id": "f2364478-3e80-4eac-ae72-8ddb63c75665",
+              "id": "15098e33-efd2-40de-af82-cc4229285748",
               "label": "설치",
               "amount": "25.9",
               "percent": "3.5"
             },
             {
-              "id": "8a99b17a-fb79-468a-82eb-7fd62706c43b",
+              "id": "21165704-f9b7-4a2e-a4ef-84645bc277f2",
               "label": "서비스",
               "amount": "61.9",
               "percent": "8.2"
             },
             {
-              "id": "86f0d7da-430c-4f5d-bc6b-dc3673ed9e5f",
+              "id": "d570547b-09ce-4936-8bb1-ddec2092c303",
               "label": "전기판매",
               "amount": "9.9",
               "percent": "1.3"
@@ -22963,7 +23016,7 @@
           ],
           "earnings": [
             {
-              "id": "8fa4245d-ca2a-4b00-ae84-0257e0756b9a",
+              "id": "6f6cacb3-e032-453c-8aa6-829a7fe98dca",
               "period": "Q4 2024",
               "revenue": "$572.4M",
               "profit": "$104.7M",
@@ -22971,7 +23024,7 @@
               "growth": ""
             },
             {
-              "id": "ecacfa22-a225-4b3c-8f65-88bc05abb2a7",
+              "id": "902bb760-7469-435a-ae95-64e9dcc7a76a",
               "period": "Q1 2025",
               "revenue": "$326.0M",
               "profit": "-$19.1M",
@@ -22979,7 +23032,7 @@
               "growth": ""
             },
             {
-              "id": "1565bed5-c87d-45f6-aa0f-ec5a91db405e",
+              "id": "7d2f1c19-bd1e-4f95-9aca-519573bf7331",
               "period": "Q2 2025",
               "revenue": "$401.2M",
               "profit": "-$3.5M",
@@ -22987,7 +23040,7 @@
               "growth": ""
             },
             {
-              "id": "9b8f60a2-621b-4e86-8e4b-4c17ec643b5d",
+              "id": "1199ee40-3a77-4d2f-8456-be73c1e7e557",
               "period": "Q3 2025",
               "revenue": "$519.0M",
               "profit": "$7.8M",
@@ -22995,7 +23048,7 @@
               "growth": ""
             },
             {
-              "id": "f597a1f6-d9ef-432c-ad63-6f927c71168e",
+              "id": "769b7f8c-7c42-4032-8e5e-da77452770ad",
               "period": "Q4 2025",
               "revenue": "$777.7M",
               "profit": "$87.5M",
@@ -23003,7 +23056,7 @@
               "growth": ""
             },
             {
-              "id": "d0e97b6f-5a63-4c4d-b84e-bb854b614367",
+              "id": "a7d9ab24-5749-47aa-bbe9-f888442c295e",
               "period": "Q1 2026",
               "revenue": "$751.1M",
               "profit": "$72.M",
@@ -23013,7 +23066,7 @@
           ],
           "conferenceCalls": [
             {
-              "id": "b55d7f16-4368-4235-bba7-2875435fb753",
+              "id": "6ff9fe09-bf5c-4858-a760-c0d7f9dde2ce",
               "source": "",
               "date": "",
               "content": "Management highlighted broad AI infrastructure demand across cloud, enterprise, and sovereign AI customers. Supply ramp and next-generation GPU transition remain key checkpoints.",
@@ -25433,6 +25486,34 @@
           "realizedPnl": 132.3525599999999,
           "realizedPnlPercent": 14.832784906342427,
           "costBasis": 892.29744
+        },
+        {
+          "id": "fa5dc79c-79dc-4c22-b210-cfa3158e53f6",
+          "ts": 1778718983916,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0087F0",
+          "side": "BUY",
+          "qty": 40,
+          "price": 13680,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "bd14bffb-2239-4a5c-8d14-6b994f780b36",
+          "ts": 1778719000923,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "BUY",
+          "qty": 30,
+          "price": 23205,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },
