@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-14T15:44:36.814Z"
+    "exportedAt": "2026-05-17T15:44:37.730Z"
   },
   "data": {
     "lastState": {
@@ -4184,6 +4184,11 @@
         {
           "date": "2026-05-14",
           "totalKrw": 51676541.072,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-15",
+          "totalKrw": 50513926.324099995,
           "quality": "final"
         }
       ],
@@ -9851,7 +9856,6 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9866,6 +9870,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10707,7 +10712,7 @@
           "stockId": "kr-stock-0087f0",
           "symbolKey": "0087F0",
           "avgPrice": 11622.5,
-          "qty": 80,
+          "qty": 44,
           "currency": "KRW",
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
@@ -10736,30 +10741,6 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Inverse"
-        },
-        {
-          "id": "17daf546-ee8b-447e-b8b2-f1313577b94d",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-0087f0",
-          "symbolKey": "0087F0",
-          "avgPrice": 13680,
-          "qty": 40,
-          "currency": "KRW",
-          "countryLabel": "CN",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "Big Tech"
-        },
-        {
-          "id": "16638456-e196-483d-9cc4-586da0085851",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-0043y0",
-          "symbolKey": "0043Y0",
-          "avgPrice": 23205,
-          "qty": 30,
-          "currency": "KRW",
-          "countryLabel": "CN",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -12862,12 +12843,12 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
-        "selectedVideoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
+        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
+        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
         "loopEnabled": true,
-        "aSec": 0,
-        "bSec": 35,
-        "speed": 1,
+        "aSec": 195,
+        "bSec": 260,
+        "speed": 0.85,
         "shadowing": false,
         "attendanceCursor": "2026-04-30T15:00:00.000Z"
       },
@@ -13317,6 +13298,14 @@
         {
           "dateKey": "2026-05-14",
           "createdAt": 1778768849392
+        },
+        {
+          "dateKey": "2026-05-15",
+          "createdAt": 1778857618574
+        },
+        {
+          "dateKey": "2026-05-17",
+          "createdAt": 1779032675183
         }
       ],
       "lifnux:guitar:videos": [
@@ -13487,11 +13476,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 51676541.072,
-        "unrealizedPnlKrw": 12763831.066000007,
-        "realizedPnlYtdKrw": 3971173.981478261,
+        "totalValueKrw": 50513926.324099995,
+        "unrealizedPnlKrw": 11541495.033499993,
+        "realizedPnlYtdKrw": 3963664.6072782604,
         "dataQuality": "OK",
-        "updatedAt": 1778747468031
+        "updatedAt": 1778863096657
       }
     },
     "personalGrowth": {
@@ -19749,6 +19738,47 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "22279f69-d98f-46d1-a394-ec83f2639d34",
+          "postingId": "7a778856-203d-4489-831a-8517a3d0315c",
+          "appliedAt": "2026-05-17",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "58f581a6-2663-4326-842b-412728eb95dc",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-05-17",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "f74e11aa-9374-4879-917d-e49579697cb8",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "1a624d6c-ce7f-45c6-b8ae-407acbfc54ed",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "686f9854-60c1-472f-80b8-e73d7cc26d24",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "ab8385d5-1890-4a49-9ec6-5057a09e1e8d",
           "postingId": "94ecf1e0-0dd3-4770-9a5d-5d55e3d133e9",
           "appliedAt": "2026-05-12",
@@ -21753,7 +21783,7 @@
           }
         ],
         "currentIndex": 8,
-        "isPlaying": false,
+        "isPlaying": true,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -22523,14 +22553,14 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "Cyberpunk.png"
+      "lifnux:background:theme": "Music Cafe.png"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 19435
+          "balance": 490675
         },
         {
           "accountId": "acc-us-1",
@@ -22550,7 +22580,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 5067721
+          "balance": 6243021
         }
       ]
     },
@@ -22577,7 +22607,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-14T15:44:36.700Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-17T15:44:37.607Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -25514,6 +25544,48 @@
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
+        },
+        {
+          "id": "c6cfefaf-0152-47c1-8774-fa01da7ef965",
+          "ts": 1778826031734,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0087F0",
+          "side": "SELL",
+          "qty": 40,
+          "price": 13100,
+          "realizedPnl": -23200,
+          "realizedPnlPercent": -4.239766081871345,
+          "costBasis": 547200
+        },
+        {
+          "id": "f00fec34-5983-44e0-b9b9-25bf74ec5d25",
+          "ts": 1778826043182,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "SELL",
+          "qty": 30,
+          "price": 21710,
+          "realizedPnl": -44850,
+          "realizedPnlPercent": -6.442577030812324,
+          "costBasis": 696150
+        },
+        {
+          "id": "30ade29f-730a-4db2-aa80-fa0d3b0b51fb",
+          "ts": 1778827198684,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0087F0",
+          "side": "SELL",
+          "qty": 36,
+          "price": 13090,
+          "realizedPnl": 52830,
+          "realizedPnlPercent": 12.626371262637125,
+          "costBasis": 418410
         }
       ]
     },
