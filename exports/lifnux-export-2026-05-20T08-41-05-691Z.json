@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-17T15:44:37.730Z"
+    "exportedAt": "2026-05-20T08:41:05.686Z"
   },
   "data": {
     "lastState": {
@@ -3882,6 +3882,51 @@
           "durationMin": 50,
           "memo": "39회차 수영",
           "createdAt": "2026-05-14T15:44:17.282Z"
+        },
+        {
+          "id": "f07fa790-4944-4679-8ed1-4fbeac49aea3",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-18",
+          "durationMin": 42,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-18T04:51:46.337Z",
+          "distanceKm": 3.26,
+          "calorieOverride": 130
+        },
+        {
+          "id": "7ae00834-a9af-40fd-ad72-4d6243cae398",
+          "typeId": "home",
+          "loggedForDate": "2026-05-18",
+          "durationMin": 20,
+          "createdAt": "2026-05-19T00:49:20.951Z"
+        },
+        {
+          "id": "9c47b062-4f6c-4eb0-9fba-e3beefb7182f",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-19",
+          "durationMin": 40,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-19T04:39:21.019Z",
+          "distanceKm": 3.16,
+          "calorieOverride": 125
+        },
+        {
+          "id": "5a0b3a3b-6082-4ad5-8329-1127c1da3cc9",
+          "typeId": "swimming",
+          "loggedForDate": "2026-05-19",
+          "durationMin": 50,
+          "memo": "40회차\n후면호흡? 하니까 호흡이 되는 느낌. \n내다버린 39번의 수영??",
+          "createdAt": "2026-05-20T04:32:22.030Z"
+        },
+        {
+          "id": "ca3a1ca9-5ad0-4599-9b43-b50848c0b8f6",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-20",
+          "durationMin": 40,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-20T04:32:44.990Z",
+          "distanceKm": 3.16,
+          "calorieOverride": 125
         }
       ]
     },
@@ -4189,6 +4234,21 @@
         {
           "date": "2026-05-15",
           "totalKrw": 50513926.324099995,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-18",
+          "totalKrw": 50667545.6,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-19",
+          "totalKrw": 50726955.451900005,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-20",
+          "totalKrw": 50450157.5548,
           "quality": "final"
         }
       ],
@@ -10394,6 +10454,41 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Inverse"
+        },
+        {
+          "id": "us-stock-ams:soxl",
+          "label": "SOXL",
+          "symbol": "AMS:SOXL",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1779151833892,
+          "last": 214.5,
+          "changePct": 2.89,
+          "changeAbs": 6.19905,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "us-stock-ams:soxs",
+          "label": "SOXS",
+          "symbol": "AMS:SOXS",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1779151838945,
+          "last": 211,
+          "changePct": 2.82,
+          "changeAbs": 5.9502,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "US",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Inverse"
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -10739,6 +10834,18 @@
           "qty": 18000,
           "currency": "KRW",
           "countryLabel": "KR",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Inverse"
+        },
+        {
+          "id": "3e3de147-1260-4016-a11c-18462ff0eb1c",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-ams:soxs",
+          "symbolKey": "AMS:SOXS",
+          "avgPrice": 9.43,
+          "qty": 109,
+          "currency": "USD",
+          "countryLabel": "US",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Inverse"
         }
@@ -12803,6 +12910,60 @@
           "title": "성적 증명서",
           "amount": 4000,
           "kind": "expense"
+        },
+        {
+          "id": "54cbaf90-e736-4f1a-842f-400f484b84c1",
+          "createdAt": 1779093232088,
+          "date": "2026-05-14",
+          "category": "Other",
+          "title": "복권 예치금",
+          "amount": 20000,
+          "kind": "expense"
+        },
+        {
+          "id": "0d5cd6d4-4285-49c8-8a06-6f346306e850",
+          "createdAt": 1779093246625,
+          "date": "2026-05-14",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "411b8941-8183-43c0-a430-8146f3f447b9",
+          "createdAt": 1779093261009,
+          "date": "2026-05-14",
+          "category": "Entertainment",
+          "title": "코인노래방",
+          "amount": 4456,
+          "kind": "expense"
+        },
+        {
+          "id": "84fb4029-7513-4775-9cf0-66b3da979556",
+          "createdAt": 1779093273721,
+          "date": "2026-05-16",
+          "category": "Other",
+          "title": "기타 레슨비",
+          "amount": 160000,
+          "kind": "expense"
+        },
+        {
+          "id": "f95d43f0-27f8-4ea8-bf08-84ed8757ca4d",
+          "createdAt": 1779093295561,
+          "date": "2026-05-16",
+          "category": "Interest",
+          "title": "예금이자(하나)",
+          "amount": 6,
+          "kind": "income"
+        },
+        {
+          "id": "04b5caf8-d903-4d95-956f-db0433a7da4e",
+          "createdAt": 1779180986151,
+          "date": "2026-05-19",
+          "category": "Game",
+          "title": "카제나 월정액",
+          "amount": 5900,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -13306,6 +13467,10 @@
         {
           "dateKey": "2026-05-17",
           "createdAt": 1779032675183
+        },
+        {
+          "dateKey": "2026-05-18",
+          "createdAt": 1779151750847
         }
       ],
       "lifnux:guitar:videos": [
@@ -13476,11 +13641,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 50513926.324099995,
-        "unrealizedPnlKrw": 11541495.033499993,
-        "realizedPnlYtdKrw": 3963664.6072782604,
+        "totalValueKrw": 50450157.5548,
+        "unrealizedPnlKrw": 11419438.598400004,
+        "realizedPnlYtdKrw": 3969661.7606782606,
         "dataQuality": "OK",
-        "updatedAt": 1778863096657
+        "updatedAt": 1779266423623
       }
     },
     "personalGrowth": {
@@ -19782,15 +19947,15 @@
           "applicationId": "ab8385d5-1890-4a49-9ec6-5057a09e1e8d",
           "postingId": "94ecf1e0-0dd3-4770-9a5d-5d55e3d133e9",
           "appliedAt": "2026-05-12",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "9cfcf48e-d596-450b-ba43-d6ba6ca08d26",
               "type": "DOCUMENT",
               "submittedAt": "2026-05-12",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-05-20",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -20739,6 +20904,27 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "3216c630-7460-4ebd-9d15-540509c819d8",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "베이글코드",
+          "postingTitle": "[Strategy&Finance] Strategy Analyst Intern",
+          "role": "경영지원",
+          "contractType": "인턴",
+          "departmentInfo": "Strategy & Finance 본부에 소속된 전략팀은 베이코드 경영진의 의사결정 관련 업무 지원과 회사의 성장을 위한 전략 업무를 담당합니다.\n구체적으로, 전사 경영에 대한 경영진의 비전 수립, 비전 달성을 위한 전략 기획, 실행을 위한 IR, 신사업 검토, 프로젝트 관리, 각종 리서치 등 경영 활동에 필연적으로 발생하는 업무들을 폭넓게 수행합니다.\n조직의 성장에 우선 가치를 두고, 새로운 프로젝트와 환경에 적응하며 동료들과 함께 회사의 전략을 구상하고 실행합니다.",
+          "responsibilities": "게임 산업과 모바일 게임 시장, 그리고 게임사의 사업 전략에 깊은 관심이 있으신 분\n게임을 커리어로 진지하게 고려하고 있으며, 개발 자체보다는 사업·전략·투자 관점에서 게임 산업을 이해하고 싶은 분\n전략, 투자, 재무 등 회사의 주요 의사결정을 지원하는 업무를 경험해보고 싶으신 분\nAI를 단순 사용 도구가 아니라, 업무 생산성과 문제 해결 방식을 바꾸는 수단으로 적극 활용해보고 싶은 분",
+          "requirements": "게임 시장 리서치\n- 모바일 게임 시장, 장르별 트렌드, 주요 경쟁사 동향 조사\n- 국내외 게임사, 주요 게임 타이틀, 시장 데이터 및 참고자료 정리\n- 게임별 성과 지표, BM, UA/마케팅 전략, 유저 트렌드 등 사업적 관점의 분석 지원\n전략 및 투자 관련 자료 작성 지원\n- 투자, 사업 전략, 시장 분석 관련 발표 자료 작성 지원\n- 내부 보고 자료, 회의 자료, 외부 공유 자료 작성 및 정리\n- 리서치 결과를 바탕으로 인사이트를 구조화하고, 의사결정에 활용 가능한 형태로 문서화",
+          "neededSkills": "인턴십 기간 3개월 full-time 근무가 가능하신 분\nPowerPoint, Excel 활용이 능숙하신 분\n영어 자료 리서치 및 문서 작성이 가능하신 분\n복잡한 정보를 체계적으로 구조화하고, 명확한 문서로 정리할 수 있으신 분\n긍정적이고 원활한 커뮤니케이션을 바탕으로 협업할 수 있으신 분\nAI 도구를 활용해 리서치, 문서 작성, 분석 등 업무 생산성과 결과물의 완성도를 높일 수 있으신 분\n\n※ 본 포지션은 2026년 6월 15일(월) 입사 가능한 분을 대상으로 합니다.",
+          "preferred": "모바일 게임을 즐겨 하며, 게임 시장과 유저 트렌드에 대한 관심이 높으신 분\n게임 산업을 장기적인 커리어 선택지로 중요하게 고려하고 있으신 분\nAI를 활용해 반복 업무를 줄이거나, 업무/과제 결과물의 품질을 개선해본 경험이 있으신 분\nVibe coding, 간단한 자동화, 커스텀 GPT/Skill/Agent 제작 등 AI 기반 업무 개선 경험이 있으신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://career.bagelcode.com/ko/o/216794",
+          "createdAt": "2026-05-20T05:39:18.187Z",
+          "updatedAt": "2026-05-20T05:39:35.748Z"
+        },
+        {
           "postingId": "47ccb506-d13b-49da-95bf-34907083baaf",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "컴투스홀딩스",
@@ -21115,27 +21301,6 @@
           "link": "https://careers.ncsoft.com/apply/view/100365?companyId=NCH",
           "createdAt": "2026-02-25T02:47:47.883Z",
           "updatedAt": "2026-02-25T06:41:51.962Z"
-        },
-        {
-          "postingId": "f97b1494-aafb-41cc-8cf4-40754911659a",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "로드컴플릿",
-          "postingTitle": "[사업실] 사업PM",
-          "role": "사업PM",
-          "contractType": "인턴",
-          "departmentInfo": "PM팀은 ​게임 서비스의 ​시작과 운영 전반을 기획하고 ​조율하는 ​팀입니다.\n\n출시 일정 ​관리, 퍼블리싱 전략 ​수립, 외부 ​파트너와의 ​협업 등 ​프로젝트의 ​A ​to Z를 관리하며\n\n개발, ​마케팅 ​등 여러 부서와의 ​가교 ​역할을 ​수행합니다.\n\n국내외 시장의 흐름을 ​읽고, 사업적 ​관점에서 ​게임이 성공적으로 ​자리 잡을 ​수 ​있도록 기획력과 커뮤니케이션 ​역량을 바탕으로 ​주도적으로 프로젝트를 이끌어 갑니다.\n\n게임의 성공을 함께 만들어가고 싶은 분이라면 지금 바로 지원해주세요! ",
-          "responsibilities": "프로토타이핑부터 베타 프로덕션까지 폴리싱, 벤치마킹 분석 및 제안하며, 신작 제작 과정에 참여합니다.\n글로벌 신규 런칭, 라이브 플랜 수립과 그로스 해킹을 통한 성장 전략을 실행합니다.\n유저 세그먼트와 코호트 그룹 기반의 사용자 분석, 어퍼 퍼널 그로스 전략을 기획합니다.",
-          "requirements": "다양한 장르의 모바일 게임을 좋아하고 플레이 해보신 분\n게임을 분석적으로 바라보고 게임 시장에 대한 관심이 있으신 분\n의사 결정 능력 및 커뮤니케이션 역량이 우수하신 분",
-          "neededSkills": "",
-          "preferred": "논리적 사고를 바탕으로 설득력 있는 문서를 작성해본 경험이 있으신 분\n지표 설계 및 분석 능력이 우수하신 분\n게임 개발 및 서비스 프로세스에 대한 이해가 있으신 분\n글로벌 파트너사와 영어로 비즈니스 커뮤니케이션이 가능하신 분",
-          "memo": "Ι 필수 제출 서류\n이력서\n모바일 게임 플레이 리스트 (최근 6개월)\n포트폴리오 (캐주얼 모바일 게임 분석 또는 시장 분석 등)",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": false,
-          "link": "https://loadcomplete.career.greetinghr.com/ko/o/198273",
-          "createdAt": "2026-02-23T15:42:03.777Z",
-          "updatedAt": "2026-05-12T08:12:26.428Z"
         },
         {
           "postingId": "a3a48cd3-74c2-4d63-8e4e-a5248b61ba7a",
@@ -22570,7 +22735,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 1028.46
+          "balance": 0.5900000000001455
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -22607,7 +22772,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-17T15:44:37.607Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-20T08:41:05.095Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -25586,6 +25751,20 @@
           "realizedPnl": 52830,
           "realizedPnlPercent": 12.626371262637125,
           "costBasis": 418410
+        },
+        {
+          "id": "3e0040b3-34a9-44b6-baf2-482f0d48f494",
+          "ts": 1779151928320,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:SOXS",
+          "side": "BUY",
+          "qty": 109,
+          "price": 9.43,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },
