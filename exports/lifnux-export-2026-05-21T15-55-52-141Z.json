@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-20T08:41:05.686Z"
+    "exportedAt": "2026-05-21T15:55:52.134Z"
   },
   "data": {
     "lastState": {
@@ -3927,6 +3927,24 @@
           "createdAt": "2026-05-20T04:32:44.990Z",
           "distanceKm": 3.16,
           "calorieOverride": 125
+        },
+        {
+          "id": "c2d3c496-65e4-41e6-a05b-acaa423530cf",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-21",
+          "durationMin": 42,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-21T04:28:51.610Z",
+          "distanceKm": 3.23,
+          "calorieOverride": 129
+        },
+        {
+          "id": "1213b579-b37d-408f-8183-8570681ec26e",
+          "typeId": "swimming",
+          "loggedForDate": "2026-05-21",
+          "durationMin": 40,
+          "createdAt": "2026-05-21T14:08:06.821Z",
+          "memo": "41회차"
         }
       ]
     },
@@ -4249,6 +4267,11 @@
         {
           "date": "2026-05-20",
           "totalKrw": 50450157.5548,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-21",
+          "totalKrw": 51685719.65,
           "quality": "final"
         }
       ],
@@ -9916,6 +9939,7 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9930,7 +9954,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -9965,7 +9988,10 @@
           "assetType": "STOCK",
           "exchange": "KRX",
           "currency": "KRW",
-          "createdAt": 1770776916076
+          "createdAt": 1770776916076,
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
         },
         {
           "id": "auto-kr-005930",
@@ -10489,6 +10515,79 @@
           "countryLabel": "US",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Inverse"
+        },
+        {
+          "id": "kr-stock-0181b0",
+          "label": "HANARO 미국AI메모리반도체TOP4",
+          "symbol": "0181B0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1779340313314,
+          "last": 59256,
+          "changePct": -0.44,
+          "changeAbs": -260.7264,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
+        },
+        {
+          "id": "kr-stock-0185l0",
+          "label": "TIME 글로벌휴머노이드로봇산업액티브",
+          "symbol": "0185L0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1779340330972,
+          "last": 63410,
+          "changePct": -0.9,
+          "changeAbs": -570.69,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Robotics"
+        },
+        {
+          "id": "kr-stock-426030",
+          "label": "TIME 미국나스닥100액티브",
+          "symbol": "426030",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1779340916954,
+          "last": 118373,
+          "changePct": 2.73,
+          "changeAbs": 3231.5829,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "kr-stock-080220",
+          "label": "제주반도체",
+          "symbol": "080220",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1779344364938,
+          "last": 166040,
+          "changePct": -0.6,
+          "changeAbs": -996.24,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -10640,8 +10739,8 @@
           "id": "4d9954ea-0458-4713-9a64-2f11f6841b6f",
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:crwd",
-          "avgPrice": 453.9233,
-          "qty": 3,
+          "avgPrice": 504.59,
+          "qty": 4,
           "currency": "USD",
           "symbolKey": "NAS:CRWD",
           "countryLabel": "US",
@@ -10689,8 +10788,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nys:snow",
           "symbolKey": "NYS:SNOW",
-          "avgPrice": 169.14499999999998,
-          "qty": 8,
+          "avgPrice": 168.5222,
+          "qty": 9,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "AI Software",
@@ -10806,8 +10905,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-0087f0",
           "symbolKey": "0087F0",
-          "avgPrice": 11622.5,
-          "qty": 44,
+          "avgPrice": 12115.57142857143,
+          "qty": 70,
           "currency": "KRW",
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
@@ -10826,28 +10925,64 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "1633fe2a-dc67-4e74-8483-1e296c6e7937",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-252670",
-          "symbolKey": "252670",
-          "avgPrice": 117.05555555555556,
-          "qty": 18000,
+          "id": "813c6074-79fb-48a0-b219-7fce50b22831",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "auto-kr-005930",
+          "symbolKey": "005930",
+          "avgPrice": 297500,
+          "qty": 5,
           "currency": "KRW",
           "countryLabel": "KR",
-          "sectorMajorLabel": "Risky Assets",
-          "sectorLabel": "Inverse"
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
         },
         {
-          "id": "3e3de147-1260-4016-a11c-18462ff0eb1c",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-stock-ams:soxs",
-          "symbolKey": "AMS:SOXS",
-          "avgPrice": 9.43,
-          "qty": 109,
-          "currency": "USD",
+          "id": "36dbd8c1-12eb-4015-82bb-fb63f7817809",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-0185l0",
+          "symbolKey": "0185L0",
+          "avgPrice": 10475,
+          "qty": 30,
+          "currency": "KRW",
           "countryLabel": "US",
-          "sectorMajorLabel": "Risky Assets",
-          "sectorLabel": "Inverse"
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Robotics"
+        },
+        {
+          "id": "19fba24b-13f1-4a7b-b0a2-d38f3bf9effe",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-426030",
+          "symbolKey": "426030",
+          "avgPrice": 53480,
+          "qty": 20,
+          "currency": "KRW",
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "a331d39b-e50c-4499-8ced-8ee88f9d0e99",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "auto-kr-138080",
+          "symbolKey": "138080",
+          "avgPrice": 37900,
+          "qty": 20,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "da6485b0-7a03-48e4-b672-4ff0dc99a1a7",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-080220",
+          "symbolKey": "080220",
+          "avgPrice": 117533.33333333333,
+          "qty": 15,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -12964,6 +13099,15 @@
           "title": "카제나 월정액",
           "amount": 5900,
           "kind": "expense"
+        },
+        {
+          "id": "172761b8-6e4d-4280-8fb9-8fdd693d99c1",
+          "createdAt": 1779353446885,
+          "date": "2026-05-21",
+          "category": "Cashback",
+          "title": "K-패스 환급금",
+          "amount": 64950,
+          "kind": "income"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -13004,12 +13148,12 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
+        "selectedSongId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
+        "selectedVideoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
         "loopEnabled": true,
-        "aSec": 195,
-        "bSec": 260,
-        "speed": 0.85,
+        "aSec": 0,
+        "bSec": 165,
+        "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-04-30T15:00:00.000Z"
       },
@@ -13132,13 +13276,13 @@
           "createdAt": 1775140087531
         },
         {
-          "id": "f8fb4c64-102f-43ef-9bc4-4f754b5e26b2",
+          "id": "2e529b9f-20b9-4aeb-afcd-934eeb4f4a61",
           "videoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
-          "name": "Part 1",
+          "name": "Segment",
           "startSec": 0,
-          "endSec": 35,
+          "endSec": 165,
           "speed": 1,
-          "createdAt": 1777734488459
+          "createdAt": 1779376032894
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -13471,6 +13615,10 @@
         {
           "dateKey": "2026-05-18",
           "createdAt": 1779151750847
+        },
+        {
+          "dateKey": "2026-05-21",
+          "createdAt": 1779374333716
         }
       ],
       "lifnux:guitar:videos": [
@@ -13641,11 +13789,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 50450157.5548,
-        "unrealizedPnlKrw": 11419438.598400004,
-        "realizedPnlYtdKrw": 3969661.7606782606,
-        "dataQuality": "OK",
-        "updatedAt": 1779266423623
+        "totalValueKrw": 51708126.489999995,
+        "unrealizedPnlKrw": 13086425.726300001,
+        "realizedPnlYtdKrw": 3538233.4992782604,
+        "dataQuality": "DEGRADED",
+        "updatedAt": 1779378913567
       }
     },
     "personalGrowth": {
@@ -19987,14 +20135,14 @@
         {
           "applicationId": "a3e37186-1399-44e8-a951-92040a0ca5d3",
           "postingId": "8fafbd58-f21b-476a-920d-71f113e95de0",
-          "appliedAt": "2026-05-12",
+          "appliedAt": "2026-05-20",
           "status": "IN_PROGRESS",
           "finalResult": null,
           "stages": [
             {
               "stageId": "826c0864-7fbd-4978-bb99-07413a4998fa",
               "type": "DOCUMENT",
-              "submittedAt": "2026-05-12",
+              "submittedAt": "2026-05-20",
               "resultAt": null,
               "result": "PENDING",
               "notes": ""
@@ -22718,14 +22866,14 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "Music Cafe.png"
+      "lifnux:background:theme": "gradient"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 490675
+          "balance": 204975
         },
         {
           "accountId": "acc-us-1",
@@ -22735,7 +22883,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 0.5900000000001455
+          "balance": 113.5000000000002
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -22745,7 +22893,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 6243021
+          "balance": 2615771
         }
       ]
     },
@@ -22772,7 +22920,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-20T08:41:05.095Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-21T15:55:51.758Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -25762,6 +25910,230 @@
           "side": "BUY",
           "qty": 109,
           "price": 9.43,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "1f53ce35-bf1b-40e0-b358-8945377c3076",
+          "ts": 1779324566720,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "252670",
+          "side": "BUY",
+          "qty": 4000,
+          "price": 113,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "5604d99f-3b28-45f2-90f1-fc10de3cb76e",
+          "ts": 1779339522510,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "005930",
+          "side": "BUY",
+          "qty": 5,
+          "price": 297500,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "bea59794-1ceb-4987-96ad-793852d6461e",
+          "ts": 1779340495316,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "009540",
+          "side": "BUY",
+          "qty": 2,
+          "price": 409000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "1e3197ff-8991-4e12-98c0-9703cbe6bdf3",
+          "ts": 1779340509212,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "009540",
+          "side": "SELL",
+          "qty": 2,
+          "price": 410000,
+          "realizedPnl": 2000,
+          "realizedPnlPercent": 0.24449877750611246,
+          "costBasis": 818000
+        },
+        {
+          "id": "eac37329-b2ff-4bc9-8d04-224e6aa95334",
+          "ts": 1779340569029,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0185L0",
+          "side": "BUY",
+          "qty": 30,
+          "price": 10475,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "ba1d79ae-ef29-4921-a44b-9a9eb93a5132",
+          "ts": 1779340798079,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0181B0",
+          "side": "BUY",
+          "qty": 10,
+          "price": 9890,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "ffc9ec9e-b055-4a2c-8455-1229be0e8818",
+          "ts": 1779340809598,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0181B0",
+          "side": "SELL",
+          "qty": 10,
+          "price": 9900,
+          "realizedPnl": 100,
+          "realizedPnlPercent": 0.10111223458038424,
+          "costBasis": 98900
+        },
+        {
+          "id": "fa92c2f4-f596-4bdd-ada0-33399a6e2e77",
+          "ts": 1779340931216,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "426030",
+          "side": "BUY",
+          "qty": 20,
+          "price": 53480,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "d9d08b68-dfbf-4a1b-81ae-fd622d065ac6",
+          "ts": 1779341594052,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "138080",
+          "side": "BUY",
+          "qty": 20,
+          "price": 37900,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "5ac0f9d8-d6e7-442e-9719-0a2535814b1d",
+          "ts": 1779344150442,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "252670",
+          "side": "SELL",
+          "qty": 22000,
+          "price": 103,
+          "realizedPnl": -292999.9999999999,
+          "realizedPnlPercent": -11.44978507229386,
+          "costBasis": 2559000
+        },
+        {
+          "id": "10655594-73c9-4e35-af9f-cf450469bf39",
+          "ts": 1779344408284,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "080220",
+          "side": "BUY",
+          "qty": 5,
+          "price": 117000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "9383c4c3-fb43-4b0a-b258-22fe3ed1c0da",
+          "ts": 1779345061633,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0087F0",
+          "side": "BUY",
+          "qty": 26,
+          "price": 12950,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "3d74f817-04d5-4ff6-bc9d-737b9acf2659",
+          "ts": 1779345073658,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "080220",
+          "side": "BUY",
+          "qty": 10,
+          "price": 117800,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "cb665d29-0eea-48e4-8f56-d097bb8583bd",
+          "ts": 1779371673585,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:SOXS",
+          "side": "SELL",
+          "qty": 109,
+          "price": 8.56,
+          "realizedPnl": -94.82999999999991,
+          "realizedPnlPercent": -9.22587486744432,
+          "costBasis": 1027.87
+        },
+        {
+          "id": "9e9eec57-0941-43fe-8542-7d885799c70d",
+          "ts": 1779371697473,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:CRWD",
+          "side": "BUY",
+          "qty": 1,
+          "price": 656.59,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "17daf761-a489-4688-a7f9-a7ced3e2216e",
+          "ts": 1779371711730,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:CRWD",
+          "side": "BUY",
+          "qty": 1,
+          "price": 163.54,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
