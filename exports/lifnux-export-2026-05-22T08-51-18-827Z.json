@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-21T08:57:01.264Z"
+    "exportedAt": "2026-05-22T08:51:18.821Z"
   },
   "data": {
     "lastState": {
@@ -3937,6 +3937,24 @@
           "createdAt": "2026-05-21T04:28:51.610Z",
           "distanceKm": 3.23,
           "calorieOverride": 129
+        },
+        {
+          "id": "1213b579-b37d-408f-8183-8570681ec26e",
+          "typeId": "swimming",
+          "loggedForDate": "2026-05-21",
+          "durationMin": 40,
+          "createdAt": "2026-05-21T14:08:06.821Z",
+          "memo": "41회차"
+        },
+        {
+          "id": "fef79ddd-69f5-4b8c-997d-e7042999c663",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-22",
+          "durationMin": 35,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-22T04:48:29.735Z",
+          "distanceKm": 2.83,
+          "calorieOverride": 112
         }
       ]
     },
@@ -4263,7 +4281,12 @@
         },
         {
           "date": "2026-05-21",
-          "totalKrw": 51696839.3473,
+          "totalKrw": 51685719.65,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-22",
+          "totalKrw": 53633120.75,
           "quality": "final"
         }
       ],
@@ -9904,41 +9927,7 @@
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
-      "lifnux.finance.trades.v100": [
-        {
-          "id": "f0e094e1-c156-4849-be3f-38d77effcee6",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-080220",
-          "side": "BUY",
-          "price": 117000,
-          "qty": 5,
-          "executedAt": 1779344408284,
-          "realizedPnl": null,
-          "realizedPnlPercent": null
-        },
-        {
-          "id": "c95f8468-b35b-4ea3-9ee6-b5f2404d6e58",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-0087f0",
-          "side": "BUY",
-          "price": 12950,
-          "qty": 26,
-          "executedAt": 1779345061633,
-          "realizedPnl": null,
-          "realizedPnlPercent": null
-        },
-        {
-          "id": "b28a01f8-b8db-49c1-8710-9015395c5ed0",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-080220",
-          "side": "BUY",
-          "price": 117800,
-          "qty": 10,
-          "executedAt": 1779345073658,
-          "realizedPnl": null,
-          "realizedPnlPercent": null
-        }
-      ],
+      "lifnux.finance.trades.v100": [],
       "lifnux.finance.expense.categories.v1": [
         "Food",
         "Transport",
@@ -9965,6 +9954,7 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9979,7 +9969,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10765,8 +10754,8 @@
           "id": "4d9954ea-0458-4713-9a64-2f11f6841b6f",
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:crwd",
-          "avgPrice": 453.9233,
-          "qty": 3,
+          "avgPrice": 504.59,
+          "qty": 4,
           "currency": "USD",
           "symbolKey": "NAS:CRWD",
           "countryLabel": "US",
@@ -10814,8 +10803,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nys:snow",
           "symbolKey": "NYS:SNOW",
-          "avgPrice": 169.14499999999998,
-          "qty": 8,
+          "avgPrice": 168.5222,
+          "qty": 9,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "AI Software",
@@ -10826,8 +10815,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-379800",
           "symbolKey": "379800",
-          "avgPrice": 21000.688524590165,
-          "qty": 122,
+          "avgPrice": 21273.876923076925,
+          "qty": 130,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorLabel": "Index",
@@ -10838,8 +10827,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-379810",
           "symbolKey": "379810",
-          "avgPrice": 22690.897142857142,
-          "qty": 175,
+          "avgPrice": 23058.145945945947,
+          "qty": 185,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorLabel": "Index",
@@ -10907,8 +10896,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-stock-0072r0",
           "symbolKey": "0072R0",
-          "avgPrice": 15376.080459770115,
-          "qty": 87,
+          "avgPrice": 15345.377777777778,
+          "qty": 90,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Alternative Asset",
@@ -10949,18 +10938,6 @@
           "countryLabel": "CN",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
-        },
-        {
-          "id": "3e3de147-1260-4016-a11c-18462ff0eb1c",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-stock-ams:soxs",
-          "symbolKey": "AMS:SOXS",
-          "avgPrice": 9.43,
-          "qty": 109,
-          "currency": "USD",
-          "countryLabel": "US",
-          "sectorMajorLabel": "Risky Assets",
-          "sectorLabel": "Inverse"
         },
         {
           "id": "813c6074-79fb-48a0-b219-7fce50b22831",
@@ -13146,6 +13123,15 @@
           "title": "K-패스 환급금",
           "amount": 64950,
           "kind": "income"
+        },
+        {
+          "id": "7ded7bd4-b486-4a5b-b11a-285f022183fc",
+          "createdAt": 1779410220672,
+          "date": "2026-05-22",
+          "category": "Wage",
+          "title": "4월 월급",
+          "amount": 2686910,
+          "kind": "income"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -13186,12 +13172,12 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
-        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
+        "selectedSongId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
+        "selectedVideoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
         "loopEnabled": true,
-        "aSec": 195,
-        "bSec": 260,
-        "speed": 0.85,
+        "aSec": 0,
+        "bSec": 165,
+        "speed": 1,
         "shadowing": false,
         "attendanceCursor": "2026-04-30T15:00:00.000Z"
       },
@@ -13314,13 +13300,13 @@
           "createdAt": 1775140087531
         },
         {
-          "id": "f8fb4c64-102f-43ef-9bc4-4f754b5e26b2",
+          "id": "2e529b9f-20b9-4aeb-afcd-934eeb4f4a61",
           "videoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
-          "name": "Part 1",
+          "name": "Segment",
           "startSec": 0,
-          "endSec": 35,
+          "endSec": 165,
           "speed": 1,
-          "createdAt": 1777734488459
+          "createdAt": 1779376032894
         }
       ],
       "lifnux.guitar.attendance.v100": [],
@@ -13653,6 +13639,10 @@
         {
           "dateKey": "2026-05-18",
           "createdAt": 1779151750847
+        },
+        {
+          "dateKey": "2026-05-21",
+          "createdAt": 1779374333716
         }
       ],
       "lifnux:guitar:videos": [
@@ -13823,11 +13813,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 51696839.3473,
-        "unrealizedPnlKrw": 12982000.819099993,
-        "realizedPnlYtdKrw": 3676191.5520782606,
+        "totalValueKrw": 53633120.75,
+        "unrealizedPnlKrw": 13400928.461900003,
+        "realizedPnlYtdKrw": 3544328.7488782606,
         "dataQuality": "OK",
-        "updatedAt": 1779353412929
+        "updatedAt": 1779439843456
       }
     },
     "personalGrowth": {
@@ -22130,7 +22120,7 @@
           }
         ],
         "currentIndex": 8,
-        "isPlaying": true,
+        "isPlaying": false,
         "shuffle": true,
         "repeatMode": "all",
         "presets": [
@@ -22900,7 +22890,7 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "Music Cafe.png"
+      "lifnux:background:theme": "gradient"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
@@ -22912,12 +22902,12 @@
         {
           "accountId": "acc-us-1",
           "currency": "KRW",
-          "balance": 5374
+          "balance": 1639
         },
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 0.5900000000001455
+          "balance": 777.0700000000003
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -22954,7 +22944,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-21T08:57:01.155Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-22T08:51:18.199Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -26129,6 +26119,112 @@
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
+        },
+        {
+          "id": "cb665d29-0eea-48e4-8f56-d097bb8583bd",
+          "ts": 1779371673585,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:SOXS",
+          "side": "SELL",
+          "qty": 109,
+          "price": 8.56,
+          "realizedPnl": -94.82999999999991,
+          "realizedPnlPercent": -9.22587486744432,
+          "costBasis": 1027.87
+        },
+        {
+          "id": "9e9eec57-0941-43fe-8542-7d885799c70d",
+          "ts": 1779371697473,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:CRWD",
+          "side": "BUY",
+          "qty": 1,
+          "price": 656.59,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "69845f2a-c1bf-4f2d-bd67-69c8d982244b",
+          "ts": 1779410414830,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 500000
+        },
+        {
+          "id": "e81924ba-c8e6-4111-bb5b-4be0c1c2aad8",
+          "ts": 1779410504149,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 5000
+        },
+        {
+          "id": "f060ae5d-d3d1-4dde-bb59-ea49589eb3c8",
+          "ts": 1779410554782,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "379810",
+          "side": "BUY",
+          "qty": 10,
+          "price": 29485,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "bb4976bb-782e-4cae-96ca-f60d94be6aa2",
+          "ts": 1779410573341,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "379800",
+          "side": "BUY",
+          "qty": 8,
+          "price": 25440,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "5e9e3b6d-ac96-4f5c-b6b4-71b29be87908",
+          "ts": 1779410619198,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 33000
+        },
+        {
+          "id": "b411a3e8-04db-4513-8018-158ebf54dbda",
+          "ts": 1779410633397,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0072R0",
+          "side": "BUY",
+          "qty": 3,
+          "price": 14455,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "e9968d57-fa7b-4820-abe0-a315cbed8dce",
+          "ts": 1779410980915,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 663.57
         }
       ]
     },
