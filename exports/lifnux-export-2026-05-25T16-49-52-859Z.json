@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-21T15:55:52.134Z"
+    "exportedAt": "2026-05-25T16:49:52.852Z"
   },
   "data": {
     "lastState": {
@@ -3945,6 +3945,45 @@
           "durationMin": 40,
           "createdAt": "2026-05-21T14:08:06.821Z",
           "memo": "41회차"
+        },
+        {
+          "id": "fef79ddd-69f5-4b8c-997d-e7042999c663",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-22",
+          "durationMin": 35,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-22T04:48:29.735Z",
+          "distanceKm": 2.83,
+          "calorieOverride": 112
+        },
+        {
+          "id": "61e6fd23-4142-40b3-868e-7d894a952890",
+          "typeId": "running",
+          "loggedForDate": "2026-05-22",
+          "durationMin": 5,
+          "createdAt": "2026-05-22T17:21:31.944Z",
+          "distanceKm": 1.03,
+          "paceText": "04'40\"",
+          "cadence": 169,
+          "maxSpeedKmh": 426,
+          "calorieOverride": 75
+        },
+        {
+          "id": "11abfe93-b26e-44fa-ac0f-9fd22baa41bc",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-22",
+          "durationMin": 58,
+          "memo": "저녁 운동 겸 산책",
+          "createdAt": "2026-05-22T17:22:34.432Z",
+          "distanceKm": 4.74,
+          "calorieOverride": 286
+        },
+        {
+          "id": "494eac7b-9ecf-4881-8fda-1bc0db07e794",
+          "typeId": "soccer",
+          "loggedForDate": "2026-05-25",
+          "createdAt": "2026-05-25T13:45:09.553Z",
+          "memo": "제1월곡구장"
         }
       ]
     },
@@ -4272,6 +4311,11 @@
         {
           "date": "2026-05-21",
           "totalKrw": 51685719.65,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-22",
+          "totalKrw": 53806360.02,
           "quality": "final"
         }
       ],
@@ -9939,7 +9983,6 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9954,6 +9997,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10764,8 +10808,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:amzn",
           "symbolKey": "NAS:AMZN",
-          "avgPrice": 212.22919230769233,
-          "qty": 13,
+          "avgPrice": 216.22567857142857,
+          "qty": 14,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Big Tech",
@@ -10776,8 +10820,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:googl",
           "symbolKey": "NAS:GOOGL",
-          "avgPrice": 304.0733333333333,
-          "qty": 6,
+          "avgPrice": 315.9871428571428,
+          "qty": 7,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Big Tech",
@@ -10788,8 +10832,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nys:snow",
           "symbolKey": "NYS:SNOW",
-          "avgPrice": 168.5222,
-          "qty": 9,
+          "avgPrice": 168.86198,
+          "qty": 10,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "AI Software",
@@ -10800,8 +10844,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-379800",
           "symbolKey": "379800",
-          "avgPrice": 21000.688524590165,
-          "qty": 122,
+          "avgPrice": 21273.876923076925,
+          "qty": 130,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorLabel": "Index",
@@ -10812,8 +10856,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-379810",
           "symbolKey": "379810",
-          "avgPrice": 22690.897142857142,
-          "qty": 175,
+          "avgPrice": 23058.145945945947,
+          "qty": 185,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorLabel": "Index",
@@ -10881,8 +10925,8 @@
           "accountId": "acc-us-1",
           "stockId": "kr-stock-0072r0",
           "symbolKey": "0072R0",
-          "avgPrice": 15376.080459770115,
-          "qty": 87,
+          "avgPrice": 15345.377777777778,
+          "qty": 90,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Alternative Asset",
@@ -13108,6 +13152,15 @@
           "title": "K-패스 환급금",
           "amount": 64950,
           "kind": "income"
+        },
+        {
+          "id": "7ded7bd4-b486-4a5b-b11a-285f022183fc",
+          "createdAt": 1779410220672,
+          "date": "2026-05-22",
+          "category": "Wage",
+          "title": "4월 월급",
+          "amount": 2686910,
+          "kind": "income"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -13619,6 +13672,10 @@
         {
           "dateKey": "2026-05-21",
           "createdAt": 1779374333716
+        },
+        {
+          "dateKey": "2026-05-22",
+          "createdAt": 1779461298881
         }
       ],
       "lifnux:guitar:videos": [
@@ -13789,11 +13846,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 51708126.489999995,
-        "unrealizedPnlKrw": 13086425.726300001,
-        "realizedPnlYtdKrw": 3538233.4992782604,
+        "totalValueKrw": 53805912.800000004,
+        "unrealizedPnlKrw": 13502631.901200004,
+        "realizedPnlYtdKrw": 3543566.8426782605,
         "dataQuality": "DEGRADED",
-        "updatedAt": 1779378913567
+        "updatedAt": 1779475352973
       }
     },
     "personalGrowth": {
@@ -20051,6 +20108,88 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "303b78b8-3f61-4c4f-b368-28bd69e329ab",
+          "postingId": "7e1b0ace-7b70-4bb7-8aa9-66576b654553",
+          "appliedAt": "2026-05-25",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "e0f0d4b9-f5bb-4c77-9d1e-93f28035f23e",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-05-25",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "0d1941b7-56ff-4d65-a9fb-a6ea1da2609f",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "b0efd5d4-c806-43b0-addb-48c2fd71562d",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "8fff7560-1e44-4752-917d-680ba5d84701",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "d79e7101-7d6b-45e4-8e0a-f0f9d52fe9ae",
+          "postingId": "47ccb506-d13b-49da-95bf-34907083baaf",
+          "appliedAt": "2026-05-24",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "4665c0a8-4ce5-4d9d-b38e-7d9252dfa9cf",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-05-24",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "c4d33d20-c1e8-4b12-beab-836fa51ca154",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "766633e6-2cb7-46de-a652-1afb14355aa6",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "25d460fa-9349-40d9-918d-a61e0adda75b",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "22279f69-d98f-46d1-a394-ec83f2639d34",
           "postingId": "7a778856-203d-4489-831a-8517a3d0315c",
           "appliedAt": "2026-05-17",
@@ -21052,6 +21191,27 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "01e3d78e-9d32-4877-8f7a-ff40050110ce",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "비트망고",
+          "postingTitle": "사업 PM",
+          "role": "사업PM",
+          "contractType": "계약직",
+          "departmentInfo": "",
+          "responsibilities": "모바일 퍼즐게임의 사업 방향을 함께 고민합니다.\n매출과 유저 데이터를 분석해 게임 개선 방향을 제안합니다.\n인게임 상품 기획에 필요한 자료를 조사하고 아이디어를 발굴합니다.",
+          "requirements": "경력과 학력은 따지지 않습니다.\n캐주얼/퍼즐 게임에 관심과 이해가 있으신 분\n",
+          "neededSkills": "",
+          "preferred": "인게임 상품이나 게임 BM 구조에 관심을 가지고 분석해 본 경험이 있으신 분\nAI 도구를 활용해 분석이나 업무 효율을 높이는 데 관심이 있으신 분\n데이터 분석 도구(SQL, Python 등)를 다뤄 본 경험이 있으신 분",
+          "memo": "근무형태 : 계약직 (6개월, 수습기간 1개월)\n입사 후 6개월간 함께 일하며 서로의 핏을 맞추어 갑니다.\n근무 평가를 통한 정규직 전환형 인턴(6개월)의 기회가 열려 있습니다.\n근무일시 : 주 5일 (월~금), 1일 8시간 근무\n식사 제공 : 구내식당에서 든든하게 식사하실 수 있습니다.",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://bitmango.ninehire.site/job_posting/8cqdMM1s",
+          "createdAt": "2026-05-25T16:38:47.852Z",
+          "updatedAt": "2026-05-25T16:38:50.012Z"
+        },
+        {
           "postingId": "3216c630-7460-4ebd-9d15-540509c819d8",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "베이글코드",
@@ -21220,27 +21380,6 @@
           "updatedAt": "2026-05-12T16:09:36.881Z"
         },
         {
-          "postingId": "244b8166-e675-447a-9486-6e22346f8020",
-          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
-          "companyName": "카카오페이",
-          "postingTitle": "[어시스턴트] AI 서비스 운영 지원",
-          "role": "서비스/운영",
-          "contractType": "인턴",
-          "departmentInfo": "우리 ​조직은 AI를 기반으로 ​서비스를 만드는 ​조직입니다. ​AI를 통해 ​사용자 ​경험 ​혁신을 이끌고 있습니다. ​또한 ​개인의 성장과 조직의 ​성장을 ​함께 ​경험할 수 있는 ​환경을 갖추고 ​있습니다. ​\n\n우리 조직에 ​합류하시게 되면, ​AI ​서비스를 만들어가는 특별한 ​경험을 할 ​수 있습니다.",
-          "responsibilities": "AI 서비스의 일 단위 운영 현황을 모니터링하고 발생한 이슈를 파악합니다.\n최신 AI 기술 및 시장 트렌드를 파악하여 서비스에 반영할 인사이트를 도출합니다.\nAI 서비스 기획 단계에서 필요한 실무 업무를 지원합니다.",
-          "requirements": "SQL, Excel 등 데이터 분석 도구 활용 능력\n성실하고 꼼꼼한 업무 태도\n다양한 구성원과 원활하게 소통할 수 있는 커뮤니케이션 역량",
-          "neededSkills": "",
-          "preferred": "생성형 AI 기반 서비스 기획 및 운영 경험\n생성형 AI 기술에 대한 깊은 이해와 관심",
-          "memo": "",
-          "comment": "지원서 작성 tip\n\n열정적이고 적극적으로 수행했던 업무나 프로젝트 경험이 있다면 상세히 들려주시기 바랍니다.\n데이터 분석을 통해 결과를 도출하고 개선까지 이어졌던 경험이 있다면 작성해 주시는 것이 좋습니다.\n생성형 AI 기반의 프로젝트 경험이 있으시다면 구체적으로 기술해 주시기를 기대합니다.\n\n\n기본 근무조건\n\n고용형태 : 어시스턴트\n시급 : 10,900원 (월 만근 시 2,478,100원/ 식대 200,000원 포함)\n근무 일시 : ASAP (1일 8시간, 6개월 근무)",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": true,
-          "link": "https://kakaopay.career.greetinghr.com/ko/o/213760",
-          "createdAt": "2026-04-28T06:53:57.978Z",
-          "updatedAt": "2026-04-28T06:54:00.378Z"
-        },
-        {
           "postingId": "a034e6af-0590-498e-8fb6-d09ab07a95dd",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "웹젠",
@@ -21323,27 +21462,6 @@
           "link": "https://epidgames.career.greetinghr.com/ko/o/207995",
           "createdAt": "2026-03-27T15:15:44.663Z",
           "updatedAt": "2026-03-27T15:15:51.815Z"
-        },
-        {
-          "postingId": "952f8e73-88d5-4287-b474-56dfc931659c",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "빅파이어게임즈",
-          "postingTitle": "개발 PM",
-          "role": "개발PM",
-          "contractType": "단기계약직",
-          "departmentInfo": "",
-          "responsibilities": "게임 개발 프로세스의 이해 및 프로젝트 관리 지식을 바탕으로, 프로젝트 진행의 전반적인 과정(요구사항 수집, 기획, 개발, 테스트, 배포, 퍼블리싱)이 원활하게 진행되도록 필요한 프로세스 수립, 진행, 조율, 관리하는 역할을 수행합니다.\n\n프로젝트 통합관리(Project Integration Management): 프로젝트 개발 전체 과정의 기간 수립 및 진척 사항을 관리하고, 개발을 위한 다양한 프로세스를 수립하며, 제품 개발을 위한 제반 사항을 준비 및 지원합니다.\n프로젝트 범위관리(Project Scope Management): 개발팀 내/외부 이해관계자들의 개발 요구사항을 수집하고, 요구사항에 대한 개발 범위를 구체화합니다. 계획과 요구사항을 바탕으로 범위를 검증 및 통제합니다.\n프로젝트 일정관리(Project Time Management): 프로젝트 범위, 가용 자원 등을 고려하여 기간 별 프로젝트 일정을 산정하고, 기간 내에 완수할 수 있도록 일정을 관리합니다.\n프로젝트 의사소통관리(Project Communication Management): 프로젝트 정보를 시의 적절하게 계획, 수집, 생성, 분배, 저장, 통제, 감시, 폐기할 수 있도록 필요한 프로세스를 개발하고 관리합니다.\n프로젝트 위험관리(Project Risk Management): 프로젝트를 진행하면서 발생하는 모든 위험에 대하여 정성적, 정량적 분석을 실시하고, 대응 계획을 수립하고 실행합니다.\n프로젝트 조달관리(Project Procurement Management): 프로젝트팀 외부로부터 필요한 자원 및 리소스, 서비스 또는 결과물을 획득할 수 있도록 프로세스를 수립하고 관리합니다.\n개발 조직 운영 및 관리(Dev. Organization Management): 건강한 조직을 유지하는데 필요한 각종 내부 정책과 가이드라인을 제시하고 조직이 추구하는 문화를 정착시킬 수 있도록 지원합니다.\n프로젝트 산출물 관리(Project Deliverables Management): 프로젝트에서 생성되는 모든 산출물(정책, 문서, 굿즈 등)을 요구되는 사양으로 적재하고, 효율적으로 관리할 수 있도록 프로세스를 수립합니다.",
-          "requirements": "게임 개발에 대한 이해도가 있으신 분\nJira/Wiki 상급 활용 가능하신 분\n커뮤니케이션 능력이 우수한 분\n협업에 대한 이해와 수행이 우수한 분",
-          "neededSkills": "",
-          "preferred": "외국어 가능자",
-          "memo": "",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": true,
-          "link": "https://bigfiregames.career.greetinghr.com/ko/o/148313",
-          "createdAt": "2026-03-27T14:38:27.293Z",
-          "updatedAt": "2026-04-03T14:14:12.828Z"
         },
         {
           "postingId": "15879091-7683-4612-bfa6-971e3ce4ef05",
@@ -22878,12 +22996,12 @@
         {
           "accountId": "acc-us-1",
           "currency": "KRW",
-          "balance": 5374
+          "balance": 1639
         },
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 113.5000000000002
+          "balance": 2.2600000000002467
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -22920,7 +23038,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-21T15:55:51.758Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-25T16:49:52.502Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -26125,15 +26243,130 @@
           "costBasis": null
         },
         {
-          "id": "17daf761-a489-4688-a7f9-a7ced3e2216e",
-          "ts": 1779371711730,
+          "id": "69845f2a-c1bf-4f2d-bd67-69c8d982244b",
+          "ts": 1779410414830,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 500000
+        },
+        {
+          "id": "e81924ba-c8e6-4111-bb5b-4be0c1c2aad8",
+          "ts": 1779410504149,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 5000
+        },
+        {
+          "id": "f060ae5d-d3d1-4dde-bb59-ea49589eb3c8",
+          "ts": 1779410554782,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "379810",
+          "side": "BUY",
+          "qty": 10,
+          "price": 29485,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "bb4976bb-782e-4cae-96ca-f60d94be6aa2",
+          "ts": 1779410573341,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "379800",
+          "side": "BUY",
+          "qty": 8,
+          "price": 25440,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "5e9e3b6d-ac96-4f5c-b6b4-71b29be87908",
+          "ts": 1779410619198,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 33000
+        },
+        {
+          "id": "b411a3e8-04db-4513-8018-158ebf54dbda",
+          "ts": 1779410633397,
+          "accountId": "acc-us-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0072R0",
+          "side": "BUY",
+          "qty": 3,
+          "price": 14455,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "e9968d57-fa7b-4820-abe0-a315cbed8dce",
+          "ts": 1779410980915,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 663.57
+        },
+        {
+          "id": "dd5ea0be-9a6e-4899-bcfd-e93608ed0df2",
+          "ts": 1779461678949,
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "type": "TRADE",
           "currency": "USD",
-          "symbol": "NAS:CRWD",
+          "symbol": "NAS:AMZN",
           "side": "BUY",
           "qty": 1,
-          "price": 163.54,
+          "price": 268.18,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "916ac196-8eb6-41cb-99ec-d935ba7e6e6b",
+          "ts": 1779461691308,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:GOOGL",
+          "side": "BUY",
+          "qty": 1,
+          "price": 387.47,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "9101edf3-701e-452f-8fc0-e7a2a58ffe02",
+          "ts": 1779463852955,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 52.76
+        },
+        {
+          "id": "f3896b1d-6e6d-499f-b9ad-490ec403488b",
+          "ts": 1779463880828,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NYS:SNOW",
+          "side": "BUY",
+          "qty": 1,
+          "price": 171.92,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
