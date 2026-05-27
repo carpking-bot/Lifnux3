@@ -2,12 +2,12 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-25T16:49:52.852Z"
+    "exportedAt": "2026-05-27T16:00:15.636Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "_Ngk-DCHfD0",
+        "trackId": "hAEfi_SKTEU",
         "volume": 80,
         "position": 0
       }
@@ -3984,6 +3984,34 @@
           "loggedForDate": "2026-05-25",
           "createdAt": "2026-05-25T13:45:09.553Z",
           "memo": "제1월곡구장"
+        },
+        {
+          "id": "d0b26eb7-ad91-4f03-ad02-e62bf64624b1",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-26",
+          "durationMin": 38,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-27T00:59:03.814Z",
+          "distanceKm": 2.96,
+          "calorieOverride": 117
+        },
+        {
+          "id": "a547d1fe-43b1-4d43-9e88-15d82035ae66",
+          "typeId": "swimming",
+          "loggedForDate": "2026-05-26",
+          "durationMin": 50,
+          "memo": "42회차\n힘빼기, 바닥보기, 옆으로 최대한 몸 돌리기",
+          "createdAt": "2026-05-27T01:01:57.204Z"
+        },
+        {
+          "id": "75442897-b5c7-4114-8785-bbea542136f6",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-27",
+          "durationMin": 42,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-27T04:38:57.220Z",
+          "distanceKm": 3.17,
+          "calorieOverride": 126
         }
       ]
     },
@@ -4317,10 +4345,15 @@
           "date": "2026-05-22",
           "totalKrw": 53806360.02,
           "quality": "final"
+        },
+        {
+          "date": "2026-05-27",
+          "totalKrw": 55452676.8786,
+          "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": false
+        "blurSensitiveNumbers": true
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -9983,6 +10016,7 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -9997,7 +10031,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10295,7 +10328,7 @@
           "watchlisted": true,
           "countryLabel": "KR",
           "sectorMajorLabel": "AI",
-          "sectorLabel": "Semiconductor"
+          "sectorLabel": "AI Infra"
         },
         {
           "id": "kr-stock-005380",
@@ -10985,8 +11018,8 @@
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "stockId": "kr-stock-0185l0",
           "symbolKey": "0185L0",
-          "avgPrice": 10475,
-          "qty": 30,
+          "avgPrice": 10752.5,
+          "qty": 60,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
@@ -11005,18 +11038,6 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "a331d39b-e50c-4499-8ced-8ee88f9d0e99",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "auto-kr-138080",
-          "symbolKey": "138080",
-          "avgPrice": 37900,
-          "qty": 20,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
-        },
-        {
           "id": "da6485b0-7a03-48e4-b672-4ff0dc99a1a7",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-080220",
@@ -11027,6 +11048,18 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Semiconductor"
+        },
+        {
+          "id": "84b5574c-78a8-475e-8425-7b477ee5ded2",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-000660",
+          "symbolKey": "000660",
+          "avgPrice": 2083000,
+          "qty": 1,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -13161,6 +13194,43 @@
           "title": "4월 월급",
           "amount": 2686910,
           "kind": "income"
+        },
+        {
+          "id": "25605449-480a-4726-9ee1-04b3525914cc",
+          "createdAt": 1779844112978,
+          "date": "2026-05-23",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "b44aa54f-eddb-4934-a9f1-fd4b99da6c0a",
+          "createdAt": 1779844132706,
+          "date": "2026-05-24",
+          "category": "Shopping",
+          "title": "유니폼 + 모자",
+          "amount": 212576,
+          "kind": "expense",
+          "memo": "FAREWELL PEP"
+        },
+        {
+          "id": "c59dfbf6-6d89-473b-9dc7-ba6f6d27b0a6",
+          "createdAt": 1779844148154,
+          "date": "2026-05-26",
+          "category": "Subscription",
+          "title": "네이버 MYBOX",
+          "amount": 1638,
+          "kind": "expense"
+        },
+        {
+          "id": "d28c11bc-5ba8-4b92-9f0f-daeecdf88f93",
+          "createdAt": 1779845678314,
+          "date": "2026-05-27",
+          "category": "Subscription",
+          "title": "유튜브 프리미엄",
+          "amount": 14900,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -13203,7 +13273,7 @@
       "lifnux:guitar:state": {
         "selectedSongId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
         "selectedVideoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
-        "loopEnabled": true,
+        "loopEnabled": false,
         "aSec": 0,
         "bSec": 165,
         "speed": 1,
@@ -13676,6 +13746,14 @@
         {
           "dateKey": "2026-05-22",
           "createdAt": 1779461298881
+        },
+        {
+          "dateKey": "2026-05-26",
+          "createdAt": 1779894290818
+        },
+        {
+          "dateKey": "2026-05-27",
+          "createdAt": 1779894291050
         }
       ],
       "lifnux:guitar:videos": [
@@ -13846,11 +13924,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 53805912.800000004,
-        "unrealizedPnlKrw": 13502631.901200004,
-        "realizedPnlYtdKrw": 3543566.8426782605,
+        "totalValueKrw": 55451775.38,
+        "unrealizedPnlKrw": 15233615.739299998,
+        "realizedPnlYtdKrw": 3597614.4372782605,
         "dataQuality": "DEGRADED",
-        "updatedAt": 1779475352973
+        "updatedAt": 1779897604641
       }
     },
     "personalGrowth": {
@@ -20275,15 +20353,15 @@
           "applicationId": "a3e37186-1399-44e8-a951-92040a0ca5d3",
           "postingId": "8fafbd58-f21b-476a-920d-71f113e95de0",
           "appliedAt": "2026-05-20",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "826c0864-7fbd-4978-bb99-07413a4998fa",
               "type": "DOCUMENT",
               "submittedAt": "2026-05-20",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-05-27",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -21843,11 +21921,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "_Ngk-DCHfD0",
-        "queueIndex": 8,
+        "videoId": "hAEfi_SKTEU",
+        "queueIndex": 0,
         "currentTime": 0,
-        "repeatMode": "all",
-        "shuffle": true
+        "repeatMode": "off",
+        "shuffle": false
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -22211,12 +22289,72 @@
             "videoId": "DIPxnt5vnhU",
             "title": "실리카겔 (Silica Gel) - T + Tik Tak Tok (feat. So!YoON!) [M/V]",
             "url": "https://youtu.be/DIPxnt5vnhU?si=Ps-pYkD6nHCmMwQp"
+          },
+          {
+            "id": "06cf2169-7bc2-456b-b81b-edb143888eff",
+            "videoId": "avFO-gl5jQE",
+            "title": "楽音 - mosi mosi? [Official Audio]",
+            "url": "https://youtu.be/avFO-gl5jQE?si=7ncI9L_efdudP2xY"
+          },
+          {
+            "id": "7ee743bc-6606-4b98-8983-d52fe550db3a",
+            "videoId": "0rG4WPZpGaY",
+            "title": "윤마치 (MRCH) - 초록 Green we shared Official M/V",
+            "url": "https://youtu.be/0rG4WPZpGaY?si=r5-t5rQJUH_Iqwni"
+          },
+          {
+            "id": "d82cfa75-6ed4-46bf-a75b-f61e3d54b2c6",
+            "videoId": "X0PUdt1gt5c",
+            "title": "It's You (Feat. NO:EL) (It's You (Feat. NO:EL))",
+            "url": "https://youtu.be/X0PUdt1gt5c?si=MNbAdKmXIflniX3l"
+          },
+          {
+            "id": "e37bd73f-4bf1-4d82-8fbc-2a90087e36db",
+            "videoId": "9TJhl7PqW70",
+            "title": "Noel Gallagher - Live Forever Acoustic (BEST VER.)",
+            "url": "https://youtu.be/9TJhl7PqW70?si=fuI689rT_CSLlzpY"
+          },
+          {
+            "id": "2212f8f6-ec79-47d9-bd3e-9b59a8338820",
+            "videoId": "kuShoImM5jw",
+            "title": "실리카겔(Silica Gel) - Ryudejakeiru | 4K",
+            "url": "https://youtu.be/kuShoImM5jw?si=zFKnVfKrlT8CxrZg"
+          },
+          {
+            "id": "834a02f3-c2ca-4376-87d3-8e40e0a9a823",
+            "videoId": "Q49pnA4jsp8",
+            "title": "wave to earth - love. (Official Lyric Video)",
+            "url": "https://youtu.be/Q49pnA4jsp8?si=L_9dCihIfl6BRBtp"
+          },
+          {
+            "id": "3d8436c5-10d4-4c3d-afa9-47caadd22930",
+            "videoId": "6Q5xqNkCk7w",
+            "title": "wave to earth - bad (Official Lyric Video)",
+            "url": "https://youtu.be/6Q5xqNkCk7w?si=VwqBRtIzZtkHOrZt"
+          },
+          {
+            "id": "8e73ba54-2fc0-4379-80c6-24119551543f",
+            "videoId": "l3AmjZ7ZQGM",
+            "title": "World:Noise",
+            "url": "https://youtu.be/l3AmjZ7ZQGM?si=TGcGIB7paRLIvXIq"
+          },
+          {
+            "id": "df2e107f-beb3-4721-be49-56863c129eb4",
+            "videoId": "5OiQZirjNBg",
+            "title": "리도어 (Redoor) - 청우 (靑雨) blue rain",
+            "url": "https://youtu.be/5OiQZirjNBg?si=-CRGkqK9YbZfW07g"
+          },
+          {
+            "id": "a89b3903-c5eb-44bf-a1c9-27ff13560e5e",
+            "videoId": "avo8_7QSXrQ",
+            "title": "Still in Love with You",
+            "url": "https://youtu.be/avo8_7QSXrQ?si=J4YlQTteFBqHPsdp"
           }
         ],
-        "currentIndex": 8,
+        "currentIndex": 0,
         "isPlaying": true,
-        "shuffle": true,
-        "repeatMode": "all",
+        "shuffle": false,
+        "repeatMode": "off",
         "presets": [
           {
             "id": "1dcabc53-c48d-479b-b449-746e0c328877",
@@ -22576,7 +22714,9 @@
             1776149272274,
             1776996627372,
             1776999539186,
-            1777259319175
+            1777259319175,
+            1779855108469,
+            1779856334613
           ],
           "3VlqlntAOt8": [
             1776046005066,
@@ -22594,7 +22734,9 @@
             1776998303942,
             1777004364530,
             1777008509908,
-            1777253182666
+            1777253182666,
+            1779852689027,
+            1779869451961
           ],
           "Aq_gsctWHtQ": [
             1776046501866,
@@ -22606,7 +22748,8 @@
             1776819966202,
             1777007197781,
             1777252989692,
-            1777263554596
+            1777263554596,
+            1779850018075
           ],
           "rMWUpRGtSo4": [
             1776046768349,
@@ -22626,7 +22769,9 @@
             1776760700688,
             1776819209354,
             1777001196696,
-            1777264001430
+            1777264001430,
+            1779863187677,
+            1779868687609
           ],
           "_0f5FjEQzsg": [
             1776047190172,
@@ -22649,7 +22794,9 @@
             1776759538036,
             1777006016164,
             1777254101466,
-            1777261142173
+            1777261142173,
+            1779850989174,
+            1779857475040
           ],
           "7mjg-7ibaQA": [
             1776047963574,
@@ -22682,7 +22829,9 @@
           ],
           "h0KIWaUEIgQ": [
             1776049040738,
-            1776056814748
+            1776056814748,
+            1779868222173,
+            1779868854347
           ],
           "AOGhUcAdTKk": [
             1776049273164,
@@ -22694,13 +22843,15 @@
             1777001932158,
             1777002367235,
             1777254984393,
-            1777260926873
+            1777260926873,
+            1779856566978
           ],
           "Z2tv0GyQdL8": [
             1776049543716,
             1776150237560,
             1777001699727,
-            1777260471855
+            1777260471855,
+            1779849263900
           ],
           "1ZX1vEDTfY4": [
             1776050147055,
@@ -22742,14 +22893,17 @@
             1776067101748,
             1776069218502,
             1776821346874,
-            1777002677065
+            1777002677065,
+            1779855869023,
+            1779870025411
           ],
           "YzJW3lJeZa0": [
             1776051895297,
             1776055255543,
             1776058187966,
             1777005800758,
-            1777258439086
+            1777258439086,
+            1779862977384
           ],
           "56XiKr44a9U": [
             1776052112117,
@@ -22759,14 +22913,18 @@
           ],
           "z2DASn4UHqE": [
             1776052905869,
-            1776056982426
+            1776056982426,
+            1779870193186
           ],
           "P3YURx8awqQ": [
             1776053957451,
             1776057889838,
             1776758851331,
             1776759762862,
-            1777008316974
+            1777008316974,
+            1779853364180,
+            1779854657737,
+            1779857699775
           ],
           "NOXRroYA8Tc": [
             1776054166226,
@@ -22776,7 +22934,8 @@
             1777005246407,
             1777008718832,
             1777255887632,
-            1777339235721
+            1777339235721,
+            1779852297726
           ],
           "IpFX2vq8HKw": [
             1776054620951,
@@ -22789,7 +22948,8 @@
           "4AJx9nNagr0": [
             1776054763679,
             1776065233226,
-            1777255678528
+            1777255678528,
+            1779862679229
           ],
           "TiOpGgCXeT0": [
             1776054957735,
@@ -22797,12 +22957,14 @@
             1776148249521,
             1776998110887,
             1777338379813,
-            1777339026694
+            1777339026694,
+            1779850405949
           ],
           "tIvAQR9Zj8M": [
             1776055400420,
             1776063446195,
-            1776066355406
+            1776066355406,
+            1779854433047
           ],
           "hAEfi_SKTEU": [
             1776055600573,
@@ -22812,7 +22974,9 @@
             1777000302089,
             1777252685617,
             1777264764172,
-            1777265652399
+            1777265652399,
+            1779855559321,
+            1779866758168
           ],
           "DIPxnt5vnhU": [
             1776056457187,
@@ -22824,12 +22988,19 @@
             1776758626270,
             1777258889573,
             1777259769547,
-            1777265452266
+            1777265452266,
+            1779848763333,
+            1779849714163,
+            1779851642288,
+            1779853139425,
+            1779863867590
           ],
           "Bq2K9CqpRKg": [
             1776057664987,
             1776821037121,
-            1777263250732
+            1777263250732,
+            1779867640742,
+            1779869258346
           ],
           "h2TjzsvFX0s": [
             1776058374792,
@@ -22837,11 +23008,13 @@
             1776819396154,
             1777006639166,
             1777256074255,
-            1777338566665
+            1777338566665,
+            1779862536541
           ],
           "pRmsP7A-DtY": [
             1776058854279,
-            1776998552317
+            1776998552317,
+            1779854288138
           ],
           "m3DZsBw5bnE": [
             1776059350514,
@@ -22858,7 +23031,8 @@
             1777252485289,
             1777255213976,
             1777260201485,
-            1777263045163
+            1777263045163,
+            1779863417096
           ],
           "aF8OFSroHgg": [
             1776061207949,
@@ -22870,13 +23044,17 @@
             1776067750292,
             1776069610796,
             1776997471579,
-            1777000986221
+            1777000986221,
+            1779852496032,
+            1779869052788
           ],
           "4SrrieLwsOI": [
             1776061899359,
             1776759322834,
             1777000788023,
-            1777009490014
+            1777009490014,
+            1779853620813,
+            1779856823426
           ],
           "E5BLkMGxDgQ": [
             1776063683641,
@@ -22886,13 +23064,15 @@
             1776149059184,
             1776760289961,
             1777262815739,
-            1777265001786
+            1777265001786,
+            1779854895308
           ],
           "DY6oa7CspBs": [
             1776064478296,
             1776143034560,
             1776149492911,
-            1777337633931
+            1777337633931,
+            1779868055472
           ],
           "IPnUVZEyzdI": [
             1776066210554,
@@ -22902,32 +23082,38 @@
           ],
           "aLTtvgXMZyA": [
             1776068696079,
-            1777258141053
+            1777258141053,
+            1779868477347
           ],
           "lthsxQQhrDc": [
             1776069412667,
             1776820831893,
-            1777262387439
+            1777262387439,
+            1779850212123,
+            1779867834686
           ],
           "ujCdcX6o3e0": [
             1776070329820,
             1776763299300,
             1777002907215,
-            1777007855376
+            1777007855376,
+            1779848993261
           ],
           "m_MuSyqkGJI": [
             1776142596951,
             1776760960129,
             1776762802643,
             1777261990872,
-            1777337893258
+            1777337893258,
+            1779867017820
           ],
           "KpM6xNAgRoI": [
             1776144130423,
             1776759066230,
             1776995713352,
             1777003334050,
-            1777004579429
+            1777004579429,
+            1779867435373
           ],
           "kIiW3XRP7bU": [
             1776144611791,
@@ -22938,21 +23124,26 @@
           "74_yqNBhQbA": [
             1776145998032,
             1776999128784,
-            1777006893896
+            1777006893896,
+            1779853875547
           ],
           "kPa7bsKwL-c": [
             1776149745568,
             1776997917286,
             1777009965364,
-            1777253435330
+            1777253435330,
+            1779856121778,
+            1779862349897
           ],
           "LmZD-TU96q4": [
-            1776761591759
+            1776761591759,
+            1779852088645
           ],
           "odDxJliW2Fg": [
             1776762028010,
             1776821992177,
-            1777006452517
+            1777006452517,
+            1779857259674
           ],
           "tKERw3_ked0": [
             1776995498306,
@@ -22963,7 +23154,9 @@
             1777002134718,
             1777253886183,
             1777259972060,
-            1777262193485
+            1777262193485,
+            1779851191800,
+            1779867220322
           ],
           "9XttLI0oH0I": [
             1776999326177
@@ -22972,10 +23165,46 @@
             1777003627096,
             1777009233534,
             1777261731217,
-            1777338186161
+            1777338186161,
+            1779851935104
           ],
           "oyXx7MDqZ-Q": [
             1777254325042
+          ],
+          "l3AmjZ7ZQGM": [
+            1779850773807,
+            1779866019774
+          ],
+          "avFO-gl5jQE": [
+            1779854039704,
+            1779864031411
+          ],
+          "kuShoImM5jw": [
+            1779855359180,
+            1779865081965
+          ],
+          "9TJhl7PqW70": [
+            1779858008797,
+            1779864831313
+          ],
+          "0rG4WPZpGaY": [
+            1779864273658
+          ],
+          "X0PUdt1gt5c": [
+            1779864522120
+          ],
+          "Q49pnA4jsp8": [
+            1779865388088
+          ],
+          "6Q5xqNkCk7w": [
+            1779865651656,
+            1779869715394
+          ],
+          "5OiQZirjNBg": [
+            1779866250001
+          ],
+          "avo8_7QSXrQ": [
+            1779866557372
           ]
         }
       }
@@ -23011,7 +23240,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 2615771
+          "balance": 1026871
         }
       ]
     },
@@ -23038,7 +23267,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-25T16:49:52.502Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-27T16:00:15.180Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -26367,6 +26596,34 @@
           "side": "BUY",
           "qty": 1,
           "price": 171.92,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "c285085a-095a-4bcf-9586-575644d719ba",
+          "ts": 1779842793761,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "138080",
+          "side": "SELL",
+          "qty": 20,
+          "price": 41250,
+          "realizedPnl": 67000,
+          "realizedPnlPercent": 8.839050131926122,
+          "costBasis": 758000
+        },
+        {
+          "id": "5ed33dfe-88cd-4a56-b570-8fe0ab415b94",
+          "ts": 1779842826025,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0185L0",
+          "side": "BUY",
+          "qty": 30,
+          "price": 11030,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
