@@ -2,14 +2,14 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-27T08:25:12.119Z"
+    "exportedAt": "2026-05-28T09:11:09.830Z"
   },
   "data": {
     "lastState": {
       "music.lastState": {
-        "trackId": "aZtZNW6P97E",
+        "trackId": "hAEfi_SKTEU",
         "volume": 80,
-        "position": 112.7611429332428
+        "position": 0
       }
     },
     "health": {
@@ -4012,6 +4012,16 @@
           "createdAt": "2026-05-27T04:38:57.220Z",
           "distanceKm": 3.17,
           "calorieOverride": 126
+        },
+        {
+          "id": "644694d8-e83d-4822-9ea2-37b8f54d1312",
+          "typeId": "walking",
+          "loggedForDate": "2026-05-28",
+          "durationMin": 45,
+          "memo": "점심 산책",
+          "createdAt": "2026-05-28T04:43:51.710Z",
+          "distanceKm": 3.62,
+          "calorieOverride": 143
         }
       ]
     },
@@ -4348,12 +4358,17 @@
         },
         {
           "date": "2026-05-27",
-          "totalKrw": 55505829.32,
+          "totalKrw": 55452676.8786,
+          "quality": "final"
+        },
+        {
+          "date": "2026-05-28",
+          "totalKrw": 56187849.5392,
           "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -10978,18 +10993,6 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "58ea7805-1cf8-46fe-94f5-3c0f2a934625",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-0087f0",
-          "symbolKey": "0087F0",
-          "avgPrice": 12115.57142857143,
-          "qty": 70,
-          "currency": "KRW",
-          "countryLabel": "CN",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "Big Tech"
-        },
-        {
           "id": "755881fd-2618-4d6c-b9f9-c91e1e166bc7",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-0043y0",
@@ -11002,40 +11005,16 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "813c6074-79fb-48a0-b219-7fce50b22831",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "auto-kr-005930",
-          "symbolKey": "005930",
-          "avgPrice": 297500,
-          "qty": 5,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "Semiconductor"
-        },
-        {
           "id": "36dbd8c1-12eb-4015-82bb-fb63f7817809",
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "stockId": "kr-stock-0185l0",
           "symbolKey": "0185L0",
-          "avgPrice": 10752.5,
-          "qty": 60,
+          "avgPrice": 10625.625,
+          "qty": 80,
           "currency": "KRW",
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Robotics"
-        },
-        {
-          "id": "19fba24b-13f1-4a7b-b0a2-d38f3bf9effe",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-426030",
-          "symbolKey": "426030",
-          "avgPrice": 53480,
-          "qty": 20,
-          "currency": "KRW",
-          "countryLabel": "US",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
         },
         {
           "id": "da6485b0-7a03-48e4-b672-4ff0dc99a1a7",
@@ -11048,18 +11027,6 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Semiconductor"
-        },
-        {
-          "id": "84b5574c-78a8-475e-8425-7b477ee5ded2",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-000660",
-          "symbolKey": "000660",
-          "avgPrice": 2083000,
-          "qty": 1,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -13231,6 +13198,24 @@
           "title": "유튜브 프리미엄",
           "amount": 14900,
           "kind": "expense"
+        },
+        {
+          "id": "5cae5cdc-de7d-4c54-b4a1-c580f70502d4",
+          "createdAt": 1779929040267,
+          "date": "2026-05-28",
+          "category": "Game",
+          "title": "레벨업 패키지",
+          "amount": 37000,
+          "kind": "expense"
+        },
+        {
+          "id": "ee3d6286-d977-4c9f-925d-cad07e1beb36",
+          "createdAt": 1779929048131,
+          "date": "2026-05-28",
+          "category": "Game",
+          "title": "패스",
+          "amount": 12000,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -13271,9 +13256,9 @@
     "guitar": {
       "lifnux.guitar.songs.v100": [],
       "lifnux:guitar:state": {
-        "selectedSongId": "1d0fa79f-4425-43b8-b627-7fb56755b3f6",
-        "selectedVideoId": "8ee4d79d-c420-4399-8553-3965e33a66f2",
-        "loopEnabled": true,
+        "selectedSongId": "f11a2fa8-e04c-425f-8a59-cd698dec289c",
+        "selectedVideoId": "94a0df76-a098-4523-bf43-2f56b1de8499",
+        "loopEnabled": false,
         "aSec": 0,
         "bSec": 165,
         "speed": 1,
@@ -13746,6 +13731,14 @@
         {
           "dateKey": "2026-05-22",
           "createdAt": 1779461298881
+        },
+        {
+          "dateKey": "2026-05-26",
+          "createdAt": 1779894290818
+        },
+        {
+          "dateKey": "2026-05-27",
+          "createdAt": 1779894291050
         }
       ],
       "lifnux:guitar:videos": [
@@ -13916,11 +13909,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 55505829.32,
-        "unrealizedPnlKrw": 15287669.679299995,
-        "realizedPnlYtdKrw": 3597614.4372782605,
+        "totalValueKrw": 56187849.5392,
+        "unrealizedPnlKrw": 15740404.970599994,
+        "realizedPnlYtdKrw": 3806760.1558782607,
         "dataQuality": "OK",
-        "updatedAt": 1779864450997
+        "updatedAt": 1779955668203
       }
     },
     "personalGrowth": {
@@ -21261,6 +21254,48 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "417eaa19-c2a3-406c-b930-f8a0c1ea6521",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "네이버",
+          "postingTitle": "게임·e스포츠 콘텐츠 파트너십 매니저",
+          "role": "서비스비즈",
+          "contractType": "정규직",
+          "departmentInfo": "﻿게임사, e스포츠 리그/대회 주관사, 스트리머 및 콘텐츠 파트너와의 협업을 통해 플랫폼 내 게임 콘텐츠 생태계를 확대하는 역할을 수행하는 조직입니다. 게임 및 e스포츠 산업은 콘텐츠, 스트리머, 커뮤니티, 플랫폼이 유기적으로 연결되어 움직이는 시장이며, 플랫폼 경쟁력 역시 어떤 콘텐츠와 파트너십을 확보하고 어떻게 이용자 경험으로 연결하느냐에 따라 크게 달라지고 있습니다.\n\n이러한 환경 속에서 게임 및 e스포츠 IP 기반 협업 기회를 발굴하고, 외부 파트너와의 전략적 관계를 구축하며 확보한 콘텐츠와 사업 기회를 실제 플랫폼 프로젝트로 연결하는 역할을 담당합니다. 주요 협업 대상은 국내외 게임사, e스포츠 리그/대회 운영사, 스트리머 및 MCN 등이며, 콘텐츠·서비스·마케팅 등 다양한 내부 조직과 협업하여 프로젝트를 운영합니다.\n\n단순 운영성 제휴보다는, 게임 및 e스포츠 산업에 대한 이해를 기반으로 새로운 콘텐츠와 사업 기회를 만들어가며, 빠르게 변화하는 게임·스트리밍 시장 안에서 다양한 프로젝트를 경험할 수 있습니다.",
+          "responsibilities": "﻿• 게임·e스포츠 파트너십 운영\n***- 국내외 게임사 및 e스포츠 파트너와의 협업 프로젝트 운영\n***- 플랫폼 내 게임 콘텐츠 활성화를 위한 협업 과제 실행 및 파트너사와의 커뮤니케이션·운영 이슈 관리\n\n﻿• 콘텐츠 및 이벤트 기획\n***- 스트리머 참여형 게임 콘텐츠 및 이벤트 기획/운영\n***- 게임사 협업 기반 오리지널 콘텐츠 프로젝트 지원 및 콘텐츠 제작/운영 조직과의 협업 진행\n***- 게임 시즌, 업데이트, e스포츠 일정과 연계한 콘텐츠 및 프로모션 기획\n\n﻿• 신규 파트너십 발굴 및 계약\n***- 신규 게임·e스포츠 파트너십 기회 발굴 및 게임 IP 기반 콘텐츠 확장 아이디어 도출\n***- 계약·운영 정책 관련 실무 지원 및 시장·산업 트렌드 리서치",
+          "requirements": "﻿﻿• 게임·콘텐츠 산업 유관 경험 및 도메인 이해도\n ***- 게임사·콘텐츠 플랫폼·MCN·e스포츠 업계에서 게임/스트리밍 콘텐츠 소비 구조를 직접 다뤄본 실무 경험이 있으신 분\n \n﻿• 프로젝트 운영 및 협업 경험\n﻿***- 프로젝트 단위 업무를 주도적으로 운영하거나 관리해본 경험이 있으신 분\n﻿***- 다양한 이해관계자와 원활하게 커뮤니케이션하고 협업할 수 있는 분\n\n﻿• 문서 작성 및 업무 커뮤니케이션 역량\n﻿***- 기획안, 보고서, 제안서 등 문서 작성 및 업무 커뮤니케이션 역량이 우수하신 분\n﻿***- 사업·산업 동향을 정리하고 인사이트를 구조화하여 전달할 수 있는 분",
+          "neededSkills": "",
+          "preferred": "﻿﻿• 게임·스트리밍 콘텐츠 이해도\n***- 게임·e스포츠 콘텐츠를 평소 즐기고 스트리밍 문화에 대한 이해도가 높으신 분\n\n﻿***- 게임·스트리밍 콘텐츠 트렌드를 빠르게 파악하고 본인의 업무에 적용할 수 있는 분\n \n﻿• 콘텐츠 제작·운영 실무 경험\n﻿***- 콘텐츠 제작, 방송, 이벤트 운영 등 실무 경험이 있으신 분\n﻿***- 오리지널 콘텐츠 또는 IP 기반 프로젝트 운영 경험이 있으신 분\n\n﻿• 외국어 커뮤니케이션 역량\n﻿***- 영어 커뮤니케이션이 가능하신 분\n﻿***- 일본어 커뮤니케이션이 가능하신 분",
+          "memo": "지원서 접수 마감 : 2026.06.01(월) 10:00\n서류전형&기업문화 적합도 검사 : 6월 2주차 ~ 6월 3주차 중\nㅤ* 기업문화 적합도 검사 응시 기간 : 06.05(금) ~ 06.08(월) 예정 (온라인 진행)\n직무 인터뷰 : 6월 4주차 중\n종합 인터뷰 : 7월 1주차 중",
+          "comment": "",
+          "deadline": "2026-06-01",
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://recruit.navercorp.com/rcrt/view.do?annoId=30004900&lang=ko",
+          "createdAt": "2026-05-28T06:44:50.192Z",
+          "updatedAt": "2026-05-28T06:44:54.241Z"
+        },
+        {
+          "postingId": "beb19324-4583-4512-9e14-41764fd649bf",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "게임듀오",
+          "postingTitle": "퍼포먼스 마케터",
+          "role": "마케팅",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "모바일 게임 유저 획득을 위한 다양한 활동을 진행합니다.\nMeta, Google, Tiktok, Moloco 등 여러 매체를 활용하여 다양한 캠페인을 운영하고 관리합니다.\n캠페인 운영 데이터를 기반으로 성과를 분석하고, 이를 바탕으로 광고 전략을 수립합니다.\n신규 게임 출시 및 기존 게임 업데이트에 맞춰 다양한 캠페인을 운영합니다.",
+          "requirements": "엑셀 중급 이상의 실력을 갖추신 분\n높은 책임감과 꼼꼼함으로 업무를 수행하시는 분\n뛰어난 커뮤니케이션 및 협업 능력을 보유하고 계신 분",
+          "neededSkills": "",
+          "preferred": "모바일 게임 퍼포먼스 마케팅 또는 그로스 마케팅 집행 경험이 있으신 분\nAttribution tool(AppsFlyer, Singular 등)에 대한 지식을 보유하신 분\n마케팅 관련 데이터 관리 및 자동화 진행 경험이 있으신 분\n통계 관련 자격증 또는 관련 지식을 보유하신 분\n게임 마케팅 관련 본인만의 인사이트를 보유하신 분\n퍼포먼스 마케팅 관련 포트폴리오를 제출하실 수 있는 분",
+          "memo": "서류 전형 > 인터뷰 전형 > 처우 협의 > 최종 합격\n서류 전형 : 필수 자격 요건과 지원 동기를 확인하고 있습니다.\n인터뷰 전형 : 직군에 따라 1-2차 인터뷰를 통해 실무 역량과 문화 적합도를 평가합니다.\n처우 협의 : 함께 경쟁력 있는 처우를 협의합니다.",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://gameduo.recruit.roundhr.com/c/jHKwg4vKNx?back=true",
+          "createdAt": "2026-05-28T06:32:24.677Z",
+          "updatedAt": "2026-05-28T06:32:28.213Z"
+        },
+        {
           "postingId": "01e3d78e-9d32-4877-8f7a-ff40050110ce",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "비트망고",
@@ -21913,11 +21948,11 @@
         }
       ],
       "lifnux.music.resume.v110": {
-        "videoId": "aZtZNW6P97E",
-        "queueIndex": 21,
-        "currentTime": 112.7611429332428,
-        "repeatMode": "all",
-        "shuffle": true
+        "videoId": "hAEfi_SKTEU",
+        "queueIndex": 0,
+        "currentTime": 0,
+        "repeatMode": "off",
+        "shuffle": false
       },
       "lifnux.music.state.v100": {
         "queue": [
@@ -22341,12 +22376,18 @@
             "videoId": "avo8_7QSXrQ",
             "title": "Still in Love with You",
             "url": "https://youtu.be/avo8_7QSXrQ?si=J4YlQTteFBqHPsdp"
+          },
+          {
+            "id": "d7e6edc2-7fb2-4023-ba0a-9c6794af3af4",
+            "videoId": "CnVVjLOGVoY",
+            "title": "wave to earth - seasons",
+            "url": "https://youtu.be/CnVVjLOGVoY?si=yC2BrQzn3jm7gDTs"
           }
         ],
-        "currentIndex": 21,
-        "isPlaying": true,
-        "shuffle": true,
-        "repeatMode": "all",
+        "currentIndex": 0,
+        "isPlaying": false,
+        "shuffle": false,
+        "repeatMode": "off",
         "presets": [
           {
             "id": "1dcabc53-c48d-479b-b449-746e0c328877",
@@ -23212,7 +23253,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 204975
+          "balance": 1180425
         },
         {
           "accountId": "acc-us-1",
@@ -23232,7 +23273,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 1026871
+          "balance": 5537151
         }
       ]
     },
@@ -23259,7 +23300,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-27T08:25:11.296Z"
+      "lifnux:data.lastUpdatedAt": "2026-05-28T09:11:09.666Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -26619,11 +26660,85 @@
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
+        },
+        {
+          "id": "167ada3d-c939-4fac-a517-fb0669929dbd",
+          "ts": 1779942625662,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "005930",
+          "side": "SELL",
+          "qty": 5,
+          "price": 288000,
+          "realizedPnl": -47500,
+          "realizedPnlPercent": -3.1932773109243695,
+          "costBasis": 1487500
+        },
+        {
+          "id": "798ecaff-5946-4f20-896d-8cbf8b80224a",
+          "ts": 1779942652814,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "000660",
+          "side": "SELL",
+          "qty": 1,
+          "price": 2210000,
+          "realizedPnl": 127000,
+          "realizedPnlPercent": 6.096975516082574,
+          "costBasis": 2083000
+        },
+        {
+          "id": "0203a696-0b42-4913-aa54-263c02a69da0",
+          "ts": 1779942813048,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 9794820
+        },
+        {
+          "id": "7472b699-393e-440a-9357-c03770df7c56",
+          "ts": 1779942864577,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0185L0",
+          "side": "BUY",
+          "qty": 20,
+          "price": 10245,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "12771ab3-b31a-4959-9590-8a412e9f31bc",
+          "ts": 1779942892593,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 20000
+        },
+        {
+          "id": "633ae59f-3e89-40f8-9275-f7de3b1eb16e",
+          "ts": 1779943081795,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0087F0",
+          "side": "SELL",
+          "qty": 70,
+          "price": 13935,
+          "realizedPnl": 127359.99999999994,
+          "realizedPnlPercent": 15.017274110059068,
+          "costBasis": 848090
         }
       ]
     },
     "playerUIOpen": {
-      "music.playerUIOpen": true
+      "music.playerUIOpen": false
     },
     "-music-presets-v1": {
       "lifnux-music-presets-v1": [
