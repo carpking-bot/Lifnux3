@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-05-31T16:18:03.309Z"
+    "exportedAt": "2026-06-01T16:47:23.687Z"
   },
   "data": {
     "lastState": {
@@ -4070,6 +4070,23 @@
           "loggedForDate": "2026-05-31",
           "durationMin": 20,
           "createdAt": "2026-05-31T15:53:05.526Z"
+        },
+        {
+          "id": "b3f59a66-5fd8-478a-8cf1-8e85bfd599f6",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-01",
+          "durationMin": 35,
+          "memo": "점심 산책",
+          "createdAt": "2026-06-01T04:30:16.908Z",
+          "distanceKm": 2.87,
+          "calorieOverride": 113
+        },
+        {
+          "id": "58b45756-da48-4d49-9266-32cf4d8fcbeb",
+          "typeId": "home",
+          "loggedForDate": "2026-06-01",
+          "durationMin": 20,
+          "createdAt": "2026-06-01T16:47:21.203Z"
         }
       ]
     },
@@ -4417,6 +4434,11 @@
         {
           "date": "2026-05-29",
           "totalKrw": 57539510.46999999,
+          "quality": "final"
+        },
+        {
+          "date": "2026-06-01",
+          "totalKrw": 59323311.251200005,
           "quality": "final"
         }
       ],
@@ -10124,6 +10146,7 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -10138,7 +10161,6 @@
           "watchlisted": true
         }
       ],
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10368,7 +10390,7 @@
           "market": "KR",
           "label": "TIME K바이오액티브",
           "name": "463050",
-          "watchlisted": true,
+          "watchlisted": false,
           "mktCapRank": 9999,
           "last": 123146,
           "changePct": 2.46,
@@ -10436,7 +10458,7 @@
           "watchlisted": true,
           "countryLabel": "KR",
           "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
+          "sectorLabel": "Semiconductor"
         },
         {
           "id": "kr-stock-005380",
@@ -10509,7 +10531,7 @@
           "changeAbs": -0.1602,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true,
+          "watchlisted": false,
           "countryLabel": "KR",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Index"
@@ -10528,7 +10550,7 @@
           "changeAbs": 3.4608,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true,
+          "watchlisted": false,
           "countryLabel": "US",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Index"
@@ -10604,7 +10626,7 @@
           "changeAbs": 2.65625,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true,
+          "watchlisted": false,
           "countryLabel": "US",
           "sectorMajorLabel": "AI",
           "sectorLabel": "Big Tech"
@@ -10661,7 +10683,7 @@
           "changeAbs": -1643.04,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true,
+          "watchlisted": false,
           "countryLabel": "KR",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Inverse"
@@ -10680,7 +10702,7 @@
           "changeAbs": 6.19905,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true
+          "watchlisted": false
         },
         {
           "id": "us-stock-ams:soxs",
@@ -10696,7 +10718,7 @@
           "changeAbs": 5.9502,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": true,
+          "watchlisted": false,
           "countryLabel": "US",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Inverse"
@@ -10773,6 +10795,43 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Non AI",
           "sectorLabel": "Semiconductor"
+        },
+        {
+          "id": "kr-stock-0177a0",
+          "label": "WON 두산그룹포커스",
+          "symbol": "0177A0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1780288265719,
+          "last": 155200,
+          "changePct": -1,
+          "changeAbs": -1552,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "kr-stock-440110",
+          "label": "파두",
+          "symbol": "440110",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1780293833517,
+          "last": 107568,
+          "changePct": 2.68,
+          "changeAbs": 2882.8224,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -11086,30 +11145,6 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "755881fd-2618-4d6c-b9f9-c91e1e166bc7",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-0043y0",
-          "symbolKey": "0043Y0",
-          "avgPrice": 21720.428571428572,
-          "qty": 70,
-          "currency": "KRW",
-          "countryLabel": "CN",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
-        },
-        {
-          "id": "36dbd8c1-12eb-4015-82bb-fb63f7817809",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-0185l0",
-          "symbolKey": "0185L0",
-          "avgPrice": 10625.625,
-          "qty": 80,
-          "currency": "KRW",
-          "countryLabel": "US",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "Robotics"
-        },
-        {
           "id": "da6485b0-7a03-48e4-b672-4ff0dc99a1a7",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-080220",
@@ -11120,18 +11155,6 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Non AI",
           "sectorLabel": "Semiconductor"
-        },
-        {
-          "id": "d229c682-cf59-4b8f-bb7d-5852bbba3e3b",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-426030",
-          "symbolKey": "426030",
-          "avgPrice": 56900,
-          "qty": 10,
-          "currency": "KRW",
-          "countryLabel": "US",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
         },
         {
           "id": "c8d89bc0-4fd8-4c2e-9f6f-6f3570748aea",
@@ -11154,6 +11177,29 @@
           "qty": 1,
           "currency": "KRW",
           "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
+        },
+        {
+          "id": "509a6758-fa67-4a58-8230-ae848c02e372",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-0177a0",
+          "symbolKey": "0177A0",
+          "avgPrice": 14590,
+          "qty": 100,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "966d738a-f43d-4474-b121-11ca1f1de1db",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-440110",
+          "symbolKey": "440110",
+          "avgPrice": 109900,
+          "qty": 5,
+          "currency": "KRW",
           "sectorMajorLabel": "AI",
           "sectorLabel": "AI Infra"
         }
@@ -14170,11 +14216,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 57539510.46999999,
-        "unrealizedPnlKrw": 17025247.692099996,
-        "realizedPnlYtdKrw": 3807522.062078261,
+        "totalValueKrw": 59323311.251200005,
+        "unrealizedPnlKrw": 18478239.771000005,
+        "realizedPnlYtdKrw": 4033423.030278261,
         "dataQuality": "OK",
-        "updatedAt": 1780072746241
+        "updatedAt": 1780332369723
       }
     },
     "personalGrowth": {
@@ -20432,6 +20478,88 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "67d807d4-d94e-4f14-9a5c-dc0dca9c4158",
+          "postingId": "ea2574b9-5c71-4b1d-b076-86495d41c15d",
+          "appliedAt": "2026-06-01",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "e510daa1-f7c2-459b-9dbf-e4304775651a",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-01",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "6a383bff-d467-4b18-ba7b-fe45f16dd043",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "196165f1-ea16-4d2f-946b-042424fc13dd",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "57362359-123d-477b-a68d-68af634b676a",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "30fc0fa3-9770-4ce7-9dec-dc88c0751d4f",
+          "postingId": "3937cfc3-8b14-4a27-bda0-607adac7be11",
+          "appliedAt": "2026-06-01",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "92265fde-719f-4790-9e54-d107ff38d8db",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-01",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "c2922303-eed7-4533-8603-61331d1d5d4e",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "7464e282-354e-42f3-925b-b046d2ff8b2b",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "7f8d62e7-70ed-4c84-a03d-2a1c37058e4b",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "303b78b8-3f61-4c4f-b368-28bd69e329ab",
           "postingId": "7e1b0ace-7b70-4bb7-8aa9-66576b654553",
           "appliedAt": "2026-05-25",
@@ -21514,6 +21642,69 @@
         }
       ],
       "career_job_postings": [
+        {
+          "postingId": "afc5b516-3d3a-4950-9b33-45fb7296d05f",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "슈퍼크리에이티브",
+          "postingTitle": "시장 및 경쟁 게임 분석 프로젝트 매니저",
+          "role": "PM",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "서비스기획팀에서 아래의 업무를 담당해 주실 분을 모십니다.\n\n• 게임 시장 및 커뮤니티 리서치\n• 경쟁 서브컬쳐 게임 구조 및 BM 분석\n• 자사 게임 포지셔닝 전략 수립 및 인사이트 제안\n• 데이터 분석가 및 유관 조직과 협업하여 실행 가능한 인사이트 도출",
+          "requirements": "• 관련 경력 1년 이상\n\n• 라이브 서비스 게임 기획 또는 사업PM 경험이 있는 분\n\n• 서브컬쳐 장르 게임에 대한 이해도가 높은 분\n\n• 데이터 기반 사고 및 문제 해결 능력을 보유한 분\n• 논리적 문서화 및 구조화 능력을 보유한 분\n\n• 해외여행에 결격사유가 없는 분",
+          "neededSkills": "",
+          "preferred": "• 서브컬쳐 장르 헤비 유저 경험을 보유한 분\n• 데이터 설계 및 분석 요구사항 정의 경험을 보유한 분\n• SQL/Hive 등 로그 기반 데이터 구조에 대한 이해도가 높은 분\n• 사업PM 또는 라이브 프로젝트 리딩 경험이 있는 분\n• 다부서 협업을 통해 성과를 만든 경험이 있는 분\n• 에픽세븐 또는 카오스 제로 나이트메어 플레이 경험이 있는 분\n• 게임 커뮤니티에 자주 접속하는 분",
+          "memo": "본 포지션은 시장 해석 능력과 구조적 사고 역량을 중요하게 평가합니다.\n가능한 경우, 아래 과제 중 1개 이상을 선택하여 제출해 주세요. (미제출 하셔도 감점없으니 자유롭게 제출 바랍니다.)\n\n1. 서브컬쳐 시장 및 포지셔닝 분석\n• 특정 서브컬쳐 RPG 1개 이상을 선정하여 시장 내 포지션, 차별 요소, 경쟁 우위 구조를 분석해 주세요.\n\n2. 서브컬쳐 게임 구조 분석\n• 아래 게임 중 1개 이상을 선택하여 분석해 주세요. (예시 외 서브컬쳐 게임으로 진행하셔도 무방합니다.)\n(ex. 카제나, 에픽세븐, 명일방주, 원신, 붕괴:스타레일, 명조 등)\n• 분석 내용 예시\n: 코어 루프 구조, 성장 시스템 설계, 재화 순환 구조, BM 특징 등\n\n3. 개선 제안 과제\n• 대상 게임 : 카제나 또는 에픽세븐\n• 제안 방향 : \nLTV 및 PLC(제품 수명 주기) 증진을 위한 제품 개선안 또는 BM 강화 전략 제안\n\n\n ※ 단순 요약이 아닌 본인의 해석, 판단, 적용, 인사이트를 중요하게 평가합니다.\n    형식은 자유이며 기존 작성 자료 일부 발췌 제출도 가능합니다.",
+          "comment": "",
+          "deadline": null,
+          "importance": 7,
+          "isFavorite": true,
+          "link": "https://recruit.supercreative.kr/job_posting/9dwgSpb3",
+          "createdAt": "2026-06-01T16:37:09.580Z",
+          "updatedAt": "2026-06-01T16:37:12.611Z"
+        },
+        {
+          "postingId": "74c4f254-1ad9-4740-b292-b7dae60b0ca4",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "쿡앱스 인터랙티브",
+          "postingTitle": "글로벌 사업PM",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "Cookapps Interactive는 반복 가능한 성공을 글로벌과 중국 시장까지 확장하는 퍼블리셔로, <포트리스 사가>, <냥냥시노비> 등 글로벌에서 사랑받은 타이틀을 서비스하고 있습니다.\n\nCookapps Interactive는 올해 6월 1일 쿡앱스의 자회사(독립 법인)로 분사되었습니다.",
+          "responsibilities": "포트리스사가, 냥냥시노비 등 쿡앱스 프로젝트에 대한 중국 혹은 글로벌 권역의 사업PM 업무를 담당합니다.\n\nBM 및 상품 기획을 통한 프로젝트의 수익화에 기여하고, 지표 분석, 서비스 개선 등 담당 프로젝트의 서비스를 위한 업무를 진행합니다.\n\n시장 리서치, 레퍼런스 조사 등 최신 트렌드를 파악하고, 사업 실무에 필요한 인사이트를 수립합니다.",
+          "requirements": "지표에 대해 잘 이해하고, 분석할 수 있으신 분\n방치형RPG, 로그라이크, 디펜스 등 미드코어 장르의 모바일 게임에 대한 이해와 관심이 있으신 분\n자신의 생각을 문서를 통해 잘 표현하실 수 있으신 분",
+          "neededSkills": "",
+          "preferred": "중국어, 일본어, 영어 등 외국어의 능숙한 활용이 가능하신 분\n\n게임산업 및 글로벌 게임 트렌드에 대한 이해도가 높으신 분\n\n원활한 커뮤니케이션 능력을 보유하신 분 ",
+          "memo": "이력서 및 포트폴리오 제출이 필수예요.\n사업계획, 상품기획, BM 설계, 지표분석 등 사업 PM의 역량을 드러낼 수 있는 내용이 드러나게 작성해주세요.",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://career.cookapps.com/job_posting/lmmbi4BZ",
+          "createdAt": "2026-06-01T15:03:58.116Z",
+          "updatedAt": "2026-06-01T15:04:19.804Z"
+        },
+        {
+          "postingId": "ea2574b9-5c71-4b1d-b076-86495d41c15d",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "넥슨코리아",
+          "postingTitle": "게임사업PM (계약직)",
+          "role": "사업PM",
+          "contractType": "계약직",
+          "departmentInfo": "- FC 그룹은 FC온라인과 FC모바일의 서비스와 퍼블리싱 사업을 담당하고 있는 조직이며, 수천만 명의 축구 팬들에게 차별화된 플레이 경험을 제공하고 있습니다.\n\n- 데이터와 시장 반응을 바탕으로 사용자들에게 특별한 경험을 선사하는 것을 목표로 하고 있습니다.",
+          "responsibilities": "- 인게임 콘텐츠/신규 상품 기획 보조 업무\n\n- AI 기반 자동화 툴(Claude, Gemini 등)을 활용한 팀 내 업무 프로세스 효율화\n\n- 개발 및 유관 부서와의 긴밀한 협업을 통한 업데이트 일정 조율 및 프로젝트 관리\n\n- 시장 트렌드 및 경쟁사 동향 분석, 내부 리포팅\n\n- 팀 내 의사결정 지원을 위한 자료 정리 및 커뮤니케이션 보조",
+          "requirements": "- MS Office(엑셀, 파워포인트) 활용 능력이 우수하신 분\n\n- Claude, Gemini 등 AI 툴을 업무에 적극 활용해 보신 경험이 있으신 분\n\n- 꼼꼼한 검수 능력과 원활한 커뮤니케이션으로 팀 협업에 기여하실 수 있으신 분\n\n- [필수제출] 포트폴리오 제출 시 관련 경험 및 업무 역량 함께 본인 기여도(%) 기재",
+          "neededSkills": "",
+          "preferred": "- 스포츠 장르 게임에 대한 깊은 이해도와 열정을 보유하신 분\n\n- 게임 서비스 또는 콘텐츠 운영 관련 업무 경험이 있으신 분\n\n- Figma, Adobe Photoshop 등 디자인 툴 활용 경험이 있으신 분\n\n- AI 자동화 툴을 활용한 업무 프로세스 개선 경험이 있으신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 8,
+          "isFavorite": true,
+          "link": "https://careers.nexon.com/recruit/9901",
+          "createdAt": "2026-06-01T09:05:47.411Z",
+          "updatedAt": "2026-06-01T09:05:58.419Z"
+        },
         {
           "postingId": "417eaa19-c2a3-406c-b930-f8a0c1ea6521",
           "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
@@ -22646,7 +22837,7 @@
           }
         ],
         "currentIndex": 0,
-        "isPlaying": true,
+        "isPlaying": false,
         "shuffle": false,
         "repeatMode": "off",
         "presets": [
@@ -23507,14 +23698,14 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "gradient"
+      "lifnux:background:theme": "Summer.png"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 664425
+          "balance": 1825025
         },
         {
           "accountId": "acc-us-1",
@@ -23534,7 +23725,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 17428
+          "balance": 12328
         }
       ]
     },
@@ -23561,7 +23752,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-05-31T16:18:02.322Z"
+      "lifnux:data.lastUpdatedAt": "2026-06-01T16:47:22.881Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -27080,6 +27271,85 @@
           "side": "BUY",
           "qty": 1,
           "price": 715.01,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "36f46178-0ca2-462b-b0b2-af3d01dd8d7f",
+          "ts": 1780288323621,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 7000
+        },
+        {
+          "id": "229b7c5d-9149-4623-b85a-3281cd536c77",
+          "ts": 1780288352485,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0185L0",
+          "side": "SELL",
+          "qty": 80,
+          "price": 10780,
+          "realizedPnl": 12350,
+          "realizedPnlPercent": 1.452855714369743,
+          "costBasis": 850050
+        },
+        {
+          "id": "53b1fda1-f155-49dc-bd4c-ca5dea9756aa",
+          "ts": 1780288371509,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "426030",
+          "side": "SELL",
+          "qty": 10,
+          "price": 58450,
+          "realizedPnl": 15500,
+          "realizedPnlPercent": 2.724077328646749,
+          "costBasis": 569000
+        },
+        {
+          "id": "fec8cba7-addd-471d-9415-b0daab8c394a",
+          "ts": 1780289899771,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0177A0",
+          "side": "BUY",
+          "qty": 100,
+          "price": 14590,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "245475ee-b2f9-4117-95fc-26511a38521b",
+          "ts": 1780293773708,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "SELL",
+          "qty": 70,
+          "price": 24430,
+          "realizedPnl": 189669.99999999994,
+          "realizedPnlPercent": 12.474760429615301,
+          "costBasis": 1520430
+        },
+        {
+          "id": "10f7015f-4085-46f0-af48-b9a742341926",
+          "ts": 1780293937758,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "440110",
+          "side": "BUY",
+          "qty": 5,
+          "price": 109900,
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
