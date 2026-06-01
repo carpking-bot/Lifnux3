@@ -22,7 +22,7 @@ import {
 } from "../../../(shared)/lib/finance";
 import { loadState, saveState } from "../../../(shared)/lib/storage";
 import { useQuotes } from "../../../../src/lib/quotes/useQuotes";
-import { Eye, LineChart, Pencil, Settings } from "lucide-react";
+import { Clipboard, Eye, LineChart, Pencil, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const PORTFOLIO_LABEL_OPTIONS_KEY = "lifnux.finance.portfolio.labels.v100";
@@ -144,6 +144,8 @@ export default function PortfolioPage() {
   const [cashBalances, setCashBalances] = useState<CashBalance[]>([]);
   const [ledgerRecords, setLedgerRecords] = useState<LedgerRecord[]>([]);
   const [insightsOpen, setInsightsOpen] = useState(false);
+  const [exportTextOpen, setExportTextOpen] = useState(false);
+  const [exportCopied, setExportCopied] = useState(false);
   const [insightsTab, setInsightsTab] = useState<InsightsTab>("assetHistory");
   const [ready, setReady] = useState(false);
   const [fxRate, setFxRate] = useState<number | null>(null);
@@ -769,6 +771,17 @@ export default function PortfolioPage() {
     return `${symbol}${formatNumber(value, decimals)}`;
   };
 
+  const formatExportCurrency = (value: number, currency: "KRW" | "USD") => {
+    const symbol = currency === "KRW" ? "₩" : "$";
+    const decimals = currency === "KRW" ? 0 : 2;
+    return `${symbol}${formatNumber(value, decimals)}`;
+  };
+
+  const formatExportSignedCurrency = (value: number, currency: "KRW" | "USD") => {
+    const sign = value >= 0 ? "+" : "-";
+    return `${sign}${formatExportCurrency(Math.abs(value), currency)}`;
+  };
+
   const formatInputNumber = (value: string, decimals: number) => {
     const cleaned = value.replace(/[^0-9.]/g, "");
     if (!cleaned) return "";
@@ -1227,6 +1240,166 @@ export default function PortfolioPage() {
   }, [accounts, portfolioRows, sortDir, sortKey]);
 
   const totalWeightBaseKrw = totals.totalKrw;
+
+  const portfolioExportText = useMemo(() => {
+    type StockExportGroup = {
+      symbolKey: string;
+      stockLabel: string;
+      stockSymbol: string;
+      currency: "KRW" | "USD";
+      qty: number;
+      costBasis: number;
+      marketValue: number;
+      marketValueKrw: number | null;
+      pnlValue: number;
+      pnlKrw: number | null;
+      currentPriceTotal: number;
+      currentPriceQty: number;
+      hasPriceError: boolean;
+    };
+    type ExportRow =
+      | ({ kind: "stock" } & StockExportGroup)
+      | {
+          kind: "cash";
+          currency: "KRW" | "USD";
+          balance: number;
+          valueKrw: number | null;
+        };
+
+    const groups = new Map<string, StockExportGroup>();
+
+    filteredDerivedHoldings.forEach((entry) => {
+      const symbolKey = normalizeSymbol(entry.holding.symbolKey);
+      const groupKey = symbolKey;
+      const stockSymbol = entry.stock?.symbol ?? entry.holding.symbolKey ?? symbolKey;
+      const stockLabel = entry.stock?.label?.trim() || entry.stock?.name?.trim() || stockSymbol;
+      const existing = groups.get(groupKey);
+      const marketValueKrw = entry.marketValueKrw;
+      const pnlKrw = entry.pnlKrw;
+      if (existing) {
+        existing.qty += entry.holding.qty;
+        existing.costBasis += entry.costBasis;
+        existing.marketValue += entry.hasUsablePrice ? entry.marketValue : 0;
+        existing.marketValueKrw =
+          existing.marketValueKrw !== null && marketValueKrw !== null ? existing.marketValueKrw + marketValueKrw : null;
+        existing.pnlValue += entry.hasUsablePrice ? entry.pnlValue : 0;
+        existing.pnlKrw = existing.pnlKrw !== null && pnlKrw !== null ? existing.pnlKrw + pnlKrw : null;
+        existing.currentPriceTotal += entry.hasUsablePrice ? entry.price * entry.holding.qty : 0;
+        existing.currentPriceQty += entry.hasUsablePrice ? entry.holding.qty : 0;
+        existing.hasPriceError = existing.hasPriceError || !entry.hasUsablePrice;
+        return;
+      }
+      groups.set(groupKey, {
+        symbolKey,
+        stockLabel,
+        stockSymbol,
+        currency: entry.holding.currency,
+        qty: entry.holding.qty,
+        costBasis: entry.costBasis,
+        marketValue: entry.hasUsablePrice ? entry.marketValue : 0,
+        marketValueKrw,
+        pnlValue: entry.hasUsablePrice ? entry.pnlValue : 0,
+        pnlKrw,
+        currentPriceTotal: entry.hasUsablePrice ? entry.price * entry.holding.qty : 0,
+        currentPriceQty: entry.hasUsablePrice ? entry.holding.qty : 0,
+        hasPriceError: !entry.hasUsablePrice
+      });
+    });
+
+    const cashGroups = new Map<"KRW" | "USD", { balance: number; valueKrw: number | null }>();
+    filteredCashRows.forEach((entry) => {
+      if (entry.balance <= 0) return;
+      const existing = cashGroups.get(entry.currency);
+      if (existing) {
+        existing.balance += entry.balance;
+        existing.valueKrw =
+          existing.valueKrw !== null && entry.balanceKrw !== null ? existing.valueKrw + entry.balanceKrw : null;
+        return;
+      }
+      cashGroups.set(entry.currency, { balance: entry.balance, valueKrw: entry.balanceKrw });
+    });
+
+    const rows: ExportRow[] = [
+      ...Array.from(groups.values()).map((group) => ({ kind: "stock" as const, ...group })),
+      ...Array.from(cashGroups.entries()).map(([currency, cash]) => ({
+        kind: "cash" as const,
+        currency,
+        balance: cash.balance,
+        valueKrw: cash.valueKrw
+      }))
+    ].sort((a, b) => {
+      const aValue =
+        a.kind === "cash" ? a.valueKrw ?? (a.currency === "KRW" ? a.balance : 0) : a.marketValueKrw ?? (a.currency === "KRW" ? a.marketValue : 0);
+      const bValue =
+        b.kind === "cash" ? b.valueKrw ?? (b.currency === "KRW" ? b.balance : 0) : b.marketValueKrw ?? (b.currency === "KRW" ? b.marketValue : 0);
+      return bValue - aValue;
+    });
+
+    const header = "종목명 / 평균 매수가 / 현재가 / 수량 / 수익률 / 수익 금액 / 보유 비중";
+    if (!rows.length) return `${header}\n내보낼 보유 종목이나 현금이 없습니다.`;
+
+    const lines = rows.map((group) => {
+      if (group.kind === "cash") {
+        const weightPct =
+          totalWeightBaseKrw !== null && totalWeightBaseKrw > 0 && group.valueKrw !== null
+            ? (group.valueKrw / totalWeightBaseKrw) * 100
+            : null;
+        return [
+          `CASH (${group.currency})`,
+          "-",
+          "-",
+          formatExportCurrency(group.balance, group.currency),
+          "-",
+          "-",
+          weightPct !== null ? `${formatNumber(weightPct, 2)}%` : "-"
+        ].join(" / ");
+      }
+
+      const avgPrice = group.qty > 0 ? group.costBasis / group.qty : 0;
+      const currentPrice = group.currentPriceQty > 0 ? group.currentPriceTotal / group.currentPriceQty : null;
+      const pnlPct = group.costBasis > 0 && !group.hasPriceError ? (group.pnlValue / group.costBasis) * 100 : null;
+      const pnlCurrency: "KRW" | "USD" = group.pnlKrw !== null ? "KRW" : group.currency;
+      const pnlValue = group.pnlKrw !== null ? group.pnlKrw : group.pnlValue;
+      const weightBaseValue = group.marketValueKrw ?? (group.currency === "KRW" ? group.marketValue : null);
+      const weightPct =
+        totalWeightBaseKrw !== null && totalWeightBaseKrw > 0 && weightBaseValue !== null
+          ? (weightBaseValue / totalWeightBaseKrw) * 100
+          : null;
+      const symbolLabel = group.stockLabel === group.stockSymbol ? group.stockSymbol : `${group.stockLabel} (${group.stockSymbol})`;
+      return [
+        symbolLabel,
+        formatExportCurrency(avgPrice, group.currency),
+        currentPrice !== null ? formatExportCurrency(currentPrice, group.currency) : "-",
+        formatNumber(group.qty, 0),
+        pnlPct !== null ? `${pnlPct >= 0 ? "+" : ""}${pnlPct.toFixed(2)}%` : "-",
+        group.hasPriceError ? "-" : formatExportSignedCurrency(pnlValue, pnlCurrency),
+        weightPct !== null ? `${formatNumber(weightPct, 2)}%` : "-"
+      ].join(" / ");
+    });
+
+    return [header, ...lines].join("\n");
+  }, [filteredCashRows, filteredDerivedHoldings, totalWeightBaseKrw]);
+
+  const copyPortfolioExportText = async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(portfolioExportText);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = portfolioExportText;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+      setExportCopied(true);
+      window.setTimeout(() => setExportCopied(false), 1800);
+    } catch {
+      setExportCopied(false);
+    }
+  };
 
   const sectorExcludedIndexSummary = useMemo(() => {
     if (sectorViewMode !== "major") return { amountKrw: 0, count: 0 };
@@ -2129,6 +2302,17 @@ export default function PortfolioPage() {
             </div>
             <div className="flex items-center gap-3 text-xs text-[var(--ink-1)]">
               <button
+                className="rounded-full border border-white/10 p-2 transition hover:border-white/25 hover:text-white"
+                onClick={() => {
+                  setExportCopied(false);
+                  setExportTextOpen(true);
+                }}
+                aria-label="Export portfolio as text"
+                title="Export text"
+              >
+                <Clipboard className="h-4 w-4" />
+              </button>
+              <button
                 className={`rounded-full border p-2 transition ${
                   stockticonMode
                     ? "border-cyan-300/60 bg-cyan-300/10 text-cyan-200"
@@ -2595,6 +2779,38 @@ export default function PortfolioPage() {
           </div>
         </div>
       </div>
+
+      <Modal
+        open={exportTextOpen}
+        title="Portfolio Text Export"
+        onClose={() => setExportTextOpen(false)}
+        panelClassName="max-w-4xl"
+        actions={
+          <>
+            <button
+              className="rounded-full border border-white/10 px-4 py-2 text-xs"
+              onClick={() => setExportTextOpen(false)}
+            >
+              Close
+            </button>
+            <button className="rounded-full bg-[var(--accent-1)] px-4 py-2 text-xs text-black" onClick={copyPortfolioExportText}>
+              {exportCopied ? "Copied" : "Copy text"}
+            </button>
+          </>
+        }
+      >
+        <div className="space-y-3">
+          <div className="text-sm text-[var(--ink-1)]">
+            현재 필터 기준으로 주식은 종목별, 현금은 통화별로 합산했습니다. 동일 종목은 계좌가 달라도 수량과 원금을 합쳐 평균 매수가를 다시 계산합니다.
+          </div>
+          <textarea
+            className="min-h-[360px] w-full resize-y rounded-xl border border-white/10 bg-black/30 p-4 font-mono text-sm leading-6 text-white outline-none"
+            value={portfolioExportText}
+            readOnly
+            onFocus={(event) => event.currentTarget.select()}
+          />
+        </div>
+      </Modal>
 
       <Modal
         open={editModalOpen}
