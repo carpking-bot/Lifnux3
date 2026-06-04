@@ -63,6 +63,7 @@ function readStorageJson<T>(key: string, fallback: T): T {
 type HealthActivityLog = {
   typeId?: string;
   loggedForDate?: string;
+  distanceKm?: number;
 };
 
 type GuitarAttendance = {
@@ -73,6 +74,15 @@ function getHealthSwimmingSessionsByYear(year: number) {
   const logs = readStorageJson<HealthActivityLog[]>(HEALTH_ACTIVITY_LOGS_KEY, []);
   const yearPrefix = `${year}-`;
   return logs.filter((log) => log.typeId === "swimming" && typeof log.loggedForDate === "string" && log.loggedForDate.startsWith(yearPrefix)).length;
+}
+
+function getHealthRunningDistanceKmByYear(year: number) {
+  const logs = readStorageJson<HealthActivityLog[]>(HEALTH_ACTIVITY_LOGS_KEY, []);
+  const yearPrefix = `${year}-`;
+  const total = logs
+    .filter((log) => log.typeId === "running" && typeof log.loggedForDate === "string" && log.loggedForDate.startsWith(yearPrefix))
+    .reduce((sum, log) => sum + (typeof log.distanceKm === "number" && Number.isFinite(log.distanceKm) ? log.distanceKm : 0), 0);
+  return Math.round(total * 10) / 10;
 }
 
 const GUITAR_ATTENDANCE_KEY = "lifnux:guitar:attendance";
@@ -260,6 +270,11 @@ export function getLinkedMetricValue(linkedSource?: LinkedSource): LinkedMetricR
     case "HEALTH:swimmingSessions2026": {
       const value = getHealthSwimmingSessionsByYear(2026);
       return { value, unit: "sessions", summary: "Health swimming sessions in 2026" };
+    }
+    case "HEALTH:runningDistanceKmByYear": {
+      const year = resolveLinkedYear(linkedSource);
+      const value = getHealthRunningDistanceKmByYear(year);
+      return { value, unit: "km", summary: `Health running distance in ${year}` };
     }
     case "HEALTH:swimAttendanceThisMonth": {
       const attended = Math.round(deterministicNumber(seed, 4, 14));

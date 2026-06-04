@@ -30,6 +30,7 @@ const PORTFOLIO_HISTORY_KEY = "lifnux.finance.portfolio.history.v100";
 const PORTFOLIO_PERFORMANCE_KEY = "investing.portfolio.performance.v1";
 const STOCKTICON_CONFIG_KEY = "lifnux.finance.portfolio.stockticon.v100";
 const LOCAL_DATA_IMPORTED_EVENT = "lifnux:data-imported";
+const FOREIGN_STOCK_TAX_DEDUCTION_KRW = 2_500_000;
 
 type PortfolioLabelOptions = {
   countries: string[];
@@ -202,6 +203,7 @@ export default function PortfolioPage() {
   const [sectorViewMode, setSectorViewMode] = useState<"major" | "minor">("minor");
   const [realizedRange, setRealizedRange] = useState<"MTD" | "YTD" | "ALL">("MTD");
   const [realizedDetailOpen, setRealizedDetailOpen] = useState(false);
+  const [realizedDetailForeignOnly, setRealizedDetailForeignOnly] = useState(false);
   const [realizedDetailSortKey, setRealizedDetailSortKey] = useState<"price" | "time">("time");
   const [realizedDetailSortDir, setRealizedDetailSortDir] = useState<"asc" | "desc">("desc");
   const [analyzeInput, setAnalyzeInput] = useState("");
@@ -700,6 +702,56 @@ export default function PortfolioPage() {
     return realizedKrw + (useFx && fxRate ? realizedUsd * fxRate : 0);
   }, [fxRate, ledgerRecords, useFx]);
 
+  const foreignTaxSummary = useMemo(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const startTs = new Date(year, 0, 1).getTime();
+    const endTs = new Date(year + 1, 0, 1).getTime();
+    const startDate = `${year}-01-01`;
+    const endDate = `${year}-12-31`;
+    const usdAccounts = accounts.filter((account) => account.currency === "USD");
+    const usdAccountIds = new Set(usdAccounts.map((account) => account.id));
+    const records = ledgerRecords.filter((record) => {
+      if (record.type !== "TRADE" || record.side !== "SELL") return false;
+      if (typeof record.realizedPnl !== "number") return false;
+      if (!usdAccountIds.has(record.accountId)) return false;
+      if (record.ts < startTs || record.ts >= endTs) return false;
+      return true;
+    });
+    let realizedKrw = 0;
+    let needsFx = false;
+    records.forEach((record) => {
+      const pnl = record.realizedPnl ?? 0;
+      if (record.currency === "USD") {
+        if (useFx && fxRate) {
+          realizedKrw += pnl * fxRate;
+        } else {
+          needsFx = true;
+        }
+      } else {
+        realizedKrw += pnl;
+      }
+    });
+    const realizedTotalKrw = needsFx ? null : realizedKrw;
+    const remainingDeductionKrw =
+      realizedTotalKrw === null ? null : Math.max(FOREIGN_STOCK_TAX_DEDUCTION_KRW - Math.max(realizedTotalKrw, 0), 0);
+    const taxableExcessKrw = realizedTotalKrw === null ? null : Math.max(realizedTotalKrw - FOREIGN_STOCK_TAX_DEDUCTION_KRW, 0);
+    const progressPct =
+      realizedTotalKrw === null ? null : (Math.max(realizedTotalKrw, 0) / FOREIGN_STOCK_TAX_DEDUCTION_KRW) * 100;
+    return {
+      year,
+      startDate,
+      endDate,
+      accountCount: usdAccounts.length,
+      recordCount: records.length,
+      accountIds: usdAccounts.map((account) => account.id),
+      realizedTotalKrw,
+      remainingDeductionKrw,
+      taxableExcessKrw,
+      progressPct
+    };
+  }, [accounts, fxRate, ledgerRecords, useFx]);
+
   const filteredLedgerRecords = useMemo(() => {
     return [...ledgerRecords]
       .filter((record) => {
@@ -715,7 +767,9 @@ export default function PortfolioPage() {
   }, [ledgerFilters, ledgerRecords]);
 
   const realizedDetailRows = useMemo(() => {
-    const rows = [...realizedSummary.records];
+    const rows = realizedDetailForeignOnly
+      ? realizedSummary.records.filter((record) => foreignTaxSummary.accountIds.includes(record.accountId))
+      : [...realizedSummary.records];
     rows.sort((a, b) => {
       if (realizedDetailSortKey === "price") {
         return (a.price ?? 0) - (b.price ?? 0);
@@ -723,7 +777,7 @@ export default function PortfolioPage() {
       return a.ts - b.ts;
     });
     return realizedDetailSortDir === "asc" ? rows : rows.reverse();
-  }, [realizedDetailSortDir, realizedDetailSortKey, realizedSummary.records]);
+  }, [foreignTaxSummary.accountIds, realizedDetailForeignOnly, realizedDetailSortDir, realizedDetailSortKey, realizedSummary.records]);
 
   useEffect(() => {
     if (!ready || overallTotals.totalKrw === null || overallTotals.totalKrw <= 0) return;
@@ -823,6 +877,20 @@ export default function PortfolioPage() {
     const stock = stocks.find((item) => normalizeSymbol(item.symbol) === normalized);
     const name = stock?.label?.trim() || stock?.name?.trim();
     return name ? `${name} (${symbol})` : symbol;
+  };
+
+  const openForeignTaxDetails = () => {
+    setRealizedRange("YTD");
+    setRealizedDetailForeignOnly(true);
+    setLedgerFilters((prev) => ({
+      ...prev,
+      accountId: "ALL",
+      type: "TRADE",
+      side: "SELL",
+      startDate: foreignTaxSummary.startDate,
+      endDate: foreignTaxSummary.endDate
+    }));
+    setRealizedDetailOpen(true);
   };
 
   const shiftDate = (dateKey: string, deltaDays: number) => {
@@ -2237,12 +2305,16 @@ export default function PortfolioPage() {
               </div>
               <div
                 className="rounded-xl border border-white/10 bg-black/30 p-3 text-left transition hover:border-white/25 cursor-pointer"
-                onClick={() => setRealizedDetailOpen(true)}
+                onClick={() => {
+                  setRealizedDetailForeignOnly(false);
+                  setRealizedDetailOpen(true);
+                }}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
+                    setRealizedDetailForeignOnly(false);
                     setRealizedDetailOpen(true);
                   }
                 }}
@@ -3734,9 +3806,87 @@ export default function PortfolioPage() {
         }
       >
         <div className="space-y-4">
+          <div className="rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-emerald-100/80">Overseas stock tax deduction</div>
+                <div className="mt-1 text-sm text-[var(--ink-1)]">
+                  {foreignTaxSummary.year} USD accounts annual net realized PnL · {foreignTaxSummary.accountCount} accounts ·{" "}
+                  {foreignTaxSummary.recordCount} records
+                </div>
+              </div>
+              <button
+                className="rounded-full border border-emerald-200/40 px-3 py-1.5 text-xs text-emerald-100 transition hover:border-emerald-100/70 hover:text-white"
+                onClick={openForeignTaxDetails}
+                type="button"
+              >
+                View details
+              </button>
+            </div>
+            <div className="mt-4 grid gap-3 md:grid-cols-[1.2fr_1fr_1fr]">
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.18em] text-[var(--ink-1)]">Annual net PnL</div>
+                <div
+                  className={`mt-1 text-2xl font-semibold ${
+                    foreignTaxSummary.realizedTotalKrw !== null && foreignTaxSummary.realizedTotalKrw >= 0 ? "text-emerald-200" : "text-rose-300"
+                  } ${blurClass}`}
+                >
+                  {foreignTaxSummary.realizedTotalKrw !== null
+                    ? `${foreignTaxSummary.realizedTotalKrw >= 0 ? "+" : "-"}${formatCurrency(Math.abs(foreignTaxSummary.realizedTotalKrw), "KRW")}`
+                    : "FX not ready"}
+                </div>
+              </div>
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.18em] text-[var(--ink-1)]">Deduction tracker</div>
+                <div className={`mt-1 text-lg font-semibold ${blurClass}`}>
+                  {foreignTaxSummary.realizedTotalKrw !== null
+                    ? `${foreignTaxSummary.realizedTotalKrw >= 0 ? "" : "-"}${formatCurrency(
+                        Math.abs(foreignTaxSummary.realizedTotalKrw),
+                        "KRW"
+                      )} / ${formatCurrency(FOREIGN_STOCK_TAX_DEDUCTION_KRW, "KRW")}`
+                    : "-"}
+                </div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/10">
+                  <div
+                    className="h-full rounded-full bg-emerald-300"
+                    style={{ width: `${Math.min(Math.max(foreignTaxSummary.progressPct ?? 0, 0), 100)}%` }}
+                  />
+                </div>
+                <div className={`mt-1 text-xs text-[var(--ink-1)] ${blurClass}`}>
+                  {foreignTaxSummary.progressPct !== null ? `${foreignTaxSummary.progressPct.toFixed(1)}% filled` : "Waiting for FX"}
+                </div>
+              </div>
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.18em] text-[var(--ink-1)]">Remaining</div>
+                <div className={`mt-1 text-lg font-semibold ${blurClass}`}>
+                  {foreignTaxSummary.remainingDeductionKrw !== null ? formatCurrency(foreignTaxSummary.remainingDeductionKrw, "KRW") : "-"}
+                </div>
+                {foreignTaxSummary.taxableExcessKrw !== null && foreignTaxSummary.taxableExcessKrw > 0 ? (
+                  <div className={`mt-1 text-xs text-amber-200 ${blurClass}`}>
+                    Excess {formatCurrency(foreignTaxSummary.taxableExcessKrw, "KRW")}
+                  </div>
+                ) : (
+                  <div className="mt-1 text-xs text-[var(--ink-1)]">Up to 2.5M KRW basic deduction</div>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">SELL records with realized pnl ({realizedRange})</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-[var(--ink-1)]">
+              SELL records with realized pnl ({realizedRange}
+              {realizedDetailForeignOnly ? " · USD accounts" : ""})
+            </div>
             <div className="flex items-center gap-2 text-[11px] text-[var(--ink-1)]">
+              {realizedDetailForeignOnly ? (
+                <button
+                  className="rounded-full border border-emerald-300/40 px-2 py-1 text-emerald-100"
+                  onClick={() => setRealizedDetailForeignOnly(false)}
+                  type="button"
+                >
+                  Clear USD filter
+                </button>
+              ) : null}
               <button
                 className={`rounded-full border px-2 py-1 ${realizedDetailSortKey === "price" ? "border-white/30 text-white" : "border-white/10"}`}
                 onClick={() => {
