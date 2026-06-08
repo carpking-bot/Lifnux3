@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-06-05T09:07:39.358Z"
+    "exportedAt": "2026-06-08T15:17:00.846Z"
   },
   "data": {
     "lastState": {
@@ -4143,6 +4143,99 @@
           "createdAt": "2026-06-05T05:55:41.851Z",
           "distanceKm": 3.07,
           "calorieOverride": 121
+        },
+        {
+          "id": "aab77cac-febc-4589-a998-eb4540318a9b",
+          "typeId": "running",
+          "loggedForDate": "2026-06-05",
+          "durationMin": 49.83,
+          "memo": "월드타워 런 3회차",
+          "createdAt": "2026-06-05T18:17:53.850Z",
+          "distanceKm": 7.63,
+          "paceText": "06'31\"",
+          "cadence": 133,
+          "maxSpeedKmh": 343,
+          "calorieOverride": 624
+        },
+        {
+          "id": "040de159-3cf4-43ed-a8bb-f00e7eeef9ab",
+          "typeId": "bicycle",
+          "loggedForDate": "2026-06-05",
+          "durationMin": 30,
+          "memo": "석촌 to 집",
+          "createdAt": "2026-06-05T18:18:36.967Z",
+          "distanceKm": 5.6,
+          "calorieOverride": 173
+        },
+        {
+          "id": "2002f415-06b0-4d30-8b38-eb25e437fa11",
+          "typeId": "home",
+          "loggedForDate": "2026-06-05",
+          "durationMin": 20,
+          "createdAt": "2026-06-05T18:22:14.992Z"
+        },
+        {
+          "id": "b1298314-5e2d-4d5b-9980-0c21223e3d8c",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-06",
+          "durationMin": 31,
+          "createdAt": "2026-06-06T18:23:06.865Z",
+          "distanceKm": 2.46,
+          "calorieOverride": 97
+        },
+        {
+          "id": "a32b60fd-7237-48ad-a635-de7197499a0f",
+          "typeId": "bicycle",
+          "loggedForDate": "2026-06-06",
+          "durationMin": 122,
+          "memo": "집 → 올림픽 공원 → 집",
+          "createdAt": "2026-06-06T18:23:43.309Z",
+          "distanceKm": 20.25,
+          "calorieOverride": 620
+        },
+        {
+          "id": "8e9c2d5d-da86-4bf5-b024-eed3619de537",
+          "typeId": "home",
+          "loggedForDate": "2026-06-06",
+          "durationMin": 20,
+          "createdAt": "2026-06-06T18:26:34.929Z"
+        },
+        {
+          "id": "189e45e3-8c8e-420a-be37-eaf5debe8dfc",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-07",
+          "durationMin": 72,
+          "memo": "밤 산책",
+          "createdAt": "2026-06-07T15:40:19.599Z",
+          "distanceKm": 5.9,
+          "calorieOverride": 232
+        },
+        {
+          "id": "2d3b980f-fccf-4886-abe0-edb64eea7636",
+          "typeId": "bicycle",
+          "loggedForDate": "2026-06-07",
+          "durationMin": 30,
+          "createdAt": "2026-06-07T15:40:45.327Z",
+          "distanceKm": 5,
+          "calorieOverride": 170,
+          "memo": "석춘 to 집"
+        },
+        {
+          "id": "39d61aa4-9c25-4e9e-b366-48d36f03f9e9",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-08",
+          "durationMin": 70,
+          "memo": "밤 산책",
+          "createdAt": "2026-06-08T14:51:15.302Z",
+          "distanceKm": 5.4,
+          "calorieOverride": 215
+        },
+        {
+          "id": "1c1cb9dd-068f-4053-b80b-381e3cb1efe9",
+          "typeId": "home",
+          "loggedForDate": "2026-06-08",
+          "durationMin": 20,
+          "createdAt": "2026-06-08T14:51:27.839Z"
         }
       ]
     },
@@ -4514,7 +4607,12 @@
         },
         {
           "date": "2026-06-05",
-          "totalKrw": 56783092.14,
+          "totalKrw": 56355881.120000005,
+          "quality": "final"
+        },
+        {
+          "date": "2026-06-08",
+          "totalKrw": 53747497.415,
           "quality": "final"
         }
       ],
@@ -11131,18 +11229,6 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "c41e5c7f-0709-421c-9377-30283ef8f9ab",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "us-nys:snow",
-          "symbolKey": "NYS:SNOW",
-          "avgPrice": 168.86198,
-          "qty": 10,
-          "currency": "USD",
-          "countryLabel": "US",
-          "sectorLabel": "AI Software",
-          "sectorMajorLabel": "AI"
-        },
-        {
           "id": "e39f52e9-8faa-407a-97fd-58d6dd4b39ff",
           "accountId": "acc-us-1",
           "stockId": "kr-379800",
@@ -11248,18 +11334,6 @@
           "sectorMajorLabel": "AI"
         },
         {
-          "id": "97d5c6c5-23c6-4510-a066-1d001374bc1c",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-466920",
-          "symbolKey": "466920",
-          "avgPrice": 36490,
-          "qty": 15,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "Non AI",
-          "sectorLabel": "Shipbuilding"
-        },
-        {
           "id": "fe33c2ad-a10c-421f-b41c-631135f892e7",
           "accountId": "acc-kr-1",
           "stockId": "kr-stock-0043y0",
@@ -11272,16 +11346,28 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "2b4a4c17-b7b5-42fc-a163-44419e49d29c",
-          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
-          "stockId": "auto-us-nas:flnc",
-          "symbolKey": "NAS:FLNC",
-          "avgPrice": 25.69,
-          "qty": 20,
-          "currency": "USD",
-          "countryLabel": "US",
+          "id": "280e55ed-1db2-48f7-9161-22f65ae7a69f",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-080220",
+          "symbolKey": "080220",
+          "avgPrice": 98300,
+          "qty": 6,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Semiconductor"
+        },
+        {
+          "id": "d337d9d8-d60b-40a7-bebd-21717aef6054",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-000660",
+          "symbolKey": "000660",
+          "avgPrice": 1911000,
+          "qty": 1,
+          "currency": "KRW",
+          "countryLabel": "KR",
           "sectorMajorLabel": "AI",
-          "sectorLabel": "Energy/Grid"
+          "sectorLabel": "Semiconductor"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -14182,6 +14268,14 @@
         {
           "dateKey": "2026-06-04",
           "createdAt": 1780583597673
+        },
+        {
+          "dateKey": "2026-06-06",
+          "createdAt": 1780750588008
+        },
+        {
+          "dateKey": "2026-06-08",
+          "createdAt": 1780917781216
         }
       ],
       "lifnux:guitar:videos": [
@@ -14360,11 +14454,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 56783092.14,
-        "unrealizedPnlKrw": 15187508.876599997,
-        "realizedPnlYtdKrw": 4610898.939078261,
-        "dataQuality": "OK",
-        "updatedAt": 1780650456457
+        "totalValueKrw": 53744989.855,
+        "unrealizedPnlKrw": 11283394.629499998,
+        "realizedPnlYtdKrw": 5532833.229078261,
+        "dataQuality": "DEGRADED",
+        "updatedAt": 1780931775038
       }
     },
     "personalGrowth": {
@@ -21863,6 +21957,153 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "1615ff3b-967c-49b1-9501-3f739a5ab8f0",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "에임드",
+          "postingTitle": "[UA팀] 모바일 게임 퍼포먼스 마케터 (주니어)",
+          "role": "마케팅",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "글로벌 마케팅 채널(예: Meta, Google Ads, TikTok 등)을 활용한 유저 유입 캠페인 운영\n비용 대비 최대 성과(ROAS) 목표로 캠페인 최적화\nUA 마케팅 관련 리서치, 타사 사례 분석 및 인사이트 도출\n내부 팀(크리에이티브팀, 데이터팀 등)과 협업하여 마케팅 소재 및 전략 기획\n데이터 분석을 기반으로 매체별 퍼포먼스 관리 및 리포팅\n실험·캠페인 사례를 팀 지식 베이스에 체계적으로 기록·축적",
+          "requirements": "모바일 게임 및 마케팅에 관심이 많고, 플레이 경험이 풍부한 분\n데이터 기반 분석에 흥미가 있거나, Excel/MMP 등 툴을 다뤄본 경험이 있는 분\n빠른 실행과 반복 학습에 익숙하고, 도전과 시행착오에 유연한 분\n배운 것을 글로 기록하고 정리하는 데 거부감이 없는 분",
+          "neededSkills": "",
+          "preferred": "모바일 앱 Attribution Tool 사용 경험이 있으신 분 (AppsFlyer, Adjust 등)\n게임 업계에서 모바일 마케팅 경험이 있으신 분\n크리에이티브팀, 제작팀과의 협업 경험이 있는 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://aimed.career.greetinghr.com/ko/o/135721",
+          "createdAt": "2026-06-08T15:16:36.504Z",
+          "updatedAt": "2026-06-08T15:16:44.203Z"
+        },
+        {
+          "postingId": "5d59b808-bab0-4f4c-ab0c-7a7f6b1bd3ca",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "선시안",
+          "postingTitle": "[더 스파이크 크로스] PM (프로덕트 매니저)",
+          "role": "사업PM",
+          "contractType": "정규직",
+          "departmentInfo": "더 스파이크 크로스 BM 설계\n더 스파이크 크로스 전반적인 프로덕트 매니징\n더 스파이크 크로스 라이브 서비스 지표 분석\n프로젝트 관리 및 일정 조율\n개발, 기획, 아트, QA 등 유관 부서와의 협업 및 조율\n",
+          "responsibilities": "스포츠와 게임을 좋아하며 관련 콘텐츠에 높은 관심을 보유하신 분\n최신 디자인·게임 트렌드에 관심이 많으신 분\n모바일 또는 PC 게임 플레이 경험이 풍부하신 분\n팀원과 원활하게 소통하며 적극적으로 협업할 수 있는 분\n게임 제작 또는 팀 프로젝트 참여 경험이 있으신 분\n각 부문별 전공자\n새로운 기술과 콘텐츠에 대한 학습 의지가 높은 분\n해외 여행에 결격 사유가 없는 분",
+          "requirements": "",
+          "neededSkills": "",
+          "preferred": "더 스파이크 크로스와 배구에 대한 이해가 높은 분\n논리적인 사고 전개 및 문서화 역량을 갖추신 분\n일정 수립 및 실행에 뛰어난 능력을 가지신 분\n의도에 맞게 이해하기 쉬운 문서를 작성할 수 있으신 분",
+          "memo": "자유 양식의 이력서\n포트폴리오(.zip파일 금지)\n(선택) 자기소개서\n",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://suncyan.career.greetinghr.com/ko/o/215395",
+          "createdAt": "2026-06-07T17:19:39.409Z",
+          "updatedAt": "2026-06-07T17:19:39.409Z"
+        },
+        {
+          "postingId": "8795fabc-dbbb-467e-a05d-8a568adf6c6e",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "ATK",
+          "postingTitle": "IP 사업 PM 및 글로벌 파트너십 담당자",
+          "role": "마케팅",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "",
+          "requirements": "",
+          "neededSkills": "",
+          "preferred": "",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 5,
+          "isFavorite": false,
+          "link": "https://www.jobkorea.co.kr/Recruit/GI_Read/49245963?Oem_Code=C1",
+          "createdAt": "2026-06-07T17:01:43.312Z",
+          "updatedAt": "2026-06-07T17:01:43.312Z"
+        },
+        {
+          "postingId": "1edb4616-2132-4f73-ba57-2e54b565fd22",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "펄어비스",
+          "postingTitle": "검은사막 모바일 글로벌 사업 담당자",
+          "role": "사업PM",
+          "contractType": "계약직",
+          "departmentInfo": "BM을 기획, 설계, 세팅하고 결과 분석을 통해 지속적인 개선 진행\n게임 콘텐츠에 대한 이해도를 바탕으로 지표를 분석하고 필요한 액션을 수행\n라이브 서비스 전반의 일정을 관리하고 서비스 전략을 수립\n모멘텀에 따라 이벤트, 마케팅, 홍보, 제휴 등의 업무를 진행\n게임 서비스 전반에 걸쳐 문제가 될 요소를 사전에 파악하고 대응",
+          "responsibilities": "게임 및 MMORPG 장르에 대한 높은 이해도를 갖춘 분\n원활한 커뮤니케이션 능력과 책임감, 집요함, 적극성, 꼼꼼한 일정 관리 능력을 보유하신 분\n해외 출장에 결격 사유가 없으신 분",
+          "requirements": "",
+          "neededSkills": "",
+          "preferred": "다양한 모바일 MMORPG 플레이 이력이 있으신 분\n게임 내 재화, 아이템 가치 및 시장 경제에 대한 뛰어난 이해도를 갖춘 분\n비즈니스 커뮤니케이션이 가능한 수준의 외국어(영어) 능력을 보유하신 분\n",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://www.pearlabyss.com/ko-KR/Company/Careers/detail?_jobOpeningNo=772",
+          "createdAt": "2026-06-07T16:49:51.208Z",
+          "updatedAt": "2026-06-07T16:49:53.295Z"
+        },
+        {
+          "postingId": "c4f6e2a6-aaff-429d-aae7-fe50c037af1c",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "웍스피어",
+          "postingTitle": "서비스운영",
+          "role": "서비스운영",
+          "contractType": "인턴",
+          "departmentInfo": "웍스피어 Enterprise service팀은 정규직1 등 잡코리아/비정규직 1등 알바몬 플랫폼을 운영하는 웍스피어 내에서 웍스피어의 상품을 구매하는 구인자의 서비스 경험을 개선하고 있어요.\n팀에서는 현재 여러 기업고객 segment 중에 특정 segment를 타겟하여 신규 서비스를 론칭하고 사업화하고 있어요.\n신규 서비스를 론칭하고 개선하는 과정에서, PO/기획/ 디자이너/개발자가 같은 목적으로 긴밀하게 협업하여 빠르게 움직이고 있어요.\n특히, 글로벌 top-tier 컨설팅펌 MBB출신의 PO와 긴밀하게 협업하면서 신사업이 zero to one 관점에서 어떻게 여러 장애물들을 해결하며 성장하는지 가장 가까이서 지켜보고 기여하실 수 있어요.",
+          "responsibilities": "신사업 서비스의 제반적인 End to End 운영 담당\n사용 기업 고객과의 커뮤니케이션 , 서비스와 관련된 구직자 대상 알림톡 등 발송, 서비스가 작동되기 위한 제반적인 행정 절차 등\nAI (Claude등) 기반 구직자/구인자 대상 데이터 추출/정리 및 주요 운영 지표 관리\n신사업이 더 개선될 수 있도록 지속적으로 분석 필요한 데이터 업데이트 및 시사점 도출 지원\n서비스 운영 과정에서 개선점 도출 및 실제 개선안 시행",
+          "requirements": "사업/서비스의 제반적인 운영 경험이 있으신 분\n신사업팀 등 빠르게 변화하는 환경에서도 문제를 스스로 정의하고 해결 방법을 찾는 태도를 가진 분\nExcel / Google Sheet 등 데이터 관리 및 정리 툴을 다룰 수 있고, Claude 등 LLM기반으로 작업을 많이 수행 해본신 분 (AI활용한 결과물 생성 경험이 있다면 좋아요)\n다양한 이해관계자와의 커뮤니케이션을 즐기고, 정리/공유에 강점이 있는 분\n복잡한 문제를 구조화하고 실행 가능한 전략으로 전환할 줄 아는 분",
+          "neededSkills": "",
+          "preferred": "실제 서비스를 운영해보고 불편사항을 개선해본 경험이 있는 분\n신사업 시행하는 조직에서 근무 경험이 있으신 분\n파일/데이터 정리 및 구조화에 강점이 있고, 세밀한 관리 업무를 즐기는 분\n효율적인 업무를 위해 더 나은 방법을 탐구하고 실행하시는 분",
+          "memo": "",
+          "comment": "",
+          "deadline": "2026-06-12",
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://xg18kywe.ninehire.site/job_posting/0KfgMcAn",
+          "createdAt": "2026-06-07T16:34:29.290Z",
+          "updatedAt": "2026-06-07T16:34:35.267Z"
+        },
+        {
+          "postingId": "7d4610f3-8492-4581-8db3-93fe5ce20b1e",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "쿠팡",
+          "postingTitle": "[쿠팡] 이츠 운영 프로세스 개선 담당자",
+          "role": "운영",
+          "contractType": "정규직",
+          "departmentInfo": "Eats Business Operations팀은 쿠팡이츠 머천트와의 계약을 최종 승인하고, 입점부터 거래 해지까지의 전체적인 흐름을 관리합니다. 쿠팡이츠 내 유관 팀과 긴밀하게 협력하여 위험 요소를 관리하고, 비즈니스 프로세스를 구축합니다. 다양한 프로젝트와 도전을 통해 개인의 역량을 키울 수 있는 기회를 제공하고 있습니다.",
+          "responsibilities": "계약 ~ 정산 ~ 운영 종료까지 End-to-End 운영 프로세스 분석 및 구조 개선\n반복 및 비효율 업무 정의 후 데이터 기반 개선안 도출 및 실행\nSQL을 활용한 운영 데이터 조회·분석 및 핵심 지표 관리\nRPA, Python, SQL 등을 활용한 반복 업무 자동화 및 시스템화\nProduct / Engineering / Finance 등 유관부서와 협업하여 운영 개선 프로젝트 추진",
+          "requirements": "학사 이상 (신입 ~ 유관 경력 2년 미만)\n반복 업무 수행 과정에서 발생하는 이슈를 인지하고 피드백 요청 및 개선 활동에 적극 참여하여 성과를 만들어 본 적 있는 분\n팀 내 운영 성과 관련 데이터를 수집, 정리, 가공하여 의사결정 지원해본 적 있는 분\n끊임없이 노력하며 배우고자 하는 자세를 지닌 분\nSQL을 활용한 데이터 조회 및 분석 경험이 있으신 분",
+          "neededSkills": "",
+          "preferred": "스타트업 또는 플랫폼 비즈니스에 대한 이해가 있으신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 7,
+          "isFavorite": false,
+          "link": "https://www.coupang.jobs/kr/jobs/7962117/%EC%BF%A0%ED%8C%A1-%EC%9D%B4%EC%B8%A0-%EC%9A%B4%EC%98%81-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EA%B0%9C%EC%84%A0-%EB%8B%B4%EB%8B%B9%EC%9E%90-%EC%8B%A0%EC%9E%85%EA%B0%80%EB%8A%A5/?gh_jid=7962117",
+          "createdAt": "2026-06-07T16:25:31.006Z",
+          "updatedAt": "2026-06-07T16:25:31.006Z"
+        },
+        {
+          "postingId": "73dab3ff-9d4c-404a-880b-900d0350b183",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "카카오",
+          "postingTitle": "AI 데이터 라벨링_어시스턴트",
+          "role": "AI",
+          "contractType": "계약직",
+          "departmentInfo": "카카오의 신규 AI 서비스 및 도메인 검색 품질 개선을 위한 AI 검색 기술을 담당하는 조직입니다. 최신 언어 모델과 AI 검색 기술을 바탕으로 높은 수준의 AI 검색 에이전트를 만들어 가고 있습니다.\n\n\n수많은 사용자의 검색 여정 속에서 가장 정확하고 만족스러운 답을 제공하기 위해, 데이터로부터 배우고 과감한 실험을 통해 끊임없이 성장하는 문화를 지향합니다. 대규모 데이터와 고성능 모델을 통해 카카오의 AI 검색 서비스의 품질을 개선해 나가실 분들을 기다립니다.",
+          "responsibilities": "AI 에이전트 시스템을 위한 데이터 생성 및 가공\nAI 생성 결과 평가 및 개선 피드백 수행\n언어 데이터 설계 및 어노테이션 가이드라인 수립 보조\n데이터 품질 관리 및 검수 프로세스 개선 지원",
+          "requirements": "한국어 문서 이해력과 세밀한 텍스트 처리 능력을 갖추신 분\n생성형 AI 서비스 사용 경험이 있으신 분\n프롬프트 엔지니어링에 관심이 있거나, 관련 개념을 접해보신 분\nLLM을 활용해 간단한 코드를 이해하고 실행해본 경험이 있으신 분\n대량의 데이터를 꼼꼼하게 검토하며 책임감 있게 업무를 수행하실 수 있는 분\n원활하고 능동적인 커뮤니케이션이 가능하신 분",
+          "neededSkills": "",
+          "preferred": "",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://careers.kakao.com/jobs/P-14456?skillSet=&part=STAFF&company=KAKAO&keyword=&employeeType=&page=1",
+          "createdAt": "2026-06-07T16:19:07.738Z",
+          "updatedAt": "2026-06-07T16:19:07.738Z"
+        },
+        {
           "postingId": "afc5b516-3d3a-4950-9b33-45fb7296d05f",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "슈퍼크리에이티브",
@@ -21878,10 +22119,10 @@
           "comment": "",
           "deadline": null,
           "importance": 7,
-          "isFavorite": true,
+          "isFavorite": false,
           "link": "https://recruit.supercreative.kr/job_posting/9dwgSpb3",
           "createdAt": "2026-06-01T16:37:09.580Z",
-          "updatedAt": "2026-06-01T16:37:12.611Z"
+          "updatedAt": "2026-06-07T16:34:33.722Z"
         },
         {
           "postingId": "74c4f254-1ad9-4740-b292-b7dae60b0ca4",
@@ -21902,7 +22143,7 @@
           "isFavorite": true,
           "link": "https://career.cookapps.com/job_posting/lmmbi4BZ",
           "createdAt": "2026-06-01T15:03:58.116Z",
-          "updatedAt": "2026-06-01T15:04:19.804Z"
+          "updatedAt": "2026-06-07T16:34:38.186Z"
         },
         {
           "postingId": "ea2574b9-5c71-4b1d-b076-86495d41c15d",
@@ -21926,27 +22167,6 @@
           "updatedAt": "2026-06-01T09:05:58.419Z"
         },
         {
-          "postingId": "417eaa19-c2a3-406c-b930-f8a0c1ea6521",
-          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
-          "companyName": "네이버",
-          "postingTitle": "게임·e스포츠 콘텐츠 파트너십 매니저",
-          "role": "서비스비즈",
-          "contractType": "정규직",
-          "departmentInfo": "﻿게임사, e스포츠 리그/대회 주관사, 스트리머 및 콘텐츠 파트너와의 협업을 통해 플랫폼 내 게임 콘텐츠 생태계를 확대하는 역할을 수행하는 조직입니다. 게임 및 e스포츠 산업은 콘텐츠, 스트리머, 커뮤니티, 플랫폼이 유기적으로 연결되어 움직이는 시장이며, 플랫폼 경쟁력 역시 어떤 콘텐츠와 파트너십을 확보하고 어떻게 이용자 경험으로 연결하느냐에 따라 크게 달라지고 있습니다.\n\n이러한 환경 속에서 게임 및 e스포츠 IP 기반 협업 기회를 발굴하고, 외부 파트너와의 전략적 관계를 구축하며 확보한 콘텐츠와 사업 기회를 실제 플랫폼 프로젝트로 연결하는 역할을 담당합니다. 주요 협업 대상은 국내외 게임사, e스포츠 리그/대회 운영사, 스트리머 및 MCN 등이며, 콘텐츠·서비스·마케팅 등 다양한 내부 조직과 협업하여 프로젝트를 운영합니다.\n\n단순 운영성 제휴보다는, 게임 및 e스포츠 산업에 대한 이해를 기반으로 새로운 콘텐츠와 사업 기회를 만들어가며, 빠르게 변화하는 게임·스트리밍 시장 안에서 다양한 프로젝트를 경험할 수 있습니다.",
-          "responsibilities": "﻿• 게임·e스포츠 파트너십 운영\n***- 국내외 게임사 및 e스포츠 파트너와의 협업 프로젝트 운영\n***- 플랫폼 내 게임 콘텐츠 활성화를 위한 협업 과제 실행 및 파트너사와의 커뮤니케이션·운영 이슈 관리\n\n﻿• 콘텐츠 및 이벤트 기획\n***- 스트리머 참여형 게임 콘텐츠 및 이벤트 기획/운영\n***- 게임사 협업 기반 오리지널 콘텐츠 프로젝트 지원 및 콘텐츠 제작/운영 조직과의 협업 진행\n***- 게임 시즌, 업데이트, e스포츠 일정과 연계한 콘텐츠 및 프로모션 기획\n\n﻿• 신규 파트너십 발굴 및 계약\n***- 신규 게임·e스포츠 파트너십 기회 발굴 및 게임 IP 기반 콘텐츠 확장 아이디어 도출\n***- 계약·운영 정책 관련 실무 지원 및 시장·산업 트렌드 리서치",
-          "requirements": "﻿﻿• 게임·콘텐츠 산업 유관 경험 및 도메인 이해도\n ***- 게임사·콘텐츠 플랫폼·MCN·e스포츠 업계에서 게임/스트리밍 콘텐츠 소비 구조를 직접 다뤄본 실무 경험이 있으신 분\n \n﻿• 프로젝트 운영 및 협업 경험\n﻿***- 프로젝트 단위 업무를 주도적으로 운영하거나 관리해본 경험이 있으신 분\n﻿***- 다양한 이해관계자와 원활하게 커뮤니케이션하고 협업할 수 있는 분\n\n﻿• 문서 작성 및 업무 커뮤니케이션 역량\n﻿***- 기획안, 보고서, 제안서 등 문서 작성 및 업무 커뮤니케이션 역량이 우수하신 분\n﻿***- 사업·산업 동향을 정리하고 인사이트를 구조화하여 전달할 수 있는 분",
-          "neededSkills": "",
-          "preferred": "﻿﻿• 게임·스트리밍 콘텐츠 이해도\n***- 게임·e스포츠 콘텐츠를 평소 즐기고 스트리밍 문화에 대한 이해도가 높으신 분\n\n﻿***- 게임·스트리밍 콘텐츠 트렌드를 빠르게 파악하고 본인의 업무에 적용할 수 있는 분\n \n﻿• 콘텐츠 제작·운영 실무 경험\n﻿***- 콘텐츠 제작, 방송, 이벤트 운영 등 실무 경험이 있으신 분\n﻿***- 오리지널 콘텐츠 또는 IP 기반 프로젝트 운영 경험이 있으신 분\n\n﻿• 외국어 커뮤니케이션 역량\n﻿***- 영어 커뮤니케이션이 가능하신 분\n﻿***- 일본어 커뮤니케이션이 가능하신 분",
-          "memo": "지원서 접수 마감 : 2026.06.01(월) 10:00\n서류전형&기업문화 적합도 검사 : 6월 2주차 ~ 6월 3주차 중\nㅤ* 기업문화 적합도 검사 응시 기간 : 06.05(금) ~ 06.08(월) 예정 (온라인 진행)\n직무 인터뷰 : 6월 4주차 중\n종합 인터뷰 : 7월 1주차 중",
-          "comment": "",
-          "deadline": "2026-06-01",
-          "importance": 7,
-          "isFavorite": true,
-          "link": "https://recruit.navercorp.com/rcrt/view.do?annoId=30004900&lang=ko",
-          "createdAt": "2026-05-28T06:44:50.192Z",
-          "updatedAt": "2026-05-28T06:44:54.241Z"
-        },
-        {
           "postingId": "beb19324-4583-4512-9e14-41764fd649bf",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "게임듀오",
@@ -21962,10 +22182,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": true,
+          "isFavorite": false,
           "link": "https://gameduo.recruit.roundhr.com/c/jHKwg4vKNx?back=true",
           "createdAt": "2026-05-28T06:32:24.677Z",
-          "updatedAt": "2026-05-28T06:32:28.213Z"
+          "updatedAt": "2026-06-07T16:34:32.587Z"
         },
         {
           "postingId": "01e3d78e-9d32-4877-8f7a-ff40050110ce",
@@ -21983,10 +22203,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": true,
+          "isFavorite": false,
           "link": "https://bitmango.ninehire.site/job_posting/8cqdMM1s",
           "createdAt": "2026-05-25T16:38:47.852Z",
-          "updatedAt": "2026-05-25T16:38:50.012Z"
+          "updatedAt": "2026-06-07T16:34:32.243Z"
         },
         {
           "postingId": "3216c630-7460-4ebd-9d15-540509c819d8",
@@ -22004,10 +22224,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": true,
+          "isFavorite": false,
           "link": "https://career.bagelcode.com/ko/o/216794",
           "createdAt": "2026-05-20T05:39:18.187Z",
-          "updatedAt": "2026-05-20T05:39:35.748Z"
+          "updatedAt": "2026-06-07T16:34:31.931Z"
         },
         {
           "postingId": "47ccb506-d13b-49da-95bf-34907083baaf",
@@ -22070,7 +22290,7 @@
           "isFavorite": true,
           "link": "https://ug6h08u8.ninehire.site/job_posting/Elnja1Oa",
           "createdAt": "2026-05-12T08:14:30.359Z",
-          "updatedAt": "2026-05-12T08:14:34.439Z"
+          "updatedAt": "2026-06-07T16:34:48.867Z"
         },
         {
           "postingId": "94ecf1e0-0dd3-4770-9a5d-5d55e3d133e9",
@@ -23057,7 +23277,7 @@
           }
         ],
         "currentIndex": 0,
-        "isPlaying": false,
+        "isPlaying": true,
         "shuffle": false,
         "repeatMode": "off",
         "presets": [
@@ -23918,7 +24138,7 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "Music Cafe.png"
+      "lifnux:background:theme": "gradient"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
@@ -23930,12 +24150,12 @@
         {
           "accountId": "acc-us-1",
           "currency": "KRW",
-          "balance": 1639
+          "balance": 10195
         },
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 2000.98
+          "balance": 4861.78
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -23945,7 +24165,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 5362657
+          "balance": 3358231
         }
       ]
     },
@@ -23972,7 +24192,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-06-05T09:07:39.115Z"
+      "lifnux:data.lastUpdatedAt": "2026-06-08T15:17:00.780Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -27848,6 +28068,103 @@
           "realizedPnl": null,
           "realizedPnlPercent": null,
           "costBasis": null
+        },
+        {
+          "id": "9fc4c62f-97de-44e3-b909-7ac2ae397657",
+          "ts": 1780689972447,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "SELL",
+          "qty": 20,
+          "price": 22.91,
+          "realizedPnl": -55.60000000000002,
+          "realizedPnlPercent": -10.821331257298562,
+          "costBasis": 513.8000000000001
+        },
+        {
+          "id": "636fd63e-bfb9-4920-a37e-c6efb4094aaf",
+          "ts": 1780690003271,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NYS:SNOW",
+          "side": "SELL",
+          "qty": 10,
+          "price": 238.26,
+          "realizedPnl": 693.9802,
+          "realizedPnlPercent": 41.097480913110225,
+          "costBasis": 1688.6198
+        },
+        {
+          "id": "768bc26e-b524-44cd-b0e2-3be4554ebd1b",
+          "ts": 1780690032575,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 20
+        },
+        {
+          "id": "5d3dc878-0cf5-4929-bd95-ec81356e5f08",
+          "ts": 1780900852803,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "466920",
+          "side": "SELL",
+          "qty": 15,
+          "price": 33530,
+          "realizedPnl": -44400,
+          "realizedPnlPercent": -8.111811455193203,
+          "costBasis": 547350
+        },
+        {
+          "id": "4da8a993-787f-454b-a137-46c14be20044",
+          "ts": 1780900895259,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "080220",
+          "side": "BUY",
+          "qty": 6,
+          "price": 95500,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "85966495-6bab-4a0f-a4c7-75f4712b7ad9",
+          "ts": 1780900909692,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "000660",
+          "side": "BUY",
+          "qty": 1,
+          "price": 1911000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "275e4e83-dce1-4d54-95ae-c961a26ad949",
+          "ts": 1780900951716,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 23376
+        },
+        {
+          "id": "3355f943-5511-49be-ba1d-e93ea578cd9b",
+          "ts": 1780930838265,
+          "accountId": "acc-us-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 8556
         }
       ]
     },
