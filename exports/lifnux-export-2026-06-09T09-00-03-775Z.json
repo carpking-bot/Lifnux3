@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-06-08T15:17:00.846Z"
+    "exportedAt": "2026-06-09T09:00:03.770Z"
   },
   "data": {
     "lastState": {
@@ -4236,6 +4236,16 @@
           "loggedForDate": "2026-06-08",
           "durationMin": 20,
           "createdAt": "2026-06-08T14:51:27.839Z"
+        },
+        {
+          "id": "563142df-09a7-4cc9-b2b8-a177d5186956",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-09",
+          "durationMin": 42,
+          "memo": "점심 산책",
+          "createdAt": "2026-06-09T04:38:11.903Z",
+          "distanceKm": 3.23,
+          "calorieOverride": 128
         }
       ]
     },
@@ -4612,7 +4622,12 @@
         },
         {
           "date": "2026-06-08",
-          "totalKrw": 53747497.415,
+          "totalKrw": 53733900.08,
+          "quality": "final"
+        },
+        {
+          "date": "2026-06-09",
+          "totalKrw": 55949905.91,
           "quality": "final"
         }
       ],
@@ -11356,18 +11371,6 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Non AI",
           "sectorLabel": "Semiconductor"
-        },
-        {
-          "id": "d337d9d8-d60b-40a7-bebd-21717aef6054",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-000660",
-          "symbolKey": "000660",
-          "avgPrice": 1911000,
-          "qty": 1,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "Semiconductor"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -13723,6 +13726,60 @@
           "amount": 3900,
           "kind": "expense",
           "memo": "초코우유 + 삼김"
+        },
+        {
+          "id": "fde72d7c-766f-4772-8fc9-6a094478a4f2",
+          "createdAt": 1780975423546,
+          "date": "2026-06-06",
+          "category": "Other",
+          "title": "FUN&FUN 회비",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "84c392a0-5b27-4adb-b9af-bb261f004fed",
+          "createdAt": 1780975434874,
+          "date": "2026-06-06",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "07f5c5a2-8cb8-42ff-aa1c-998f48fef056",
+          "createdAt": 1780975467732,
+          "date": "2026-06-07",
+          "category": "Entertainment",
+          "title": "코인 노래방",
+          "amount": 4490,
+          "kind": "expense"
+        },
+        {
+          "id": "fc673732-8203-468c-9825-367cf2725c03",
+          "createdAt": 1780975477580,
+          "date": "2026-06-07",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1000,
+          "kind": "expense"
+        },
+        {
+          "id": "2ee7a353-7fcb-411a-9e67-0ccd0f8fa829",
+          "createdAt": 1780975492020,
+          "date": "2026-06-08",
+          "category": "Subscription",
+          "title": "이모티콘 플러스",
+          "amount": 3900,
+          "kind": "expense"
+        },
+        {
+          "id": "75c8fccd-9fdf-4d55-b97d-351201b71e67",
+          "createdAt": 1780975501981,
+          "date": "2026-06-09",
+          "category": "Transport",
+          "title": "카카오 바이크패스",
+          "amount": 38900,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -14454,11 +14511,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 53744989.855,
-        "unrealizedPnlKrw": 11283394.629499998,
-        "realizedPnlYtdKrw": 5532833.229078261,
-        "dataQuality": "DEGRADED",
-        "updatedAt": 1780931775038
+        "totalValueKrw": 55949905.91,
+        "unrealizedPnlKrw": 13530068.255499996,
+        "realizedPnlYtdKrw": 5642732.313878261,
+        "dataQuality": "OK",
+        "updatedAt": 1780986011813
       }
     },
     "personalGrowth": {
@@ -20792,6 +20849,129 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "08596212-4d83-436c-8474-046b5d74936c",
+          "postingId": "1615ff3b-967c-49b1-9501-3f739a5ab8f0",
+          "appliedAt": "2026-06-08",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "13d11b67-90c4-4d28-ba15-4d4d93e9d43a",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-08",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "639a1b8b-7eb8-486f-9dcc-d4e980494ae3",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "3b040768-0dd1-4466-9456-5bb0406b3c78",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "a898393a-ce0b-43eb-8d4b-5d68fd7440a1",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "a13229a4-dc2a-40a3-8486-57480abaaaad",
+          "postingId": "b8575ba7-cf27-4358-a09f-ae18914e8072",
+          "appliedAt": "2026-06-08",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "5fbd5e6d-02bb-4ce0-81b0-5a3391124671",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-08",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "75c9b9c7-8fc0-4093-99c3-3ccbb77eb365",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "a623d02f-875b-419b-820e-b653b878def2",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "37fbb043-60b0-47d4-81b6-d1501bed298b",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "08fee8e3-1b65-4328-92e9-e209bd5b07ce",
+          "postingId": "74c4f254-1ad9-4740-b292-b7dae60b0ca4",
+          "appliedAt": "2026-06-08",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "032539bd-44ad-4c5e-b6f3-31039455bbae",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-08",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "2878718f-5336-4d84-bd6c-90c7a17c3532",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "15101300-6cce-4979-a239-f9ab25395f63",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "7a4c8177-bc97-4885-adca-2c03b2b82887",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "67d807d4-d94e-4f14-9a5c-dc0dca9c4158",
           "postingId": "ea2574b9-5c71-4b1d-b076-86495d41c15d",
           "appliedAt": "2026-06-01",
@@ -20966,7 +21146,7 @@
               "stageId": "58f581a6-2663-4326-842b-412728eb95dc",
               "type": "DOCUMENT",
               "submittedAt": "2026-05-17",
-              "resultAt": "2026-06-05",
+              "resultAt": "2026-06-09",
               "result": "FAIL",
               "notes": "결과는 안나왔지만 그러니까 탈락이 맞음"
             },
@@ -21957,6 +22137,27 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "87ac2a43-8708-4864-983b-f456d7a5dcab",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "NC소프트",
+          "postingTitle": "[Blade&Soul] 프로젝트 매니징 지원(개발 PM)",
+          "role": "개발PM",
+          "contractType": "단기계약직",
+          "departmentInfo": "저희 팀은 Blade & Soul / BNS NEO 프로젝트 전반을 관리하며, 프로젝트 목표와 일정이 원활하게 달성될 수 있도록 전반적인 운영을 담당합니다.\n\n- 개발, 운영 등 유관 부서 간 협업을 조율하고 커뮤니케이션 허브 역할을 수행합니다.\n- 프로젝트 진행 현황을 체계적으로 관리하고, 리스크를 사전에 파악·대응하여 일정 지연을 최소화합니다.\n- 운영 및 업무 프로세스 개선과 효율화 방안을 도출·적용하여 프로젝트 생산성을 지속적으로 향상시킵니다.\n- 각종 이슈를 정리하고 의사결정을 지원하여, 프로젝트가 안정적이고 일관되게 진행될 수 있도록 지원합니다.",
+          "responsibilities": "1. 프로젝트 진행의 전반적인 과정(요구 사항의 수집, 기획, 개발, 테스트, 배포, 퍼블리싱 등)이 원활하게 진행되도록 프로세스 수립, 진행, 조율, 관리하는 역할(PM)의 서포트를 합니다.\n2. 내부 매니징 업무 지원 및 사무 보조를 담당합니다.",
+          "requirements": "- 원활한 커뮤니케이션 및 협업 능력을 보유하고 계신 분\n- 디테일과 책임감을 겸비하신 분\n- MS Office 활용 능력을 보유하신 분",
+          "neededSkills": "",
+          "preferred": "- 게임 및 게임 산업 전반에 대한 높은 관심이 있으신 분\n- AI 활용 능력 보유자",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://careers.ncsoft.com/apply/view/100686?companyId=NCH",
+          "createdAt": "2026-06-09T06:30:13.378Z",
+          "updatedAt": "2026-06-09T06:30:23.146Z"
+        },
+        {
           "postingId": "1615ff3b-967c-49b1-9501-3f739a5ab8f0",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "에임드",
@@ -21993,10 +22194,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": false,
+          "isFavorite": true,
           "link": "https://suncyan.career.greetinghr.com/ko/o/215395",
           "createdAt": "2026-06-07T17:19:39.409Z",
-          "updatedAt": "2026-06-07T17:19:39.409Z"
+          "updatedAt": "2026-06-08T15:55:58.748Z"
         },
         {
           "postingId": "8795fabc-dbbb-467e-a05d-8a568adf6c6e",
@@ -22018,27 +22219,6 @@
           "link": "https://www.jobkorea.co.kr/Recruit/GI_Read/49245963?Oem_Code=C1",
           "createdAt": "2026-06-07T17:01:43.312Z",
           "updatedAt": "2026-06-07T17:01:43.312Z"
-        },
-        {
-          "postingId": "1edb4616-2132-4f73-ba57-2e54b565fd22",
-          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
-          "companyName": "펄어비스",
-          "postingTitle": "검은사막 모바일 글로벌 사업 담당자",
-          "role": "사업PM",
-          "contractType": "계약직",
-          "departmentInfo": "BM을 기획, 설계, 세팅하고 결과 분석을 통해 지속적인 개선 진행\n게임 콘텐츠에 대한 이해도를 바탕으로 지표를 분석하고 필요한 액션을 수행\n라이브 서비스 전반의 일정을 관리하고 서비스 전략을 수립\n모멘텀에 따라 이벤트, 마케팅, 홍보, 제휴 등의 업무를 진행\n게임 서비스 전반에 걸쳐 문제가 될 요소를 사전에 파악하고 대응",
-          "responsibilities": "게임 및 MMORPG 장르에 대한 높은 이해도를 갖춘 분\n원활한 커뮤니케이션 능력과 책임감, 집요함, 적극성, 꼼꼼한 일정 관리 능력을 보유하신 분\n해외 출장에 결격 사유가 없으신 분",
-          "requirements": "",
-          "neededSkills": "",
-          "preferred": "다양한 모바일 MMORPG 플레이 이력이 있으신 분\n게임 내 재화, 아이템 가치 및 시장 경제에 대한 뛰어난 이해도를 갖춘 분\n비즈니스 커뮤니케이션이 가능한 수준의 외국어(영어) 능력을 보유하신 분\n",
-          "memo": "",
-          "comment": "",
-          "deadline": null,
-          "importance": 6,
-          "isFavorite": true,
-          "link": "https://www.pearlabyss.com/ko-KR/Company/Careers/detail?_jobOpeningNo=772",
-          "createdAt": "2026-06-07T16:49:51.208Z",
-          "updatedAt": "2026-06-07T16:49:53.295Z"
         },
         {
           "postingId": "c4f6e2a6-aaff-429d-aae7-fe50c037af1c",
@@ -22077,10 +22257,10 @@
           "comment": "",
           "deadline": null,
           "importance": 7,
-          "isFavorite": false,
+          "isFavorite": true,
           "link": "https://www.coupang.jobs/kr/jobs/7962117/%EC%BF%A0%ED%8C%A1-%EC%9D%B4%EC%B8%A0-%EC%9A%B4%EC%98%81-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EA%B0%9C%EC%84%A0-%EB%8B%B4%EB%8B%B9%EC%9E%90-%EC%8B%A0%EC%9E%85%EA%B0%80%EB%8A%A5/?gh_jid=7962117",
           "createdAt": "2026-06-07T16:25:31.006Z",
-          "updatedAt": "2026-06-07T16:25:31.006Z"
+          "updatedAt": "2026-06-08T15:54:56.291Z"
         },
         {
           "postingId": "73dab3ff-9d4c-404a-880b-900d0350b183",
@@ -22182,10 +22362,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": false,
+          "isFavorite": true,
           "link": "https://gameduo.recruit.roundhr.com/c/jHKwg4vKNx?back=true",
           "createdAt": "2026-05-28T06:32:24.677Z",
-          "updatedAt": "2026-06-07T16:34:32.587Z"
+          "updatedAt": "2026-06-08T15:56:37.612Z"
         },
         {
           "postingId": "01e3d78e-9d32-4877-8f7a-ff40050110ce",
@@ -22224,10 +22404,10 @@
           "comment": "",
           "deadline": null,
           "importance": 6,
-          "isFavorite": false,
+          "isFavorite": true,
           "link": "https://career.bagelcode.com/ko/o/216794",
           "createdAt": "2026-05-20T05:39:18.187Z",
-          "updatedAt": "2026-06-07T16:34:31.931Z"
+          "updatedAt": "2026-06-08T15:55:53.916Z"
         },
         {
           "postingId": "47ccb506-d13b-49da-95bf-34907083baaf",
@@ -23277,7 +23457,7 @@
           }
         ],
         "currentIndex": 0,
-        "isPlaying": true,
+        "isPlaying": false,
         "shuffle": false,
         "repeatMode": "off",
         "presets": [
@@ -24138,7 +24318,7 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "gradient"
+      "lifnux:background:theme": "Music Cafe.png"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
@@ -24165,7 +24345,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 3358231
+          "balance": 5410119
         }
       ]
     },
@@ -24192,7 +24372,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-06-08T15:17:00.780Z"
+      "lifnux:data.lastUpdatedAt": "2026-06-09T09:00:02.852Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -28165,6 +28345,21 @@
           "currency": "KRW",
           "direction": "DEPOSIT",
           "amount": 8556
+        },
+        {
+          "id": "8b997b75-496a-4de3-a30d-86ff9846986f",
+          "ts": 1780965900253,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "000660",
+          "side": "SELL",
+          "qty": 1,
+          "price": 2056000,
+          "fee": 4112,
+          "realizedPnl": 140888,
+          "realizedPnlPercent": 7.372475143903716,
+          "costBasis": 1911000
         }
       ]
     },
