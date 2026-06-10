@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-06-09T09:00:03.770Z"
+    "exportedAt": "2026-06-10T08:55:48.671Z"
   },
   "data": {
     "lastState": {
@@ -4246,6 +4246,24 @@
           "createdAt": "2026-06-09T04:38:11.903Z",
           "distanceKm": 3.23,
           "calorieOverride": 128
+        },
+        {
+          "id": "6ff266d2-e29a-420d-9231-0c8bb4da067a",
+          "typeId": "swimming",
+          "loggedForDate": "2026-06-09",
+          "durationMin": 50,
+          "memo": "46회차\n수영계의 DN프릭스\n배영하는데 걍 안됨. 안하는게 맞아 난 ㅠㅠㅠㅠㅠㅠㅠ",
+          "createdAt": "2026-06-09T14:24:21.154Z"
+        },
+        {
+          "id": "56ac67f2-c670-404e-a69a-e3b5a6e0d541",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-10",
+          "durationMin": 37,
+          "memo": "점심 산책",
+          "createdAt": "2026-06-10T04:48:26.502Z",
+          "distanceKm": 2.87,
+          "calorieOverride": 114
         }
       ]
     },
@@ -4627,12 +4645,17 @@
         },
         {
           "date": "2026-06-09",
-          "totalKrw": 55949905.91,
+          "totalKrw": 55922233.8,
+          "quality": "final"
+        },
+        {
+          "date": "2026-06-10",
+          "totalKrw": 54221488.95999999,
           "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": false
+        "blurSensitiveNumbers": true
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -11060,6 +11083,22 @@
           "countryLabel": "KR",
           "sectorMajorLabel": "Non AI",
           "sectorLabel": "Retail"
+        },
+        {
+          "id": "kr-stock-0173y0",
+          "label": "KODEX 미국AI광통신네트워크",
+          "symbol": "0173Y0",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1781054797750,
+          "last": 152100,
+          "changePct": -2,
+          "changeAbs": -3042,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -11347,30 +11386,6 @@
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
           "sectorMajorLabel": "AI"
-        },
-        {
-          "id": "fe33c2ad-a10c-421f-b41c-631135f892e7",
-          "accountId": "acc-kr-1",
-          "stockId": "kr-stock-0043y0",
-          "symbolKey": "0043Y0",
-          "avgPrice": 25003,
-          "qty": 50,
-          "currency": "KRW",
-          "countryLabel": "CN",
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
-        },
-        {
-          "id": "280e55ed-1db2-48f7-9161-22f65ae7a69f",
-          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
-          "stockId": "kr-stock-080220",
-          "symbolKey": "080220",
-          "avgPrice": 98300,
-          "qty": 6,
-          "currency": "KRW",
-          "countryLabel": "KR",
-          "sectorMajorLabel": "Non AI",
-          "sectorLabel": "Semiconductor"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -13780,6 +13795,43 @@
           "title": "카카오 바이크패스",
           "amount": 38900,
           "kind": "expense"
+        },
+        {
+          "id": "89aa99ca-1a9c-4893-a9ee-ed6f436c67eb",
+          "createdAt": 1781053587720,
+          "date": "2026-06-10",
+          "category": "Subscription",
+          "title": "쿠팡플레이",
+          "amount": 9900,
+          "kind": "expense"
+        },
+        {
+          "id": "a4f60bf4-a0e4-4509-83a6-14591860a4de",
+          "createdAt": 1781054022346,
+          "date": "2026-06-07",
+          "category": "Snacks & Coffee",
+          "title": "메가커피",
+          "amount": 3300,
+          "kind": "expense",
+          "memo": "레몬티"
+        },
+        {
+          "id": "eff5452d-24ec-44b8-9a34-a06855e287cb",
+          "createdAt": 1781054049397,
+          "date": "2026-06-08",
+          "category": "Cashback",
+          "title": "하나카드 캐쉬백",
+          "amount": 78,
+          "kind": "income"
+        },
+        {
+          "id": "ecdd1208-ffbd-4798-9e1f-f058138361f8",
+          "createdAt": 1781069150013,
+          "date": "2026-06-10",
+          "category": "Wage",
+          "title": "5월 추가 급여",
+          "amount": 8050,
+          "kind": "income"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -14333,6 +14385,10 @@
         {
           "dateKey": "2026-06-08",
           "createdAt": 1780917781216
+        },
+        {
+          "dateKey": "2026-06-09",
+          "createdAt": 1781015274682
         }
       ],
       "lifnux:guitar:videos": [
@@ -14511,11 +14567,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 55949905.91,
-        "unrealizedPnlKrw": 13530068.255499996,
-        "realizedPnlYtdKrw": 5642732.313878261,
+        "totalValueKrw": 54221488.95999999,
+        "unrealizedPnlKrw": 11845192.900999997,
+        "realizedPnlYtdKrw": 5501282.984278261,
         "dataQuality": "OK",
-        "updatedAt": 1780986011813
+        "updatedAt": 1781081739728
       }
     },
     "personalGrowth": {
@@ -22137,6 +22193,27 @@
       ],
       "career_job_postings": [
         {
+          "postingId": "704a84fb-8ae4-4411-acea-c568913d1f3a",
+          "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
+          "companyName": "엔엑스쓰리게임즈",
+          "postingTitle": "[로드나인 글로벌] 개발PM",
+          "role": "개발PM",
+          "contractType": "정규직",
+          "departmentInfo": "",
+          "responsibilities": "-로드나인 글로벌 서비스 리딩\n\n- 라이브 서비스 이슈 대응\n\n- 개발 일정 관리\n\n- 유관 부서와의 커뮤니케이션",
+          "requirements": "- 원활한 커뮤니케이션 및 협업 능력을 보유하신 분\n\n- 모바일 게임 개발 및 라이브 서비스 프로세스에 대한 이해가 있으신 분\n\n- 높은 책임감과 꼼꼼한 업무 처리 능력을 갖추신 분\n\n- 빠른 상황 판단과 적극적인 문제 해결 자세를 지니신 분",
+          "neededSkills": "",
+          "preferred": "-파편화된 개발 일정을 체계화하고, 협업 프로세스를 효율적으로 개선해 본 경험이 있으신 분\n\n-MMORPG 장르에 대한 높은 이해도 및 글로벌 런칭/라이브 서비스 경험이 있으신 분",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://nx3games.career.greetinghr.com/ko/o/204495",
+          "createdAt": "2026-06-10T05:46:13.909Z",
+          "updatedAt": "2026-06-10T05:46:21.261Z"
+        },
+        {
           "postingId": "87ac2a43-8708-4864-983b-f456d7a5dcab",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
           "companyName": "NC소프트",
@@ -24318,14 +24395,14 @@
       "lifnux.shoppingList": []
     },
     "background": {
-      "lifnux:background:theme": "Music Cafe.png"
+      "lifnux:background:theme": "gradient"
     },
     "ing_cash_balances": {
       "investing_cash_balances": [
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 7375
+          "balance": 1140125
         },
         {
           "accountId": "acc-us-1",
@@ -24335,7 +24412,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 4861.78
+          "balance": 4878.28
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -24345,7 +24422,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 5410119
+          "balance": 5931819
         }
       ]
     },
@@ -24372,7 +24449,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-06-09T09:00:02.852Z"
+      "lifnux:data.lastUpdatedAt": "2026-06-10T08:55:48.592Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -28360,6 +28437,90 @@
           "realizedPnl": 140888,
           "realizedPnlPercent": 7.372475143903716,
           "costBasis": 1911000
+        },
+        {
+          "id": "10cdd369-8c78-44ba-a221-d2791a0397c3",
+          "ts": 1781015243746,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:SOXS",
+          "side": "BUY",
+          "qty": 150,
+          "price": 5.53,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "f2e0ba00-f8d8-426e-9aea-0f1333c41314",
+          "ts": 1781015593658,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:SOXS",
+          "side": "SELL",
+          "qty": 150,
+          "price": 5.64,
+          "realizedPnl": 16.499999999999915,
+          "realizedPnlPercent": 1.9891500904159027,
+          "costBasis": 829.5
+        },
+        {
+          "id": "d2fd92ff-8a0a-4077-848c-d052e245098f",
+          "ts": 1781067238185,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "069960",
+          "side": "BUY",
+          "qty": 5,
+          "price": 173200,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "659b6427-d335-4269-bf01-ae876a8acf65",
+          "ts": 1781068035781,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "080220",
+          "side": "SELL",
+          "qty": 6,
+          "price": 92700,
+          "realizedPnl": -33600,
+          "realizedPnlPercent": -5.696846388606307,
+          "costBasis": 589800
+        },
+        {
+          "id": "7e9e832e-d455-4820-87a3-123e4273a212",
+          "ts": 1781068055340,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "069960",
+          "side": "SELL",
+          "qty": 5,
+          "price": 166300,
+          "realizedPnl": -34500,
+          "realizedPnlPercent": -3.983833718244804,
+          "costBasis": 866000
+        },
+        {
+          "id": "8c4b9134-b346-4a3f-9e07-da71fa3e0d91",
+          "ts": 1781068225753,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "SELL",
+          "qty": 50,
+          "price": 22655,
+          "realizedPnl": -117400,
+          "realizedPnlPercent": -9.390873095228573,
+          "costBasis": 1250150
         }
       ]
     },
