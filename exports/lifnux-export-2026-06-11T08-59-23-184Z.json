@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-06-10T08:55:48.671Z"
+    "exportedAt": "2026-06-11T08:59:23.179Z"
   },
   "data": {
     "lastState": {
@@ -4264,6 +4264,16 @@
           "createdAt": "2026-06-10T04:48:26.502Z",
           "distanceKm": 2.87,
           "calorieOverride": 114
+        },
+        {
+          "id": "56921835-daee-43e9-92f8-de4172f9be3c",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-11",
+          "durationMin": 38,
+          "memo": "점심 산책",
+          "createdAt": "2026-06-11T04:34:20.248Z",
+          "distanceKm": 3.12,
+          "calorieOverride": 122
         }
       ]
     },
@@ -4650,12 +4660,17 @@
         },
         {
           "date": "2026-06-10",
-          "totalKrw": 54221488.95999999,
+          "totalKrw": 54244650.3425,
+          "quality": "final"
+        },
+        {
+          "date": "2026-06-11",
+          "totalKrw": 54234455.8,
           "quality": "final"
         }
       ],
       "lifnux.finance.settings.v100": {
-        "blurSensitiveNumbers": true
+        "blurSensitiveNumbers": false
       },
       "lifnux.finance.asset.category.schema.v1": [
         {
@@ -10931,7 +10946,7 @@
           "changeAbs": 5.9502,
           "mktCapRank": 9999,
           "notes": "",
-          "watchlisted": false,
+          "watchlisted": true,
           "countryLabel": "US",
           "sectorMajorLabel": "Risky Assets",
           "sectorLabel": "Inverse"
@@ -11386,6 +11401,30 @@
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
           "sectorMajorLabel": "AI"
+        },
+        {
+          "id": "09471e76-fdcf-4aff-9f71-c5c27a2d7ad2",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-ams:soxs",
+          "symbolKey": "AMS:SOXS",
+          "avgPrice": 6.5,
+          "qty": 300,
+          "currency": "USD",
+          "countryLabel": "US",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Inverse"
+        },
+        {
+          "id": "3309f3cb-138b-4f35-95cc-5b7f2e942f7e",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-069960",
+          "symbolKey": "069960",
+          "avgPrice": 183400,
+          "qty": 3,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Retail"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -13832,6 +13871,24 @@
           "title": "5월 추가 급여",
           "amount": 8050,
           "kind": "income"
+        },
+        {
+          "id": "be8b012c-68ca-4eda-aaeb-d2bb82ef789a",
+          "createdAt": 1781138878744,
+          "date": "2026-06-10",
+          "category": "Subscription",
+          "title": "쿠팡와우",
+          "amount": 7890,
+          "kind": "expense"
+        },
+        {
+          "id": "b3c6b625-e52f-4334-8369-29a1a5ba3022",
+          "createdAt": 1781138896479,
+          "date": "2026-06-11",
+          "category": "Other",
+          "title": "한발 OB 회비",
+          "amount": 20000,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -14567,11 +14624,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 54221488.95999999,
-        "unrealizedPnlKrw": 11845192.900999997,
-        "realizedPnlYtdKrw": 5501282.984278261,
+        "totalValueKrw": 54234455.8,
+        "unrealizedPnlKrw": 11773049.265,
+        "realizedPnlYtdKrw": 5515187.835478261,
         "dataQuality": "OK",
-        "updatedAt": 1781081739728
+        "updatedAt": 1781168349008
       }
     },
     "personalGrowth": {
@@ -20905,6 +20962,88 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "5ac2f79f-c244-443a-9e5b-302b7e745c3b",
+          "postingId": "c4f6e2a6-aaff-429d-aae7-fe50c037af1c",
+          "appliedAt": "2026-06-10",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "45204172-f5fe-4003-90dc-958b31ea259b",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-10",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "245e487d-94ed-45cd-8cc1-c95b1f3f6ffe",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "2691f7ee-e058-43fd-97f7-47ff4e3bdaa2",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "eb2094e7-71f0-4b2b-85ba-1a4baed235fb",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "2fc44244-ac5c-47cd-a958-2743c0c3d884",
+          "postingId": "704a84fb-8ae4-4411-acea-c568913d1f3a",
+          "appliedAt": "2026-06-10",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "6068adfd-a79b-4a2e-8eee-d69822c23a52",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-10",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "640433af-0dc1-439b-9cdb-c7e1424b955c",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "03bd1fc0-1f21-4d6b-9eb1-35b4da8f8155",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "515d2793-cabd-4c74-b959-f1675ba64b17",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "08596212-4d83-436c-8474-046b5d74936c",
           "postingId": "1615ff3b-967c-49b1-9501-3f739a5ab8f0",
           "appliedAt": "2026-06-08",
@@ -23534,7 +23673,7 @@
           }
         ],
         "currentIndex": 0,
-        "isPlaying": false,
+        "isPlaying": true,
         "shuffle": false,
         "repeatMode": "off",
         "presets": [
@@ -24412,7 +24551,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 4878.28
+          "balance": 2928.2799999999997
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -24422,7 +24561,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 5931819
+          "balance": 5381619
         }
       ]
     },
@@ -24449,7 +24588,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-06-10T08:55:48.592Z"
+      "lifnux:data.lastUpdatedAt": "2026-06-11T08:59:22.528Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -28521,6 +28660,34 @@
           "realizedPnl": -117400,
           "realizedPnlPercent": -9.390873095228573,
           "costBasis": 1250150
+        },
+        {
+          "id": "77102415-b51b-404d-9f2f-c97414875ce7",
+          "ts": 1781138600939,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:SOXS",
+          "side": "BUY",
+          "qty": 300,
+          "price": 6.5,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "781dfc8d-b66c-4ec5-a2ad-fb1e9d3d99ff",
+          "ts": 1781161791379,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "069960",
+          "side": "BUY",
+          "qty": 3,
+          "price": 183400,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },
