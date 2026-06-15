@@ -2,7 +2,7 @@
   "meta": {
     "app": "lifnux",
     "version": "1.0.0",
-    "exportedAt": "2026-06-10T16:44:48.257Z"
+    "exportedAt": "2026-06-15T16:17:40.932Z"
   },
   "data": {
     "lastState": {
@@ -4264,6 +4264,125 @@
           "createdAt": "2026-06-10T04:48:26.502Z",
           "distanceKm": 2.87,
           "calorieOverride": 114
+        },
+        {
+          "id": "56921835-daee-43e9-92f8-de4172f9be3c",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-11",
+          "durationMin": 38,
+          "memo": "점심 산책",
+          "createdAt": "2026-06-11T04:34:20.248Z",
+          "distanceKm": 3.12,
+          "calorieOverride": 122
+        },
+        {
+          "id": "d091a8fc-532e-4037-9da2-7f6ea8e92963",
+          "typeId": "swimming",
+          "loggedForDate": "2026-06-11",
+          "durationMin": 50,
+          "memo": "47회차, 이자 어쩌면 올해 마지막 회차\n역대급 노재능의 고군분투기... \n혹시 차후에 볼까봐 팁을 쓰자면 1. 힘을 빼라 2. 힘을 빼라 3. 힘을 뺴라",
+          "createdAt": "2026-06-11T13:55:00.694Z"
+        },
+        {
+          "id": "ff7f2fa7-652e-4a7d-bf05-1b84a1f8c059",
+          "typeId": "running",
+          "loggedForDate": "2026-06-12",
+          "durationMin": 47.76,
+          "memo": "월드타워 런 4회차",
+          "createdAt": "2026-06-12T18:21:10.182Z",
+          "distanceKm": 7.35,
+          "paceText": "06'29\"",
+          "cadence": 136,
+          "maxSpeedKmh": 339,
+          "calorieOverride": 575
+        },
+        {
+          "id": "80cb71cb-f059-47bf-ad8a-0c84db5a0da1",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-12",
+          "durationMin": 24,
+          "memo": "걷기1",
+          "createdAt": "2026-06-12T18:21:38.430Z",
+          "distanceKm": 1.93,
+          "calorieOverride": 76
+        },
+        {
+          "id": "76e8686c-f253-4f84-81e9-13ad338bb27a",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-12",
+          "durationMin": 32,
+          "memo": "걷기2",
+          "createdAt": "2026-06-12T18:21:52.326Z",
+          "distanceKm": 2.67,
+          "calorieOverride": 110
+        },
+        {
+          "id": "0d375ed9-b415-4d01-96ff-c4404ce4c0c9",
+          "typeId": "bicycle",
+          "loggedForDate": "2026-06-12",
+          "durationMin": 26,
+          "memo": "석촌 to 집",
+          "createdAt": "2026-06-12T18:22:13.176Z",
+          "distanceKm": 4.64,
+          "calorieOverride": 145
+        },
+        {
+          "id": "bd4b9d6d-a68e-482d-9aec-e55fb2c76305",
+          "typeId": "home",
+          "loggedForDate": "2026-06-12",
+          "durationMin": 20,
+          "createdAt": "2026-06-12T18:26:21.560Z"
+        },
+        {
+          "id": "be0ed335-c80b-4206-a9db-faf527f52bb1",
+          "typeId": "bicycle",
+          "loggedForDate": "2026-06-13",
+          "durationMin": 42,
+          "memo": "석촌 to 집",
+          "createdAt": "2026-06-14T13:40:23.019Z",
+          "distanceKm": 6.52,
+          "calorieOverride": 218
+        },
+        {
+          "id": "425a83b6-6fbd-485c-a772-12a44858205e",
+          "typeId": "home",
+          "loggedForDate": "2026-06-13",
+          "durationMin": 20,
+          "createdAt": "2026-06-14T13:40:30.169Z"
+        },
+        {
+          "id": "bbb0217b-15ea-4b34-83de-61ab2ef41916",
+          "typeId": "soccer",
+          "loggedForDate": "2026-06-14",
+          "memo": "제1월곡구장 자체전",
+          "createdAt": "2026-06-14T13:40:44.906Z"
+        },
+        {
+          "id": "bc1ddcec-3ae6-46dc-b35c-1416b76668f1",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-15",
+          "durationMin": 42,
+          "memo": "음료수사러 가는 길",
+          "createdAt": "2026-06-15T13:32:27.233Z",
+          "distanceKm": 3.31,
+          "calorieOverride": 131
+        },
+        {
+          "id": "465ee4b2-8b2d-46fe-a258-edcfec10d0a4",
+          "typeId": "walking",
+          "loggedForDate": "2026-06-15",
+          "durationMin": 75,
+          "memo": "밤 산책",
+          "createdAt": "2026-06-15T16:14:06.436Z",
+          "distanceKm": 6.09,
+          "calorieOverride": 240
+        },
+        {
+          "id": "94c2f2da-9c35-471d-8f29-efc4f89f6c95",
+          "typeId": "home",
+          "loggedForDate": "2026-06-15",
+          "durationMin": 20,
+          "createdAt": "2026-06-15T16:17:27.567Z"
         }
       ]
     },
@@ -4651,6 +4770,21 @@
         {
           "date": "2026-06-10",
           "totalKrw": 54244650.3425,
+          "quality": "final"
+        },
+        {
+          "date": "2026-06-11",
+          "totalKrw": 53996682.9,
+          "quality": "final"
+        },
+        {
+          "date": "2026-06-12",
+          "totalKrw": 54891101.495,
+          "quality": "final"
+        },
+        {
+          "date": "2026-06-15",
+          "totalKrw": 57046860.8125,
           "quality": "final"
         }
       ],
@@ -10305,7 +10439,8 @@
         "countries": [
           "KR",
           "US",
-          "CN"
+          "CN",
+          "Global"
         ],
         "sectorMajors": [
           "AI",
@@ -10328,7 +10463,8 @@
           "Alternative Asset",
           "Robotics",
           "Inverse",
-          "Retail"
+          "Retail",
+          "Battery"
         ]
       },
       "lifnux.finance.asset.dataset.imported.v9": true,
@@ -10359,7 +10495,6 @@
         "sectorWarningPct": 25,
         "sectorCriticalPct": 35
       },
-      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.watchlist.v100": [
         {
           "id": "us-aapl",
@@ -10374,6 +10509,7 @@
           "watchlisted": true
         }
       ],
+      "lifnux.finance.asset.dataset.imported.v8": true,
       "lifnux.finance.stocks.v200": [
         {
           "id": "auto-us-nas:crwd",
@@ -10902,41 +11038,6 @@
           "sectorLabel": "Inverse"
         },
         {
-          "id": "us-stock-ams:soxl",
-          "label": "SOXL",
-          "symbol": "AMS:SOXL",
-          "market": "US",
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1779151833892,
-          "last": 214.5,
-          "changePct": 2.89,
-          "changeAbs": 6.19905,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": false
-        },
-        {
-          "id": "us-stock-ams:soxs",
-          "label": "SOXS",
-          "symbol": "AMS:SOXS",
-          "market": "US",
-          "assetType": "STOCK",
-          "exchange": "NASDAQ",
-          "currency": "USD",
-          "createdAt": 1779151838945,
-          "last": 211,
-          "changePct": 2.82,
-          "changeAbs": 5.9502,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": false,
-          "countryLabel": "US",
-          "sectorMajorLabel": "Risky Assets",
-          "sectorLabel": "Inverse"
-        },
-        {
           "id": "kr-stock-0181b0",
           "label": "HANARO 미국AI메모리반도체TOP4",
           "symbol": "0181B0",
@@ -11029,24 +11130,6 @@
           "sectorLabel": "AI Infra"
         },
         {
-          "id": "kr-stock-440110",
-          "label": "파두",
-          "symbol": "440110",
-          "market": "KR",
-          "assetType": "STOCK",
-          "exchange": "KRX",
-          "currency": "KRW",
-          "createdAt": 1780293833517,
-          "last": 107568,
-          "changePct": 2.68,
-          "changeAbs": 2882.8224,
-          "mktCapRank": 9999,
-          "notes": "",
-          "watchlisted": true,
-          "sectorMajorLabel": "AI",
-          "sectorLabel": "AI Infra"
-        },
-        {
           "id": "kr-stock-004170",
           "label": "신세계",
           "symbol": "004170",
@@ -11099,6 +11182,101 @@
           "mktCapRank": 9999,
           "notes": "",
           "watchlisted": true
+        },
+        {
+          "id": "kr-stock-010140",
+          "label": "삼성중공업",
+          "symbol": "010140",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1781220817718,
+          "last": 60494,
+          "changePct": -0.06,
+          "changeAbs": -36.2964,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Shipbuilding"
+        },
+        {
+          "id": "kr-stock-373220",
+          "label": "LG에너지솔루션",
+          "symbol": "373220",
+          "market": "KR",
+          "assetType": "STOCK",
+          "exchange": "KRX",
+          "currency": "KRW",
+          "createdAt": 1781220830526,
+          "last": 139345,
+          "changePct": 2.45,
+          "changeAbs": 3413.9525,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Battery"
+        },
+        {
+          "id": "us-stock-ams:dram",
+          "label": "라운드힐 메모리 ETF",
+          "symbol": "AMS:DRAM",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1781220885224,
+          "last": 161.5,
+          "changePct": -2.17,
+          "changeAbs": -3.50455,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "Global",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
+        },
+        {
+          "id": "us-stock-nas:mrvl",
+          "label": "Marvell Technology",
+          "symbol": "NAS:MRVL",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1781220925320,
+          "last": 429.5,
+          "changePct": 1.19,
+          "changeAbs": 5.11105,
+          "mktCapRank": 9999,
+          "notes": "",
+          "watchlisted": true,
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "auto-us-ams:soxs",
+          "symbol": "AMS:SOXS",
+          "market": "US",
+          "assetType": "STOCK",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "createdAt": 1781220926517,
+          "label": "SOXS",
+          "name": "SOXS",
+          "countryLabel": "US",
+          "sectorMajorLabel": "Risky Assets",
+          "sectorLabel": "Inverse",
+          "watchlisted": true,
+          "mktCapRank": 9999,
+          "last": 211,
+          "changePct": 2.82,
+          "changeAbs": 5.9502
         }
       ],
       "lifnux.finance.asset.cashflowPlanner.v1": {
@@ -11263,8 +11441,8 @@
           "accountId": "acc-kr-1",
           "stockId": "kr-005930",
           "symbolKey": "005930",
-          "avgPrice": 140067.07692307694,
-          "qty": 26,
+          "avgPrice": 164258.13333333333,
+          "qty": 30,
           "currency": "KRW",
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
@@ -11275,8 +11453,8 @@
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "stockId": "us-nas:amzn",
           "symbolKey": "NAS:AMZN",
-          "avgPrice": 216.22567857142857,
-          "qty": 14,
+          "avgPrice": 217.6686,
+          "qty": 15,
           "currency": "USD",
           "countryLabel": "US",
           "sectorLabel": "Big Tech",
@@ -11386,6 +11564,114 @@
           "countryLabel": "KR",
           "sectorLabel": "Semiconductor",
           "sectorMajorLabel": "AI"
+        },
+        {
+          "id": "3309f3cb-138b-4f35-95cc-5b7f2e942f7e",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-069960",
+          "symbolKey": "069960",
+          "avgPrice": 183300,
+          "qty": 6,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Retail"
+        },
+        {
+          "id": "2da822af-fd1c-452b-8cc6-1d479d420c5b",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "auto-us-nas:flnc",
+          "symbolKey": "NAS:FLNC",
+          "avgPrice": 23.64,
+          "qty": 35,
+          "currency": "USD",
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Energy/Grid"
+        },
+        {
+          "id": "ae3366a4-183b-4ee7-bada-dfa25de9cc3d",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-373220",
+          "symbolKey": "373220",
+          "avgPrice": 398666,
+          "qty": 3,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Battery"
+        },
+        {
+          "id": "bd2723c6-4623-410f-ae3d-ad4c73a401ae",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-004170",
+          "symbolKey": "004170",
+          "avgPrice": 681000,
+          "qty": 2,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Retail"
+        },
+        {
+          "id": "6a90e86b-990f-4d74-9c9a-e8037be33acf",
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "stockId": "kr-stock-010140",
+          "symbolKey": "010140",
+          "avgPrice": 26335,
+          "qty": 50,
+          "currency": "KRW",
+          "countryLabel": "KR",
+          "sectorMajorLabel": "Non AI",
+          "sectorLabel": "Shipbuilding"
+        },
+        {
+          "id": "d1535b98-a9c4-4bdc-9f42-3e2a9556e939",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "auto-us-nys:snow",
+          "symbolKey": "NYS:SNOW",
+          "avgPrice": 240.33,
+          "qty": 5,
+          "currency": "USD",
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Software"
+        },
+        {
+          "id": "855b7359-3413-420c-ab54-15073782e1c3",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-ams:dram",
+          "symbolKey": "AMS:DRAM",
+          "avgPrice": 64.6375,
+          "qty": 20,
+          "currency": "USD",
+          "countryLabel": "Global",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "Semiconductor"
+        },
+        {
+          "id": "929eb80d-e5f7-4e53-ace1-486adf2e74a7",
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "stockId": "us-stock-nas:mrvl",
+          "symbolKey": "NAS:MRVL",
+          "avgPrice": 279.99,
+          "qty": 3,
+          "currency": "USD",
+          "countryLabel": "US",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
+        },
+        {
+          "id": "09c9d2a7-0330-4d36-9c72-2583be1cf7fb",
+          "accountId": "acc-kr-1",
+          "stockId": "kr-stock-0043y0",
+          "symbolKey": "0043Y0",
+          "avgPrice": 22845,
+          "qty": 35,
+          "currency": "KRW",
+          "countryLabel": "CN",
+          "sectorMajorLabel": "AI",
+          "sectorLabel": "AI Infra"
         }
       ],
       "lifnux.finance.hub.reveal.v1": true,
@@ -13832,6 +14118,51 @@
           "title": "5월 추가 급여",
           "amount": 8050,
           "kind": "income"
+        },
+        {
+          "id": "be8b012c-68ca-4eda-aaeb-d2bb82ef789a",
+          "createdAt": 1781138878744,
+          "date": "2026-06-10",
+          "category": "Subscription",
+          "title": "쿠팡와우",
+          "amount": 7890,
+          "kind": "expense"
+        },
+        {
+          "id": "b3c6b625-e52f-4334-8369-29a1a5ba3022",
+          "createdAt": 1781138896479,
+          "date": "2026-06-11",
+          "category": "Other",
+          "title": "한발 OB 회비",
+          "amount": 20000,
+          "kind": "expense"
+        },
+        {
+          "id": "4337f293-6b74-4166-872f-e4794e1d00aa",
+          "createdAt": 1781288647346,
+          "date": "2026-06-11",
+          "category": "Transport",
+          "title": "교통비",
+          "amount": 101050,
+          "kind": "expense"
+        },
+        {
+          "id": "185a3fd9-bca3-4a10-a1dd-62966a097823",
+          "createdAt": 1781288661965,
+          "date": "2026-06-13",
+          "category": "Transport",
+          "title": "따릉이",
+          "amount": 1400,
+          "kind": "expense"
+        },
+        {
+          "id": "9b9eb6cc-5255-48eb-8a83-4de6bad8ef7e",
+          "createdAt": 1781288669602,
+          "date": "2026-06-13",
+          "category": "Snacks & Coffee",
+          "title": "음료수",
+          "amount": 1800,
+          "kind": "expense"
         }
       ],
       "lifnux.finance.holdings.v100": [
@@ -14389,6 +14720,18 @@
         {
           "dateKey": "2026-06-09",
           "createdAt": 1781015274682
+        },
+        {
+          "dateKey": "2026-06-11",
+          "createdAt": 1781190227912
+        },
+        {
+          "dateKey": "2026-06-14",
+          "createdAt": 1781447877568
+        },
+        {
+          "dateKey": "2026-06-15",
+          "createdAt": 1781530830757
         }
       ],
       "lifnux:guitar:videos": [
@@ -14567,11 +14910,11 @@
     },
     "ing": {
       "investing.portfolio.performance.v1": {
-        "totalValueKrw": 54244650.3425,
-        "unrealizedPnlKrw": 11900270.712000001,
-        "realizedPnlYtdKrw": 5496068.665078261,
+        "totalValueKrw": 57046860.8125,
+        "unrealizedPnlKrw": 15465149.527499996,
+        "realizedPnlYtdKrw": 4771006.239478261,
         "dataQuality": "OK",
-        "updatedAt": 1781107404951
+        "updatedAt": 1781540219335
       }
     },
     "personalGrowth": {
@@ -20905,6 +21248,170 @@
     "career": {
       "career_applications": [
         {
+          "applicationId": "3e7d954c-4a9b-4900-be6c-8ccc27682da8",
+          "postingId": "5d59b808-bab0-4f4c-ab0c-7a7f6b1bd3ca",
+          "appliedAt": "2026-06-14",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "788451fb-9d24-4141-a315-fa813ab270b4",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-14",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "3d4ec65f-7408-4014-baf3-a9f6bb37aa8b",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "209db124-761e-411c-9edc-4b3914273107",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "fa96d8ee-f3e7-41cf-bd9c-2cafa54dc421",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "7403fe17-5cf5-4011-afe8-77d41f3b7b5c",
+          "postingId": "3216c630-7460-4ebd-9d15-540509c819d8",
+          "appliedAt": "2026-06-14",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "338040ec-3e85-459a-9749-5759ce6eda16",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-14",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "394054ef-f5a2-4106-8640-e75477ccd72c",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "7a5598c4-2dd1-44c9-80b1-2971d99169cb",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "cd15fe0a-9d87-4b43-ad16-fc4193e1f39d",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "7a078662-e097-41e0-9744-ac68e03f3801",
+          "postingId": "7d4610f3-8492-4581-8db3-93fe5ce20b1e",
+          "appliedAt": "2026-06-14",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "f0f32f62-16de-4f4a-bbc2-42852874eec6",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-14",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "2e70916b-5e36-46c7-8607-9c393f970454",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "290d81d0-807d-4bbe-8cef-a6e1ff6b8759",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "5d55782a-abbb-4e89-8098-6a4688aeb44e",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "applicationId": "5ac2f79f-c244-443a-9e5b-302b7e745c3b",
+          "postingId": "c4f6e2a6-aaff-429d-aae7-fe50c037af1c",
+          "appliedAt": "2026-06-10",
+          "status": "IN_PROGRESS",
+          "finalResult": null,
+          "stages": [
+            {
+              "stageId": "45204172-f5fe-4003-90dc-958b31ea259b",
+              "type": "DOCUMENT",
+              "submittedAt": "2026-06-10",
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "245e487d-94ed-45cd-8cc1-c95b1f3f6ffe",
+              "type": "INTERVIEW_1",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "2691f7ee-e058-43fd-97f7-47ff4e3bdaa2",
+              "type": "INTERVIEW_2",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            },
+            {
+              "stageId": "eb2094e7-71f0-4b2b-85ba-1a4baed235fb",
+              "type": "FINAL",
+              "submittedAt": null,
+              "resultAt": null,
+              "result": "PENDING",
+              "notes": ""
+            }
+          ]
+        },
+        {
           "applicationId": "2fc44244-ac5c-47cd-a958-2743c0c3d884",
           "postingId": "704a84fb-8ae4-4411-acea-c568913d1f3a",
           "appliedAt": "2026-06-10",
@@ -20990,15 +21497,15 @@
           "applicationId": "a13229a4-dc2a-40a3-8486-57480abaaaad",
           "postingId": "b8575ba7-cf27-4358-a09f-ae18914e8072",
           "appliedAt": "2026-06-08",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "5fbd5e6d-02bb-4ce0-81b0-5a3391124671",
               "type": "DOCUMENT",
               "submittedAt": "2026-06-08",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-06-12",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -21031,15 +21538,15 @@
           "applicationId": "08fee8e3-1b65-4328-92e9-e209bd5b07ce",
           "postingId": "74c4f254-1ad9-4740-b292-b7dae60b0ca4",
           "appliedAt": "2026-06-08",
-          "status": "IN_PROGRESS",
-          "finalResult": null,
+          "status": "DONE",
+          "finalResult": "FAIL",
           "stages": [
             {
               "stageId": "032539bd-44ad-4c5e-b6f3-31039455bbae",
               "type": "DOCUMENT",
               "submittedAt": "2026-06-08",
-              "resultAt": null,
-              "result": "PENDING",
+              "resultAt": "2026-06-15",
+              "result": "FAIL",
               "notes": ""
             },
             {
@@ -22233,6 +22740,48 @@
         }
       ],
       "career_job_postings": [
+        {
+          "postingId": "95c2aae9-3c03-48f3-90ba-b6cbf678ce70",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "샌드박스",
+          "postingTitle": "[Finance] 사업 운영 지원",
+          "role": "재정",
+          "contractType": "정규직",
+          "departmentInfo": "We ​Create ​Better Together! ​샌드박스네트워크는 “크리에이터와 함께 세상을 ​더 ​즐겁게”라는 비전을 ​갖고, 콘텐츠 사업을 ​기반으로 다양한 ​사업들을 ​전개합니다. \n샌드박스네트워크 재무팀은 ​다양한 ​사업활동 ​전반에 대해 회계결산 ​업무를 ​수행하고, 회계기준에 부합하는 ​정확하고 ​신뢰도 ​높은 재무정보를 산출하는 ​역할을 담당하고 ​있습니다. ​\n이를 통해 ​회사의 경영 ​의사결정에 ​필요한 재무적 기반을 ​마련하고, 내외부 ​이해관계자에게 투명한 재무 정보를 제공하는 데 기여하고 있습니다. ",
+          "responsibilities": "사업부 비용 집행을 위한 지출결의서 작성 및 관리를 담당합니다.\n프리랜서 및 외주처 증빙자료 취합 및 관리합니다.\n관련 원천징수 업무를 담당합니다.\n사업부 비용 정산 및 지급 요청을 지원합니다.\n사업부 운영 관련 문의 응대 및 재무팀 운영 업무를 지원합니다.\nERP 및 그룹웨어 입력 업무를 통한 회계 업무를 지원합니다.\n행정 서류 관리 업무를 담당합니다.",
+          "requirements": "콘텐츠 및 크리에이터 시장에 대한 높은 이해도와 존중의 태도가 있으신 분\n꼼꼼한 문서 관리 역량을 보유하신 분\n다양한 부서와 원활하게 소통할 수 있는 분\nMS OFFICE 활용이 가능하신 분\n",
+          "neededSkills": "",
+          "preferred": "비용 정산 또는 운영지원 업무 경험자\nERP사용 경험자",
+          "memo": "",
+          "comment": "",
+          "deadline": null,
+          "importance": 6,
+          "isFavorite": false,
+          "link": "https://sandbox.career.greetinghr.com/ko/o/222494",
+          "createdAt": "2026-06-12T19:27:29.704Z",
+          "updatedAt": "2026-06-12T19:27:29.704Z"
+        },
+        {
+          "postingId": "eaa75ca3-3e20-40ee-a21d-7e9b9e88c68d",
+          "industryId": "686ca59e-8cb6-4cfa-a6e9-757f1af0246e",
+          "companyName": "카카오뱅크",
+          "postingTitle": "AI 상담 챗봇 운영 어시스턴트",
+          "role": "운영",
+          "contractType": "인턴",
+          "departmentInfo": "",
+          "responsibilities": "· 챗봇 시나리오(콘텐츠) 및 학습 데이터 작성\n· 일간 모니터링 (오탐, 폴백, 학습 발화 생성)\n· 배포 준비 (QA, 배포 일정 스케쥴링, 배포 파일 옮기기, 이미지/앱스킴 요청, 결재 요청)\n· 지표 대시보드 관리\n· LLM을 이용한 업무 프로세스 자동화 보조",
+          "requirements": "· 꼼꼼하면서도 빠른 작업 능력을 보유한 분\n· 구글 및 Excel, Word 등 오피스 프로그램 활용 능력을 보유한 분 \n· 자기 주도적인 성장 및 학습 능력을 갖춘 분\n· 원활한 커뮤니케이션 및 협업 능력을 갖춘 분",
+          "neededSkills": "",
+          "preferred": "\n· IT 서비스/프로덕트 운영 경험이 있는 분 \n\n· Claude Code 등 생성형 AI 툴 활용 및 프롬프트 엔지니어링 경험이 있는 분\n\n· Python, SQL 등 데이터 분석 관련 툴 이용이 가능한 분",
+          "memo": "",
+          "comment": "",
+          "deadline": "2026-06-30",
+          "importance": 6,
+          "isFavorite": true,
+          "link": "https://kakaobank.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=256898",
+          "createdAt": "2026-06-12T19:02:33.548Z",
+          "updatedAt": "2026-06-12T19:02:37.747Z"
+        },
         {
           "postingId": "704a84fb-8ae4-4411-acea-c568913d1f3a",
           "industryId": "e2ed6fd3-bc15-4017-a947-ec66d13ce0b7",
@@ -23575,7 +24124,7 @@
           }
         ],
         "currentIndex": 0,
-        "isPlaying": false,
+        "isPlaying": true,
         "shuffle": false,
         "repeatMode": "off",
         "presets": [
@@ -24443,7 +24992,7 @@
         {
           "accountId": "acc-kr-1",
           "currency": "KRW",
-          "balance": 1140125
+          "balance": 9046
         },
         {
           "accountId": "acc-us-1",
@@ -24453,7 +25002,7 @@
         {
           "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
           "currency": "USD",
-          "balance": 4878.28
+          "balance": 5.149999999999892
         },
         {
           "accountId": "a485f2f7-ef4e-4144-aefd-c09fbe4e7c1a",
@@ -24463,7 +25012,7 @@
         {
           "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
           "currency": "KRW",
-          "balance": 5931819
+          "balance": 0
         }
       ]
     },
@@ -24490,7 +25039,7 @@
       }
     },
     "data": {
-      "lifnux:data.lastUpdatedAt": "2026-06-10T16:44:47.980Z"
+      "lifnux:data.lastUpdatedAt": "2026-06-15T16:17:40.546Z"
     },
     "_calendar_v1": {
       "lifnux_calendar_v1": {
@@ -28562,6 +29111,312 @@
           "realizedPnl": -117400,
           "realizedPnlPercent": -9.390873095228573,
           "costBasis": 1250150
+        },
+        {
+          "id": "77102415-b51b-404d-9f2f-c97414875ce7",
+          "ts": 1781138600939,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:SOXS",
+          "side": "BUY",
+          "qty": 300,
+          "price": 6.5,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "781dfc8d-b66c-4ec5-a2ad-fb1e9d3d99ff",
+          "ts": 1781161791379,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "069960",
+          "side": "BUY",
+          "qty": 3,
+          "price": 183400,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "3107b731-9836-4acf-a676-98e5349f2211",
+          "ts": 1781187166110,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:AMZN",
+          "side": "BUY",
+          "qty": 1,
+          "price": 237.87,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "236524e2-d228-45a2-a482-9e0eb3f7a244",
+          "ts": 1781187177702,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 15,
+          "price": 23.06,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "9587491c-002f-476d-86ee-37d59066d640",
+          "ts": 1781220726090,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "WITHDRAW",
+          "amount": 954496
+        },
+        {
+          "id": "7024009e-e3f6-4a7b-8646-ab0b0ebb1e15",
+          "ts": 1781220735337,
+          "accountId": "acc-kr-1",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 954496
+        },
+        {
+          "id": "666aa6e0-ccaf-4997-a7d9-807e5825d0c4",
+          "ts": 1781220747442,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "005930",
+          "side": "BUY",
+          "qty": 4,
+          "price": 321500,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "3ed6f28f-415a-43c5-8f68-a326ec191f90",
+          "ts": 1781220957140,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "373220",
+          "side": "BUY",
+          "qty": 3,
+          "price": 398666,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "8254c42b-0772-4935-993c-c6703852f442",
+          "ts": 1781220987335,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "069960",
+          "side": "BUY",
+          "qty": 6,
+          "price": 183300,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "bcfa96d5-26c6-4e5d-b7a3-118037c80148",
+          "ts": 1781220999948,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "004170",
+          "side": "BUY",
+          "qty": 2,
+          "price": 681000,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "9a20f477-93e0-41c2-93be-b63b1d8b8592",
+          "ts": 1781221105267,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "CASHFLOW",
+          "currency": "KRW",
+          "direction": "DEPOSIT",
+          "amount": 547425
+        },
+        {
+          "id": "cfbc988a-83ca-471f-a01e-d88f8ad5e057",
+          "ts": 1781221115538,
+          "accountId": "3f8d7d57-6b74-4859-86bb-fa871fbd4940",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "010140",
+          "side": "BUY",
+          "qty": 50,
+          "price": 26335,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "a116e225-b3cb-4fbd-8c0d-3351bd40aa75",
+          "ts": 1781221225957,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 15,
+          "price": 23.06,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "e466c1d8-0622-4d5c-8af9-2b5f00c0b4ad",
+          "ts": 1781221236750,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:AMZN",
+          "side": "BUY",
+          "qty": 1,
+          "price": 237.87,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "7352c04c-e357-4a3e-8b4f-57c7d27ba711",
+          "ts": 1781221248861,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:SOXS",
+          "side": "SELL",
+          "qty": 300,
+          "price": 4.92,
+          "realizedPnl": -474,
+          "realizedPnlPercent": -24.307692307692307,
+          "costBasis": 1950
+        },
+        {
+          "id": "7243e3ef-fd5c-4f32-bcb2-f2dbde328290",
+          "ts": 1781221265813,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NYS:SNOW",
+          "side": "BUY",
+          "qty": 5,
+          "price": 240.33,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "40ebfdd8-ea18-472b-9c45-9df1f6cc2cd8",
+          "ts": 1781221279158,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:DRAM",
+          "side": "BUY",
+          "qty": 15,
+          "price": 64.58,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "5e35836f-d449-44c4-9cd8-f06780462df7",
+          "ts": 1781221332631,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:FLNC",
+          "side": "BUY",
+          "qty": 5,
+          "price": 24.3,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "3d88ada3-d191-420a-95e7-ea324732ed8f",
+          "ts": 1781221351400,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "AMS:DRAM",
+          "side": "BUY",
+          "qty": 5,
+          "price": 64.81,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "e8599d84-160d-453f-97b5-1c8c2b8c0b94",
+          "ts": 1781221406391,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 200
+        },
+        {
+          "id": "1b07a565-c69e-4fd0-801c-9303bd7a048d",
+          "ts": 1781221442272,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "DEPOSIT",
+          "amount": 100
+        },
+        {
+          "id": "f47772d5-92bf-4139-a26f-438ef5dc1608",
+          "ts": 1781221454360,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "TRADE",
+          "currency": "USD",
+          "symbol": "NAS:MRVL",
+          "side": "BUY",
+          "qty": 3,
+          "price": 279.99,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
+        },
+        {
+          "id": "a9241354-3931-4544-b4dc-b66392a372d4",
+          "ts": 1781221646669,
+          "accountId": "eebd4146-6541-4507-9242-ff316f3ac721",
+          "type": "CASHFLOW",
+          "currency": "USD",
+          "direction": "WITHDRAW",
+          "amount": 75.72
+        },
+        {
+          "id": "a02aae7f-a273-4a46-a8cd-4a88548469a3",
+          "ts": 1781252196526,
+          "accountId": "acc-kr-1",
+          "type": "TRADE",
+          "currency": "KRW",
+          "symbol": "0043Y0",
+          "side": "BUY",
+          "qty": 35,
+          "price": 22845,
+          "realizedPnl": null,
+          "realizedPnlPercent": null,
+          "costBasis": null
         }
       ]
     },
