@@ -59,6 +59,7 @@ type CategoryReviewTrend = {
 };
 
 const formatKrw = (value: number) => `₩${Math.round(value).toLocaleString("ko-KR")}`;
+const formatKrwText = (value: number) => `${Math.round(value).toLocaleString("ko-KR")} KRW`;
 const DEFAULT_CATEGORY = "Uncategorized";
 const SMALL_GROUP_LABEL = "Other (small)";
 const CATEGORY_COLORS = ["#7dd3fc", "#6ee7b7", "#f9a8d4", "#fde68a", "#c4b5fd", "#fca5a5"];
@@ -79,6 +80,76 @@ const buildCategoryTotalMap = (list: ExpenseEntry[]) => {
   const map = new Map<string, number>();
   list.forEach((entry) => map.set(entry.category, (map.get(entry.category) ?? 0) + entry.amount));
   return map;
+};
+
+const buildMonthlyTransactionExportText = ({
+  month,
+  entries,
+  budget,
+  review
+}: {
+  month: string;
+  entries: ExpenseEntry[];
+  budget: number;
+  review?: MonthlyReviewEntry;
+}) => {
+  const sorted = [...entries].sort((a, b) => {
+    const dateCompare = a.date.localeCompare(b.date);
+    if (dateCompare !== 0) return dateCompare;
+    return (a.createdAt ?? 0) - (b.createdAt ?? 0);
+  });
+  const expenses = sorted.filter((entry) => normalizeEntryKind(entry) === "expense");
+  const incomes = sorted.filter((entry) => normalizeEntryKind(entry) === "income");
+  const expenseTotal = expenses.reduce((sum, entry) => sum + entry.amount, 0);
+  const incomeTotal = incomes.reduce((sum, entry) => sum + entry.amount, 0);
+  const net = incomeTotal - expenseTotal;
+  const expenseCategories = buildCategoryTotals(expenses);
+  const incomeCategories = buildCategoryTotals(incomes);
+  const categoryLines = (label: string, totals: { label: string; value: number }[]) => [
+    `${label}:`,
+    ...(totals.length ? totals.map((item) => `- ${item.label}: ${formatKrwText(item.value)}`) : ["- none"])
+  ];
+  const entryLines = (label: string, rows: ExpenseEntry[]) => [
+    `${label}:`,
+    ...(rows.length
+      ? rows.map((entry) => {
+          const memoText = entry.memo?.trim() ? ` | memo: ${entry.memo.trim()}` : "";
+          return `- ${entry.date} | ${entry.category} | ${entry.title} | ${formatKrwText(entry.amount)}${memoText}`;
+        })
+      : ["- none"])
+  ];
+
+  return [
+    `Lifnux Finance Transaction Export`,
+    `Month: ${month}`,
+    `Purpose: monthly personal finance review and spending evaluation`,
+    "",
+    "Summary:",
+    `- Income total: ${formatKrwText(incomeTotal)}`,
+    `- Expense total: ${formatKrwText(expenseTotal)}`,
+    `- Net cashflow: ${formatKrwText(net)}`,
+    `- Expense budget: ${budget > 0 ? formatKrwText(budget) : "not set"}`,
+    `- Budget usage: ${budget > 0 ? `${((expenseTotal / budget) * 100).toFixed(1)}%` : "not set"}`,
+    "",
+    ...categoryLines("Expense by category", expenseCategories),
+    "",
+    ...categoryLines("Income by category", incomeCategories),
+    "",
+    ...entryLines("Expense entries", expenses),
+    "",
+    ...entryLines("Income entries", incomes),
+    ...(review
+      ? [
+          "",
+          "Saved monthly review:",
+          `- Overall rating: ${review.overallRating}`,
+          `- Overall comment: ${review.overallComment || "none"}`,
+          ...Object.entries(review.categoryReviews).map(
+            ([label, data]) => `- ${label}: ${data.rating}${data.comment ? ` | ${data.comment}` : ""}`
+          )
+        ]
+      : [])
+  ].join("\n");
 };
 
 const buildCategoryReviewTrend = (current: number, prev: number): CategoryReviewTrend => {
@@ -246,6 +317,8 @@ export default function FinanceExpensePage() {
   const [ledgerUiMode, setLedgerUiMode] = useState<"calendar" | "ledger">("calendar");
   const [expenseFlowCollapsed, setExpenseFlowCollapsed] = useState(false);
   const [pendingReviewDeleteMonth, setPendingReviewDeleteMonth] = useState<string | null>(null);
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportCopied, setExportCopied] = useState(false);
   const [inlineNotice, setInlineNotice] = useState<string | null>(null);
   const ledgerTabLabel = ledgerKindTab === "income" ? "Income" : "Expense";
 
@@ -410,6 +483,16 @@ export default function FinanceExpensePage() {
   }, [entries]);
   const budget = budgetByMonth[selectedMonth] ?? 0;
   const budgetPct = budget > 0 ? (monthTotal / budget) * 100 : 0;
+  const monthlyExportText = useMemo(
+    () =>
+      buildMonthlyTransactionExportText({
+        month: selectedMonth,
+        entries: entries.filter((entry) => entry.date.startsWith(selectedMonth)),
+        budget,
+        review: reviewByMonth[selectedMonth]
+      }),
+    [budget, entries, reviewByMonth, selectedMonth]
+  );
   const prevMonthKey = useMemo(() => getPrevMonthKey(selectedMonth), [selectedMonth]);
   const dailyExpenseCompare = useMemo(() => {
     const currentDays = daysInMonth(selectedMonth);
@@ -875,6 +958,17 @@ export default function FinanceExpensePage() {
     setInlineNotice(`Deleted monthly review: ${monthKey}`);
   };
 
+  const copyMonthlyExport = async () => {
+    try {
+      await navigator.clipboard.writeText(monthlyExportText);
+      setExportCopied(true);
+      setInlineNotice(`Copied transaction export: ${selectedMonth}`);
+      window.setTimeout(() => setExportCopied(false), 1600);
+    } catch {
+      setInlineNotice("Copy failed. Select the text and copy manually.");
+    }
+  };
+
   const openReviewDetail = (monthKey: string) => {
     setReviewDetailMonth(monthKey);
     setReviewDetailOpen(true);
@@ -1264,6 +1358,9 @@ export default function FinanceExpensePage() {
                 </div>
                 <button className="rounded-full border border-white/10 px-3 py-1 text-xs" onClick={openCreate}>
                   + Add {ledgerKindTab === "income" ? "Income" : "Expense"}
+                </button>
+                <button className="rounded-full border border-white/10 px-3 py-1 text-xs" onClick={() => setExportOpen(true)}>
+                  Export Month
                 </button>
                 {isDev ? (
                   <button className="rounded-full border border-white/10 px-3 py-1 text-[11px]" onClick={() => setDebugOpen(true)}>
@@ -1729,6 +1826,24 @@ export default function FinanceExpensePage() {
           </div>
         </div>
       </div>
+      <Modal open={exportOpen} title={`Export Month (${selectedMonth})`} onClose={() => setExportOpen(false)}>
+        <div className="space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="text-xs text-[var(--ink-1)]">
+              Includes expense, income, category totals, budget, and saved monthly review.
+            </div>
+            <button className="rounded-full border border-white/20 px-4 py-2 text-xs" onClick={copyMonthlyExport}>
+              {exportCopied ? "Copied" : "Copy Text"}
+            </button>
+          </div>
+          <textarea
+            readOnly
+            value={monthlyExportText}
+            className="h-[460px] w-full resize-none rounded-xl border border-white/10 bg-black/30 p-3 font-mono text-xs leading-5 text-white/85 outline-none"
+            onFocus={(event) => event.currentTarget.select()}
+          />
+        </div>
+      </Modal>
       <Modal open={categoryModalOpen} title="Manage Categories" onClose={() => setCategoryModalOpen(false)}>
         <div className="space-y-3">
           {categoryDrafts.length ? (
